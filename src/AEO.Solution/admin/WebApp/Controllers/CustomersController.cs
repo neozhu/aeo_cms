@@ -20,7 +20,7 @@ namespace WebApp.Controllers
 /// <summary>
 /// File: CustomersController.cs
 /// Purpose:客户中心/客户信息
-/// Created Date: 2020/7/3 14:23:07
+/// Created Date: 2020/7/3 14:54:30
 /// Author: neo.zhu
 /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
 /// TODO: Registers the type mappings with the Unity container(Mvc.UnityConfig.cs)
@@ -154,22 +154,8 @@ namespace WebApp.Controllers
             }
         
         }
-						        //[OutputCache(Duration = 10, VaryByParam = "q")]
-		public async Task<JsonResult> GetCustomers(string q="")
-		{
-			var customerRepository = this.unitOfWork.RepositoryAsync<Customer>();
-			var rows = await customerRepository
-                            .Queryable()
-                            .Where(n=>n.CustomerCode.Contains(q))
-                            .OrderBy(n=>n.CustomerCode)
-                            .Select(n => new { Id = n.Id, CustomerCode = n.CustomerCode })
-                            .ToListAsync();
-		 
-			return Json(rows, JsonRequestBehavior.AllowGet);
-		}
-						        //[OutputCache(Duration = 10, VaryByParam = "q")]
-	 
-						//GET: Customers/Details/:id
+				
+		//GET: Customers/Details/:id
 		public ActionResult Details(int id)
 		{
 			

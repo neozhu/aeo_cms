@@ -49,7 +49,7 @@ namespace WebApp.Controllers
 		}
         		//GET: CustomerFiles/Index
         //[OutputCache(Duration = 60, VaryByParam = "none")]
-        [Route("Index", Name = "附件管理", Order = 1)]
+        [Route("Index", Name = "客户附件管理", Order = 1)]
 		public ActionResult Index() => this.View();
 
 		//Get :CustomerFiles/GetData

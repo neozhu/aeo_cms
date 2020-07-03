@@ -7,7 +7,7 @@ namespace WebApp.Models
 // Copyright (c) 2020 All Rights Reserved
 // </copyright>
 // <author>neo.zhu</author>
-// <date>2020/7/3 14:23:07 </date>
+// <date>2020/7/3 14:54:31 </date>
 // <summary>Class representing a Metadata entity </summary>
     //[MetadataType(typeof(CustomerMetadata))]
     public partial class Customer

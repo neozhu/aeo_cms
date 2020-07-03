@@ -330,7 +330,7 @@ namespace WebApp
     /// <param name="self"></param>
     /// <param name="expression"></param>
     /// <returns></returns>
-    public static MvcHtmlString DisplayDescriptionFor<TModel, TValue>(this HtmlHelper<TModel> self, Expression<Func<TModel, TValue>> expression)
+    public static MvcHtmlString DescriptionFor<TModel, TValue>(this HtmlHelper<TModel> self, Expression<Func<TModel, TValue>> expression)
     {
       var metadata = ModelMetadata.FromLambdaExpression(expression, self.ViewData);
       var description = metadata.Description;
