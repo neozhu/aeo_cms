@@ -74,6 +74,7 @@ namespace WebApp.Models
     public DbSet<CustomerShare> CustomerShares { get; set; }
     public DbSet<CustomerWarehouse> CustomerWarehouses { get; set; }
     public DbSet<CustomerInvoice> CustomerInvoices { get; set; }
+    public DbSet<WebApp.Models.CustomerCommunication> CustomerCommunications { get; set; }
 
     #endregion
 
@@ -201,6 +202,7 @@ namespace WebApp.Models
       base.OnModelCreating(modelBuilder);
     }
 
+   
   }
 
 

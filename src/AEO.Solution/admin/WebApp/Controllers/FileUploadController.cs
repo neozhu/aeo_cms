@@ -14,15 +14,16 @@ using WebApp.Services;
 
 namespace WebApp.Controllers
 {
+  [Authorize]
   public class FileUploadController : Controller
   {
 
     private readonly ICodeItemService _codeService;
     private readonly IUnitOfWorkAsync _unitOfWork;
     private readonly NLog.ILogger logger;
-    private  ApplicationUserManager userManager
+    private ApplicationUserManager userManager
     {
-      get =>  this.HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+      get => this.HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
     }
     private ApplicationRoleManager roleManager
@@ -32,7 +33,6 @@ namespace WebApp.Controllers
     public FileUploadController(
        NLog.ILogger logger,
             ICodeItemService _codeService,
-
             IUnitOfWorkAsync unitOfWork)
     {
       this._unitOfWork = unitOfWork;
@@ -43,7 +43,7 @@ namespace WebApp.Controllers
     [HttpPost]
     public async Task<JsonResult> Upload()
     {
-      
+
       var watch = new Stopwatch();
       var uploadfilename = string.Empty;
       var newfileName = string.Empty;
@@ -68,10 +68,13 @@ namespace WebApp.Controllers
           Directory.CreateDirectory(folder);
         }
         var virtualPath = Path.Combine(folder, newfileName);
+
+        var stream = new MemoryStream();
+        await filedata.InputStream.CopyToAsync(stream);
+        stream.Seek(0, SeekOrigin.Begin);
         // 文件系统不能使用虚拟路径
         filedata.InputStream.Seek(0, SeekOrigin.Begin);
-
-        var datatable = await NPOIHelper.GetDataTableFromExcelAsync(filedata.InputStream,ext);
+        var datatable = await NPOIHelper.GetDataTableFromExcelAsync(stream, ext);
         //账号导入
         if (model == "ApplicationUser")
         {
@@ -88,47 +91,24 @@ namespace WebApp.Controllers
           this._unitOfWork.SetAutoDetectChangesEnabled(true);
         }
 
-        //if (fileType == "Product")
-        //{
-        //    _iBOMComponentService.ImportDataTable(datatable);
-        //    _unitOfWork.SaveChanges();
-        //}
-
-
 
         watch.Stop();
         //获取当前实例测量得出的总运行时间（以毫秒为单位）
         var elapsedTime = watch.ElapsedMilliseconds.ToString();
-        filedata.InputStream.Position = 0;
         filedata.SaveAs(virtualPath);
         return this.Json(new { success = true, filename = newfileName, elapsedTime = elapsedTime }, JsonRequestBehavior.AllowGet);
       }
-      catch (System.Data.SqlClient.SqlException e)
-      {
-        this.logger.Error(e, $"文件名:{uploadfilename},{e.GetBaseException().Message}");
-        return this.Json(new { success = false, filename = uploadfilename, message = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
-      }
-      catch (System.Data.Entity.Infrastructure.DbUpdateException e)
-      {
-        this.logger.Error(e, $"文件名:{uploadfilename},{e.GetBaseException().Message}");
-        return this.Json(new { success = false, filename = uploadfilename, message = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
-      }
-      catch (System.Data.Entity.Validation.DbEntityValidationException e)
-      {
-        var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage).Distinct());
-        this.logger.Error(e, $"文件名:{uploadfilename},{errormessage}");
-        return this.Json(new { success = false, filename = uploadfilename, message = errormessage }, JsonRequestBehavior.AllowGet);
-      }
       catch (Exception e)
       {
-        this.logger.Error(e, $"文件名:{uploadfilename},{e.GetBaseException().Message}");
-        return this.Json(new { success = false, filename = uploadfilename, message = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
+        var message = e.GetMessage();
+        this.logger.Error(e, $"导入文件失败:{uploadfilename},{message}");
+        return this.Json(new { success = false, filename = uploadfilename, message = message }, JsonRequestBehavior.AllowGet);
       }
     }
 
 
     [FileDownload]
-    public async  Task<FileContentResult> Download(string file = "")
+    public async Task<FileContentResult> Download(string file = "")
     {
       if (string.IsNullOrEmpty(file))
       {
@@ -157,9 +137,10 @@ namespace WebApp.Controllers
       }
     }
     [HttpDelete]
-    public async Task<JsonResult> Revert() {
+    public async Task<JsonResult> Revert()
+    {
       var req = Request.InputStream;
-      var filename =await new StreamReader(req).ReadToEndAsync();
+      var filename = await new StreamReader(req).ReadToEndAsync();
       if (!string.IsNullOrEmpty(filename))
       {
         var folder = this.Server.MapPath("~/UploadFiles");
@@ -239,13 +220,14 @@ namespace WebApp.Controllers
       return ContentTypeStr;
     }
 
-    private async Task ImportUser(DataTable datatable) {
+    private async Task ImportUser(DataTable datatable)
+    {
       foreach (DataRow dr in datatable.Rows)
       {
         var userName = dr["账号"].ToString();
         var email = dr["电子邮件"].ToString();
         var password = dr["密码"].ToString();
-        var fullName= dr["姓名"].ToString();
+        var fullName = dr["姓名"].ToString();
         var role = dr["角色"].ToString();
         var user = new ApplicationUser
         {
@@ -259,7 +241,7 @@ namespace WebApp.Controllers
           PhoneNumber = null,
           AccountType = 0,
           Avatars = "ng.png",
-          LockoutEnabled=true,
+          LockoutEnabled = true,
           AvatarsX120 = "ng.png"
         };
         var result = await this.userManager.CreateAsync(user, password);

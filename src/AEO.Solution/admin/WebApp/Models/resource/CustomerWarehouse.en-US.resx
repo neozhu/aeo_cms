@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="CustomerWarehouseMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/7/3 14:14:51 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+　　<data name="Id" xml:space="preserve">
+    <value>Id</value>
+   </data> 
+　　<data name="WarehouseCode" xml:space="preserve">
+    <value>Warehouse Code</value>
+   </data> 
+　　<data name="WarehouseName" xml:space="preserve">
+    <value>Warehouse Name</value>
+   </data> 
+　　<data name="WarehouseType" xml:space="preserve">
+    <value>Warehouse Type</value>
+   </data> 
+　　<data name="FactoryGuard" xml:space="preserve">
+    <value>Factory Guard</value>
+   </data> 
+　　<data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+   </data> 
+　　<data name="Provinces" xml:space="preserve">
+    <value>Provinces</value>
+   </data> 
+　　<data name="City" xml:space="preserve">
+    <value>City</value>
+   </data> 
+　　<data name="County" xml:space="preserve">
+    <value>County</value>
+   </data> 
+　　<data name="WAddress" xml:space="preserve">
+    <value>W Address</value>
+   </data> 
+　　<data name="EAddress1" xml:space="preserve">
+    <value>E Address1</value>
+   </data> 
+　　<data name="Remark1" xml:space="preserve">
+    <value>Remark1</value>
+   </data> 
+　　<data name="WUser" xml:space="preserve">
+    <value>W User</value>
+   </data> 
+　　<data name="WDept" xml:space="preserve">
+    <value>W Dept</value>
+   </data> 
+　　<data name="WTitle" xml:space="preserve">
+    <value>W Title</value>
+   </data> 
+　　<data name="WSex" xml:space="preserve">
+    <value>W Sex</value>
+   </data> 
+　　<data name="WPhone" xml:space="preserve">
+    <value>W Phone</value>
+   </data> 
+　　<data name="WFax" xml:space="preserve">
+    <value>W Fax</value>
+   </data> 
+　　<data name="WMPhone1" xml:space="preserve">
+    <value>W M Phone1</value>
+   </data> 
+　　<data name="WMPhone2" xml:space="preserve">
+    <value>W M Phone2</value>
+   </data> 
+　　<data name="WEmail1" xml:space="preserve">
+    <value>W Email1</value>
+   </data> 
+　　<data name="CustomerCode" xml:space="preserve">
+    <value>Customer Code</value>
+   </data> 
+　　<data name="CustomerName" xml:space="preserve">
+    <value>Customer Name</value>
+   </data> 
+　　<data name="CustomerId" xml:space="preserve">
+    <value>Customer Id</value>
+   </data> 
+</root>

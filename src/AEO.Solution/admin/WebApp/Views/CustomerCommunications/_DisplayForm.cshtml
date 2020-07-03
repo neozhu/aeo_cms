@@ -1,0 +1,91 @@
+﻿﻿@model WebApp.Models.CustomerCommunication
+  <div class="form-row">
+   @Html.HiddenFor(x=>x.Id)
+         <!--会议主题-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.Title)</label>
+			@Html.EditorFor(x => x.Title, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Title) } })
+      
+         </div>
+
+        <!--沟通类型-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.CommType)</label>
+			@Html.EditorFor(x => x.CommType, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CommType) } })
+      
+         </div>
+
+        <!--状态-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Status)</label>
+			@Html.EditorFor(x => x.Status, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Status) } })
+      
+         </div>
+
+        <!--业务员-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Salesman)</label>
+			@Html.EditorFor(x => x.Salesman, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Salesman) } })
+      
+         </div>
+
+        <!--参与人-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.RefUsers)</label>
+			@Html.EditorFor(x => x.RefUsers, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.RefUsers) } })
+      
+         </div>
+
+       <!--开始日期-->
+       <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.BeginDate)</label>
+            <div class="input-group">
+			  @Html.EditorFor(x => x.BeginDate, 
+                         new { htmlAttributes = new { @class = "form-control datepicker hasDatepicker",
+                               placeholder = Html.DisplayNameFor(x => x.BeginDate ) } })
+               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+			 </div>
+         </div>
+
+       <!--结束日期-->
+       <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.EndDate)</label>
+            <div class="input-group">
+			  @Html.EditorFor(x => x.EndDate, 
+                         new { htmlAttributes = new { @class = "form-control datepicker hasDatepicker",
+                               placeholder = Html.DisplayNameFor(x => x.EndDate ) } })
+               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+			 </div>
+         </div>
+
+        <!--备注-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Remark)</label>
+			@Html.EditorFor(x => x.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Remark) } })
+      
+         </div>
+
+        <!--客户编号-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.CustomerCode)</label>
+			@Html.EditorFor(x => x.CustomerCode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerCode) } })
+      
+         </div>
+
+        <!--客户名称-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.CustomerName)</label>
+			@Html.EditorFor(x => x.CustomerName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerName) } })
+      
+         </div>
+
+     
+       <!--所属客户-->
+       <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.CustomerId)</label>
+   	        @Html.DropDownListFor(model => model.CustomerId, ViewBag.CustomerId as List<SelectListItem>, htmlAttributes: new { @class = "form-control" }) 
+       </div>
+
+	    
+</div>
+
