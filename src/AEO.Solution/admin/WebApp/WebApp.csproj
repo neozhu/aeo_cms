@@ -470,6 +470,10 @@
     <Compile Include="Migrations\202006120850483_md_update3.designer.cs">
       <DependentUpon>202006120850483_md_update3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007030449134_md_customer.cs" />
+    <Compile Include="Migrations\202007030449134_md_customer.designer.cs">
+      <DependentUpon>202007030449134_md_customer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
     <Compile Include="Models\Category.cs" />
@@ -3718,6 +3722,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006120850483_md_update3.resx">
       <DependentUpon>202006120850483_md_update3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007030449134_md_customer.resx">
+      <DependentUpon>202007030449134_md_customer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\Attachment.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.resx" />

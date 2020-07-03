@@ -12,10 +12,21 @@ namespace WebApp.Models
   //客户信息主档
   public partial class Customer:Entity
   {
+
+    public Customer()
+    {
+      this.CustomerAttentionProducts = new HashSet<CustomerAttentionProduct>();
+      this.CustomerBanks = new HashSet<CustomerBank>();
+      this.CustomerContacts = new HashSet<CustomerContact>();
+      this.CustomerFiles = new HashSet<CustomerFile>();
+      this.CustomerFollows = new HashSet<CustomerFollow>();
+      this.CustomerInvoices = new HashSet<CustomerInvoice>();
+      this.CustomerSales = new HashSet<CustomerSales>();
+      this.CustomerShares = new HashSet<CustomerShare>();
+      this.CustomerWarehouses = new HashSet<CustomerWarehouse>();
+    }
     [Key]
     public int Id { get; set; }
-   
-
     #region 基本信息
     [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
     [MaxLength(20)]
@@ -69,7 +80,6 @@ namespace WebApp.Models
     [MaxLength(150)]
     public string Zone { get; set; }
     #endregion
-
     #region CRM信息
     [Display(Name = "客户规模", Description = "客户规模")]
     [MaxLength(20)]
@@ -189,8 +199,24 @@ namespace WebApp.Models
 
     #endregion
 
-
-
-
+    //关联明细
+    //客户关注产品
+    public virtual ICollection<CustomerAttentionProduct> CustomerAttentionProducts { get; set; }
+    //客户银行
+    public virtual ICollection<CustomerBank> CustomerBanks { get; set; }
+    //客户联系人
+    public virtual ICollection<CustomerContact> CustomerContacts { get; set; }
+    //客户文件
+    public virtual ICollection<CustomerFile> CustomerFiles { get; set; }
+    //客户跟进情况
+    public virtual ICollection<CustomerFollow> CustomerFollows { get; set; }
+    //客户开票信息
+    public virtual ICollection<CustomerInvoice> CustomerInvoices { get; set; }
+    //客户负责业务员关系历史表
+    public virtual ICollection<CustomerSales> CustomerSales { get; set; }
+    //客户共享记录
+    public virtual ICollection<CustomerShare> CustomerShares { get; set; }
+    //客户仓库
+    public virtual ICollection<CustomerWarehouse> CustomerWarehouses { get; set; }
   }
 }

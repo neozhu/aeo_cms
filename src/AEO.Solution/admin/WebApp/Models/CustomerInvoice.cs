@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,7 +10,7 @@ using Repository.Pattern.Ef6;
 namespace WebApp.Models
 {
   //客户开票信息
-  public partial class Invoice : Entity
+  public partial class CustomerInvoice : Entity
   {
     [Key]
     public int Id { get; set; }
@@ -39,17 +40,20 @@ namespace WebApp.Models
     [MaxLength(256)]
     public string Remark { get; set; }
 
-    [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
+
+    [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
+    [DefaultValue("customer.CustomerCode")]
     public string CustomerCode { get; set; }
-    [Display(Name = "单位名称", Description = "单位名称")]
+    [Display(Name = "客户名称", Description = "客户名称")]
     [MaxLength(80)]
     [Required]
+    [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
 
-
     [Display(Name = "所属客户", Description = "所属客户")]
+    [DefaultValue("customer.Id")]
     public int CustomerId { get; set; }
     [ForeignKey("CustomerId")]
     [Display(Name = "所属客户", Description = "所属客户")]

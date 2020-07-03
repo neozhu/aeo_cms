@@ -32,7 +32,7 @@ namespace WebApp.Models
     [DefaultValue("CNY")]
     public string CUR { get; set; }
     [Display(Name = "单价", Description = "单价")]
-    public decimal SaluPric { get; set; }
+    public decimal UnitPrice { get; set; }
     [Display(Name = "数量", Description = "数量")]
     public decimal Qty { get; set; }
     [Display(Name = "来源", Description = "来源")]

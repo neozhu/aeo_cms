@@ -46,9 +46,7 @@ namespace WebApp.Models
     public DbSet<ProductPurchaseHistoricalPrice> ProductPurchaseHistoricalPrices { get; set; }
     public DbSet<ProductAlias>  ProductAliases { get; set; }
     public DbSet<ProductPack> ProductPacks { get; set; }
-
     public DbSet<ProductRefCustomer> ProductRefCustomers { get; set; }
- 
     public DbSet<ProductRefCustomerPicture> ProductRefCustomerPictures { get; set; }
     public DbSet<ProductRefCustomerTrade> ProductRefCustomerTrades { get; set; }
 
@@ -75,6 +73,7 @@ namespace WebApp.Models
     public DbSet<CustomerSales> CustomerSales { get; set; }
     public DbSet<CustomerShare> CustomerShares { get; set; }
     public DbSet<CustomerWarehouse> CustomerWarehouses { get; set; }
+    public DbSet<CustomerInvoice> CustomerInvoices { get; set; }
 
     #endregion
 

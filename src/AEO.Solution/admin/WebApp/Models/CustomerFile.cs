@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -44,16 +45,19 @@ namespace WebApp.Models
     [Display(Name = "关联单号", Description = "关联单号")]
     [MaxLength(100)]
     public string RefKey { get; set; }
-    [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
+    [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
+    [DefaultValue("customer.CustomerCode")]
     public string CustomerCode { get; set; }
     [Display(Name = "客户名称", Description = "客户名称")]
     [MaxLength(80)]
     [Required]
+    [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
 
     [Display(Name = "所属客户", Description = "所属客户")]
+    [DefaultValue("customer.Id")]
     public int CustomerId { get; set; }
     [ForeignKey("CustomerId")]
     [Display(Name = "所属客户", Description = "所属客户")]

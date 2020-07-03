@@ -70,13 +70,16 @@ namespace WebApp.Models
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
+    [DefaultValue("customer.CustomerCode")]
     public string CustomerCode { get; set; }
     [Display(Name = "客户名称", Description = "客户名称")]
     [MaxLength(80)]
     [Required]
+    [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
 
     [Display(Name = "所属客户", Description = "所属客户")]
+    [DefaultValue("customer.Id")]
     public int CustomerId { get; set; }
     [ForeignKey("CustomerId")]
     [Display(Name = "所属客户", Description = "所属客户")]

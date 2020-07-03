@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace WebApp.Models
     public int Id { get; set; }
     [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
     [MaxLength(20)]
+    [DefaultValue("customer.CustomerCode")]
     public string CustomerCode { get; set; }
     [Display(Name = "单位名称", Description = "单位名称")]
     [MaxLength(80)]
     [Required]
+    [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
     [Display(Name = "开户名称", Description = "开户名称")]
     [MaxLength(100)]
@@ -66,6 +69,7 @@ namespace WebApp.Models
 
 
     [Display(Name = "所属客户", Description = "所属客户")]
+    [DefaultValue("customer.Id")]
     public int CustomerId { get; set; }
     [ForeignKey("CustomerId")]
     [Display(Name = "所属客户", Description = "所属客户")]
