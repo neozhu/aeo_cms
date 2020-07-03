@@ -1,0 +1,343 @@
+﻿﻿@model WebApp.Models.Customer
+  <div class="form-row">
+   @Html.HiddenFor(x=>x.Id)
+         <!--客户编号(保存时系统自动分配也可以手工选择)-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerCode)</label>
+			@Html.EditorFor(x => x.CustomerCode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerCode) } })
+      
+         </div>
+
+        <!--客户名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerName)</label>
+			@Html.EditorFor(x => x.CustomerName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerName) } })
+      
+         </div>
+
+        <!--客户英文名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CustomerEName)</label>
+			@Html.EditorFor(x => x.CustomerEName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerEName) } })
+      
+         </div>
+
+        <!--客户类型-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CustomerType)</label>
+			@Html.EditorFor(x => x.CustomerType, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerType) } })
+      
+         </div>
+
+		
+      <!--是否境外企业-->
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Overseas)</label>
+              <div class="custom-control custom-checkbox">
+                 <input id="@Html.IdFor(model => model.Overseas)"
+                       name="@Html.NameFor(model => model.Overseas)"
+                       value="true" @(Model.Overseas ? "checked=\"checked\"" : "")
+                       class="custom-control-input"
+                       tabindex="6"
+                       type="checkbox" />
+                <label class="custom-control-label" for="@Html.IdFor(model => model.Overseas)">@Html.DisplayNameFor(model => model.Overseas)</label>
+            </div>
+      </div>
+
+        <!--客户类别-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CustomerType3)</label>
+			@Html.EditorFor(x => x.CustomerType3, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerType3) } })
+      
+         </div>
+
+		<!--注册资本(万)-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Capital)</label>
+            @Html.EditorFor(x => x.Capital, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.Capital) } })
+
+        </div>
+
+        <!--币制-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CURR)</label>
+			@Html.EditorFor(x => x.CURR, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CURR) } })
+      
+         </div>
+
+        <!--税务资质-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.TaxProperty)</label>
+			@Html.EditorFor(x => x.TaxProperty, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.TaxProperty) } })
+      
+         </div>
+
+        <!--上级组织-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ParentOrg)</label>
+			@Html.EditorFor(x => x.ParentOrg, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ParentOrg) } })
+      
+         </div>
+
+        <!--注册海关-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CustomMaster)</label>
+			@Html.EditorFor(x => x.CustomMaster, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomMaster) } })
+      
+         </div>
+
+        <!--海关十位编码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.TradeCode)</label>
+			@Html.EditorFor(x => x.TradeCode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.TradeCode) } })
+      
+         </div>
+
+        <!--国家地区-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Country)</label>
+			@Html.EditorFor(x => x.Country, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Country) } })
+      
+         </div>
+
+        <!--特殊区域-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Zone)</label>
+			@Html.EditorFor(x => x.Zone, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Zone) } })
+      
+         </div>
+
+        <!--客户规模-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Scale)</label>
+			@Html.EditorFor(x => x.Scale, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Scale) } })
+      
+         </div>
+
+        <!--客户等级-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Level)</label>
+			@Html.EditorFor(x => x.Level, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Level) } })
+      
+         </div>
+
+        <!--客户价值-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Value)</label>
+			@Html.EditorFor(x => x.Value, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Value) } })
+      
+         </div>
+
+        <!--客户资信等级-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CreditRating)</label>
+			@Html.EditorFor(x => x.CreditRating, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CreditRating) } })
+      
+         </div>
+
+        <!--客户来源-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Source)</label>
+			@Html.EditorFor(x => x.Source, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Source) } })
+      
+         </div>
+
+        <!--所属行业-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Industry)</label>
+			@Html.EditorFor(x => x.Industry, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Industry) } })
+      
+         </div>
+
+		<!--资金额度(万)-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Cash)</label>
+            @Html.EditorFor(x => x.Cash, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.Cash) } })
+
+        </div>
+
+        <!--币制-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CashCURR)</label>
+			@Html.EditorFor(x => x.CashCURR, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CashCURR) } })
+      
+         </div>
+
+        <!--优惠说明-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.SDesc)</label>
+			@Html.EditorFor(x => x.SDesc, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.SDesc) } })
+      
+         </div>
+
+        <!--备注-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Remark)</label>
+			@Html.EditorFor(x => x.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Remark) } })
+      
+         </div>
+
+        <!--省-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CProvinces1)</label>
+			@Html.EditorFor(x => x.CProvinces1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CProvinces1) } })
+      
+         </div>
+
+        <!--市-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CCity1)</label>
+			@Html.EditorFor(x => x.CCity1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CCity1) } })
+      
+         </div>
+
+        <!--县-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CCounty1)</label>
+			@Html.EditorFor(x => x.CCounty1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CCounty1) } })
+      
+         </div>
+
+        <!--详细地址-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CAddress1)</label>
+			@Html.EditorFor(x => x.CAddress1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CAddress1) } })
+      
+         </div>
+
+        <!--省-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CProvinces2)</label>
+			@Html.EditorFor(x => x.CProvinces2, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CProvinces2) } })
+      
+         </div>
+
+        <!--市-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CCity2)</label>
+			@Html.EditorFor(x => x.CCity2, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CCity2) } })
+      
+         </div>
+
+        <!--县-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CCounty2)</label>
+			@Html.EditorFor(x => x.CCounty2, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CCounty2) } })
+      
+         </div>
+
+        <!--详细地址-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CAddress2)</label>
+			@Html.EditorFor(x => x.CAddress2, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CAddress2) } })
+      
+         </div>
+
+        <!--英文地址-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.EAddress1)</label>
+			@Html.EditorFor(x => x.EAddress1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.EAddress1) } })
+      
+         </div>
+
+        <!--国际地址-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.EAddress2)</label>
+			@Html.EditorFor(x => x.EAddress2, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.EAddress2) } })
+      
+         </div>
+
+        <!--邮编-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.PostCode)</label>
+			@Html.EditorFor(x => x.PostCode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.PostCode) } })
+      
+         </div>
+
+        <!--公司网站-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.WebSite)</label>
+			@Html.EditorFor(x => x.WebSite, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WebSite) } })
+      
+         </div>
+
+        <!--公司经营范围-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.BusinessScope)</label>
+			@Html.EditorFor(x => x.BusinessScope, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.BusinessScope) } })
+      
+         </div>
+
+        <!--备注-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Remark1)</label>
+			@Html.EditorFor(x => x.Remark1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Remark1) } })
+      
+         </div>
+
+        <!--客户状态-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Status)</label>
+			@Html.EditorFor(x => x.Status, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Status) } })
+      
+         </div>
+
+        <!--客户状态1-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Status1)</label>
+			@Html.EditorFor(x => x.Status1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Status1) } })
+      
+         </div>
+
+        <!--客户状态1-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Status2)</label>
+			@Html.EditorFor(x => x.Status2, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Status2) } })
+      
+         </div>
+
+        <!--客户状态3-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Status3)</label>
+			@Html.EditorFor(x => x.Status3, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Status3) } })
+      
+         </div>
+
+        <!--客户状态4-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Status4)</label>
+			@Html.EditorFor(x => x.Status4, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Status4) } })
+      
+         </div>
+
+        <!--客户状态5-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Status5)</label>
+			@Html.EditorFor(x => x.Status5, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Status5) } })
+      
+         </div>
+
+        <!--客户图片-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Logo)</label>
+			@Html.EditorFor(x => x.Logo, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Logo) } })
+      
+         </div>
+
+        <!--归属企业代码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CompanyCode)</label>
+			@Html.EditorFor(x => x.CompanyCode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CompanyCode) } })
+      
+         </div>
+
+        <!--归属企业名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.CompanyName)</label>
+			@Html.EditorFor(x => x.CompanyName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CompanyName) } })
+      
+         </div>
+
+	    
+</div>
+

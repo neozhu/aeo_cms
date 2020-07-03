@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="CustomerMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/7/3 14:23:08 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+　　<data name="Id" xml:space="preserve">
+    <value>Id</value>
+   </data> 
+　　<data name="CustomerCode" xml:space="preserve">
+    <value>Customer Code</value>
+   </data> 
+　　<data name="CustomerName" xml:space="preserve">
+    <value>Customer Name</value>
+   </data> 
+　　<data name="CustomerEName" xml:space="preserve">
+    <value>Customer E Name</value>
+   </data> 
+　　<data name="CustomerType" xml:space="preserve">
+    <value>Customer Type</value>
+   </data> 
+　　<data name="Overseas" xml:space="preserve">
+    <value>Overseas</value>
+   </data> 
+　　<data name="CustomerType3" xml:space="preserve">
+    <value>Customer Type3</value>
+   </data> 
+　　<data name="Capital" xml:space="preserve">
+    <value>Capital</value>
+   </data> 
+　　<data name="CURR" xml:space="preserve">
+    <value>C U R R</value>
+   </data> 
+　　<data name="TaxProperty" xml:space="preserve">
+    <value>Tax Property</value>
+   </data> 
+　　<data name="ParentOrg" xml:space="preserve">
+    <value>Parent Org</value>
+   </data> 
+　　<data name="CustomMaster" xml:space="preserve">
+    <value>Custom Master</value>
+   </data> 
+　　<data name="TradeCode" xml:space="preserve">
+    <value>Trade Code</value>
+   </data> 
+　　<data name="Country" xml:space="preserve">
+    <value>Country</value>
+   </data> 
+　　<data name="Zone" xml:space="preserve">
+    <value>Zone</value>
+   </data> 
+　　<data name="Scale" xml:space="preserve">
+    <value>Scale</value>
+   </data> 
+　　<data name="Level" xml:space="preserve">
+    <value>Level</value>
+   </data> 
+　　<data name="Value" xml:space="preserve">
+    <value>Value</value>
+   </data> 
+　　<data name="CreditRating" xml:space="preserve">
+    <value>Credit Rating</value>
+   </data> 
+　　<data name="Source" xml:space="preserve">
+    <value>Source</value>
+   </data> 
+　　<data name="Industry" xml:space="preserve">
+    <value>Industry</value>
+   </data> 
+　　<data name="Cash" xml:space="preserve">
+    <value>Cash</value>
+   </data> 
+　　<data name="CashCURR" xml:space="preserve">
+    <value>Cash C U R R</value>
+   </data> 
+　　<data name="SDesc" xml:space="preserve">
+    <value>S Desc</value>
+   </data> 
+　　<data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+   </data> 
+　　<data name="CProvinces1" xml:space="preserve">
+    <value>C Provinces1</value>
+   </data> 
+　　<data name="CCity1" xml:space="preserve">
+    <value>C City1</value>
+   </data> 
+　　<data name="CCounty1" xml:space="preserve">
+    <value>C County1</value>
+   </data> 
+　　<data name="CAddress1" xml:space="preserve">
+    <value>C Address1</value>
+   </data> 
+　　<data name="CProvinces2" xml:space="preserve">
+    <value>C Provinces2</value>
+   </data> 
+　　<data name="CCity2" xml:space="preserve">
+    <value>C City2</value>
+   </data> 
+　　<data name="CCounty2" xml:space="preserve">
+    <value>C County2</value>
+   </data> 
+　　<data name="CAddress2" xml:space="preserve">
+    <value>C Address2</value>
+   </data> 
+　　<data name="EAddress1" xml:space="preserve">
+    <value>E Address1</value>
+   </data> 
+　　<data name="EAddress2" xml:space="preserve">
+    <value>E Address2</value>
+   </data> 
+　　<data name="PostCode" xml:space="preserve">
+    <value>Post Code</value>
+   </data> 
+　　<data name="WebSite" xml:space="preserve">
+    <value>Web Site</value>
+   </data> 
+　　<data name="BusinessScope" xml:space="preserve">
+    <value>Business Scope</value>
+   </data> 
+　　<data name="Remark1" xml:space="preserve">
+    <value>Remark1</value>
+   </data> 
+　　<data name="Status" xml:space="preserve">
+    <value>Status</value>
+   </data> 
+　　<data name="Status1" xml:space="preserve">
+    <value>Status1</value>
+   </data> 
+　　<data name="Status2" xml:space="preserve">
+    <value>Status2</value>
+   </data> 
+　　<data name="Status3" xml:space="preserve">
+    <value>Status3</value>
+   </data> 
+　　<data name="Status4" xml:space="preserve">
+    <value>Status4</value>
+   </data> 
+　　<data name="Status5" xml:space="preserve">
+    <value>Status5</value>
+   </data> 
+　　<data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+   </data> 
+　　<data name="CompanyCode" xml:space="preserve">
+    <value>Company Code</value>
+   </data> 
+　　<data name="CompanyName" xml:space="preserve">
+    <value>Company Name</value>
+   </data> 
+</root>

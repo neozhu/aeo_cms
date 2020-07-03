@@ -427,6 +427,7 @@
     <Compile Include="Controllers\CustomerFollowsController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
     <Compile Include="Controllers\CustomerSalesesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerSharesController.cs" />
     <Compile Include="Controllers\CustomerWarehousesController.cs" />
     <Compile Include="Controllers\DataTableImportMappingsController.cs" />
@@ -507,6 +508,7 @@
     <Compile Include="Models\Metadata\CustomerFileMetadata.cs" />
     <Compile Include="Models\Metadata\CustomerFollowMetadata.cs" />
     <Compile Include="Models\Metadata\CustomerInvoiceMetadata.cs" />
+    <Compile Include="Models\Metadata\CustomerMetadata.cs" />
     <Compile Include="Models\Metadata\CustomerSalesMetadata.cs" />
     <Compile Include="Models\Metadata\CustomerShareMetadata.cs" />
     <Compile Include="Models\Metadata\CustomerWarehouseMetadata.cs" />
@@ -546,6 +548,7 @@
     <Compile Include="Models\ReceiptManageProduct.cs" />
     <Compile Include="Models\resource\Attachment.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
+    <Compile Include="Models\resource\Customer.Designer.cs" />
     <Compile Include="Models\resource\CustomerAttentionProduct.Designer.cs" />
     <Compile Include="Models\resource\CustomerBank.Designer.cs" />
     <Compile Include="Models\resource\CustomerCommunication.Designer.cs" />
@@ -584,6 +587,8 @@
     <Compile Include="Repositories\CustomerSales\CustomerSalesRepository.cs" />
     <Compile Include="Repositories\CustomerShares\CustomerShareQuery.cs" />
     <Compile Include="Repositories\CustomerShares\CustomerShareRepository.cs" />
+    <Compile Include="Repositories\Customers\CustomerQuery.cs" />
+    <Compile Include="Repositories\Customers\CustomerRepository.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseQuery.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
     <Compile Include="Repositories\Logs\LogQuery.cs" />
@@ -627,6 +632,8 @@
     <Compile Include="Services\CustomerSales\ICustomerSalesService.cs" />
     <Compile Include="Services\CustomerShares\CustomerShareService.cs" />
     <Compile Include="Services\CustomerShares\ICustomerShareService.cs" />
+    <Compile Include="Services\Customers\CustomerService.cs" />
+    <Compile Include="Services\Customers\ICustomerService.cs" />
     <Compile Include="Services\CustomerWarehouses\CustomerWarehouseService.cs" />
     <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
@@ -3760,6 +3767,33 @@
     <Content Include="Views\CustomerWarehouses\Details.cshtml" />
     <Content Include="Views\CustomerWarehouses\Edit.cshtml" />
     <Content Include="Views\CustomerWarehouses\EditForm.cshtml" />
+    <Content Include="Views\Customers\_DisplayForm.cshtml" />
+    <Content Include="Views\Customers\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\EditForm.cshtml" />
+    <Content Include="Views\Customers\_CustomerAttentionProductEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerattentionproductdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerBankEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerbankdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerCommunicationEditForm.cshtml" />
+    <Content Include="Views\Customers\_customercommunicationdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerContactEditForm.cshtml" />
+    <Content Include="Views\Customers\_customercontactdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerFileEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerfiledatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerFollowEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerfollowdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerInvoiceEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerinvoicedatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerSalesEditForm.cshtml" />
+    <Content Include="Views\Customers\_customersalesdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerShareEditForm.cshtml" />
+    <Content Include="Views\Customers\_customersharedatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerWarehouseEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerwarehousedatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -3878,6 +3912,9 @@
     <EmbeddedResource Include="Models\resource\Company.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Company.resx" />
     <EmbeddedResource Include="Models\resource\Company.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\Customer.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\Customer.resx" />
+    <EmbeddedResource Include="Models\resource\Customer.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\CustomerAttentionProduct.en-US.resx" />
     <EmbeddedResource Include="Models\resource\CustomerAttentionProduct.resx" />
     <EmbeddedResource Include="Models\resource\CustomerAttentionProduct.zh-TW.resx" />

@@ -107,6 +107,8 @@ namespace WebApp
       container.RegisterType<ICustomerInvoiceService, CustomerInvoiceService>();
       container.RegisterType<IRepositoryAsync<CustomerWarehouse>, Repository<CustomerWarehouse>>();
       container.RegisterType<ICustomerWarehouseService, CustomerWarehouseService>();
+      container.RegisterType<IRepositoryAsync<Customer>, Repository<Customer>>();
+      container.RegisterType<ICustomerService, CustomerService>();
 
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();

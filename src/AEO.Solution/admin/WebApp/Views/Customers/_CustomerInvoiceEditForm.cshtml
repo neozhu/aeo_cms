@@ -1,0 +1,211 @@
+﻿@model WebApp.Models.CustomerInvoice
+<div id="customerinvoicedlg" class="easyui-dialog"
+     title="CustomerInvoice" style="width:600px;height:300px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                onOpen:function(){
+                   $('#customerinvoice_form').form('disableValidation');
+                },
+                buttons: [{
+                    text:'确认',
+                    handler:function(){
+                        confirm_customerinvoiceform();
+                    }
+                },{
+                    text:'取消',
+                    handler:function(){
+                        $('#customerinvoicedlg').dialog('close');
+                    }
+                }]
+            ">
+<div class="panel-container show">
+      <div class="panel-content p-0">
+        <form id="customerinvoice_form" class="form-horizontal needs-validation" novalidate>
+          <fieldset class="form-group">
+            <div class="row h-100 align-items-center m-0 pt-1">
+    <!--Id-->
+	@Html.HiddenFor(model => model.Id)		
+             
+    <!--发票名称-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.InvName)" >@Html.DisplayNameFor(model => model.InvName) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.InvName)" 
+							name="@Html.NameFor(model => model.InvName)" 
+							value="@Html.ValueFor(model => model.InvName)"
+							tabindex="1" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.InvName)',
+     						 required:false ,validType:'length[0,80]'" />
+    </div>
+             
+    <!--发票类型-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.InvType)" >@Html.DisplayNameFor(model => model.InvType) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.InvType)" 
+							name="@Html.NameFor(model => model.InvType)" 
+							value="@Html.ValueFor(model => model.InvType)"
+							tabindex="2" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.InvType)',
+     						 required:true ,validType:'length[0,100]'" />
+    </div>
+             
+    <!--发票国家-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.InvCountry)" >@Html.DisplayNameFor(model => model.InvCountry) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.InvCountry)" 
+							name="@Html.NameFor(model => model.InvCountry)" 
+							value="@Html.ValueFor(model => model.InvCountry)"
+							tabindex="3" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.InvCountry)',
+     						 required:false ,validType:'length[0,100]'" />
+    </div>
+             
+    <!--发票税点-->
+         <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.InvTax)" >@Html.DisplayNameFor(model => model.InvTax) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+         <input id="@Html.IdFor(model => model.InvTax)"
+							name="@Html.NameFor(model => model.InvTax)" 
+							value="@Html.ValueFor(model => model.InvTax)"
+							tabindex="4" 
+							class="easyui-numberbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.InvTax)',
+                                 precision:2,
+								 required:true,
+                                 formatter:intformatter,
+                                 parser:parsernumber
+                                 " />
+    </div>
+             
+    <!--税务等级号-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.TaxNo)" >@Html.DisplayNameFor(model => model.TaxNo) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.TaxNo)" 
+							name="@Html.NameFor(model => model.TaxNo)" 
+							value="@Html.ValueFor(model => model.TaxNo)"
+							tabindex="5" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.TaxNo)',
+     						 required:false ,validType:'length[0,100]'" />
+    </div>
+             
+    <!--发票用途-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.InvUse)" >@Html.DisplayNameFor(model => model.InvUse) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.InvUse)" 
+							name="@Html.NameFor(model => model.InvUse)" 
+							value="@Html.ValueFor(model => model.InvUse)"
+							tabindex="6" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.InvUse)',
+     						 required:false ,validType:'length[0,256]'" />
+    </div>
+             
+    <!--备注说明-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Remark)" >@Html.DisplayNameFor(model => model.Remark) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Remark)" 
+							name="@Html.NameFor(model => model.Remark)" 
+							value="@Html.ValueFor(model => model.Remark)"
+							tabindex="7" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Remark)',
+     						 required:false ,validType:'length[0,256]'" />
+    </div>
+             
+    <!--客户编号-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerCode)" >@Html.DisplayNameFor(model => model.CustomerCode) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.CustomerCode)" 
+							name="@Html.NameFor(model => model.CustomerCode)" 
+							value="@Html.ValueFor(model => model.CustomerCode)"
+							tabindex="8" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerCode)',
+     						 required:true ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--客户名称-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerName)" >@Html.DisplayNameFor(model => model.CustomerName) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.CustomerName)" 
+							name="@Html.NameFor(model => model.CustomerName)" 
+							value="@Html.ValueFor(model => model.CustomerName)"
+							tabindex="9" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerName)',
+     						 required:true ,validType:'length[0,80]'" />
+    </div>
+             
+      <!--所属客户-->
+      <input type="hidden" id="CustomerCustomerCode" name="CustomerCustomerCode" value="">
+	  <input id="@Html.IdFor(model => model.CustomerId)"
+			       name="@Html.NameFor(model => model.CustomerId)"
+				   value="@Html.ValueFor(model => model.CustomerId)"
+                   type="hidden" />
+             
+  
+           </div>
+       </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+     var form_state = 'Added';
+     var current_index = -1;
+     var customerinvoice = {};
+ 
+     function open_customerinvoicedlg(index, row, state) {
+         form_state = state;
+         current_index = index;
+         customerinvoice = row;
+         $('#customerinvoicedlg').dialog('open');
+         if (form_state === 'Added') {
+             $('#customerinvoicedlg').dialog('setTitle', '新增明细');
+         } else {
+             $('#customerinvoicedlg').dialog('setTitle', '修改明细');
+         }
+         $('#customerinvoice_form').form('reset');
+         $('#customerinvoice_form').form('load', customerinvoice);
+     }
+     function confirm_customerinvoiceform() {
+         $customerinvoiceform = $('#customerinvoice_form');
+         if ($customerinvoiceform.form('enableValidation').form('validate')) {
+             customerinvoice = $customerinvoiceform.serializeJSON();
+             if (form_state === 'Added') {
+                 $(document).trigger('customerinvoice_form.add', [current_index, customerinvoice])
+             } else {
+                 $(document).trigger('customerinvoice_form.edit', [current_index, customerinvoice])
+             }
+             $('#customerinvoicedlg').dialog('close');
+         }
+     }
+ </script>
+
+ 
