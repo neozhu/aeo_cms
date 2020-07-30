@@ -235,5 +235,11 @@ namespace WebApp.Models
     public int TenantId { get; set; }
   }
 
- 
+  public class UserInRolesViewModel
+  {
+    public string UserId { get; set; }
+    public string UserName { get; set; }
+    public string GivenName { get; set; }
+    public string[] Roles { get; set; }
+  }
 }

@@ -69,7 +69,7 @@
                    class="easyui-textbox"
                    style="width:100%"
                    type="text"
-                   data-options="prompt:'@Html.DisplayNameFor(model => model.Title)',
+                   data-options="prompt:'@Html.DescriptionFor(model => model.Title)',
 								 required:true,
                                  validType: 'length[0,50]'
                                  " />
@@ -83,7 +83,7 @@
                    class="easyui-textbox"
                    style="width:100%"
                    type="text"
-                   data-options="prompt:'@Html.DisplayNameFor(model => model.Description)',
+                   data-options="prompt:'@Html.DescriptionFor(model => model.Description)',
 								 required:false,validType: 'length[0,50]'
                                  " />
           </div>
@@ -96,7 +96,7 @@
                    class="easyui-textbox"
                    style="width:100%"
                    type="text"
-                   data-options="prompt:'@Html.DisplayNameFor(model => model.Code)',
+                   data-options="prompt:'@Html.DescriptionFor(model => model.Code)',
 								 required:true,validType: 'length[0,50]'
                                  " />
           </div>
@@ -109,7 +109,7 @@
                    class="easyui-textbox"
                    style="width:100%"
                    type="text"
-                   data-options="prompt:'@Html.DisplayNameFor(model => model.Url)',
+                   data-options="prompt:'@Html.DescriptionFor(model => model.Url)',
 								 required:true,validType: 'length[0,50]'
                                  " />
           </div>
@@ -122,7 +122,7 @@
                    class="easyui-textbox"
                    style="width:100%"
                    type="text"
-                   data-options="prompt:'@Html.DisplayNameFor(model => model.Controller)',
+                   data-options="prompt:'@Html.DescriptionFor(model => model.Controller)',
 								 required:true,validType: 'length[0,50]'
                                  " />
           </div>
@@ -135,7 +135,7 @@
                    class="easyui-textbox"
                    style="width:100%"
                    type="text"
-                   data-options="prompt:'@Html.DisplayNameFor(model => model.Action)',
+                   data-options="prompt:'@Html.DescriptionFor(model => model.Action)',
 								 required:true,validType: 'length[0,50]'
                                  " />
           </div>
@@ -148,7 +148,7 @@
                    class="easyui-textbox"
                    style="width:100%"
                    type="text"
-                   data-options="prompt:'@Html.DisplayNameFor(model => model.IconCls)',
+                   data-options="prompt:'@Html.DescriptionFor(model => model.IconCls)',
 								 required:false,validType: 'length[0,50]'
                                  " />
           </div>
@@ -159,7 +159,7 @@
                      id="@Html.IdFor(model => model.IsEnabled)"
                      name="@Html.NameFor(model => model.IsEnabled)"
                      value="true" @(Model.IsEnabled ? "checked=\"checked\"" : "")>
-              <label class="custom-control-label" for="@Html.IdFor(model => model.IconCls)">@Html.DisplayDescriptionFor(model => model.IsEnabled)</label>
+              <label class="custom-control-label" for="@Html.IdFor(model => model.IconCls)">@Html.DescriptionFor(model => model.IsEnabled)</label>
             </div>
 
           </div>
@@ -171,7 +171,7 @@
                      tabindex="9"
                      style="width:100%"
                      class="easyui-combobox"
-                     data-options="prompt:'@Html.DisplayNameFor(model => model.ParentId)' ,
+                     data-options="prompt:'@Html.DescriptionFor(model => model.ParentId)' ,
 						label:'' ,editable:false,
  						required:false ,
 						valueField: 'Id',

@@ -51,9 +51,7 @@ namespace WebApp.Controllers
       ViewBag.TenantId = data;
       return View();
       }
-    //租户管理
-    [Route("Tenant", Name = "租户管理", Order = 2)]
-    public ActionResult Tenant() => View();
+
 
     //获取租户数据
     public async Task<JsonResult> GetTenantData()
@@ -97,11 +95,11 @@ namespace WebApp.Controllers
           this.logger.Info($"注册成功【{user.UserName}】");
           await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantid", user.TenantId.ToString()));
           await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, user.UserName));
-          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.GivenName, string.IsNullOrEmpty(user.FullName) ? "" : user.FullName));
-          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantname", string.IsNullOrEmpty(user.TenantName) ? "" : user.TenantName));
+          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.GivenName,  user.FullName??""));
+          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantname",   user.TenantName??""));
           await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Email, user.Email));
-          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/avatars", string.IsNullOrEmpty(user.Avatars)?"": user.Avatars));
-          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.MobilePhone, string.IsNullOrEmpty(user.PhoneNumber) ? "" : user.PhoneNumber));
+          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/avatars",  user.Avatars ?? ""));
+          await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.MobilePhone,   user.PhoneNumber??""));
           await this.UserManager.AddClaimAsync(user.Id, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "zh-cn"));
           var role = "users";
           var any = await this.roleManager.FindByNameAsync(role);
@@ -152,98 +150,15 @@ namespace WebApp.Controllers
       }
 
     }
-    //保存租户信息
-    public async Task<JsonResult> SaveTenantData(Tenant[] tenant) {
-      if (tenant == null)
-      {
-        throw new ArgumentNullException(nameof(tenant));
-      }
-      if (ModelState.IsValid)
-      {
-        try
-        {
-          foreach (var item in tenant)
-          {
-            if(item.TrackingState== TrackableEntities.TrackingState.Added)
-            {
-              this.dbContext.Tenants.Add(item);
-            }
-            if (item.TrackingState == TrackableEntities.TrackingState.Modified)
-            {
-              var update = await this.dbContext.Tenants.Where(x => x.Id == item.Id).FirstAsync();
-              update.Name = item.Name;
-              update.ConnectionStrings = item.ConnectionStrings;
-              update.Disabled = item.Disabled;
-             
-            }
-            if (item.TrackingState == TrackableEntities.TrackingState.Deleted)
-            {
-              var delete = await this.dbContext.Tenants.Where(x => x.Id == item.Id).FirstAsync();
-              this.dbContext.Tenants.Remove(delete);
-
-            }
-           
-          }
-          await this.dbContext.SaveChangesAsync();
-          return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        }
-        catch (System.Data.Entity.Validation.DbEntityValidationException e)
-        {
-          var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage));
-          return Json(new { success = false, err = errormessage }, JsonRequestBehavior.AllowGet);
-        }
-        catch (Exception e)
-        {
-          return Json(new { success = false, err = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
-        }
-      }
-      else
-      {
-        var modelStateErrors = string.Join(",", ModelState.Keys.SelectMany(key => ModelState[key].Errors.Select(n => n.ErrorMessage)));
-        return Json(new { success = false, err = modelStateErrors }, JsonRequestBehavior.AllowGet);
-      }
-
-    }
-    //删除租户信息
-    public async Task<JsonResult> DeleteCheckeTenant(int[] id) {
-      var items = this.dbContext.Tenants.Where(x => id.Contains(x.Id));
-      foreach (var item in items)
-      {
-        this.dbContext.Tenants.Remove(item);
-      }
-      await this.dbContext.SaveChangesAsync();
-      return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-    }
+    
     [HttpGet]
     public  JsonResult GetData(int page = 1, int rows = 10, string sort = "Id", string order = "desc", string filterRules = "")
     {
-      var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
+      var filters = PredicateBuilder.From<ApplicationUser>(filterRules);
       var totalCount = 0;
 
-      var users = this.UserManager.Users.OrderByName(sort, order);
-      if (filters != null)
-      {
-        foreach (var filter in filters)
-        {
-          if (filter.field == "UserName")
-          {
-            users = users.Where(x => x.UserName.Contains(filter.value));
-          }
-          if (filter.field == "Email")
-          {
-            users = users.Where(x => x.Email.Contains(filter.value));
-          }
-          if (filter.field == "PhoneNumber")
-          {
-            users = users.Where(x => x.PhoneNumber.Contains(filter.value));
-          }
-          if (filter.field == "TenantId")
-          {
-            var tenantid = Convert.ToInt32(filter.value);
-            users = users.Where(x => x.TenantId == tenantid);
-          }
-        }
-      }
+      var users = this.UserManager.Users.Where(filters).OrderByName(sort, order);
+     
       totalCount = users.Count();
       var datalist = users.Skip(( page - 1 ) * rows).Take(rows);
       var datarows = datalist.Select(n => new
@@ -270,43 +185,7 @@ namespace WebApp.Controllers
       return this.Json(pagelist, JsonRequestBehavior.AllowGet);
     }
 
-    [HttpGet]
-    public JsonResult GetTenantData(int page = 1, int rows = 10, string sort = "Id", string order = "desc", string filterRules = "")
-    {
-      var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
-      var totalCount = 0;
-
-      var tenants = this.dbContext.Tenants.OrderByName(sort, order);
-      if (filters != null)
-      {
-        foreach (var filter in filters)
-        {
-          if (filter.field == "Name")
-          {
-            tenants = tenants.Where(x => x.Name.Contains(filter.value));
-          }
-          if (filter.field == "ConnectionStrings")
-          {
-            tenants = tenants.Where(x => x.ConnectionStrings.Contains(filter.value));
-          }
-          if (filter.field == "Disabled")
-          {
-            var bval = Convert.ToBoolean(filter.value);
-            tenants = tenants.Where(x => x.Disabled== bval);
-          }
-        }
-      }
-      totalCount = tenants.Count();
-      var datalist = tenants.Skip(( page - 1 ) * rows).Take(rows);
-      var datarows = datalist.Select(n => new
-      {
-        Id = n.Id,
-        Name = n.Name,
-        ConnectionStrings = n.ConnectionStrings
-      }).ToList();
-      var pagelist = new { total = totalCount, rows = datarows };
-      return this.Json(pagelist, JsonRequestBehavior.AllowGet);
-    }
+   
     [HttpGet]
     public JsonResult GetAvatarsX50()
     {

@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+@charset "UTF-8";
 /* #GLOBAL IMPORTS
 ========================================================================== */
 /* #BOOTSTRAP AND MIXINS - Base Unmodified Bootstrap file with theme mixins
@@ -5556,8 +5556,7 @@ input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-  outline: none;
-      }
+  outline: none; }
 
 /* IE input clear field "X" input remove */
 ::-ms-clear {

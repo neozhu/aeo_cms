@@ -85,8 +85,7 @@ namespace WebApp
       container.RegisterType<IRoleMenuService, RoleMenuService>();
       container.RegisterType<IRepositoryAsync<Log>, Repository<Log>>();
       container.RegisterType<ILogService, LogService>();
-      container.RegisterType<IRepositoryAsync<Company>, Repository<Company>>();
-      container.RegisterType<ICompanyService, CompanyService>();
+
  
 
       //业务实体相关

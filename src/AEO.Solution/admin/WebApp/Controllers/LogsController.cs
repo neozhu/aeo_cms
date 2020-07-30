@@ -9,8 +9,10 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using Repository.Pattern.Infrastructure;
 using Repository.Pattern.UnitOfWork;
+using SqlSugar;
 using TrackableEntities;
 using WebApp.Models;
+using WebApp.Models.ViewModel;
 using WebApp.Repositories;
 using WebApp.Services;
 using Z.EntityFramework.Plus;
@@ -36,43 +38,82 @@ namespace WebApp.Controllers
     private readonly ILogService logService;
     private readonly IUnitOfWorkAsync unitOfWork;
     private readonly NLog.ILogger logger;
+    private readonly ISqlSugarClient db;
     public LogsController(
       ILogService logService,
       IUnitOfWorkAsync unitOfWork,
-      NLog.ILogger logger
+      NLog.ILogger logger,
+      ISqlSugarClient db
       )
     {
       this.logService = logService;
       this.unitOfWork = unitOfWork;
       this.logger = logger;
+      this.db = db;
     }
     //GET: Logs/Index
     //[OutputCache(Duration = 60, VaryByParam = "none")]
     [Route("Index", Name = "系统日志", Order = 1)]
     public async Task<ActionResult> Index()
     {
-
-      var start = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
-      var end = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd 23:59:59"));
-
-      this.ViewBag.TotalError = await this.logService.Queryable().Where(x => x.Level == "Error"
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0).CountAsync();
-      this.ViewBag.TotalFatal = await this.logService.Queryable().Where(x => x.Level == "Fatal"
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0).CountAsync();
-
-      this.ViewBag.TotalWarn = await this.logService.Queryable().Where(x => x.Level == "Warn"
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0).CountAsync();
-      this.ViewBag.TotalInfo = await this.logService.Queryable().Where(x => x.Level == "Info"
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0
-      && SqlFunctions.DateDiff("d", start, x.Logged) >= 0).CountAsync();
-
-
       return View();
     }
 
+    public async Task<JsonResult> GetChartData()
+    {
+      var levels = new string[] { "Info", "Trace", "Debug", "Warn", "Error", "Fatal" };
+      var sql = @"SELECT [level], CONVERT(Datetime,format(min(Logged),'yyyy-MM-dd HH:00:00')) AS [time],
+       COUNT(*) AS total
+FROM Logs
+where DATEDIFF(D, GETDATE(), Logged)> -3
+GROUP BY [level], CAST(Logged as date),
+       DATEPART(hour, Logged)
+order by [level], CAST(Logged as date),
+       DATEPART(hour, Logged)";
+      var data = await this.db.Ado.SqlQueryAsync<logtimetotal>(sql);
+      var date = DateTime.Now.AddDays(-2).Date;
+      var today = DateTime.Now.AddDays(1).Date;
+      var list = new List<dynamic>();
+      while (( date = date.AddHours(1) ) < today)
+      {
+        foreach (var level in levels)
+        {
+          var item = data.Where(x => x.time == date && x.level == level).FirstOrDefault();
+          if (item != null)
+          {
+            list.Add(new { time = date.ToString("yyyy-MM-dd HH:mm"), level = level, total = item.total });
+          }
+          else
+          {
+            list.Add(new { time = date.ToString("yyyy-MM-dd HH:mm"), level = level, total = 0 });
+
+          }
+        }
+
+      }
+      var sql1 = @"select Level [level],count(*) total
+FROM Logs
+where DATEDIFF(D, GETDATE(), Logged)> -3
+group by Level";
+      var array = await this.db.Ado.SqlQueryAsync<logleveltotal>(sql1);
+
+      var group = new List<dynamic>();
+      foreach (var level in levels)
+      {
+        var item = array.Where(x => x.level == level).FirstOrDefault();
+        if (item != null)
+        {
+          group.Add(new { level, item.total });
+        }
+        else
+        {
+          group.Add(new { level, total = 0 });
+
+        }
+      }
+
+      return Json(new { list = list, group = group }, JsonRequestBehavior.AllowGet);
+    }
     //Get :Logs/GetData
     //For Index View datagrid datasource url
     //更新日志状态

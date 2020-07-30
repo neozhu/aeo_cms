@@ -68,20 +68,20 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.10.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Portable.BouncyCastle.1.8.6.7\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="ClosedXML, Version=0.95.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ClosedXML.0.95.2\lib\net46\ClosedXML.dll</HintPath>
+    <Reference Include="ClosedXML, Version=0.95.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ClosedXML.0.95.3\lib\net46\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.2.0.5\lib\net48\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.10.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DocumentFormat.OpenXml.2.10.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.11.3.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DocumentFormat.OpenXml.2.11.3\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -95,11 +95,11 @@
     <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.Core, Version=1.7.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Hangfire.Core.1.7.11\lib\net46\Hangfire.Core.dll</HintPath>
+    <Reference Include="Hangfire.Core, Version=1.7.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hangfire.Core.1.7.12\lib\net46\Hangfire.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.SqlServer, Version=1.7.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Hangfire.SqlServer.1.7.11\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    <Reference Include="Hangfire.SqlServer, Version=1.7.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hangfire.SqlServer.1.7.12\lib\net45\Hangfire.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -129,23 +129,23 @@
     <Reference Include="Microsoft.Data.Edm, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.8.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.4\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Memory.3.1.4\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Memory.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.4\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.6\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.4\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Options.3.1.4\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Options.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.3.1.4\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -175,7 +175,7 @@
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.7.1\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.4.7.2\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.Web.4.9.2\lib\net35\NLog.Web.dll</HintPath>
@@ -208,8 +208,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Service.Pattern.dll</HintPath>
     </Reference>
-    <Reference Include="SqlSugar, Version=5.0.0.14, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\sqlSugar.5.0.0.14\lib\SqlSugar.dll</HintPath>
+    <Reference Include="SqlSugar, Version=5.0.0.15, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\sqlSugar.5.0.0.15\lib\SqlSugar.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -356,14 +356,14 @@
     <Reference Include="TrackableEntities.EF.6, Version=2.5.0.0, Culture=neutral, PublicKeyToken=b10b51e7b9be6a2e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\TrackableEntities.EF.6.2.5.7\lib\net45\TrackableEntities.EF.6.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Abstractions, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unity.5.11.6\lib\net47\Unity.Abstractions.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.Abstractions.5.11.6\lib\net48\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.AspNet.WebApi, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unity.AspNet.WebApi.5.11.1\lib\net47\Unity.AspNet.WebApi.dll</HintPath>
+    <Reference Include="Unity.AspNet.WebApi, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.AspNet.WebApi.5.11.2\lib\net47\Unity.AspNet.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.11.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unity.Container.5.11.7\lib\net47\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.11.8.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.Container.5.11.8\lib\net48\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mvc, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unity.Mvc.5.11.1\lib\net47\Unity.Mvc.dll</HintPath>
@@ -378,14 +378,21 @@
       <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.10.3.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.EntityFramework.Plus.EF6.1.10.3\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Extensions, Version=4.0.86.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.EntityFramework.Extensions.4.0.86\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.12.28.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.EntityFramework.Plus.EF6.1.12.28\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.Expressions.Eval, Version=4.0.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.Expressions.Eval.4.0.10\lib\net45\Z.Expressions.Eval.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\ExceptionExtensions.cs" />
     <Compile Include="App_Helpers\HubInjectorResolver.cs" />
     <Compile Include="App_Helpers\NPOIHelper.cs" />
+    <Compile Include="App_Helpers\PredicateBuilder.cs" />
     <Compile Include="App_Helpers\SqlSugarFactory.cs" />
     <Compile Include="App_Helpers\third-party.api\BaiduApiHelper.cs" />
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -419,17 +426,6 @@
     <Compile Include="Controllers\AttachmentsController.cs" />
     <Compile Include="Controllers\CodeItemsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
-    <Compile Include="Controllers\CustomerAttentionProductsController.cs" />
-    <Compile Include="Controllers\CustomerBanksController.cs" />
-    <Compile Include="Controllers\CustomerCommunicationsController.cs" />
-    <Compile Include="Controllers\CustomerContactsController.cs" />
-    <Compile Include="Controllers\CustomerFilesController.cs" />
-    <Compile Include="Controllers\CustomerFollowsController.cs" />
-    <Compile Include="Controllers\CustomerInvoicesController.cs" />
-    <Compile Include="Controllers\CustomerSalesesController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
-    <Compile Include="Controllers\CustomerSharesController.cs" />
-    <Compile Include="Controllers\CustomerWarehousesController.cs" />
     <Compile Include="Controllers\DataTableImportMappingsController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\EFMigrationsManagerController.cs" />
@@ -439,7 +435,10 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MenuItemsController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\RoleManageController.cs" />
     <Compile Include="Controllers\RoleMenusController.cs" />
+    <Compile Include="Controllers\TenantsController.cs" />
     <Compile Include="Migrations\202005210553369_md_clear.cs" />
     <Compile Include="Migrations\202005210553369_md_clear.designer.cs">
       <DependentUpon>202005210553369_md_clear.cs</DependentUpon>
@@ -480,13 +479,17 @@
     <Compile Include="Migrations\202006120850483_md_update3.designer.cs">
       <DependentUpon>202006120850483_md_update3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202007030449134_md_customer.cs" />
-    <Compile Include="Migrations\202007030449134_md_customer.designer.cs">
-      <DependentUpon>202007030449134_md_customer.cs</DependentUpon>
+    <Compile Include="Migrations\202006231128285_md_update1.cs" />
+    <Compile Include="Migrations\202006231128285_md_update1.designer.cs">
+      <DependentUpon>202006231128285_md_update1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202007030616315_md_customerupdate.cs" />
-    <Compile Include="Migrations\202007030616315_md_customerupdate.designer.cs">
-      <DependentUpon>202007030616315_md_customerupdate.cs</DependentUpon>
+    <Compile Include="Migrations\202007030354411_md_customer.cs" />
+    <Compile Include="Migrations\202007030354411_md_customer.designer.cs">
+      <DependentUpon>202007030354411_md_customer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007300301372_md_company.cs" />
+    <Compile Include="Migrations\202007300301372_md_company.designer.cs">
+      <DependentUpon>202007300301372_md_company.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
@@ -501,17 +504,7 @@
     <Compile Include="Models\CustomerContact.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
-    <Compile Include="Models\Metadata\CustomerAttentionProductMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerBankMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerCommunicationMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerContactMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerFileMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerFollowMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerInvoiceMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerSalesMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerShareMetadata.cs" />
-    <Compile Include="Models\Metadata\CustomerWarehouseMetadata.cs" />
+    <Compile Include="Models\Metadata\CompanyMetadata.cs" />
     <Compile Include="Models\ProductRefCustomerTrade.cs" />
     <Compile Include="Models\ProductRefCustomerPicture.cs" />
     <Compile Include="Models\ProductRefCustomer.cs" />
@@ -548,20 +541,10 @@
     <Compile Include="Models\ReceiptManageProduct.cs" />
     <Compile Include="Models\resource\Attachment.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
-    <Compile Include="Models\resource\Customer.Designer.cs" />
-    <Compile Include="Models\resource\CustomerAttentionProduct.Designer.cs" />
-    <Compile Include="Models\resource\CustomerBank.Designer.cs" />
-    <Compile Include="Models\resource\CustomerCommunication.Designer.cs" />
-    <Compile Include="Models\resource\CustomerContact.Designer.cs" />
-    <Compile Include="Models\resource\CustomerFile.Designer.cs" />
-    <Compile Include="Models\resource\CustomerFollow.Designer.cs" />
-    <Compile Include="Models\resource\CustomerInvoice.Designer.cs" />
-    <Compile Include="Models\resource\CustomerSales.Designer.cs" />
-    <Compile Include="Models\resource\CustomerShare.Designer.cs" />
-    <Compile Include="Models\resource\CustomerWarehouse.Designer.cs" />
     <Compile Include="Models\resource\Log.Designer.cs" />
     <Compile Include="Models\resource\Notification.Designer.cs" />
     <Compile Include="Models\ViewModel\ErrorViewModel.cs" />
+    <Compile Include="Models\ViewModel\logtotal.cs" />
     <Compile Include="Models\ViewModel\NavigationModel.cs" />
     <Compile Include="Models\ViewModel\SmartNavigation.cs" />
     <Compile Include="Models\WorkFlow.cs" />
@@ -569,28 +552,6 @@
     <Compile Include="Repositories\Attachments\AttachmentRepository.cs" />
     <Compile Include="Repositories\Companies\CompanyQuery.cs" />
     <Compile Include="Repositories\Companies\CompanyRepository.cs" />
-    <Compile Include="Repositories\CustomerAttentionProducts\CustomerAttentionProductQuery.cs" />
-    <Compile Include="Repositories\CustomerAttentionProducts\CustomerAttentionProductRepository.cs" />
-    <Compile Include="Repositories\CustomerBanks\CustomerBankQuery.cs" />
-    <Compile Include="Repositories\CustomerBanks\CustomerBankRepository.cs" />
-    <Compile Include="Repositories\CustomerCommunications\CustomerCommunicationQuery.cs" />
-    <Compile Include="Repositories\CustomerCommunications\CustomerCommunicationRepository.cs" />
-    <Compile Include="Repositories\CustomerContacts\CustomerContactQuery.cs" />
-    <Compile Include="Repositories\CustomerContacts\CustomerContactRepository.cs" />
-    <Compile Include="Repositories\CustomerFiles\CustomerFileQuery.cs" />
-    <Compile Include="Repositories\CustomerFiles\CustomerFileRepository.cs" />
-    <Compile Include="Repositories\CustomerFollows\CustomerFollowQuery.cs" />
-    <Compile Include="Repositories\CustomerFollows\CustomerFollowRepository.cs" />
-    <Compile Include="Repositories\CustomerInvoices\CustomerInvoiceQuery.cs" />
-    <Compile Include="Repositories\CustomerInvoices\CustomerInvoiceRepository.cs" />
-    <Compile Include="Repositories\CustomerSales\CustomerSalesQuery.cs" />
-    <Compile Include="Repositories\CustomerSales\CustomerSalesRepository.cs" />
-    <Compile Include="Repositories\CustomerShares\CustomerShareQuery.cs" />
-    <Compile Include="Repositories\CustomerShares\CustomerShareRepository.cs" />
-    <Compile Include="Repositories\Customers\CustomerQuery.cs" />
-    <Compile Include="Repositories\Customers\CustomerRepository.cs" />
-    <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseQuery.cs" />
-    <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
     <Compile Include="Repositories\Logs\LogQuery.cs" />
     <Compile Include="Repositories\Logs\LogRepository.cs" />
     <Compile Include="Repositories\Notifications\NotificationQuery.cs" />
@@ -614,28 +575,6 @@
     <Compile Include="Services\Attachments\IAttachmentService.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
     <Compile Include="Services\Companies\ICompanyService.cs" />
-    <Compile Include="Services\CustomerAttentionProducts\CustomerAttentionProductService.cs" />
-    <Compile Include="Services\CustomerAttentionProducts\ICustomerAttentionProductService.cs" />
-    <Compile Include="Services\CustomerBanks\CustomerBankService.cs" />
-    <Compile Include="Services\CustomerBanks\ICustomerBankService.cs" />
-    <Compile Include="Services\CustomerCommunications\CustomerCommunicationService.cs" />
-    <Compile Include="Services\CustomerCommunications\ICustomerCommunicationService.cs" />
-    <Compile Include="Services\CustomerContacts\CustomerContactService.cs" />
-    <Compile Include="Services\CustomerContacts\ICustomerContactService.cs" />
-    <Compile Include="Services\CustomerFiles\CustomerFileService.cs" />
-    <Compile Include="Services\CustomerFiles\ICustomerFileService.cs" />
-    <Compile Include="Services\CustomerFollows\CustomerFollowService.cs" />
-    <Compile Include="Services\CustomerFollows\ICustomerFollowService.cs" />
-    <Compile Include="Services\CustomerInvoices\CustomerInvoiceService.cs" />
-    <Compile Include="Services\CustomerInvoices\ICustomerInvoiceService.cs" />
-    <Compile Include="Services\CustomerSales\CustomerSalesService.cs" />
-    <Compile Include="Services\CustomerSales\ICustomerSalesService.cs" />
-    <Compile Include="Services\CustomerShares\CustomerShareService.cs" />
-    <Compile Include="Services\CustomerShares\ICustomerShareService.cs" />
-    <Compile Include="Services\Customers\CustomerService.cs" />
-    <Compile Include="Services\Customers\ICustomerService.cs" />
-    <Compile Include="Services\CustomerWarehouses\CustomerWarehouseService.cs" />
-    <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
     <Compile Include="Services\Logs\LogService.cs" />
     <Compile Include="Services\Notifications\INotificationService.cs" />
@@ -665,7 +604,6 @@
     <Compile Include="Models\Company.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Metadata\CompanyMetadata.cs" />
     <Compile Include="Models\DataTableImport.cs" />
     <Compile Include="Models\ViewModel\IdentityModels.cs" />
     <Compile Include="Models\ViewModel\ManagementViewModels.cs" />
@@ -3560,18 +3498,6 @@
     <Content Include="Views\MenuItems\_menuitemdatagridjsview.cshtml" />
     <Content Include="Views\MenuItems\_PopupDetailFormView.cshtml" />
     <Content Include="Scripts\plugin\jquery.form\jquery.form.min.js.map" />
-    <Content Include="Views\Companies\_DisplayForm.cshtml" />
-    <Content Include="Views\Companies\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\Companies\_PopupCreateFormView.cshtml" />
-    <Content Include="Views\Companies\Index.cshtml" />
-    <Content Include="Views\Companies\Create.cshtml" />
-    <Content Include="Views\Companies\Details.cshtml" />
-    <Content Include="Views\Companies\Edit.cshtml" />
-    <Content Include="Views\Companies\EditForm.cshtml" />
-    <Content Include="Views\Companies\_DepartmentEditForm.cshtml" />
-    <Content Include="Views\Companies\_departmentdatagridjsview.cshtml" />
-    <Content Include="Views\Companies\_EmployeeEditForm.cshtml" />
-    <Content Include="Views\Companies\_employeedatagridjsview.cshtml" />
     <Content Include="Scripts\plugin\pannellum\utils\build\build.bat" />
     <Content Include="Scripts\plugin\pannellum\utils\build\build.sh" />
     <Content Include="Scripts\plugin\pannellum\utils\doc\generate.sh" />
@@ -3697,103 +3623,15 @@
     <Content Include="Scripts\plugin\plupload\bower.json" />
     <Content Include="Scripts\plugin\plupload\js\Moxie.xap" />
     <Content Include="Scripts\plugin\plupload\readme.md" />
-    <Content Include="Views\CustomerBanks\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerBanks\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerBanks\Index.cshtml" />
-    <Content Include="Views\CustomerBanks\Create.cshtml" />
-    <Content Include="Views\CustomerBanks\Details.cshtml" />
-    <Content Include="Views\CustomerBanks\Edit.cshtml" />
-    <Content Include="Views\CustomerBanks\EditForm.cshtml" />
-    <Content Include="Views\CustomerSaleses\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerSaleses\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerSaleses\Index.cshtml" />
-    <Content Include="Views\CustomerSaleses\Create.cshtml" />
-    <Content Include="Views\CustomerSaleses\Details.cshtml" />
-    <Content Include="Views\CustomerSaleses\Edit.cshtml" />
-    <Content Include="Views\CustomerSaleses\EditForm.cshtml" />
-    <Content Include="Views\CustomerAttentionProducts\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerAttentionProducts\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerAttentionProducts\Index.cshtml" />
-    <Content Include="Views\CustomerAttentionProducts\Create.cshtml" />
-    <Content Include="Views\CustomerAttentionProducts\Details.cshtml" />
-    <Content Include="Views\CustomerAttentionProducts\Edit.cshtml" />
-    <Content Include="Views\CustomerAttentionProducts\EditForm.cshtml" />
-    <Content Include="Views\CustomerContacts\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerContacts\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerContacts\Index.cshtml" />
-    <Content Include="Views\CustomerContacts\Create.cshtml" />
-    <Content Include="Views\CustomerContacts\Details.cshtml" />
-    <Content Include="Views\CustomerContacts\Edit.cshtml" />
-    <Content Include="Views\CustomerContacts\EditForm.cshtml" />
-    <Content Include="Views\CustomerCommunications\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerCommunications\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerCommunications\Index.cshtml" />
-    <Content Include="Views\CustomerCommunications\Create.cshtml" />
-    <Content Include="Views\CustomerCommunications\Details.cshtml" />
-    <Content Include="Views\CustomerCommunications\Edit.cshtml" />
-    <Content Include="Views\CustomerCommunications\EditForm.cshtml" />
-    <Content Include="Views\CustomerFollows\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerFollows\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerFollows\Index.cshtml" />
-    <Content Include="Views\CustomerFollows\Create.cshtml" />
-    <Content Include="Views\CustomerFollows\Details.cshtml" />
-    <Content Include="Views\CustomerFollows\Edit.cshtml" />
-    <Content Include="Views\CustomerFollows\EditForm.cshtml" />
-    <Content Include="Views\CustomerShares\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerShares\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerShares\Index.cshtml" />
-    <Content Include="Views\CustomerShares\Create.cshtml" />
-    <Content Include="Views\CustomerShares\Details.cshtml" />
-    <Content Include="Views\CustomerShares\Edit.cshtml" />
-    <Content Include="Views\CustomerShares\EditForm.cshtml" />
-    <Content Include="Views\CustomerFiles\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerFiles\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerFiles\Index.cshtml" />
-    <Content Include="Views\CustomerFiles\Create.cshtml" />
-    <Content Include="Views\CustomerFiles\Details.cshtml" />
-    <Content Include="Views\CustomerFiles\Edit.cshtml" />
-    <Content Include="Views\CustomerFiles\EditForm.cshtml" />
-    <Content Include="Views\CustomerInvoices\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerInvoices\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerInvoices\Index.cshtml" />
-    <Content Include="Views\CustomerInvoices\Create.cshtml" />
-    <Content Include="Views\CustomerInvoices\Details.cshtml" />
-    <Content Include="Views\CustomerInvoices\Edit.cshtml" />
-    <Content Include="Views\CustomerInvoices\EditForm.cshtml" />
-    <Content Include="Views\CustomerWarehouses\_DisplayForm.cshtml" />
-    <Content Include="Views\CustomerWarehouses\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\CustomerWarehouses\Index.cshtml" />
-    <Content Include="Views\CustomerWarehouses\Create.cshtml" />
-    <Content Include="Views\CustomerWarehouses\Details.cshtml" />
-    <Content Include="Views\CustomerWarehouses\Edit.cshtml" />
-    <Content Include="Views\CustomerWarehouses\EditForm.cshtml" />
-    <Content Include="Views\Customers\_DisplayForm.cshtml" />
-    <Content Include="Views\Customers\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
-    <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
-    <Content Include="Views\Customers\Edit.cshtml" />
-    <Content Include="Views\Customers\EditForm.cshtml" />
-    <Content Include="Views\Customers\_CustomerAttentionProductEditForm.cshtml" />
-    <Content Include="Views\Customers\_customerattentionproductdatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerBankEditForm.cshtml" />
-    <Content Include="Views\Customers\_customerbankdatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerCommunicationEditForm.cshtml" />
-    <Content Include="Views\Customers\_customercommunicationdatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerContactEditForm.cshtml" />
-    <Content Include="Views\Customers\_customercontactdatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerFileEditForm.cshtml" />
-    <Content Include="Views\Customers\_customerfiledatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerFollowEditForm.cshtml" />
-    <Content Include="Views\Customers\_customerfollowdatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerInvoiceEditForm.cshtml" />
-    <Content Include="Views\Customers\_customerinvoicedatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerSalesEditForm.cshtml" />
-    <Content Include="Views\Customers\_customersalesdatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerShareEditForm.cshtml" />
-    <Content Include="Views\Customers\_customersharedatagridjsview.cshtml" />
-    <Content Include="Views\Customers\_CustomerWarehouseEditForm.cshtml" />
-    <Content Include="Views\Customers\_customerwarehousedatagridjsview.cshtml" />
+    <Content Include="Views\RoleManage\Index.cshtml" />
+    <Content Include="Views\Tenants\Index.cshtml" />
+    <Content Include="Views\Companies\_DisplayForm.cshtml" />
+    <Content Include="Views\Companies\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Companies\Index.cshtml" />
+    <Content Include="Views\Companies\Create.cshtml" />
+    <Content Include="Views\Companies\Details.cshtml" />
+    <Content Include="Views\Companies\Edit.cshtml" />
+    <Content Include="Views\Companies\EditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -3900,11 +3738,14 @@
     <EmbeddedResource Include="Migrations\202006120850483_md_update3.resx">
       <DependentUpon>202006120850483_md_update3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202007030449134_md_customer.resx">
-      <DependentUpon>202007030449134_md_customer.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006231128285_md_update1.resx">
+      <DependentUpon>202006231128285_md_update1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202007030616315_md_customerupdate.resx">
-      <DependentUpon>202007030616315_md_customerupdate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202007030354411_md_customer.resx">
+      <DependentUpon>202007030354411_md_customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007300301372_md_company.resx">
+      <DependentUpon>202007300301372_md_company.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\Attachment.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.resx" />
@@ -3912,39 +3753,6 @@
     <EmbeddedResource Include="Models\resource\Company.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Company.resx" />
     <EmbeddedResource Include="Models\resource\Company.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\Customer.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\Customer.resx" />
-    <EmbeddedResource Include="Models\resource\Customer.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerAttentionProduct.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerAttentionProduct.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerAttentionProduct.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerBank.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerBank.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerBank.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerCommunication.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerCommunication.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerCommunication.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerContact.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerContact.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerContact.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerFile.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerFile.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerFile.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerFollow.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerFollow.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerFollow.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerInvoice.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerInvoice.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerInvoice.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerSales.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerSales.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerSales.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerShare.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerShare.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerShare.zh-TW.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerWarehouse.en-US.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerWarehouse.resx" />
-    <EmbeddedResource Include="Models\resource\CustomerWarehouse.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Log.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Log.resx" />
     <EmbeddedResource Include="Models\resource\Log.zh-TW.resx" />

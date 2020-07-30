@@ -3,18 +3,19 @@
   /**/
 
   ViewData["Title"] = "系统日志";
-  ViewData["PageName"] = "management";
+  ViewData["PageName"] = "Logs_Index";
   ViewData["Heading"] = "<i class='fal fa-ballot-check text-primary'></i>  系统日志";
   ViewData["Category1"] = "系统管理";
   ViewData["PageDescription"] = "";
 }
 @section HeadBlock {
+  <link href="~/Content/css/statistics/chartjs/chartjs.css" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Content/css/notifications/toastr/toastr.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.min.css")" rel="stylesheet" />
+  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader.min.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader-theme-dragdrop.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/font/font-fileuploader.css")" rel="stylesheet" />
+
+
+
   <style>
     #test-container {
       overflow-wrap: break-word;
@@ -23,50 +24,12 @@
     }
   </style>
 }
-<div class="row">
-  <div class="col-sm-6 col-xl-3">
-    <div class="p-3 bg-primary-300 rounded overflow-hidden position-relative text-white mb-g">
-      <div class="">
-        <h3 class="display-4 d-block l-h-n m-0 fw-500">
-          @ViewBag.TotalError.ToString("N0")
-          <small class="m-0 l-h-n">系统异常</small>
-        </h3>
-      </div>
-      <i class="fal fa-clipboard-list-check position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
-    </div>
+<div class="row mb-2">
+  <div class="col-sm-12 col-md-8" style="position: relative;height:230px">
+    <canvas id='timebar' style="height: 100%;"></canvas>
   </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="p-3 bg-danger-400 rounded overflow-hidden position-relative text-white mb-g">
-      <div class="">
-        <h3 class="display-4 d-block l-h-n m-0 fw-500">
-          @ViewBag.TotalFatal.ToString("N0")
-          <small class="m-0 l-h-n">致命错误</small>
-        </h3>
-      </div>
-      <i class="fal fa-campfire position-absolute pos-right pos-bottom opacity-15  mb-n1 mr-n4" style="font-size: 6rem;"></i>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="p-3 bg-warning-200 rounded overflow-hidden position-relative text-white mb-g">
-      <div class="">
-        <h3 class="display-4 d-block l-h-n m-0 fw-500">
-          @ViewBag.TotalWarn.ToString("N0")
-          <small class="m-0 l-h-n">警告</small>
-        </h3>
-      </div>
-      <i class="fal fa-lightbulb position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem;"></i>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="p-3 bg-info-200 rounded overflow-hidden position-relative text-white mb-g">
-      <div class="">
-        <h3 class="display-4 d-block l-h-n m-0 fw-500">
-          @ViewBag.TotalInfo.ToString("N0")
-          <small class="m-0 l-h-n">消息</small>
-        </h3>
-      </div>
-      <i class="fal fa-globe position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
-    </div>
+  <div class="col-sm-12 col-md-4" style="position: relative;height:230px">
+    <canvas id='levelpie' class="m-auto" style="height: 100%;"></canvas>
   </div>
 </div>
 <div class="row">
@@ -118,8 +81,8 @@
   <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/jquery.fileDownload.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/notifications/toastr/toastr.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.serializejson/jquery.serializejson.min.js")"></script>
-  <script src="@Fingerprint.Tag("/Scripts/plugin/moment/moment-with-locales.min.js")"></script>
-  <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader.min.js")"></script>
+
+
   <script src="@Fingerprint.Tag("/Scripts/easyui/jquery.easyui.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/easyui/plugins/datagrid-filter.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.js")"></script>
@@ -127,7 +90,127 @@
   <script src="@Fingerprint.Tag("/Scripts/jquery.extend.formatter.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/easyui/locale/easyui-lang-zh_CN.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/jquery.custom.extend.js")"></script>
+  <script src="~/Scripts/statistics/chartjs/chartjs.bundle.js"></script>
   <script type="text/javascript">
+
+    //获取图表数据
+    $(async () => {
+      var data = await $.get('/Logs/GetChartData');
+      //console.log(data.map(item => item.total));
+      var ctx = document.getElementById('timebar').getContext('2d');
+      var timebarchart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Array.from(new Set(data.list.map(item => item.time))),
+          datasets: [{
+            label: 'Info',
+            data: data.list.filter(item => item.level == 'Info').map(item => item.total),
+            backgroundColor: '#1dc9b7',
+            //borderColor: "rgba(179,181,198,1)",
+            //pointBorderColor: "#fff",
+            //pointBackgroundColor: "rgba(179,181,198,1)",
+          },
+          {
+            label: 'Trace',
+            data: data.list.filter(item => item.level == 'Trace').map(item => item.total),
+            backgroundColor: '#2196f3',
+            //borderColor: "rgba(179,181,198,1)",
+            //pointBorderColor: "#fff",
+            //pointBackgroundColor: "rgba(179,181,198,1)",
+          },
+          {
+            label: 'Debug',
+            data: data.list.filter(item => item.level == 'Debug').map(item => item.total),
+            backgroundColor: '#868e96',
+            //borderColor: "rgba(179,181,198,1)",
+            //pointBorderColor: "#fff",
+            //pointBackgroundColor: "rgba(179,181,198,1)",
+          },
+          {
+            label: 'Warn',
+            data: data.list.filter(item => item.level == 'Warn').map(item => item.total),
+            backgroundColor: '#ffc241',
+            //borderColor: "rgba(179,181,198,1)",
+            //pointBorderColor: "#fff",
+            //pointBackgroundColor: "rgba(179,181,198,1)",
+          },
+          {
+            label: 'Error',
+            data: data.list.filter(item => item.level == 'Error').map(item => item.total),
+            backgroundColor: '#fe6bb0',
+            //borderColor: "rgba(179,181,198,1)",
+            //pointBorderColor: "#fff",
+            //pointBackgroundColor: "rgba(179,181,198,1)",
+            },
+            {
+              label: 'Fatal',
+              data: data.list.filter(item => item.level == 'Fatal').map(item => item.total),
+              backgroundColor: '#e7026e',
+              //borderColor: "rgba(179,181,198,1)",
+              //pointBorderColor: "#fff",
+              //pointBackgroundColor: "rgba(179,181,198,1)",
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          maintainAspectRatio: false,
+          responsive: true,
+          tooltips: {
+            mode: 'index',
+            intersect: false
+          },
+          title: {
+            display: true,
+            text: '最近3天志情况',
+          },
+          scales: {
+            xAxes: [{
+              stacked: true,
+              type: "time",
+              time: {
+                displayFormats: {
+                  'hour': 'H',
+                }
+              }
+            }],
+            yAxes: [{
+              stacked: true,
+              ticks: {
+                beginAtZero: true,
+                stepSize: 20
+              }
+            }]
+          }
+        }
+      });
+
+
+      new Chart(document.getElementById("levelpie").getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: data.group.map(item=>item.level),
+          datasets: [{
+            label: "Population (millions)",
+            backgroundColor: ["#1dc9b7", "#2196f3", "#868e96", "#ffc241", "#fe6bb0", "#e7026e"],
+            data: data.group.map(item=>item.total)
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          responsive: false,
+          legend: {
+            display: true,
+            position:'bottom'},
+          title: {
+            display: true,
+            text: '日志分类'
+          }
+        }
+      });
+    })
+
+
       //是否强制从后台取值
       const REQUIRBACKEND = false;
       //是否开启行内编辑
@@ -165,37 +248,43 @@
 			    $dg.datagrid('reload');
 	   }
 
+    function setLogState(id, index) {
+      $.get(`/Logs/SetLogState?id=${id}`).done(res => {
+        if (res.success) {
+          const row = $dg.datagrid('getRows')[index]
+          row.IsNew = 1;
+          row.IsNotification = 1;
+          $dg.datagrid('updateRow', {
+            index: index,
+            row: {
+              Resolved: true,
+            }
+          });
+          $dg.datagrid('refreshRow', index);
+        }
 
+      })
+    }
     function onClickRow(index, row) {
-      if (row.Resolved == false) {
-        $.get(`/Logs/SetLogState?id=${row.Id}`).done(res => {
-          if (res.success) {
-            console.log(res);
-            row.IsNew = 1;
-            row.IsNotification = 1;
-            $dg.datagrid('updateRow', {
-              index: index,
-              row: {
-                Resolved: true,
-              }
-            });
-            $dg.datagrid('refreshRow', index);
-
-          }
-
-        })
-      }
       if (row.Exception) {
         bootbox.alert({
           title: row.Level,
-          message: `${row.Message}  <div id="test-container" class="p-3 rounded bg-warning-700 text-white mt-3">
-                                  ${row.Exception}
-                                  </div>`
+          message: `${row.Message}
+                     <div id="test-container" class="p-3 rounded bg-warning-700 text-white mt-3">
+                       ${row.Exception}
+                     </div>`,
+          callback: function () {
+            setLogState(row.Id, index);
+          }
         });
       } else {
         bootbox.alert({
           title: row.Level,
-          message: `${row.Message}`
+          message: `<p>${row.Message}</p>
+                    <p>${row.Properties}</p>`,
+          callback: function () {
+            setLogState(row.Id, index);
+          }
         });
       }
     }
@@ -214,12 +303,16 @@
         remoteFilter: true,
         singleSelect: true,
         onClickRow: onClickRow,
-        url: '/Logs/GetDataAsync',
         method: 'get',
         pagination: true,
         clientPaging:false,
         striped: true,
         pageList: [10, 20, 50, 100, 500],
+        filterRules: [{
+          field: 'Resolved',
+          op: 'equal',
+          value: 'false'
+        }],
         onHeaderContextMenu: function (e, field) {
           e.preventDefault();
           $(this).datagrid('columnMenu').menu('show', {
@@ -230,7 +323,7 @@
         onBeforeLoad: function () {
           //datagrid resize when jarvisWidgets resized.
           const that = $(this);
-          document.addEventListener('smartPanel.onFullscreen', () => {
+          document.addEventListener('panel.onfullscreen', () => {
             setTimeout(() => {
               that.datagrid('resize');
             }, 200)
@@ -357,26 +450,24 @@
           },
 
         ]]
-      });
-
-      $dg.datagrid('enableFilter', [
-        {   /*Id*/
-          field: 'Id',
-          type: 'numberbox',
-          op: ['equal', 'notequal', 'less', 'lessorequal', 'greater', 'greaterorequal']
-        },
-        {     /*时间*/
+      })
+.datagrid('enableFilter', [
+        {
           field: 'Level',
-          type: 'levelfilter'
-        },
-        {     /*时间*/
-          field: 'Logged',
-          type: 'dateRange',
+          type: 'combobox',
           options: {
+            data: [
+              { value: 'Info', text: 'Info' },
+              { value: 'Trace', text: 'Trace' },
+              { value: 'Debug', text: 'Debug' },
+              { value: 'Warn', text: 'Warn' },
+              { value: 'Error', text: 'Error' },
+              { value: 'Fatal', text: 'Fatal' }
+            ],
             onChange: value => {
               $dg.datagrid('addFilterRule', {
-                field: 'Logged',
-                op: 'between',
+                field: 'Level',
+                op: 'equal',
                 value: value
               });
 
@@ -384,19 +475,26 @@
             }
           }
         },
-        {   /*已处理*/
+        {
           field: 'Resolved',
-          type: 'resolvedfilter'
+          type: 'combobox',
+          options: {
+            data: [
+              { value: 'false', text: '未处理' },
+              { value: 'true', text: '已处理' }
+            ],
+            onChange: value => {
+              $dg.datagrid('addFilterRule', {
+                field: 'Resolved',
+                op: 'equal',
+                value: value
+              });
+
+              $dg.datagrid('doFilter');
+            }
+          }
         },
-      ]);
-
-      $dg.datagrid('removeFilterRule', 'Resolved');
-      $dg.datagrid('addFilterRule', {
-        field: 'Resolved',
-        op: 'equal',
-        value: 'false'
-      });
-
+      ]).datagrid('load', '/Logs/GetDataAsync');
     });
 
   </script>

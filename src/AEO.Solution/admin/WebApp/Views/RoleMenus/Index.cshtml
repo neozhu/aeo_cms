@@ -2,14 +2,14 @@
 @model IEnumerable<RoleMenu>
 @{
   ViewData["Title"] = "角色授权";
-  ViewData["PageName"] = "management";
+  ViewData["PageName"] = "RoleMenus_Index";
   ViewData["Heading"] = "<i class='fal fa-users text-primary'></i>  角色授权";
   ViewData["Category1"] = "系统管理";
   ViewData["PageDescription"] = "";
 }
 @section HeadBlock {
   <link href="@Fingerprint.Tag("/Content/css/notifications/toastr/toastr.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.min.css")" rel="stylesheet" />
+  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
 }
 <div class="row">
   <div class="col-md-3">
@@ -24,7 +24,7 @@
         {
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <div class="mr-auto align-self-center">@item.RoleName</div>
-            <div class="mr-3 align-self-center"><span class="badge badge-icon badge-pill">@item.Count</span></div>
+            <div class="mr-3 mb-3"><span class="badge badge-icon badge-pill">@item.Count</span></div>
           </li>
         }
       </ul>
@@ -43,39 +43,8 @@
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table id="menu-tree" style="width:auto;height:auto"
-                 data-options="
-                                            iconCls: 'icon-ok',
-                                            rownumbers: true,
-                                            animate: true,
-                                            singleSelect: false,
-                                            fitColumns: true,
-                                            url: '/RoleMenus/GetMenuList',
-                                            method: 'get',
-                                            idField: 'Id',
-                                            treeField: 'Title',
-                                            pagination: false,
-                                            checkOnSelect: true,
-                                            onSelect:onSelect,
-                                            onUnselect:onUnselect
-                                            ">
-            <thead>
-              <tr>
-                <th data-options="field:'ck',checkbox: true ">选择</th>
-                <th data-options="field:'Title',width:180">Title</th>
-                <th data-options="field:'Code',width:80">Code</th>
-                <th data-options="field:'Url',width:120">Url</th>
-                <th data-options="field:'Create',width:80" formatter="formatcreatecheckbox">新增</th>
-                <th data-options="field:'Edit',width:80" formatter="formateditcheckbox">编辑</th>
-                <th data-options="field:'Delete',width:80 " formatter="formatdeletecheckbox">删除</th>
-                <th data-options="field:'Import',width:80 " formatter="formatimportcheckbox">导入</th>
-                <th data-options="field:'Export',width:80 " formatter="formatexportcheckbox">导出</th>
-                <th data-options="field:'FunctionPoint1',width:80 " formatter="formatpoint1checkbox">功能点1</th>
-                <th data-options="field:'FunctionPoint2',width:80 " formatter="formatpoint2checkbox">功能点2</th>
-                <th data-options="field:'FunctionPoint3',width:80 " formatter="formatpoint3checkbox">功能点3</th>
-
-              </tr>
-            </thead>
+          <table id="menu-tree" style="width:auto;height:auto">
+               
           </table>
         </div>
       </div>
@@ -86,7 +55,7 @@
 
 
 @section ScriptsBlock {
-  <script src="@Fingerprint.Tag("/Scripts/smartadmin.easyui.min.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/easyui/jquery.easyui.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/jquery.easyui.component.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/jquery.extend.formatter.js")"></script>
   @Html.LangScriptTag("/Scripts/easyui/locale/easyui-lang-zh_CN.js")
@@ -233,11 +202,97 @@
       //$('#menu-tree').treegrid('select', parent.Id);
     }
     $(function () {
-      //$('#savebutton').attr('disabled', true);
+      $('#savebutton').attr('disabled', true);
+      $('#menu-tree').treegrid(
+        {
+          rownumbers: true,
+          animate: true,
+          singleSelect: false,
+          fitColumns: true,
+          url: '/RoleMenus/GetMenuList',
+          method: 'get',
+          idField: 'Id',
+          treeField: 'Title',
+          pagination: false,
+          checkOnSelect: true,
+          onSelect: onSelect,
+          onUnselect: onUnselect,
+          columns: [[
+            {
+              field: 'ck',
+              checkbox: true
+       
+            },
+            {
+              field: 'Title',
+              width: 180,
+              title:'菜单名称'
+            },
+            {
+              field: 'Code',
+              width: 80,
+              title: '序号'
+            },
+            {
+              field: 'Url',
+              width: 120,
+              title: 'Url'
+            }
+            ,
+            {
+              field: 'Create',
+              width: 70,
+              title: '新增',
+              formatter:formatcreatecheckbox
 
-      $('#menu-tree').treegrid();
-
-
+            },
+            {
+              field: 'Edit',
+              width: 70,
+              title: '编辑',
+              formatter: formateditcheckbox
+            },
+            {
+              field: 'Delete',
+              width: 70,
+              title: '删除',
+              formatter: formatdeletecheckbox
+            }
+            ,
+            {
+              field: 'Import',
+              width: 70,
+              title: '导入',
+              formatter: formatimportcheckbox
+            }
+            ,
+            {
+              field: 'Export',
+              width: 70,
+              title: '导出',
+              formatter: formatexportcheckbox
+            },
+            {
+              field: 'FunctionPoint1',
+              width: 70,
+              title: '功能点1',
+              formatter: formatpoint1checkbox
+            },
+            {
+              field: 'FunctionPoint2',
+              width: 70,
+              title: '功能点2',
+              formatter: formatpoint2checkbox
+            },
+            {
+              field: 'FunctionPoint3',
+              width: 70,
+              title: '功能点3',
+              formatter: formatpoint3checkbox
+            }
+          ]]
+        }
+      );
       $('.list-group-item').click(function () {
         $('.list-group-item').removeClass('active');
         $(this).addClass('active');
@@ -245,6 +300,7 @@
         //console.log($currenitem.children("div:eq(0)"));
         selectedrole = $(this).children("div:eq(0)").text();
         //console.log($(this).children("span:eq(1)").text());
+        $('#menu-tree').treegrid('loading')
         $.get('/RoleMenus/GetMenus', { roleName: selectedrole }, function (data, status, q) {
           $('#menu-tree').treegrid('uncheckAll');
 
@@ -269,16 +325,17 @@
 
               }
             });
-          })
 
+          })
+          $('#menu-tree').treegrid('loaded')
         });
 
       });
 
       function save() {
         $.messager.progress({
-          title: 'Please waiting',
-          msg: 'Save data...'
+          title: '请耐心等待',
+          msg: '正在保存数据...'
         });
         var selectednodes = $('#menu-tree').treegrid('getSelections');
         var list = [];
@@ -306,12 +363,9 @@
         if (selectedrole.length > 0 && list.length > 0) {
           $.post('/RoleMenus/Submit', { selectmenus: list }, function (data, status, q) {
             $.messager.progress('close');
-            //$('#savebutton').attr('disabled', true);
-            $.messager.alert('提示', '保存成功<br>', 'info', function () {
+            $.messager.alert('提示', '保存成功', 'info', function () {
               location.reload();
             });
-
-            //console.log(data);
           });
         }
       }

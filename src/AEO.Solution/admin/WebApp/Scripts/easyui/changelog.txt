@@ -1,10 +1,13 @@
 Version 1.9.x
 -------------
+* Bug
+ * layout: The icon on the collapsed panel is overlaped by title. fixed.
 * Improvement
  * datagrid: The 'sorter' function on the column accepts the entire row as the sorting parameters.
  * datebox: Add 'getDate' and 'setDate' methods.
  * pagination: Add 'onBeforeSelectPage' event.
  * combo: Prevent from conflicting with svg.
+ * window: Add 'fixed' property.
 
 Version 1.9.0
 -------------

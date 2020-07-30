@@ -79,36 +79,15 @@ namespace WebApp
       container.RegisterType<IRoleMenuService, RoleMenuService>();
       container.RegisterType<IRepositoryAsync<Log>, Repository<Log>>();
       container.RegisterType<ILogService, LogService>();
-      container.RegisterType<IRepositoryAsync<Company>, Repository<Company>>();
-      container.RegisterType<ICompanyService, CompanyService>();
+
 
 
       //业务实体相关
+      container.RegisterType<IRepositoryAsync<Company>, Repository<Company>>();
+      container.RegisterType<ICompanyService, CompanyService>();
       container.RegisterType<IRepositoryAsync<Attachment>, Repository<Attachment>>();
       container.RegisterType<IAttachmentService, AttachmentService>();
 
-      container.RegisterType<IRepositoryAsync<CustomerBank>, Repository<CustomerBank>>();
-      container.RegisterType<ICustomerBankService, CustomerBankService>();
-      container.RegisterType<IRepositoryAsync<CustomerSales>, Repository<CustomerSales>>();
-      container.RegisterType<ICustomerSalesService, CustomerSalesService>();
-      container.RegisterType<IRepositoryAsync<CustomerAttentionProduct>, Repository<CustomerAttentionProduct>>();
-      container.RegisterType<ICustomerAttentionProductService, CustomerAttentionProductService>();
-      container.RegisterType<IRepositoryAsync<CustomerContact>, Repository<CustomerContact>>();
-      container.RegisterType<ICustomerContactService, CustomerContactService>();
-      container.RegisterType<IRepositoryAsync<CustomerCommunication>, Repository<CustomerCommunication>>();
-      container.RegisterType<ICustomerCommunicationService, CustomerCommunicationService>();
-      container.RegisterType<IRepositoryAsync<CustomerFollow>, Repository<CustomerFollow>>();
-      container.RegisterType<ICustomerFollowService, CustomerFollowService>();
-      container.RegisterType<IRepositoryAsync<CustomerShare>, Repository<CustomerShare>>();
-      container.RegisterType<ICustomerShareService, CustomerShareService>();
-      container.RegisterType<IRepositoryAsync<CustomerFile>, Repository<CustomerFile>>();
-      container.RegisterType<ICustomerFileService, CustomerFileService>();
-      container.RegisterType<IRepositoryAsync<CustomerInvoice>, Repository<CustomerInvoice>>();
-      container.RegisterType<ICustomerInvoiceService, CustomerInvoiceService>();
-      container.RegisterType<IRepositoryAsync<CustomerWarehouse>, Repository<CustomerWarehouse>>();
-      container.RegisterType<ICustomerWarehouseService, CustomerWarehouseService>();
-      container.RegisterType<IRepositoryAsync<Customer>, Repository<Customer>>();
-      container.RegisterType<ICustomerService, CustomerService>();
 
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();

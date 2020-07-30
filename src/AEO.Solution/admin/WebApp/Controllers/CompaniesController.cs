@@ -19,8 +19,8 @@ namespace WebApp.Controllers
 {
 /// <summary>
 /// File: CompaniesController.cs
-/// Purpose:组织架构/公司信息
-/// Created Date: 10/22/2019 10:44:16 AM
+/// Purpose:组织管理/企业信息
+/// Created Date: 2020/7/30 11:08:32
 /// Author: neo.zhu
 /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
 /// TODO: Registers the type mappings with the Unity container(Mvc.UnityConfig.cs)
@@ -49,7 +49,7 @@ namespace WebApp.Controllers
 		}
         		//GET: Companies/Index
         //[OutputCache(Duration = 60, VaryByParam = "none")]
-        [Route("Index", Name = "公司信息", Order = 1)]
+        [Route("Index", Name = "企业信息", Order = 1)]
 		public ActionResult Index() => this.View();
 
 		//Get :Companies/GetData
@@ -61,53 +61,66 @@ namespace WebApp.Controllers
 		{
 			var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
 			var pagerows  = (await this.companyService
-						               .Query(new CompanyQuery().Withfilter(filters))
+						               .Query(new CompanyQuery().Withfilter(filters)).Include(c => c.Parent)
 							           .OrderBy(n=>n.OrderBy(sort,order))
 							           .SelectPageAsync(page, rows, out var totalCount))
                                        .Select(  n => new { 
 
- 
+    ParentName = n.Parent?.Name,
     Id = n.Id,
     Name = n.Name,
+    TradeCode = n.TradeCode,
+    MasterCustom = n.MasterCustom,
+    CreditCode = n.CreditCode,
     Code = n.Code,
+    Ctype = n.Ctype,
+    Scope = n.Scope,
     Address = n.Address,
+    LegalPerson = n.LegalPerson,
     Contect = n.Contect,
     PhoneNumber = n.PhoneNumber,
-    RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss")
+    RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss"),
+    ExpirationDate = n.ExpirationDate?.ToString("yyyy-MM-dd HH:mm:ss"),
+    ParentId = n.ParentId
 }).ToList();
 			var pagelist = new { total = totalCount, rows = pagerows };
 			return Json(pagelist, JsonRequestBehavior.AllowGet);
 		}
-    [HttpGet]
-    public async Task<JsonResult> GetComboData(string q = "", int page = 1, int rows = 20, string sort = "Id", string order = "asc")
-    {
+        [HttpGet]
+        //[OutputCache(Duration = 10, VaryByParam = "*")]
+        public async Task<JsonResult> GetDataByParentId (int  parentid ,int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+        {    
+            var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
+			    var pagerows = (await this.companyService
+						               .Query(new CompanyQuery().ByParentIdWithfilter(parentid,filters)).Include(c => c.Parent)
+							           .OrderBy(n=>n.OrderBy(sort,order))
+							           .SelectPageAsync(page, rows, out var totalCount))
+                                       .Select(  n => new { 
 
-      var pagerows = ( await this.companyService
-                                 .Query(new CompanyQuery().WithfilterQ(q))
-                                 .OrderBy(n => n.OrderBy(sort, order))
-                                 .SelectPageAsync(page, rows, out var totalCount) )
-                                 .Select(n => new {
-                                   Id = n.Id,
-                                   Name = n.Name,
-                                   Code = n.Code,
-                                   Type = "0",
-                                   Address = n.Address,
-                                   Contect = n.Contect,
-                                   PhoneNumber = n.PhoneNumber,
-                                   RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss")
-                                 }).ToList();
-      var pagelist = new { total = totalCount, rows = pagerows };
-      return Json(pagelist, JsonRequestBehavior.AllowGet);
-    }
-
-    //easyui datagrid post acceptChanges 
-    [HttpPost]
-		public async Task<JsonResult> SaveData(Company[] companies)
+    ParentName = n.Parent?.Name,
+    Id = n.Id,
+    Name = n.Name,
+    TradeCode = n.TradeCode,
+    MasterCustom = n.MasterCustom,
+    CreditCode = n.CreditCode,
+    Code = n.Code,
+    Ctype = n.Ctype,
+    Scope = n.Scope,
+    Address = n.Address,
+    LegalPerson = n.LegalPerson,
+    Contect = n.Contect,
+    PhoneNumber = n.PhoneNumber,
+    RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss"),
+    ExpirationDate = n.ExpirationDate?.ToString("yyyy-MM-dd HH:mm:ss"),
+    ParentId = n.ParentId
+}).ToList();
+			var pagelist = new { total = totalCount, rows = pagerows };
+            return Json(pagelist, JsonRequestBehavior.AllowGet);
+        }
+        //easyui datagrid post acceptChanges 
+		[HttpPost]
+		public async Task<JsonResult> AcceptChanges(Company[] companies)
 		{
-            if (companies == null)
-            {
-                throw new ArgumentNullException(nameof(companies));
-            }
             if (ModelState.IsValid)
 			{
             try{
@@ -118,14 +131,9 @@ namespace WebApp.Controllers
 			   var result = await this.unitOfWork.SaveChangesAsync();
 			   return Json(new {success=true,result}, JsonRequestBehavior.AllowGet);
             }
-            catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            {
-                var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage));
-                 return Json(new { success = false, err = errormessage }, JsonRequestBehavior.AllowGet);
-            }
             catch (Exception e)
                 {
-                    return Json(new { success = false, err = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
                 }
 		    }
             else
@@ -135,7 +143,21 @@ namespace WebApp.Controllers
             }
         
         }
-						//GET: Companies/Details/:id
+				//[OutputCache(Duration = 10, VaryByParam = "q")]
+		public async Task<JsonResult> GetCompanies(string q="")
+		{
+			var companyRepository = this.unitOfWork.RepositoryAsync<Company>();
+			var rows = await companyRepository
+                            .Queryable()
+                            .Where(n=>n.Name.Contains(q))
+                            .OrderBy(n=>n.Name)
+                            .Select(n => new { Id = n.Id, Name = n.Name })
+                            .ToListAsync();
+			return Json(rows, JsonRequestBehavior.AllowGet);
+		}
+		 
+				
+		//GET: Companies/Details/:id
 		public ActionResult Details(int id)
 		{
 			
@@ -157,7 +179,9 @@ namespace WebApp.Controllers
 				{
 			var company = new Company();
 			//set default value
-			return View(company);
+			var companyRepository = this.unitOfWork.RepositoryAsync<Company>();
+		   			ViewBag.ParentId = new SelectList(companyRepository.Queryable().OrderBy(n=>n.Name), "Id", "Name");
+		   			return View(company);
 		}
 		//POST: Companies/Create
 		//To protect from overposting attacks, please enable the specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -165,10 +189,6 @@ namespace WebApp.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Create(Company company)
 		{
-			if (company == null)
-            {
-                throw new ArgumentNullException(nameof(company));
-            } 
             if (ModelState.IsValid)
 			{
                 try{ 
@@ -176,14 +196,9 @@ namespace WebApp.Controllers
 				var result = await this.unitOfWork.SaveChangesAsync();
                 return Json(new { success = true,result }, JsonRequestBehavior.AllowGet);
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException e)
-                {
-                   var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage));
-                   return Json(new { success = false, err = errormessage }, JsonRequestBehavior.AllowGet);
-                }
                 catch (Exception e)
                 {
-                    return Json(new { success = false, err = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
                 }
 			    //DisplaySuccessMessage("Has update a company record");
 			}
@@ -192,6 +207,8 @@ namespace WebApp.Controllers
 			   return Json(new { success = false, err = modelStateErrors }, JsonRequestBehavior.AllowGet);
 			   //DisplayErrorMessage(modelStateErrors);
 			}
+			//var companyRepository = this.unitOfWork.RepositoryAsync<Company>();
+			//ViewBag.ParentId = new SelectList(await companyRepository.Queryable().OrderBy(n=>n.Name).ToListAsync(), "Id", "Name", company.ParentId);
 			//return View(company);
 		}
 
@@ -213,6 +230,8 @@ namespace WebApp.Controllers
 			{
 				return HttpNotFound();
 			}
+			var companyRepository = this.unitOfWork.RepositoryAsync<Company>();
+			ViewBag.ParentId = new SelectList(companyRepository.Queryable().OrderBy(n=>n.Name), "Id", "Name", company.ParentId);
 			return View(company);
 		}
 		//POST: Companies/Edit/:id
@@ -221,10 +240,6 @@ namespace WebApp.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Edit(Company company)
 		{
-            if (company == null)
-            {
-                throw new ArgumentNullException(nameof(company));
-            }
 			if (ModelState.IsValid)
 			{
 				company.TrackingState = TrackingState.Modified;
@@ -234,14 +249,9 @@ namespace WebApp.Controllers
 				var result = await this.unitOfWork.SaveChangesAsync();
                 return Json(new { success = true,result = result }, JsonRequestBehavior.AllowGet);
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException e)
-                {
-                    var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage));
-                    return Json(new { success = false, err = errormessage }, JsonRequestBehavior.AllowGet);
-                }
                 catch (Exception e)
                 {
-                    return Json(new { success = false, err = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
                 }
 				
 				//DisplaySuccessMessage("Has update a Company record");
@@ -252,7 +262,8 @@ namespace WebApp.Controllers
 			return Json(new { success = false, err = modelStateErrors }, JsonRequestBehavior.AllowGet);
 			//DisplayErrorMessage(modelStateErrors);
 			}
-						//return View(company);
+						//var companyRepository = this.unitOfWork.RepositoryAsync<Company>();
+												//return View(company);
 		}
         //删除当前记录
 		//GET: Companies/Delete/:id
@@ -263,14 +274,9 @@ namespace WebApp.Controllers
                await this.companyService.Queryable().Where(x => x.Id == id).DeleteAsync();
                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
            }
-           catch (System.Data.Entity.Validation.DbEntityValidationException e)
-           {
-                var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage));
-                return Json(new { success = false, err = errormessage }, JsonRequestBehavior.AllowGet);
-           }
            catch (Exception e)
            {
-                return Json(new { success = false, err = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
            }
 		}
 		 
@@ -280,23 +286,14 @@ namespace WebApp.Controllers
         //删除选中的记录
         [HttpPost]
         public async Task<JsonResult> DeleteChecked(int[] id) {
-           if (id == null)
-           {
-                throw new ArgumentNullException(nameof(id));
-           }
            try{
-               this.companyService.Delete(id);
+               await this.companyService.Delete(id);
                await this.unitOfWork.SaveChangesAsync();
                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
            }
-           catch (System.Data.Entity.Validation.DbEntityValidationException e)
-           {
-                    var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage));
-                    return Json(new { success = false, err = errormessage }, JsonRequestBehavior.AllowGet);
-           }
            catch (Exception e)
            {
-                    return Json(new { success = false, err = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
            }
         }
 		//导出Excel
@@ -304,11 +301,9 @@ namespace WebApp.Controllers
 		public async Task<ActionResult> ExportExcel( string filterRules = "",string sort = "Id", string order = "asc")
 		{
 			var fileName = "companies_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
-			var stream= await  this.companyService.ExportExcelAsync(filterRules,sort, order );
+			var stream = await this.companyService.ExportExcelAsync(filterRules,sort, order );
 			return File(stream, "application/vnd.ms-excel", fileName);
 		}
-		private void DisplaySuccessMessage(string msgText) => TempData["SuccessMessage"] = msgText;
-        private void DisplayErrorMessage(string msgText) => TempData["ErrorMessage"] = msgText;
 		 
 	}
 }

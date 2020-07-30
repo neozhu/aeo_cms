@@ -20,18 +20,17 @@ namespace WebApp.Controllers
     private readonly IMapper mapper;
     private readonly NLog.ILogger logger;
     private readonly SqlSugar.ISqlSugarClient db;
-    private readonly ICompanyService companyService;
+
 
     public HomeController(
-      ICompanyService companyService,
-      NLog.ILogger logger,
+       NLog.ILogger logger,
       SqlSugar.ISqlSugarClient db,
       IAppCache cache, IMapper mapper) {
       this.db = db;
       this.cache = cache;
       this.mapper = mapper;
       this.logger = logger;
-      this.companyService = companyService;
+
     }
 
     public async Task<ActionResult> Index()

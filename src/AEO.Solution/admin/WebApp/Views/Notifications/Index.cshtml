@@ -3,19 +3,19 @@
   /**/
 
   ViewBag.Title = "消息推送";
-  ViewData["PageName"] = "menuitem";
+  ViewData["PageName"] = "Notifications_Index";
   ViewData["Heading"] = "<i class='fal fa-comments-alt text-primary'></i>  消息推送";
   ViewData["Category1"] = "系统管理";
   ViewData["PageDescription"] = "";
 }
 @section HeadBlock {
   <link href="@Fingerprint.Tag("/Content/css/notifications/toastr/toastr.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.min.css")" rel="stylesheet" />
+  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/icon.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader.min.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader-theme-dragdrop.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/font/font-fileuploader.css")" rel="stylesheet" />
+  
+  
+  
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
@@ -32,10 +32,13 @@
 
       </div>
       <div class="panel-container show">
-        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade sticky-top">
+        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
           <div class="row no-gutters align-items-center">
             <div class="col">
               <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <div class="btn-group btn-group-sm">
+                <button onclick="reload()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> @Html.L("Refresh") </button>
+              </div>
               <div class="btn-group btn-group-sm">
                 <button onclick="append()" class="btn btn-default"> <span class="fal fa-plus mr-1"></span> @Html.L("Add") </button>
               </div>
@@ -48,9 +51,7 @@
               <div class="btn-group btn-group-sm">
                 <button name="cancelbutton" disabled onclick="reject()" class="btn btn-default"> <span class="fal fa-ban mr-1"></span> @Html.L("Cancel") </button>
               </div>
-              <div class="btn-group btn-group-sm">
-                <button onclick="reload()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> @Html.L("Refresh") </button>
-              </div>
+
               <div class="btn-group btn-group-sm ">
                 <button onclick="exportexcel()" class="btn btn-default"> <span class="fal fa-file-excel mr-1"></span>  @Html.L("Export") </button>
               </div>
@@ -77,8 +78,8 @@
   <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/jquery.fileDownload.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/notifications/toastr/toastr.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.serializejson/jquery.serializejson.min.js")"></script>
-  <script src="@Fingerprint.Tag("/Scripts/plugin/moment/moment-with-locales.min.js")"></script>
-  <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader.min.js")"></script>
+  
+ 
   <script src="@Fingerprint.Tag("/Scripts/easyui/jquery.easyui.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/easyui/plugins/datagrid-filter.js")"></script>
    <script src="@Fingerprint.Tag("/Scripts/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.js")"></script>
@@ -360,11 +361,10 @@ From: '@Auth.GetFullName()',
         sortOrder: 'desc',
         remoteFilter: true,
         singleSelect: false,
-        url: '/Notifications/GetDataAsync',
         method: 'get',
         onClickCell: onClickCell,
         pagination: true,
-         clientPaging: false,
+        clientPaging: false,
         striped: true,
         onHeaderContextMenu: function (e, field) {
           e.preventDefault();
@@ -375,7 +375,7 @@ From: '@Auth.GetFullName()',
         },
         onBeforeLoad: function () {
           const that = $(this);
-          document.addEventListener('smartPanel.onFullscreen', () => {
+          document.addEventListener('panel.onfullscreen', () => {
             setTimeout(() => {
               that.datagrid('resize');
             }, 200)
@@ -383,9 +383,17 @@ From: '@Auth.GetFullName()',
         },
         onLoadSuccess: function (data) {
           editIndex = undefined;
-             $("button[name*='deletebutton']").prop("disabled", true);
-      $("button[name*='savebutton']").prop("disabled", true);
-      $("button[name*='cancelbutton']").prop("disabled", true);
+          $("button[name*='deletebutton']").prop("disabled", true);
+          $("button[name*='savebutton']").prop("disabled", true);
+          $("button[name*='cancelbutton']").prop("disabled", true);
+        },
+        onCheckAll: function (rows) {
+          if (rows.length > 0) {
+            $("button[name*='deletebutton']").prop('disabled', false);
+          }
+        },
+        onUncheckAll: function () {
+          $("button[name*='deletebutton']").prop('disabled', true);
         },
         onCheck: function () {
           $("button[name*='deletebutton']").prop("disabled", false);
@@ -433,8 +441,7 @@ From: '@Auth.GetFullName()',
             formatter: function showdetailsformatter(value, row, index) {
               if (!row.editing) {
                 return `<div class="btn-group">\
-                            <button onclick="showdetailswindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="查看明细" ><i class="fal fa-file-edit "></i> </button>\
-                            <button onclick="deleteRow('${row.Id}',${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed " title="删除记录" ><i class="fal fa-times"></i> </button>\
+                            <button onclick="deleteRow('${row.Id}',${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed " title="删除记录" ><i class="fal fa-trash-alt"></i> </button>\
                         </div>`;
               } else {
                 return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="查看明细"  ><i class="fal fa-file-edit"></i> </button>`;
@@ -443,13 +450,43 @@ From: '@Auth.GetFullName()',
           }
         ]],
         columns: [[
-          { /*Id*/
-            field: 'Id',
-            title: '<span class="required">@Html.DisplayNameFor(model => model.Id)</span>',
-            width: 120,
+          {     /*类型*/
+            field: 'Group',
+            title: '<span class="required">@Html.DisplayNameFor(model => model.Group)</span>',
+            width: 100,
+            align: 'right',
+            hidden: false,
+            editor: {
+              type: 'combobox',
+              options: {
+                panelHeight: 'auto',
+                prompt: '@Html.DescriptionFor(model => model.Group)',
+                required: true,
+                data: [
+                  { value: '0', text: '通知' },
+                  { value: '1', text: '任务' },
+                  { value: '2', text: '新闻' },
+                  { value: '3', text: '公告' }
+                ],
+
+              }
+            },
+            formatter: function (value, row, index) {
+              const data = [
+                { value: '0', text: '通知' },
+                { value: '1', text: '任务' },
+                { value: '2', text: '新闻' },
+                { value: '3', text: '公告' }
+              ];
+              let result = data.filter(x => x.value == value);
+              if (result.length > 0)
+                return result[0].text;
+              else
+                return value;
+
+            },
             sortable: true,
-            resizable: true,
-            hidden: true
+            resizable: true
           },
           {    /*主题*/
             field: 'Title',
@@ -458,7 +495,7 @@ From: '@Auth.GetFullName()',
             hidden: false,
             editor: {
               type: 'textbox',
-              options: { prompt: '@Html.DisplayNameFor(model => model.Title)', required: true, validType: 'length[0,50]' }
+              options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,50]' }
             },
             sortable: true,
             resizable: true
@@ -470,7 +507,7 @@ From: '@Auth.GetFullName()',
             hidden: false,
             editor: {
               type: 'textbox',
-              options: { prompt: '@Html.DisplayNameFor(model => model.Content)', required: false, validType: 'length[0,255]' }
+              options: { prompt: '@Html.DescriptionFor(model => model.Content)', required: false, validType: 'length[0,255]' }
             },
             sortable: true,
             resizable: true
@@ -482,7 +519,7 @@ From: '@Auth.GetFullName()',
             hidden: false,
             editor: {
               type: 'textbox',
-              options: { prompt: '@Html.DisplayNameFor(model => model.Link)', required: false, validType: 'url' }
+              options: { prompt: '@Html.DescriptionFor(model => model.Link)', required: false, validType: 'url' }
             },
             sortable: true,
             resizable: true
@@ -496,7 +533,7 @@ From: '@Auth.GetFullName()',
             editor: {
               type: 'checkbox',
               options: {
-                prompt: '@Html.DisplayNameFor(model => model.Read)',
+                prompt: '@Html.DescriptionFor(model => model.Read)',
                 required: true
               }
             },
@@ -511,7 +548,7 @@ From: '@Auth.GetFullName()',
             hidden: false,
             editor: {
               type: 'textbox',
-              options: { prompt: '@Html.DisplayNameFor(model => model.From)', required: false, validType: 'length[0,50]' }
+              options: { prompt: '@Html.DescriptionFor(model => model.From)', required: false, validType: 'length[0,50]' }
             },
             sortable: true,
             resizable: true
@@ -523,30 +560,12 @@ From: '@Auth.GetFullName()',
             hidden: false,
             editor: {
               type: 'textbox',
-              options: { prompt: '@Html.DisplayNameFor(model => model.To)', required: false, validType: 'length[0,50]' }
+              options: { prompt: '@Html.DescriptionFor(model => model.To)', required: false, validType: 'length[0,50]' }
             },
             sortable: true,
             resizable: true
           },
-          {     /*类型*/
-            field: 'Group',
-            title: '<span class="required">@Html.DisplayNameFor(model => model.Group)</span>',
-            width: 100,
-            align: 'right',
-            hidden: false,
-            editor: {
-              type: 'notifygroupeditor',
-              options: {
-                prompt: '@Html.DisplayNameFor(model => model.Group)',
-                required: true,
 
-
-              }
-            },
-            formatter: notifygroupformatter,
-            sortable: true,
-            resizable: true
-          },
           {   /*发出时间*/
             field: 'Created',
             title: '<span class="required">@Html.DisplayNameFor(model => model.Created)</span>',
@@ -555,45 +574,57 @@ From: '@Auth.GetFullName()',
             hidden: false,
             editor: {
               type: 'datetimebox',
-              options: { prompt: '@Html.DisplayNameFor(model => model.Created)', required: true, showSeconds: true }
+              options: { prompt: '@Html.DescriptionFor(model => model.Created)', required: true, showSeconds: true }
             },
             formatter: datetimeformatter,
             sortable: true,
             resizable: true
           },
         ]]
-      });
+      })
+        .datagrid('enableFilter', [
+          {   /*类型*/
+            field: 'Group',
+            type: 'combobox',
+            options: {
+              panelHeight:'auto',
+              data: [
+                { value: '0', text: '通知' },
+                { value: '1', text: '任务' },
+                { value: '2', text: '新闻' },
+                { value: '3', text: '公告' }
+              ],
+              onChange: value => {
+                $dg.datagrid('addFilterRule', {
+                  field: 'Group',
+                  op: 'equal',
+                  value: value
+                });
 
-      $dg.datagrid('enableFilter', [
-        {   /*Id*/
-          field: 'Id',
-          type: 'numberbox',
-          op: ['equal', 'notequal', 'less', 'lessorequal', 'greater', 'greaterorequal']
-        },
-        {   /*类型*/
-          field: 'Group',
-          type: 'notifygroupfilter'
-        },
-        {     /*发出时间*/
-          field: 'Created',
-          type: 'dateRange',
-          options: {
-            onChange: value => {
-              $dg.datagrid('addFilterRule', {
-                field: 'Created',
-                op: 'between',
-                value: value
-              });
-
-              $dg.datagrid('doFilter');
+                $dg.datagrid('doFilter');
+              }
             }
-          }
-        },
-        {   /*已读*/
-          field: 'Read',
-          type: 'booleanfilter'
-        },
-      ]);
+          },
+          {     /*发出时间*/
+            field: 'Created',
+            type: 'dateRange',
+            options: {
+              onChange: value => {
+                $dg.datagrid('addFilterRule', {
+                  field: 'Created',
+                  op: 'between',
+                  value: value
+                });
+
+                $dg.datagrid('doFilter');
+              }
+            }
+          },
+          {   /*已读*/
+            field: 'Read',
+            type: 'booleanfilter'
+          },
+        ]).datagrid('load', '/Notifications/GetDataAsync');
     });
 
   </script>

@@ -36,8 +36,8 @@ namespace WebApp
         // SmartAdmin Default Settings
         controller.ViewBag.App = "AEO认证外贸出口服务平台";
         controller.ViewBag.AppName = "AEO认证外贸出口服务平台";
-        controller.ViewBag.AppFlavor = "ASP.NET Core 2.2";
-        controller.ViewBag.AppFlavorSubscript = ".NET Core 2.2";
+        controller.ViewBag.AppFlavor = "ASP.NET Core 3.1";
+        controller.ViewBag.AppFlavorSubscript = ".NET Core 3.1";
         controller.ViewBag.User = username;
         controller.ViewBag.Role = role;
         controller.ViewBag.Email = email;
@@ -53,8 +53,8 @@ namespace WebApp
         controller.ViewBag.Bs4v = "4.3";
         controller.ViewBag.Logo = "logo.png";
         controller.ViewBag.LogoM = "logo.png";
-        controller.ViewBag.Copyright = "2019 © AEO认证外贸出口服务平台 &nbsp;<a href='https://www.gotbootstrap.com' class='text-primary fw-500' title='gotbootstrap.com' target='_blank'>工业和信息化部备案管理系统网站 粤ICP备00000000号 00000000000000</a>";
-        controller.ViewBag.CopyrightInverse = "2019 © AEO认证外贸出口服务平台 &nbsp;<a href='https://www.gotbootstrap.com' class='text-white opacity-40 fw-500' title='gotbootstrap.com' target='_blank'>工业和信息化部备案管理系统网站 粤ICP备00000000号 00000000000000</a>";
+        controller.ViewBag.Copyright = "2019 © AEO认证外贸出口服务平台 &nbsp;<a href='https://www.gotbootstrap.com' class='text-primary fw-500' title='gotbootstrap.com' target='_blank'>工业和信息化部备案管理系统网站 苏ICP备00000000号 00000000000000</a>";
+        controller.ViewBag.CopyrightInverse = "2019 © AEO认证外贸出口服务平台 &nbsp;<a href='https://www.gotbootstrap.com' class='text-white opacity-40 fw-500' title='gotbootstrap.com' target='_blank'>工业和信息化部备案管理系统网站 苏ICP备00000000号 00000000000000</a>";
       }
     }
 

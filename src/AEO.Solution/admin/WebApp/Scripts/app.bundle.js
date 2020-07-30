@@ -513,13 +513,16 @@ var myapp_config = {
 var initApp = (function (app) {
 
   /**
- * 修改密码
- * 调用弹出 _ChangePasswordPartial.cshtml 修改密码
- **/
+* 修改密码 TODO:这里有修改
+* 调用弹出 _ChangePasswordPartial.cshtml 修改密码
+**/
   app.changePassword = function () {
-    showchangepasswordwindow()
+    // 创建事件
+    var event = new Event('onchangepasswordaction');
+    // 触发对象可以是任何元素或其他事件目标
+    document.dispatchEvent(event);
+    console.log('onchangepasswordaction')
   }
-
 	/**
 	 * List filter 
 	 * DOC: searches list items, it could be UL or DIV elements
@@ -1232,8 +1235,9 @@ var initApp = (function (app) {
 
     /* Add app date to js-get-date */
     if (myapp_config.appDateHook.length) {
-      var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      //汉化 TODO:这里有更新
+      var months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+        day = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
         now = new Date(),
         formatted = day[now.getDay()] + ', ' +
           months[now.getMonth()] + ' ' +
@@ -1329,7 +1333,8 @@ var initApp = (function (app) {
     if (typeof ($.fn.popover) !== 'undefined' && $('[data-toggle="popover"]').length) {
 
       /* BS4 sanatize */
-      var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
+      //和easyui tooltip 冲突注销了 TODO:这里有更新
+      //var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
 
       /* init popover */
       /* data-sanitize="false" was not working so had to add this globally */
@@ -1385,9 +1390,10 @@ var initApp = (function (app) {
         var actiontype = $(this).data('action');
 
         switch (true) {
+
           /**
-           * changepassword trigger
-           * 修改密码
+          * changepassword trigger
+          * 添加修改密码快捷功能 TODO:这里有更新
           **/
           case (actiontype === 'app-changepassword'):
             initApp.changePassword();
@@ -1521,7 +1527,7 @@ var initApp = (function (app) {
 
             /* return ID of panel */
             //return selectedPanel.attr('id');
-            //自定义全屏事件
+            //自定义全屏事件 TODO:这里有更新
             let event = document.createEvent('Event');
             event.initEvent('panel.onfullscreen', true, true);
             // Dispatch the event.

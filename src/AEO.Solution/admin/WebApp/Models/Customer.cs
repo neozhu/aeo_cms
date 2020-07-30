@@ -24,7 +24,6 @@ namespace WebApp.Models
       this.CustomerSales = new HashSet<CustomerSales>();
       this.CustomerShares = new HashSet<CustomerShare>();
       this.CustomerWarehouses = new HashSet<CustomerWarehouse>();
-      this.CustomerCommunications = new HashSet<CustomerCommunication>();
     }
     [Key]
     public int Id { get; set; }
@@ -219,7 +218,5 @@ namespace WebApp.Models
     public virtual ICollection<CustomerShare> CustomerShares { get; set; }
     //客户仓库
     public virtual ICollection<CustomerWarehouse> CustomerWarehouses { get; set; }
-    //客户沟通记录
-    public virtual ICollection<CustomerCommunication> CustomerCommunications { get; set; }
   }
 }

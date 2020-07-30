@@ -8,17 +8,18 @@
       state.columnMenu = $('<div></div>').appendTo('body');
       state.columnMenu.menu({
         onClick: function (item) {
-          if (item.iconCls === 'tree-checkbox1') {
+  
+          if (item.iconCls === 'fal fa-check-square fa-lg') {
             $(target).datagrid('hideColumn', item.name);
             $(this).menu('setIcon', {
               target: item.target,
-              iconCls: 'tree-checkbox0'
+              iconCls: 'fal fa-square fa-lg'
             });
-          } else if (item.iconCls === 'tree-checkbox0') {
+          } else if (item.iconCls === 'fal fa-square fa-lg') {
             $(target).datagrid('showColumn', item.name);
             $(this).menu('setIcon', {
               target: item.target,
-              iconCls: 'far fa-check-square fa-lg'
+              iconCls: 'fal fa-check-square fa-lg'
             });
           } else if (item.iconCls === 'fal fa-save fa-lg') {
             //保存配置
@@ -45,7 +46,7 @@
           state.columnMenu.menu('appendItem', {
             text: col.title,
             name: field,
-            iconCls: !col.hidden ? 'tree-checkbox1' : 'tree-checkbox0'
+            iconCls: !col.hidden ? 'fal fa-check-square fa-lg' : 'fal fa-square fa-lg'
           });
       }
     }

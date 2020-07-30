@@ -1,16 +1,4 @@
-﻿///<summary>
-///Provides functionality to the /MenuItem/ route.
-///<date> 9/26/2018 5:56:36 PM </date>
-///Create By SmartCode MVC5 Scaffolder for Visual Studio
-///TODO: RegisterType UnityConfig.cs
-///container.RegisterType<IRepositoryAsync<MenuItem>, Repository<MenuItem>>();
-///container.RegisterType<IMenuItemService, MenuItemService>();
-///
-///Copyright (c) 2012-2018 neo.zhu
-///Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
-///and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
-///</summary>
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -104,39 +92,18 @@ namespace WebApp.Controllers
     }
     //easyui datagrid post acceptChanges 
     [HttpPost]
-    public async Task<JsonResult> SaveDataAsync(MenuItemChangeViewModel menuitems)
+    public async Task<JsonResult> SaveData(MenuItem[] menuitems)
     {
-      if (menuitems == null)
-      {
-        throw new ArgumentNullException(nameof(menuitems));
-      }
       if (ModelState.IsValid)
       {
-        if (menuitems.updated != null)
-        {
-          foreach (var item in menuitems.updated)
-          {
-            menuItemService.Update(item);
-          }
-        }
-        if (menuitems.deleted != null)
-        {
-          foreach (var item in menuitems.deleted)
-          {
-            menuItemService.Delete(item);
-          }
-        }
-        if (menuitems.inserted != null)
-        {
-          foreach (var item in menuitems.inserted)
-          {
-            menuItemService.Insert(item);
-          }
-        }
         try
         {
-          var result = await unitOfWork.SaveChangesAsync();
-          return Json(new { success = true, result = result }, JsonRequestBehavior.AllowGet);
+          foreach (var item in menuitems)
+          {
+            this.menuItemService.ApplyChanges(item);
+          }
+          var result = await this.unitOfWork.SaveChangesAsync();
+          return Json(new { success = true, result }, JsonRequestBehavior.AllowGet);
         }
         catch (System.Data.Entity.Validation.DbEntityValidationException e)
         {
