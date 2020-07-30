@@ -13,67 +13,63 @@
   <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
   <style>
-    .picture_div {
-      padding-left: 10px;
-    }
-
-      .picture_div > ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .picture_div > img {
-        border: 0;
-        vertical-align: middle;
-      }
-
-    .picture_ul li {
-      width: 80px;
+    .picture-content {
+      /*display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
       height: 80px;
-      float: left;
-      margin-top: 3px;
-      position: relative;
-      cursor: move;
-      border: 1px solid #dfe2e4;
-      margin: 5px 20px 5px 0;
-      line-height: 80px;
-      text-align: center;
+      width: 100%;*/
     }
+      .picture-content .upload-border,
+      .picture-content .files-border {
+        width: 120px;
+        height: 120px;
+        /*background: linear-gradient(to left, #acb1d9, #c4d3f0);*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+        .picture-content .upload-border .upload,
+        .picture-content .files-border .upload {
+          width: 80px;
+          height: 80px;
+          background: #fff;
+          border-radius: 8px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
 
-    .picture_ul .add {
-      border: 1px dashed #bec8cd;
-      text-align: center;
-      cursor: pointer;
-    }
+          .picture-content .upload-border .upload h3,
+          .picture-content .files-border .upload h3 {
+            margin-bottom: 10px;
+            color: #616161;
+            font: 100 15px "Poppins", sans-serif;
+          }
 
-    .picture_ul .add {
-      width: 78px;
-      height: 78px;
-    }
+          .picture-content .upload-border .upload .plus,
+          .picture-content .files-border .upload .plus {
+            font-size: 40px;
+            padding: 20px;
+            border: 5px dashed #7d8ace;
+            /*margin-bottom: 10px;*/
+            color: #7d8ace;
+            cursor: pointer;
+          }
 
-    .picture_ul li button {
-      padding: 0;
-      margin: 0;
-    }
+            .picture-content .upload-border .upload .plus.bg-gray,
+            .picture-content .files-border .upload .plus.bg-gray {
+              background: #ddd;
+            }
 
-    .theme-glow-purple [class^="crm-btn-"] {
-      background-image: url(../res/images/theme-glow-purple/icon/crm_btn.png);
-    }
-
-    .picture_ul .crm-btn-delete {
-      display: none;
-      position: absolute;
-      top: -8px;
-      right: -7px;
-    }
-
-    .crm-btn-delete {
-      width: 16px;
-      height: 16px;
-      background-position: -315px -72px;
-      vertical-align: -2px;
-    }
+          .picture-content .upload-border .upload span,
+          .picture-content .files-border .upload span {
+            color: #757575;
+            font: 100 14px "Poppins", sans-serif;
+          }
   </style>
 }
 <div class="row">

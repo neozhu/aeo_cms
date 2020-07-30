@@ -269,27 +269,37 @@
                     <!--产品图片-->
                     <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Logo)</label>
                     <div class="col-md-10 mb-1 pl-1">
-                      <div class="ui-gcell-input">
+                      <div class="mt-1 fw-300 fs-sm text-muted">
                         <i class="color-primary-600 fal fa-exclamation-circle"></i>
 
-                        <font style="color:#848994;font-family: 微软雅黑 Regular,微软雅黑;font-size: 12px;">
+                 
                           支持jpg.png格式，拖动图片重新排序，默认第一张图片为主图，建议每张上传文件大小200K以内
-                        </font>
+                     
                       </div>
-                      <div id="js-lightgallery">
-                        <a class="" href="/content/img/demo/gallery/1.jpg" data-id="001" data-sub-html="The free in pointed they their for the so fame.">
-                         
-                          <img class="img-responsive" src="/content/img/demo/gallery/thumb/1.jpg" alt="图片1">
-                        </a>
-                        <a class="" href="/content/img/demo/gallery/2.jpg" data-id="002" data-sub-html="Sinking self-interest along four magazine he each specially rewritten">
-                          <img class="img-responsive" src="/content/img/demo/gallery/thumb/2.jpg" alt="图片2">
-                        </a>
-                        <a class="" href="/content/img/demo/gallery/3.jpg" data-id="003"  data-sub-html="More and of are the of wonder, make written it checks, intrigued its the in.">
-                          <img class="img-responsive" src="/content/img/demo/gallery/thumb/3.jpg" alt="图片3">
-                        </a>
-                      </div>
-                      </div>
+                      <div class="d-flex">
+                        <div class="picture-content">
+                          <div class="upload-border">
+                            <div class="upload">
+                              @*<h3>拖拽文件</h3>*@
+                              <i class="fal fa-plus plus" id="plus" aria-hidden="true"></i>
+                              @*<span>或单击上传</span>*@
+                            </div>
+                          </div>
+                        </div>
+                        <div class="align-self-center w-100" id="js-lightgallery">
+                          <a class="" href="/content/img/demo/gallery/1.jpg" data-id="001" data-sub-html="The free in pointed they their for the so fame.">
 
+                            <img class="img-responsive" src="/content/img/demo/gallery/thumb/1.jpg" alt="图片1">
+                          </a>
+                          <a class="" href="/content/img/demo/gallery/2.jpg" data-id="002" data-sub-html="Sinking self-interest along four magazine he each specially rewritten">
+                            <img class="img-responsive" src="/content/img/demo/gallery/thumb/2.jpg" alt="图片2">
+                          </a>
+                          <a class="" href="/content/img/demo/gallery/3.jpg" data-id="003" data-sub-html="More and of are the of wonder, make written it checks, intrigued its the in.">
+                            <img class="img-responsive" src="/content/img/demo/gallery/thumb/3.jpg" alt="图片3">
+                          </a>
+                        </div>
+                      </div>
+                    </div>
 
 
 
