@@ -277,14 +277,14 @@
                         </font>
                       </div>
                       <div id="js-lightgallery">
-                        <a class="" href="/content/img/demo/gallery/1.jpg" data-sub-html="The free in pointed they their for the so fame.">
+                        <a class="" href="/content/img/demo/gallery/1.jpg" data-id="001" data-sub-html="The free in pointed they their for the so fame.">
                          
                           <img class="img-responsive" src="/content/img/demo/gallery/thumb/1.jpg" alt="图片1">
                         </a>
-                        <a class="" href="/content/img/demo/gallery/2.jpg" data-sub-html="Sinking self-interest along four magazine he each specially rewritten">
+                        <a class="" href="/content/img/demo/gallery/2.jpg" data-id="002" data-sub-html="Sinking self-interest along four magazine he each specially rewritten">
                           <img class="img-responsive" src="/content/img/demo/gallery/thumb/2.jpg" alt="图片2">
                         </a>
-                        <a class="" href="/content/img/demo/gallery/3.jpg" data-sub-html="More and of are the of wonder, make written it checks, intrigued its the in.">
+                        <a class="" href="/content/img/demo/gallery/3.jpg" data-id="003"  data-sub-html="More and of are the of wonder, make written it checks, intrigued its the in.">
                           <img class="img-responsive" src="/content/img/demo/gallery/thumb/3.jpg" alt="图片3">
                         </a>
                       </div>
@@ -851,7 +851,6 @@
     $productsaleshistoricalpricedg.datagrid('resize');
 
     var $initScope = $('#js-lightgallery');
-   
     if ($initScope.length) {
       $initScope.justifiedGallery(
         {
@@ -866,13 +865,13 @@
               thumbnail: true,
               animateThumb: true,
               showThumbByDefault: true,
+              onDeletePicture: function (item) {
+                console.log('onDeletePicture', item, $(item).data("id"))
+              }
             })
-          .on('onAfterOpen.lg', function (event) {
-            console.log('onAfterOpen.lg')
-            $('.lg-toolbar').append('<a class=\"lg-icon\" href=\"javascript:toggleCaption()\">CC</a>');
-          })
-        })
-       ;
+
+        });
+     
       
     };
   }

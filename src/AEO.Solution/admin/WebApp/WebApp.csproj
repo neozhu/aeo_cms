@@ -2434,6 +2434,7 @@
     <Content Include="Scripts\miscellaneous\jqvmap\maps\jquery.vmap.tunisia.js" />
     <Content Include="Scripts\miscellaneous\jqvmap\maps\jquery.vmap.turkey.js" />
     <Content Include="Scripts\miscellaneous\jqvmap\maps\jquery.vmap.usa.js" />
+    <Content Include="Scripts\miscellaneous\lightgallery\lg-deletebutton.js" />
     <Content Include="Scripts\miscellaneous\lightgallery\lightgallery.bundle.js" />
     <Content Include="Scripts\miscellaneous\lightgallery\smartvoice.bundle.js" />
     <Content Include="Scripts\miscellaneous\nestable\nestable.js" />

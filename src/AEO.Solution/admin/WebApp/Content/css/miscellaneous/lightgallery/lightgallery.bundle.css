@@ -329,7 +329,7 @@ aside.page-sidebar ($nav-width, $nav-background)
   padding: 8px 10px 9px;
   position: absolute;
   top: 50%;
-  z-index: 2180;
+  z-index: 12180;
   border: none;
   outline: none; }
   .lg-actions .lg-next.disabled, .lg-actions .lg-prev.disabled {
@@ -391,7 +391,7 @@ aside.page-sidebar ($nav-width, $nav-background)
   position: relative; }
 
 .lg-toolbar {
-  z-index: 2182;
+  z-index: 12182;
   left: 0;
   position: absolute;
   top: 0;
@@ -494,7 +494,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   bottom: 0;
   position: absolute;
   width: 100%;
-  z-index: 2180;
+  z-index: 12180;
   max-height: 350px;
   -webkit-transform: translate3d(0, 100%, 0);
   transform: translate3d(0, 100%, 0);
@@ -610,7 +610,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
     top: 50%;
     margin-left: -42px;
     margin-top: -30px;
-    z-index: 2180;
+    z-index: 12180;
     cursor: pointer; }
 
 .lg-outer .lg-has-iframe .lg-video {
@@ -663,7 +663,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 2183;
+  z-index: 12183;
   opacity: 0;
   -webkit-transition: opacity 0.08s ease 0s;
   transition: opacity 0.08s ease 0s; }
@@ -737,7 +737,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   position: absolute;
   right: 0;
   text-align: center;
-  z-index: 2180;
+  z-index: 12180;
   height: 10px; }
   .lg-outer .lg-pager-outer.lg-pager-hover .lg-pager-cont {
     overflow: visible; }
@@ -823,7 +823,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 2181;
+  z-index: 12181;
   opacity: 0;
   visibility: hidden;
   -webkit-transition: visibility 0s linear 0.18s, opacity 0.18s linear 0s;
@@ -936,7 +936,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2150;
+  z-index: 12150;
   text-align: left;
   opacity: 0;
   -webkit-transition: opacity 0.15s ease 0s;
@@ -1011,7 +1011,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   .lg-outer .lg-item.lg-complete {
     background-image: none; }
   .lg-outer .lg-item.lg-current {
-    z-index: 2160; }
+    z-index: 12160; }
   .lg-outer .lg-image {
     display: inline-block;
     vertical-align: middle;
@@ -1036,7 +1036,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2140;
+  z-index: 12140;
   background-color: #000;
   opacity: 0;
   -webkit-transition: opacity 0.15s ease 0s;
