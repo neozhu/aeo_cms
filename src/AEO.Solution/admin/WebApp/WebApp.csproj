@@ -423,6 +423,7 @@
     <Compile Include="App_Helpers\ButtonAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountManageController.cs" />
+    <Compile Include="Controllers\ActionLogsController.cs" />
     <Compile Include="Controllers\AttachmentsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CodeItemsController.cs" />
@@ -437,6 +438,12 @@
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MenuItemsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\ProductFilesController.cs" />
+    <Compile Include="Controllers\ProductPacksController.cs" />
+    <Compile Include="Controllers\ProductPricturesController.cs" />
+    <Compile Include="Controllers\ProductPurchaseHistoricalPricesController.cs" />
+    <Compile Include="Controllers\ProductSalesHistoricalPricesController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RoleManageController.cs" />
     <Compile Include="Controllers\RoleMenusController.cs" />
     <Compile Include="Controllers\TenantsController.cs" />
@@ -496,6 +503,15 @@
     <Compile Include="Migrations\202007300357533_md_category.designer.cs">
       <DependentUpon>202007300357533_md_category.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007300726308_md_product.cs" />
+    <Compile Include="Migrations\202007300726308_md_product.designer.cs">
+      <DependentUpon>202007300726308_md_product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007300746414_md_actionlog.cs" />
+    <Compile Include="Migrations\202007300746414_md_actionlog.designer.cs">
+      <DependentUpon>202007300746414_md_actionlog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
     <Compile Include="Models\Category.cs" />
@@ -510,8 +526,15 @@
     <Compile Include="Models\Dto\CategoryTreeItem.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
+    <Compile Include="Models\Metadata\ActionLogMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
+    <Compile Include="Models\Metadata\ProductFileMetadata.cs" />
+    <Compile Include="Models\Metadata\ProductMetadata.cs" />
+    <Compile Include="Models\Metadata\ProductPackMetadata.cs" />
+    <Compile Include="Models\Metadata\ProductPrictureMetadata.cs" />
+    <Compile Include="Models\Metadata\ProductPurchaseHistoricalPriceMetadata.cs" />
+    <Compile Include="Models\Metadata\ProductSalesHistoricalPriceMetadata.cs" />
     <Compile Include="Models\ProductRefCustomerTrade.cs" />
     <Compile Include="Models\ProductRefCustomerPicture.cs" />
     <Compile Include="Models\ProductRefCustomer.cs" />
@@ -546,16 +569,25 @@
     <Compile Include="Models\ReceiptManageCharge.cs" />
     <Compile Include="Models\ReceiptManageRecDetail.cs" />
     <Compile Include="Models\ReceiptManageProduct.cs" />
+    <Compile Include="Models\resource\ActionLog.Designer.cs" />
     <Compile Include="Models\resource\Attachment.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
     <Compile Include="Models\resource\Log.Designer.cs" />
     <Compile Include="Models\resource\Notification.Designer.cs" />
+    <Compile Include="Models\resource\Product.Designer.cs" />
+    <Compile Include="Models\resource\ProductFile.Designer.cs" />
+    <Compile Include="Models\resource\ProductPack.Designer.cs" />
+    <Compile Include="Models\resource\ProductPricture.Designer.cs" />
+    <Compile Include="Models\resource\ProductPurchaseHistoricalPrice.Designer.cs" />
+    <Compile Include="Models\resource\ProductSalesHistoricalPrice.Designer.cs" />
     <Compile Include="Models\ViewModel\ErrorViewModel.cs" />
     <Compile Include="Models\ViewModel\logtotal.cs" />
     <Compile Include="Models\ViewModel\NavigationModel.cs" />
     <Compile Include="Models\ViewModel\SmartNavigation.cs" />
     <Compile Include="Models\WorkFlow.cs" />
+    <Compile Include="Repositories\ActionLogs\ActionLogQuery.cs" />
+    <Compile Include="Repositories\ActionLogs\ActionLogRepository.cs" />
     <Compile Include="Repositories\Attachments\AttachmentQuery.cs" />
     <Compile Include="Repositories\Attachments\AttachmentRepository.cs" />
     <Compile Include="Repositories\Categories\CategoryQuery.cs" />
@@ -566,6 +598,18 @@
     <Compile Include="Repositories\Logs\LogRepository.cs" />
     <Compile Include="Repositories\Notifications\NotificationQuery.cs" />
     <Compile Include="Repositories\Notifications\NotificationRepository.cs" />
+    <Compile Include="Repositories\ProductFiles\ProductFileQuery.cs" />
+    <Compile Include="Repositories\ProductFiles\ProductFileRepository.cs" />
+    <Compile Include="Repositories\ProductPacks\ProductPackQuery.cs" />
+    <Compile Include="Repositories\ProductPacks\ProductPackRepository.cs" />
+    <Compile Include="Repositories\ProductPrictures\ProductPrictureQuery.cs" />
+    <Compile Include="Repositories\ProductPrictures\ProductPrictureRepository.cs" />
+    <Compile Include="Repositories\ProductPurchaseHistoricalPrices\ProductPurchaseHistoricalPriceQuery.cs" />
+    <Compile Include="Repositories\ProductPurchaseHistoricalPrices\ProductPurchaseHistoricalPriceRepository.cs" />
+    <Compile Include="Repositories\ProductSalesHistoricalPrices\ProductSalesHistoricalPriceQuery.cs" />
+    <Compile Include="Repositories\ProductSalesHistoricalPrices\ProductSalesHistoricalPriceRepository.cs" />
+    <Compile Include="Repositories\Products\ProductQuery.cs" />
+    <Compile Include="Repositories\Products\ProductRepository.cs" />
     <Compile Include="resource\Global.zh-TW.Designer.cs">
       <DependentUpon>Global.zh-TW.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -581,6 +625,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Global.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ActionLogs\ActionLogService.cs" />
+    <Compile Include="Services\ActionLogs\IActionLogService.cs" />
     <Compile Include="Services\Attachments\AttachmentService.cs" />
     <Compile Include="Services\Attachments\IAttachmentService.cs" />
     <Compile Include="Services\Categories\CategoryService.cs" />
@@ -591,6 +637,18 @@
     <Compile Include="Services\Logs\LogService.cs" />
     <Compile Include="Services\Notifications\INotificationService.cs" />
     <Compile Include="Services\Notifications\NotificationService.cs" />
+    <Compile Include="Services\ProductFiles\IProductFileService.cs" />
+    <Compile Include="Services\ProductFiles\ProductFileService.cs" />
+    <Compile Include="Services\ProductPacks\IProductPackService.cs" />
+    <Compile Include="Services\ProductPacks\ProductPackService.cs" />
+    <Compile Include="Services\ProductPrictures\IProductPrictureService.cs" />
+    <Compile Include="Services\ProductPrictures\ProductPrictureService.cs" />
+    <Compile Include="Services\ProductPurchaseHistoricalPrices\IProductPurchaseHistoricalPriceService.cs" />
+    <Compile Include="Services\ProductPurchaseHistoricalPrices\ProductPurchaseHistoricalPriceService.cs" />
+    <Compile Include="Services\ProductSalesHistoricalPrices\IProductSalesHistoricalPriceService.cs" />
+    <Compile Include="Services\ProductSalesHistoricalPrices\ProductSalesHistoricalPriceService.cs" />
+    <Compile Include="Services\Products\IProductService.cs" />
+    <Compile Include="Services\Products\ProductService.cs" />
     <Compile Include="SmartHubs\ChatHub.cs" />
     <Compile Include="App_Start\CustomModelBinders.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -3651,6 +3709,61 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\EditForm.cshtml" />
+    <Content Include="Views\ProductFiles\_DisplayForm.cshtml" />
+    <Content Include="Views\ProductFiles\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\ProductFiles\Index.cshtml" />
+    <Content Include="Views\ProductFiles\Create.cshtml" />
+    <Content Include="Views\ProductFiles\Details.cshtml" />
+    <Content Include="Views\ProductFiles\Edit.cshtml" />
+    <Content Include="Views\ProductFiles\EditForm.cshtml" />
+    <Content Include="Views\ProductPrictures\_DisplayForm.cshtml" />
+    <Content Include="Views\ProductPrictures\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\ProductPrictures\Index.cshtml" />
+    <Content Include="Views\ProductPrictures\Create.cshtml" />
+    <Content Include="Views\ProductPrictures\Details.cshtml" />
+    <Content Include="Views\ProductPrictures\Edit.cshtml" />
+    <Content Include="Views\ProductPrictures\EditForm.cshtml" />
+    <Content Include="Views\ActionLogs\_DisplayForm.cshtml" />
+    <Content Include="Views\ActionLogs\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\ActionLogs\Index.cshtml" />
+    <Content Include="Views\ActionLogs\Create.cshtml" />
+    <Content Include="Views\ActionLogs\Details.cshtml" />
+    <Content Include="Views\ActionLogs\Edit.cshtml" />
+    <Content Include="Views\ActionLogs\EditForm.cshtml" />
+    <Content Include="Views\ProductPacks\_DisplayForm.cshtml" />
+    <Content Include="Views\ProductPacks\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\ProductPacks\Index.cshtml" />
+    <Content Include="Views\ProductPacks\Create.cshtml" />
+    <Content Include="Views\ProductPacks\Details.cshtml" />
+    <Content Include="Views\ProductPacks\Edit.cshtml" />
+    <Content Include="Views\ProductPacks\EditForm.cshtml" />
+    <Content Include="Views\ProductSalesHistoricalPrices\_DisplayForm.cshtml" />
+    <Content Include="Views\ProductSalesHistoricalPrices\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\ProductSalesHistoricalPrices\Index.cshtml" />
+    <Content Include="Views\ProductSalesHistoricalPrices\Create.cshtml" />
+    <Content Include="Views\ProductSalesHistoricalPrices\Details.cshtml" />
+    <Content Include="Views\ProductSalesHistoricalPrices\Edit.cshtml" />
+    <Content Include="Views\ProductSalesHistoricalPrices\EditForm.cshtml" />
+    <Content Include="Views\ProductPurchaseHistoricalPrices\_DisplayForm.cshtml" />
+    <Content Include="Views\ProductPurchaseHistoricalPrices\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\ProductPurchaseHistoricalPrices\Index.cshtml" />
+    <Content Include="Views\ProductPurchaseHistoricalPrices\Create.cshtml" />
+    <Content Include="Views\ProductPurchaseHistoricalPrices\Details.cshtml" />
+    <Content Include="Views\ProductPurchaseHistoricalPrices\Edit.cshtml" />
+    <Content Include="Views\ProductPurchaseHistoricalPrices\EditForm.cshtml" />
+    <Content Include="Views\Products\_DisplayForm.cshtml" />
+    <Content Include="Views\Products\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\EditForm.cshtml" />
+    <Content Include="Views\Products\_ProductFileEditForm.cshtml" />
+    <Content Include="Views\Products\_productfiledatagridjsview.cshtml" />
+    <Content Include="Views\Products\_ProductPurchaseHistoricalPriceEditForm.cshtml" />
+    <Content Include="Views\Products\_productpurchasehistoricalpricedatagridjsview.cshtml" />
+    <Content Include="Views\Products\_ProductSalesHistoricalPriceEditForm.cshtml" />
+    <Content Include="Views\Products\_productsaleshistoricalpricedatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -3769,6 +3882,15 @@
     <EmbeddedResource Include="Migrations\202007300357533_md_category.resx">
       <DependentUpon>202007300357533_md_category.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007300726308_md_product.resx">
+      <DependentUpon>202007300726308_md_product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007300746414_md_actionlog.resx">
+      <DependentUpon>202007300746414_md_actionlog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\ActionLog.resx" />
+    <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.zh-TW.resx" />
@@ -3784,6 +3906,24 @@
     <EmbeddedResource Include="Models\resource\Notification.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Notification.resx" />
     <EmbeddedResource Include="Models\resource\Notification.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\Product.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\Product.resx" />
+    <EmbeddedResource Include="Models\resource\Product.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\ProductFile.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\ProductFile.resx" />
+    <EmbeddedResource Include="Models\resource\ProductFile.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPack.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPack.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPack.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPricture.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPricture.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPricture.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPurchaseHistoricalPrice.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPurchaseHistoricalPrice.resx" />
+    <EmbeddedResource Include="Models\resource\ProductPurchaseHistoricalPrice.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\ProductSalesHistoricalPrice.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\ProductSalesHistoricalPrice.resx" />
+    <EmbeddedResource Include="Models\resource\ProductSalesHistoricalPrice.zh-TW.resx" />
     <EmbeddedResource Include="resource\Global.zh-TW.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.zh-TW.Designer.cs</LastGenOutput>

@@ -1,0 +1,420 @@
+﻿@model WebApp.Models.ProductFile
+<script type="text/javascript">
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 ProductFile datagrid
+   var $productfiledg = $('#productfile_datagrid');
+   //当前行记录
+   var productfile = {};
+   //datagrid CRUD method
+    var productfile_editIndex = undefined;
+    //取消编辑恢复状态
+    function productfile_rejectChanges() {
+		$productfiledg.datagrid('rejectChanges');
+		productfile_editIndex = undefined;
+    }
+    //重新加载数据
+    function productfile_reloadData() {
+			$productfiledg.datagrid('unselectAll');
+            $productfiledg.datagrid('uncheckAll');
+	        $productfiledg.datagrid('reload');
+	}
+    //关闭编辑状态
+	function productfile_endEditing() {
+			if (productfile_editIndex === undefined) {
+                return true; 
+            }
+			if ($productfiledg.datagrid('validateRow', productfile_editIndex)) {
+				$productfiledg.datagrid('endEdit', productfile_editIndex);
+				productfile_editIndex = undefined;
+                return true;
+			} else {
+				const invalidinput = $('input.validatebox-invalid',$productfiledg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+				return false;
+			}
+		}
+    //单击列开启编辑功能
+	function productfile_onClickCell(index, field) {
+			const _operates = ['_operate1', 'ck'];
+             $('button[name*=\'productfiledeletebutton\']').prop('disabled', false);
+			if (!SUBEDITINLINE || $.inArray(field, _operates) >= 0) {
+				return false;
+			}
+			if (productfile_editIndex !== index) {
+				if (productfile_endEditing()) {
+					$productfiledg.datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    //productfile_editIndex = index;
+					var ed = $productfiledg.datagrid('getEditor', { index: index, field: field });
+					if (ed) {
+						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+					}
+				} else {
+					$productfiledg.datagrid('selectRow', productfile_editIndex);
+				}
+			}
+		}
+    //双击弹出编辑当前行对话框
+    function productfile_onDblClickRow(index, row) {
+        if (!SUBEDITINLINE) {
+            open_productfiledlg(index, row, 'Modified');
+        }
+    }
+    //订阅对话框新增返回事件
+    $(document).on('productfile_form.add', (e, index,item) => {
+        $productfiledg.datagrid("insertRow",
+            {
+                index: 0,
+                row: item
+            });
+    });
+    //订阅对话框修改返回事件
+    $(document).on('productfile_form.edit', (e,index, item) => {
+        $productfiledg.datagrid('updateRow', {
+            index: index,
+            row: item
+        });
+    });
+    //新增记录
+    function productfile_appendItem() {
+       const $productform = $('#product_form');
+       if ($productform.form('enableValidation').form('validate')) {
+          const product = $productform.serializeJSON();
+       const item = {
+          Folder: '图片', 
+
+          ProductId:product.Id
+        };
+      if (!SUBEDITINLINE) {
+        open_productfiledlg(0, item, 'Added');
+      } else {
+			if (productfile_endEditing()) {
+				//对必填字段进行默认值初始化
+				$productfiledg.datagrid('insertRow', 
+                               { index: 0,
+                                  row: item 
+                               });
+				productfile_editIndex = 0;
+				$productfiledg.datagrid('selectRow', productfile_editIndex)
+						.datagrid('beginEdit', productfile_editIndex);
+			}
+        }
+        }
+	 }
+    //删除编辑的行
+	function productfile_removeItem() {
+		if (productfile_editIndex !== undefined) {  
+            const delindex = orderdetail_editIndex;
+			$productfiledg.datagrid('cancelEdit', delindex)
+					           .datagrid('deleteRow', delindex);
+            $("button[name*='productfile_cancelbutton']").prop('disabled', false);
+            $("button[name*='productfile_savebutton']").prop('disabled', false);
+        } else {
+           const rows = $productfiledg.datagrid('getChecked');
+           rows.slice().reverse().forEach(row => {
+                const rowindex = $productfiledg.datagrid('getRowIndex', row);
+                $productfiledg.datagrid('deleteRow', rowindex);
+                $("button[name*='productfile_cancelbutton']").prop('disabled', false);
+                $("button[name*='productfile_savebutton']").prop('disabled', false);
+            });
+        }
+	}
+    //删除选中的行
+    function productfile_deleteChecked() {
+            const rows = $productfiledg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/ProductFiles/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $productfiledg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });  
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+  //获取修改的行
+  function productfile_getChanges() {
+    if (productfile_endEditing()) {
+      if ($productfiledg.datagrid('getChanges').length > 0) {
+        const inserted = $productfiledg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const deleted = $productfiledg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3;
+          return item;
+        });
+        const updated = $productfiledg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2;
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        return { success: true, changed };
+      } else {
+        return { success: true, changed:undefined};
+      }
+    } else {
+      return { success: false,changed:undefined };
+    }
+  }
+  //提交修改的数据
+  //function productfile_acceptChanges() {
+  //  $productfiledg.datagrid('acceptChanges');
+  //}
+  //提交保存后台数据库
+  async function productfile_acceptChanges() {
+			if (productfile_endEditing()) {
+				if ($productfiledg.datagrid('getChanges').length > 0) {
+					const inserted = $productfiledg.datagrid('getChanges', 'inserted').map(item => {
+                       item.TrackingState = 1;
+                       return item;
+                    });
+					const deleted = $productfiledg.datagrid('getChanges', 'deleted').map(item => {
+                       item.TrackingState = 3;
+                       return item;
+                    });
+					const updated = $productfiledg.datagrid('getChanges', 'updated').map(item => {
+                       item.TrackingState = 2;
+                       return item;
+                    });
+					//过滤已删除的重复项
+                    const changed = inserted.concat(updated.filter(item => {
+                           return !deleted.includes(item);
+                         })).concat(deleted);
+                   //console.table(changed);
+				  if (MODELSTATE === 'Added') {
+                    return { success:true, changed };
+                  } else {
+                    const response = await $.post('/ProductFiles/SaveData', {productfiles:changed});
+                    response.changed = undefined;
+    				if (response.success) {
+							toastr.success('保存明细成功'); 
+							$productfiledg.datagrid('acceptChanges');
+							productfile_reloadData()
+                            return { success:true}; 
+				    } else {
+                           $.messager.alert('错误', response.err ,'error');
+                           return { success:false, err:response.err };
+                    }
+                   }
+				} else {
+                  return { success: true, changed: undefined};
+                }
+			} else {
+               return { success: false };
+            }
+      }
+
+
+  $(() => {
+    $productfiledg.datagrid({
+      fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      onDblClickRow: productfile_onDblClickRow,
+      onClickCell: productfile_onClickCell,
+      onBeforeLoad: function () {
+        const that = $(this);
+        document.addEventListener('panel.onfullscreen', () => {
+          setTimeout(() => {
+            that.datagrid('resize');
+          }, 200)
+        })
+      },
+      onLoadSuccess: function (data) {
+        productfile_editIndex = undefined;
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+        $("button[name*='productfile_cancelbutton']").prop('disabled', true);
+        $("button[name*='productfile_savebutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='productfile_deletebutton']").prop('disabled', !checked);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='productfile_deletebutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+      },
+      onSelect: function (index, row) {
+        productfile = row;
+      },
+      onBeforeEdit: function (index, row) {
+        productfile_editIndex = index;
+        row.editing = true;
+        $("button[name*='productfile_deletebutton']").prop('disabled', false);
+        $("button[name*='productfile_cancelbutton']").prop('disabled', false);
+        $("button[name*='productfile_savebutton']").prop('disabled', false);
+        $(this).datagrid('refreshRow', index);
+      },
+      onBeginEdit: function (index, row) {
+        //const editors = $(this).datagrid('getEditors', index);
+
+      },
+      onEndEdit: function (index, row) {
+
+      },
+      onAfterEdit: function (index, row) {
+        row.editing = false;
+        productfile_editIndex = undefined;
+        $(this).datagrid('refreshRow', index);
+      },
+      onCancelEdit: function (index, row) {
+        productfile_editIndex = undefined;
+        row.editing = false;
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+        $("button[name*='productfile_cancelbutton']").prop('disabled', true);
+        $("button[name*='productfile_savebutton']").prop('disabled', true);
+        $(this).datagrid('refreshRow', index);
+      },
+      columns: [[
+        { field: 'ck', checkbox: true },
+
+        {    /*文件名*/
+          field: 'FileName',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FileName)',
+          width: 200,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_FileName',
+              prompt: '@Html.DescriptionFor(model => model.FileName)',
+              required: true,
+              validType: 'length[0,128]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*大小*/
+          field: 'Size',
+          title: '  @Html.DisplayNameFor(model => model.Size)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'numberbox',
+            options: {
+              id: 'editor_Size',
+              prompt: '@Html.DescriptionFor(model => model.Size)',
+              required: false,
+              precision: 2,
+              validType: 'decimal',
+
+            }
+          },
+          sortable: true,
+          resizable: true,
+          formatter: numberformatter
+        },
+        {    /*目录*/
+          field: 'Folder',
+          title: '  @Html.DisplayNameFor(model => model.Folder)',
+          width: 200,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Folder',
+              prompt: '@Html.DescriptionFor(model => model.Folder)',
+              required: false,
+              validType: 'length[0,128]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+    
+        {    /*上传用户*/
+          field: 'Owner',
+          title: '  @Html.DisplayNameFor(model => model.Owner)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Owner',
+              prompt: '@Html.DescriptionFor(model => model.Owner)',
+              required: false,
+              validType: 'length[0,20]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {   /*上传时间*/
+          field: 'Upload',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Upload)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: {
+              id: 'editor_Upload',
+              prompt: '@Html.DescriptionFor(model => model.Upload)',
+              required: true
+            }
+          },
+          sortable: true,
+          resizable: true,
+          formatter: dateformatter
+        },
+      ]]
+    })
+      .datagrid('enableFilter', [
+        {    /*大小*/
+          field: 'Size',
+          type: 'numberbox',
+          op: ['equal', 'notequal', 'less', 'lessorequal', 'greater', 'greaterorequal']
+        },
+        {     /*上传时间*/
+          field: 'Upload',
+          type: 'dateRange',
+          options: {
+          }
+        },
+      ]);
+  });
+      
+</script>
+
+
+ 

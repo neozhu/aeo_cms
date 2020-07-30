@@ -90,8 +90,20 @@ namespace WebApp
 
       container.RegisterType<IRepositoryAsync<Category>, Repository<Category>>();
       container.RegisterType<ICategoryService, CategoryService>();
-
-
+      container.RegisterType<IRepositoryAsync<ActionLog>, Repository<ActionLog>>();
+      container.RegisterType<IActionLogService, ActionLogService>();
+      container.RegisterType<IRepositoryAsync<ProductFile>, Repository<ProductFile>>();
+      container.RegisterType<IProductFileService, ProductFileService>();
+      container.RegisterType<IRepositoryAsync<ProductPricture>, Repository<ProductPricture>>();
+      container.RegisterType<IProductPrictureService, ProductPrictureService>();
+      container.RegisterType<IRepositoryAsync<ProductPack>, Repository<ProductPack>>();
+      container.RegisterType<IProductPackService, ProductPackService>();
+      container.RegisterType<IRepositoryAsync<ProductSalesHistoricalPrice>, Repository<ProductSalesHistoricalPrice>>();
+      container.RegisterType<IProductSalesHistoricalPriceService, ProductSalesHistoricalPriceService>();
+      container.RegisterType<IRepositoryAsync<ProductPurchaseHistoricalPrice>, Repository<ProductPurchaseHistoricalPrice>>();
+      container.RegisterType<IProductPurchaseHistoricalPriceService, ProductPurchaseHistoricalPriceService>();
+      container.RegisterType<IRepositoryAsync<Product>, Repository<Product>>();
+      container.RegisterType<IProductService, ProductService>();
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();
       //container.RegisterType<IRepositoryAsync<ReceiptManageBankFL>, Repository<ReceiptManageBankFL>>();

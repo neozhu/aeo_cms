@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="ProductPackMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/7/30 16:19:23 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Id" xml:space="preserve">
+    <value>系统主键</value>
+   </data> 
+  <data name="Package" xml:space="preserve">
+    <value>包装单位</value>
+   </data> 
+  <data name="InnerBoxQty" xml:space="preserve">
+    <value>内装数量</value>
+   </data> 
+  <data name="Length" xml:space="preserve">
+    <value>长</value>
+   </data> 
+  <data name="Width" xml:space="preserve">
+    <value>宽</value>
+   </data> 
+  <data name="Height" xml:space="preserve">
+    <value>高</value>
+   </data> 
+  <data name="Unit" xml:space="preserve">
+    <value>长度单位</value>
+   </data> 
+  <data name="GWeight" xml:space="preserve">
+    <value>毛重(kg)</value>
+   </data> 
+  <data name="NWeight" xml:space="preserve">
+    <value>净重(kg)</value>
+   </data> 
+  <data name="Volume" xml:space="preserve">
+    <value>体积(m3)</value>
+   </data> 
+  <data name="TwentyQtc" xml:space="preserve">
+    <value>20尺装量</value>
+   </data> 
+  <data name="FortyQtc" xml:space="preserve">
+    <value>40尺装量</value>
+   </data> 
+  <data name="FortyHQQtc" xml:space="preserve">
+    <value>40HQ装量</value>
+   </data> 
+  <data name="Default" xml:space="preserve">
+    <value>默认包装</value>
+   </data> 
+  <data name="ProductId" xml:space="preserve">
+    <value>所属产品</value>
+   </data> 
+</root>

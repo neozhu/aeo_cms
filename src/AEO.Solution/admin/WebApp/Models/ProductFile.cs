@@ -12,44 +12,32 @@ namespace WebApp.Models
   //产品附件
   public partial class ProductFile:Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "文件名", Description = "文件名")]
-    [MaxLength(100)]
+    [MaxLength(128)]
     [Required]
     public string FileName { get; set; }
     [Display(Name = "大小", Description = "大小")]
-    public decimal Size { get; set; }
+    public decimal? Size { get; set; }
     [Display(Name = "目录", Description = "目录")]
-    [MaxLength(20)]
+    [MaxLength(128)]
     [DefaultValue("图片")]
     public string Folder { get; set; }
     [Display(Name = "文件ID", Description = "文件ID")]
-    [MaxLength(100)]
+    [MaxLength(38)]
     public string FileId { get; set; }
     [Display(Name = "附件类型", Description = "附件类型")]
-    [MaxLength(100)]
+    [MaxLength(10)]
     
     public string Ext { get; set; }
     [Display(Name = "保存路径", Description = "保存路径")]
     public string FilePath { get; set; }
     [Display(Name = "相对路径", Description = "相对路径")]
     public string RelativePath { get; set; }
-    [Display(Name = "关联单号", Description = "关联单号")]
-    [MaxLength(100)]
-    public string RefKey { get; set; }
     [Display(Name = "上传用户", Description = "上传用户")]
     [MaxLength(20)]
     public string Owner { get; set; }
     [Display(Name = "上传时间", Description = "上传时间")]
     public DateTime Upload { get; set; }
-
-    [Display(Name = "货号", Description = "货号(自动生成,可手工修改)")]
-    [MaxLength(50)]
-    public string ProductNo { get; set; }
-    [Display(Name = "产品名称", Description = "产品名称")]
-    [MaxLength(200)]
-    public string ProductName { get; set; }
  
     [Display(Name = "所属产品", Description = "所属产品")]
     public int ProductId { get; set; }

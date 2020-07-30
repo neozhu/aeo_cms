@@ -1,0 +1,212 @@
+﻿@model WebApp.Models.ProductFile
+<div id="productfiledlg" class="easyui-dialog"
+     title="ProductFile" style="width:600px;height:300px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                onOpen:function(){
+                   $('#productfile_form').form('disableValidation');
+                },
+                buttons: [{
+                    text:'确认',
+                    handler:function(){
+                        confirm_productfileform();
+                    }
+                },{
+                    text:'取消',
+                    handler:function(){
+                        $('#productfiledlg').dialog('close');
+                    }
+                }]
+            ">
+<div class="panel-container show">
+      <div class="panel-content p-0">
+        <form id="productfile_form" class="form-horizontal needs-validation" novalidate>
+          <fieldset class="form-group">
+            <div class="row h-100 align-items-center m-0 pt-1">
+    <!--系统主键-->
+	@Html.HiddenFor(model => model.Id)		
+             
+    <!--文件名-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.FileName)" >@Html.DisplayNameFor(model => model.FileName) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.FileName)" 
+							name="@Html.NameFor(model => model.FileName)" 
+							value="@Html.ValueFor(model => model.FileName)"
+							tabindex="1" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.FileName)',
+     						 required:true ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--大小-->
+         <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Size)" >@Html.DisplayNameFor(model => model.Size) </label>
+<div class="col-md-4 mb-1">
+         <input id="@Html.IdFor(model => model.Size)"
+							name="@Html.NameFor(model => model.Size)" 
+							value="@Html.ValueFor(model => model.Size)"
+							tabindex="2" 
+							class="easyui-numberbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Size)',
+                                 precision:2,
+								 required:false,
+                                 formatter:intformatter,
+                                 parser:parsernumber
+                                 " />
+    </div>
+             
+    <!--目录-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Folder)" >@Html.DisplayNameFor(model => model.Folder) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Folder)" 
+							name="@Html.NameFor(model => model.Folder)" 
+							value="@Html.ValueFor(model => model.Folder)"
+							tabindex="3" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Folder)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--文件ID-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.FileId)" >@Html.DisplayNameFor(model => model.FileId) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.FileId)" 
+							name="@Html.NameFor(model => model.FileId)" 
+							value="@Html.ValueFor(model => model.FileId)"
+							tabindex="4" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.FileId)',
+     						 required:false ,validType:'length[0,38]'" />
+    </div>
+             
+    <!--附件类型-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Ext)" >@Html.DisplayNameFor(model => model.Ext) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Ext)" 
+							name="@Html.NameFor(model => model.Ext)" 
+							value="@Html.ValueFor(model => model.Ext)"
+							tabindex="5" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Ext)',
+     						 required:false ,validType:'length[0,10]'" />
+    </div>
+             
+    <!--保存路径-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.FilePath)" >@Html.DisplayNameFor(model => model.FilePath) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.FilePath)" 
+							name="@Html.NameFor(model => model.FilePath)" 
+							value="@Html.ValueFor(model => model.FilePath)"
+							tabindex="6" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.FilePath)',
+     						 required:false " />
+    </div>
+             
+    <!--相对路径-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.RelativePath)" >@Html.DisplayNameFor(model => model.RelativePath) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.RelativePath)" 
+							name="@Html.NameFor(model => model.RelativePath)" 
+							value="@Html.ValueFor(model => model.RelativePath)"
+							tabindex="7" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.RelativePath)',
+     						 required:false " />
+    </div>
+             
+    <!--上传用户-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Owner)" >@Html.DisplayNameFor(model => model.Owner) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Owner)" 
+							name="@Html.NameFor(model => model.Owner)" 
+							value="@Html.ValueFor(model => model.Owner)"
+							tabindex="8" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Owner)',
+     						 required:false ,validType:'length[0,20]'" />
+    </div>
+             
+     <!--上传时间-->
+          <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Upload)" >@Html.DisplayNameFor(model => model.Upload) <span class="text-danger">*</span></label>
+		  <div class="col-md-4 mb-1">
+          <input id="@Html.IdFor(model => model.Upload)" 
+							name="@Html.NameFor(model => model.Upload)" 
+							tabindex="9" 
+							class="easyui-datebox" 
+                            type="text"
+                            style="width:100%"
+							value="@Html.ValueFor(model => model.Upload)"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Upload)',
+								 formatter:dateformatter,
+                                 required:true " />
+     </div>
+             
+      <!--所属产品-->
+      <input type="hidden" id="ProductProductNo" name="ProductProductNo" value="">
+	  <input id="@Html.IdFor(model => model.ProductId)"
+			       name="@Html.NameFor(model => model.ProductId)"
+				   value="@Html.ValueFor(model => model.ProductId)"
+                   type="hidden" />
+             
+  
+           </div>
+       </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+     var form_state = 'Added';
+     var current_index = -1;
+     var productfile = {};
+ 
+     function open_productfiledlg(index, row, state) {
+         form_state = state;
+         current_index = index;
+         productfile = row;
+         $('#productfiledlg').dialog('open');
+         if (form_state === 'Added') {
+             $('#productfiledlg').dialog('setTitle', '新增明细');
+         } else {
+             $('#productfiledlg').dialog('setTitle', '修改明细');
+         }
+         $('#productfile_form').form('reset');
+         $('#productfile_form').form('load', productfile);
+     }
+     function confirm_productfileform() {
+         $productfileform = $('#productfile_form');
+         if ($productfileform.form('enableValidation').form('validate')) {
+             productfile = $productfileform.serializeJSON();
+             if (form_state === 'Added') {
+                 $(document).trigger('productfile_form.add', [current_index, productfile])
+             } else {
+                 $(document).trigger('productfile_form.edit', [current_index, productfile])
+             }
+             $('#productfiledlg').dialog('close');
+         }
+     }
+ </script>
+
+ 

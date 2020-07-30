@@ -1,0 +1,1189 @@
+﻿@model WebApp.Models.Product
+@{
+  ViewData["Title"] = "产品管理";
+  ViewData["PageName"] = "Products_Index";
+  ViewData["Heading"] = "<i class='fal fa-window text-primary'></i>  产品管理";
+  ViewData["Category1"] = "产品主档";
+  ViewData["PageDescription"] = "";
+}
+@section HeadBlock {
+
+  <link href="~/Content/css/miscellaneous/lightgallery/lightgallery.bundle.css" rel="stylesheet" />
+  <link href="@Fingerprint.Tag("/Content/css/notifications/toastr/toastr.css")" rel="stylesheet" />
+  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
+  <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
+  <style>
+    .picture_div {
+      padding-left: 10px;
+    }
+
+      .picture_div > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .picture_div > img {
+        border: 0;
+        vertical-align: middle;
+      }
+
+    .picture_ul li {
+      width: 80px;
+      height: 80px;
+      float: left;
+      margin-top: 3px;
+      position: relative;
+      cursor: move;
+      border: 1px solid #dfe2e4;
+      margin: 5px 20px 5px 0;
+      line-height: 80px;
+      text-align: center;
+    }
+
+    .picture_ul .add {
+      border: 1px dashed #bec8cd;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .picture_ul .add {
+      width: 78px;
+      height: 78px;
+    }
+
+    .picture_ul li button {
+      padding: 0;
+      margin: 0;
+    }
+
+    .theme-glow-purple [class^="crm-btn-"] {
+      background-image: url(../res/images/theme-glow-purple/icon/crm_btn.png);
+    }
+
+    .picture_ul .crm-btn-delete {
+      display: none;
+      position: absolute;
+      top: -8px;
+      right: -7px;
+    }
+
+    .crm-btn-delete {
+      width: 16px;
+      height: 16px;
+      background-position: -315px -72px;
+      vertical-align: -2px;
+    }
+  </style>
+}
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-1" class="panel">
+      <div class="panel-hdr">
+        <h2>
+          产品管理
+        </h2>
+        <div class="panel-toolbar">
+          <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
+          <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"><i class="fal fa-expand"></i></button>
+          @*<button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"><i class="fal fa-trash-alt"></i></button>*@
+        </div>
+
+      </div>
+      <div class="panel-container show">
+        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
+          <div class="row no-gutters align-items-center">
+            <div class="col">
+              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <div class="btn-group btn-group-sm">
+                <button onclick="reloadData()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> @Html.L("Refresh") </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button onclick="appendItem()" class="btn btn-default"> <span class="fal fa-plus mr-1"></span> @Html.L("Add") </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="deletebutton" disabled onclick="removeItem()" class="btn btn-default"> <span class="fal fa-trash-alt mr-1"></span> @Html.L("Delete") </button>
+              </div>
+              <div class="btn-group btn-group-sm" style="display:none">
+                <button name="savebutton" disabled onclick="acceptChanges()" class="btn btn-default"> <span class="fal fa-save mr-1"></span> @Html.L("Save") </button>
+              </div>
+              <div class="btn-group btn-group-sm" style="display:none">
+                <button name="cancelbutton" disabled onclick="rejectChanges()" class="btn btn-default"> <span class="fal fa-times mr-1"></span> @Html.L("Cancel") </button>
+              </div>
+              <div class="btn-group btn-group-sm hidden-xs">
+                <button type="button" onclick="importExcel('Product')" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> @Html.L("Import") </button>
+                <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item js-waves-on" href="javascript:downloadTemplate('Product')"><span class="fal fa-download"></span> @Html.L("Download") </a>
+                </div>
+              </div>
+              <div class="btn-group btn-group-sm ">
+                <button onclick="exportExcel()" class="btn btn-default"> <span class="fal fa-file-excel mr-1"></span>  @Html.L("Export") </button>
+              </div>
+              <div class="btn-group btn-group-sm ">
+                <button onclick="dohelp()" class="btn btn-default"> <span class="fal fa-question-circle mr-1"></span> @Html.L("Help") </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-content">
+          <div class="table-responsive">
+            <table id="products_datagrid">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@{ Html.RenderPartial("_ImportWindow", new ViewDataDictionary { { "EntityName", "Product" } }); }
+
+@{ Html.RenderPartial("_PopupDetailFormView", new WebApp.Models.Product()); }
+
+
+
+
+@section ScriptsBlock {
+  <script src="@Fingerprint.Tag("/Scripts/notifications/toastr/toastr.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/easyui/jquery.easyui.min.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/easyui/plugins/datagrid-filter.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/easyui/plugins/columns-ext.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/easyui/plugins/columns-reset.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/easyui/locale/easyui-lang-zh_CN.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/jquery.easyui.component.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/jquery.extend.formatter.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/jquery.custom.extend.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.serializejson/jquery.serializejson.min.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/FileSaver.min.js")"></script>
+  <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/jquery.fileDownload.js")"></script>
+
+  <script src="~/Scripts/miscellaneous/lightgallery/lightgallery.bundle.js"></script>
+  <script type="text/javascript">
+      //是否强制从后台取值
+      const REQUIRBACKEND = false;
+      //是否开启行内编辑
+      const EDITINLINE = false;
+      var product = {};
+
+
+       //打印
+       function print() {
+            $dg.datagrid('print', 'DataGrid');
+       }
+       //执行导出下载Excel
+       function exportExcel() {
+                const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
+                //console.log(filterRules);
+                const dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fal fa-spinner fa-pulse fa-lg mr-1"></i> 正在执行...</div>',
+                    closeButton: false
+                 });
+                let formData = new FormData();
+                formData.append('filterRules', filterRules);
+                formData.append('sort', 'Id');
+                formData.append('order', 'asc');
+                $.postDownload('/Products/ExportExcel', formData).then(res => {
+                    dialog.modal('hide')
+                    toastr.success('导出成功!');
+                }).catch(err => {
+                    dialog.modal('hide')
+                    $.messager.alert('导出失败', err.statusText, 'error');
+                });
+
+        }
+        //显示帮助信息
+        function dohelp() {
+            toastr.info('有问题请联系管理员 <br><i class="fa fa-envelope-o" aria-hidden="true"></i> : demo@admin.com','帮助');
+        }
+       var editIndex = undefined;
+       //重新加载数据
+       function reloadData() {
+            $dg.datagrid('unselectAll');
+    $dg.datagrid('uncheckAll');
+    $dg.datagrid('reload');
+       }
+      //关闭编辑状态
+      function endEditing() {
+            if (editIndex === undefined) {
+                return true;
+            }
+            if ($dg.datagrid('validateRow', editIndex)) {
+                $dg.datagrid('endEdit', editIndex);
+                return true;
+            } else {
+                const invalidinput = $('input.validatebox-invalid',$dg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+                return false;
+            }
+        }
+    //单击列开启编辑功能
+    function onClickCell(index, field) {
+        product = $dg.datagrid('getRows')[index];
+        const _actions = ['action', 'ck'];
+        if (!EDITINLINE || $.inArray(field, _actions) >= 0) {
+                return;
+        }
+        if (editIndex !== index) {
+            if (endEditing()) {
+                $dg.datagrid('selectRow', index)
+                   .datagrid('beginEdit', index);
+                hook = true;
+                editIndex = index;
+                const ed = $dg.datagrid('getEditor', { index: index, field: field });
+                if (ed) {
+                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                }
+            } else {
+                $dg.datagrid('selectRow', editIndex);
+            }
+        }
+    }
+    //新增记录
+    async function appendItem() {
+       product = { InnerBoxQty: null,
+GWeight: null,
+GWUnit: null,
+NWeight: null,
+NWUnit: null,
+Volume: null,
+VUnit: null,
+Length: null,
+Width: null,
+High: null,
+ };
+        //需要后台创建对象
+       if (REQUIRBACKEND) {
+         product = await $.get('/Products/NewItem');
+       }
+        if (!EDITINLINE) {
+           //弹出新增窗口
+           openproductdetailwindow(product, 'Added');
+        } else {
+            if (endEditing()) {
+                //对必填字段进行默认值初始化
+                $dg.datagrid('insertRow',
+                              {
+                                  index: 0,
+                                  row: product
+                               });
+                editIndex = 0;
+                $dg.datagrid('selectRow', editIndex)
+                    .datagrid('beginEdit', editIndex);
+                hook = true;
+            }
+        }
+    }
+    //删除编辑的行
+    function removeItem() {
+       if ($dg.datagrid('getChecked').length<=0 && EDITINLINE) {
+          if (editIndex !== undefined) {
+             const delindex = editIndex;
+             $dg.datagrid('cancelEdit', delindex)
+                .datagrid('deleteRow', delindex);
+               hook = true;
+               $("button[name*='cancelbutton']").prop('disabled', false);
+               $("button[name*='savebutton']").prop('disabled', false);
+           }else{
+              const rows = $dg.datagrid('getChecked');
+              rows.slice().reverse().forEach(row => {
+                const rowindex = $dg.datagrid('getRowIndex', row);
+                $dg.datagrid('deleteRow', rowindex);
+                hook = true;
+                $("button[name*='cancelbutton']").prop('disabled', false);
+                $("button[name*='savebutton']").prop('disabled', false);
+            });
+           }
+        } else {
+          deleteChecked();
+        }
+    }
+    //删除选中的行
+    function deleteChecked() {
+        const checked = $dg.datagrid('getChecked').filter(item=>item.Id!=null && item.Id > 0).map(item => {
+                   return item.Id;
+                });;
+        if (checked.length > 0) {
+              deleteRows(checked);
+         } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+         }
+     }
+    //执行删除
+    function deleteRows(selected){
+      $.messager.confirm('确认', `你确定要删除这 <span class='badge badge-icon position-relative'>${selected.length} </span> 行记录?`, result => {
+       if (result) {
+         $.post('/Products/DeleteChecked', { id: selected })
+                         .done(response => {
+                                if (response.success) {
+                                    toastr.error(`成功删除 [${selected.length}] 行记录`);
+                                    reloadData();
+                                } else {
+                                    $.messager.alert('错误', response.err,'error');
+                                }
+                          })
+                          .fail((jqXHR, textStatus, errorThrown) => {
+                             $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+                          });
+        }
+      });
+    }
+    //提交保存后台数据库
+    function acceptChanges() {
+      if (endEditing()) {
+        if ($dg.datagrid('getChanges').length > 0) {
+          const inserted = $dg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const updated = $dg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2
+          return item;
+        });
+        const deleted = $dg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+            return !deleted.includes(item);
+          })).concat(deleted);
+        //console.table(changed);
+        $.post('/Products/AcceptChanges', {products:changed})
+                     .done(response => {
+                           //console.log(response);
+                           if (response.success) {
+                               toastr.success('保存成功');
+                               $dg.datagrid('acceptChanges');
+                               reloadData();
+                               hook = false;
+                           } else {
+                               $.messager.alert('错误', response.err ,'error');
+                           }
+                        })
+                      .fail((jqXHR, textStatus, errorThrown) => {
+                        $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+                      });
+                }
+            }
+    }
+    function rejectChanges() {
+        $dg.datagrid('rejectChanges');
+        editIndex = undefined;
+        hook = false;
+    }
+    function getChanges() {
+        const rows = $dg.datagrid('getChanges');
+        //console.log(rows.length + ' rows are changed!');
+    }
+    //弹出明细信息
+    async function showdetailsWindow(id,index) {
+        const product = $dg.datagrid('getRows')[index];
+        if (REQUIRBACKEND) {
+           product = await $.get('/Products/GetItem/' + id);
+        }
+        openproductdetailwindow(product,'Modified');
+    }
+
+    //初始化定义datagrid
+    var $dg = $('#products_datagrid');
+    $(() => {
+        //定义datagrid结构
+       $dg.datagrid({
+                        //fit: false,
+                        //height: window.innerHeight - 385,
+                        rownumbers:true,
+                        checkOnSelect:false,
+                        selectOnCheck:false,
+                        idField:'Id',
+                        sortName:'Id',
+                        sortOrder:'desc',
+                        remoteFilter: true,
+                        singleSelect: true,
+                        //url: '/Products/GetData',
+                        method: 'get',
+                        onClickCell: onClickCell,
+                        pagination: true,
+                        clientPaging:false,
+                        striped:true,
+                        pageList: [10, 20, 50, 100, 500,2000],
+                        filterRules: [],
+                        onHeaderContextMenu: function (e, field) {
+                           e.preventDefault();
+                           $(this).datagrid('columnMenu').menu('show', {
+                             left: e.pageX,
+                             top: e.pageY
+                           });
+                        },
+                        onBeforeLoad: function () {
+                           const that = $(this);
+                           document.addEventListener('panel.onfullscreen', () => {
+                              setTimeout(() => {
+                                that.datagrid('resize');
+                              },200)
+                           })
+                        },
+                        onLoadSuccess: function (data) {
+                           editIndex = undefined;
+                           $("button[name*='deletebutton']").prop('disabled', true);
+                           $("button[name*='savebutton']").prop('disabled', true);
+                           $("button[name*='cancelbutton']").prop('disabled', true);
+                        },
+                        onCheck: function () {
+                          $("button[name*='deletebutton']").prop('disabled', false);
+                        },
+                        onUncheck: function () {
+                           const checked = $(this).datagrid('getChecked').length > 0;
+                           $("button[name*='deletebutton']").prop('disabled', !checked);
+                        },
+                        onCheckAll: function (rows) {
+                          if(rows.length > 0){
+                            $("button[name*='deletebutton']").prop('disabled', false);
+                          }
+                        },
+                        onUncheckAll: function () {
+                         $("button[name*='deletebutton']").prop('disabled', true);
+                        },
+                        onSelect: function(index,row) {
+                           product = row;
+                        },
+                        onBeforeEdit: function (index, row) {
+                            editIndex = index;
+                            row.editing = true;
+                            $("button[name*='deletebutton']").prop('disabled', false);
+                            $("button[name*='cancelbutton']").prop('disabled', false);
+                            $("button[name*='savebutton']").prop('disabled', false);
+                            $(this).datagrid('refreshRow', index);
+                        },
+                        onBeginEdit: function (index, row) {
+                          //const editors = $(this).datagrid('getEditors', index);
+
+                         },
+                      onEndEdit: function (index, row) {
+
+                       },
+                       onAfterEdit: function (index, row) {
+                            row.editing = false;
+                            editIndex = undefined;
+                            $(this).datagrid('refreshRow', index);
+                        },
+                        onCancelEdit: function (index, row) {
+                             row.editing = false;
+                             editIndex = undefined;
+                             $("button[name*='deletebutton']").prop('disabled', true);
+                             $("button[name*='savebutton']").prop('disabled', true);
+                             $("button[name*='cancelbutton']").prop('disabled', true);
+                             $(this).datagrid('refreshRow', index);
+                        },
+                        frozenColumns: [[
+                         /*开启CheckBox选择功能*/
+                         { field: 'ck', checkbox: true },
+                         {
+                            field: 'action',
+                            title:'@Html.L("Command")',
+                            align:'center',
+                            width: 85,
+                            sortable: false,
+                            resizable: true,
+                            formatter: function showdetailsformatter(value, row, index) {
+                                         if (!row.editing) {
+                                            return `<div class="btn-group">\
+                                                         <button onclick="showdetailsWindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="@Html.L("EditDetail")" ><i class="fal fa-edit"></i> </button>\
+                                                         <button onclick="deleteRows(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="@Html.L("Delete")" ><i class="fal fa-trash-alt"></i> </button>\
+                                                    </div>`;
+                                         } else {
+                                             return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="查看明细"  ><i class="fal fa-edit"></i> </button>`;
+                                         }
+                                     }
+                          }
+                        ]],
+                        columns: [[
+
+            {    /*产品编号(自动生成,可手工修改)*/
+                 field:'ProductNo',
+                 title:'@Html.DisplayNameFor(model => model.ProductNo)',
+                 width:260,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_ProductNo',
+                             prompt:'@Html.DescriptionFor(model => model.ProductNo)',
+                             required:false,
+                             validType: 'length[0,128]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*产品类别*/
+                 field:'Category',
+                 title:'@Html.DisplayNameFor(model => model.Category)',
+                 width:260,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_Category',
+                             prompt:'@Html.DescriptionFor(model => model.Category)',
+                             required:false,
+                             validType: 'length[0,128]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*中文品名*/
+                 field:'ProductName',
+                 title:'@Html.DisplayNameFor(model => model.ProductName)',
+                 width:260,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_ProductName',
+                             prompt:'@Html.DescriptionFor(model => model.ProductName)',
+                             required:false,
+                             validType: 'length[0,200]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*英文品名*/
+                 field:'ProductEnName',
+                 title:'@Html.DisplayNameFor(model => model.ProductEnName)',
+                 width:260,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_ProductEnName',
+                             prompt:'@Html.DescriptionFor(model => model.ProductEnName)',
+                             required:false,
+                             validType: 'length[0,200]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*规格型号*/
+                 field:'Spec',
+                 title:'@Html.DisplayNameFor(model => model.Spec)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_Spec',
+                             prompt:'@Html.DescriptionFor(model => model.Spec)',
+                             required:false,
+                             validType: 'length[0,100]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*中文描述*/
+                 field:'CnDescription',
+                 title:'@Html.DisplayNameFor(model => model.CnDescription)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_CnDescription',
+                             prompt:'@Html.DescriptionFor(model => model.CnDescription)',
+                             required:false,
+                             validType: 'length[0,50]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*英文描述*/
+                 field:'EnDescription',
+                 title:'@Html.DisplayNameFor(model => model.EnDescription)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_EnDescription',
+                             prompt:'@Html.DescriptionFor(model => model.EnDescription)',
+                             required:false,
+                             validType: 'length[0,50]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*备注*/
+                 field:'Remark',
+                 title:'@Html.DisplayNameFor(model => model.Remark)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_Remark',
+                             prompt:'@Html.DescriptionFor(model => model.Remark)',
+                             required:false,
+                             validType: 'length[0,50]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*产品状态*/
+                 field:'Status',
+                 title:'@Html.DisplayNameFor(model => model.Status)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                       /*需要在键值对中维护status枚举值并生成JavaScript才能使用*/
+                       type:'statuseditor',
+                       options:{
+                                 id:'editor_Status',
+                                 prompt:'@Html.DescriptionFor(model => model.Status)' ,
+                                 required:false
+                                }
+                       },
+                 formatter: statusformatter
+            },
+            {    /*产品图片*/
+                 field:'Logo',
+                 title:'@Html.DisplayNameFor(model => model.Logo)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_Logo',
+                             prompt:'@Html.DescriptionFor(model => model.Logo)',
+                             required:false,
+                             validType: 'length[0,50]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*海关编码*/
+                 field:'HSCODE',
+                 title:'@Html.DisplayNameFor(model => model.HSCODE)',
+                 width:120,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_HSCODE',
+                             prompt:'@Html.DescriptionFor(model => model.HSCODE)',
+                             required:false,
+                             validType: 'length[0,10]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*增值税率*/
+                 field:'HSADDTAXRATE',
+                 title:'@Html.DisplayNameFor(model => model.HSADDTAXRATE)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_HSADDTAXRATE',
+                                  prompt:'@Html.DescriptionFor(model => model.HSADDTAXRATE)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*退税率*/
+                 field:'HSBACKTAXRATE',
+                 title:'@Html.DisplayNameFor(model => model.HSBACKTAXRATE)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_HSBACKTAXRATE',
+                                  prompt:'@Html.DescriptionFor(model => model.HSBACKTAXRATE)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*销售指导价*/
+                 field:'GUIDEPRICE',
+                 title:'@Html.DisplayNameFor(model => model.GUIDEPRICE)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_GUIDEPRICE',
+                                  prompt:'@Html.DescriptionFor(model => model.GUIDEPRICE)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*报关要素*/
+                 field:'CUSTBASIC',
+                 title:'@Html.DisplayNameFor(model => model.CUSTBASIC)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_CUSTBASIC',
+                             prompt:'@Html.DescriptionFor(model => model.CUSTBASIC)',
+                             required:false,
+                             validType: 'length[0,50]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*所属国家*/
+                 field:'COUNTRY',
+                 title:'@Html.DisplayNameFor(model => model.COUNTRY)',
+                 width:260,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_COUNTRY',
+                             prompt:'@Html.DescriptionFor(model => model.COUNTRY)',
+                             required:false,
+                             validType: 'length[0,128]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*所属国家*/
+                 field:'TAXTYPE',
+                 title:'@Html.DisplayNameFor(model => model.TAXTYPE)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_TAXTYPE',
+                             prompt:'@Html.DescriptionFor(model => model.TAXTYPE)',
+                             required:false,
+                             validType: 'length[0,50]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*税分类*/
+                 field:'TAXCLASS',
+                 title:'@Html.DisplayNameFor(model => model.TAXCLASS)',
+                 width:200,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_TAXCLASS',
+                             prompt:'@Html.DescriptionFor(model => model.TAXCLASS)',
+                             required:false,
+                             validType: 'length[0,50]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*包装方式*/
+                 field:'Package',
+                 title:'@Html.DisplayNameFor(model => model.Package)',
+                 width:120,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_Package',
+                             prompt:'@Html.DescriptionFor(model => model.Package)',
+                             required:false,
+                             validType: 'length[0,10]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*内装数量*/
+                 field:'InnerBoxQty',
+                 title:'@Html.DisplayNameFor(model => model.InnerBoxQty)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_InnerBoxQty',
+                                  prompt:'@Html.DescriptionFor(model => model.InnerBoxQty)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*单位*/
+                 field:'Unit',
+                 title:'@Html.DisplayNameFor(model => model.Unit)',
+                 width:120,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_Unit',
+                             prompt:'@Html.DescriptionFor(model => model.Unit)',
+                             required:false,
+                             validType: 'length[0,10]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*毛重*/
+                 field:'GWeight',
+                 title:'@Html.DisplayNameFor(model => model.GWeight)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_GWeight',
+                                  prompt:'@Html.DescriptionFor(model => model.GWeight)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*毛重单位*/
+                 field:'GWUnit',
+                 title:'@Html.DisplayNameFor(model => model.GWUnit)',
+                 width:120,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_GWUnit',
+                             prompt:'@Html.DescriptionFor(model => model.GWUnit)',
+                             required:false,
+                             validType: 'length[0,10]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*净重*/
+                 field:'NWeight',
+                 title:'@Html.DisplayNameFor(model => model.NWeight)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_NWeight',
+                                  prompt:'@Html.DescriptionFor(model => model.NWeight)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*净重单位*/
+                 field:'NWUnit',
+                 title:'@Html.DisplayNameFor(model => model.NWUnit)',
+                 width:120,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_NWUnit',
+                             prompt:'@Html.DescriptionFor(model => model.NWUnit)',
+                             required:false,
+                             validType: 'length[0,10]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*体积*/
+                 field:'Volume',
+                 title:'@Html.DisplayNameFor(model => model.Volume)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_Volume',
+                                  prompt:'@Html.DescriptionFor(model => model.Volume)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*体积单位*/
+                 field:'VUnit',
+                 title:'@Html.DisplayNameFor(model => model.VUnit)',
+                 width:120,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_VUnit',
+                             prompt:'@Html.DescriptionFor(model => model.VUnit)',
+                             required:false,
+                             validType: 'length[0,10]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*长*/
+                 field:'Length',
+                 title:'@Html.DisplayNameFor(model => model.Length)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_Length',
+                                  prompt:'@Html.DescriptionFor(model => model.Length)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*宽*/
+                 field:'Width',
+                 title:'@Html.DisplayNameFor(model => model.Width)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_Width',
+                                  prompt:'@Html.DescriptionFor(model => model.Width)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*高*/
+                 field:'High',
+                 title:'@Html.DisplayNameFor(model => model.High)',
+                 width:100,
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{
+                                  id:'editor_High',
+                                  prompt:'@Html.DescriptionFor(model => model.High)',
+                                  required:false,
+                                  precision:2,
+
+                                }
+                        },
+                formatter:numberformatter,
+                sortable:true,
+                resizable:true
+            },
+            {    /*单位*/
+                 field:'LUnit',
+                 title:'@Html.DisplayNameFor(model => model.LUnit)',
+                 width:120,
+                 hidden:false,
+                 editor:{
+                          type:'textbox',
+                          options:{
+                             id:'editor_LUnit',
+                             prompt:'@Html.DescriptionFor(model => model.LUnit)',
+                             required:false,
+                             validType: 'length[0,10]'
+                             }
+                       },
+                 sortable:true,
+                 resizable:true
+            },
+            {  /*标志位*/
+               field:'Flag1',
+               title:'@Html.DisplayNameFor(model => model.Flag1)',
+               width:90,
+               align:'center',
+               hidden:false,
+               editor:{
+                      type:'checkbox',
+                      options:{
+                                 id:'editor_Flag1',
+                                 prompt:'@Html.DescriptionFor(model => model.Flag1)',
+                                 required:true
+                               }
+                      },
+                formatter:checkboxformatter,
+                sortable:true,
+                resizable:true
+            },
+            {  /*标志位*/
+               field:'Flag2',
+               title:'@Html.DisplayNameFor(model => model.Flag2)',
+               width:90,
+               align:'center',
+               hidden:false,
+               editor:{
+                      type:'checkbox',
+                      options:{
+                                 id:'editor_Flag2',
+                                 prompt:'@Html.DescriptionFor(model => model.Flag2)',
+                                 required:true
+                               }
+                      },
+                formatter:checkboxformatter,
+                sortable:true,
+                resizable:true
+            },
+                 ]]
+           }).datagrid('columnMoving')
+             .datagrid('resetColumns')
+             .datagrid('enableFilter',[
+                /*需要在键值队维护好status枚举值*/
+                {  /*产品状态*/
+                      field: 'Status',
+                      type: 'statusfilter',
+                      options: {
+
+                               }
+                 },
+                {   /*增值税率*/
+                      field: 'HSADDTAXRATE',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*退税率*/
+                      field: 'HSBACKTAXRATE',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*销售指导价*/
+                      field: 'GUIDEPRICE',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*内装数量*/
+                      field: 'InnerBoxQty',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*毛重*/
+                      field: 'GWeight',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*净重*/
+                      field: 'NWeight',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*体积*/
+                      field: 'Volume',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*长*/
+                      field: 'Length',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*宽*/
+                      field: 'Width',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*高*/
+                      field: 'High',
+                      type: 'numberbox',
+                      op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+                  },
+                {   /*标志位*/
+                      field: 'Flag1',
+                      type: 'booleanfilter'
+                 },
+                {   /*标志位*/
+                      field: 'Flag2',
+                      type: 'booleanfilter'
+                 },
+           ])
+           .datagrid('load', '/Products/GetData');
+
+     });
+
+  </script>
+
+
+
+  <!-- productfile datagrid  javascript block -->
+  @Html.Partial("_productfiledatagridjsview", new WebApp.Models.ProductFile())
+  <!-- productpurchasehistoricalprice datagrid  javascript block -->
+  @Html.Partial("_productpurchasehistoricalpricedatagridjsview", new WebApp.Models.ProductPurchaseHistoricalPrice())
+  <!-- productsaleshistoricalprice datagrid  javascript block -->
+  @Html.Partial("_productsaleshistoricalpricedatagridjsview", new WebApp.Models.ProductSalesHistoricalPrice())
+  <!--end popup detailview javascript block -->
+}
+
+

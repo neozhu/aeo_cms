@@ -1,0 +1,503 @@
+﻿﻿@model WebApp.Models.ProductPack
+<!-- 弹出编辑窗体表单 -->
+ <div id="productpackdetailwindow" class="easyui-window" 
+      title="明细数据" 
+      data-options="modal:true,
+                    closed:true,
+                    minimizable:false,
+                    collapsible:false,
+                    maximized:false,
+                    iconCls:'fal fa-window',
+                    onBeforeClose:function(){
+                      var that = $(this);
+                      if(productpackhasmodified()){
+                        $.messager.confirm('确认','你确定要放弃保存修改的记录?',function(r){
+                        if (r){
+                          var opts = that.panel('options');
+                          var onBeforeClose = opts.onBeforeClose;
+                          opts.onBeforeClose = function(){};
+                          that.panel('close');
+                          opts.onBeforeClose = onBeforeClose;
+                          hook = false;
+                        }
+                        });
+                        return false;
+                      }
+                    },
+                    onOpen:function(){
+                       $(this).window('vcenter');
+                       $(this).window('hcenter');
+                    },
+                    onRestore:function(){
+                    },
+                    onMaximize:function(){
+                    }
+                    " style="width:800px;height:450px;display:none">
+  <!-- toolbar -->
+  <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
+  <div class="d-flex flex-row-reverse pr-4">
+        <div class="btn-group btn-group-sm mr-1">
+          <button name="saveitembutton" onclick="saveproductpackitem()" class="btn btn-default">
+            <i class="fal fa-save"></i> @Html.L("Save")
+          </button>
+        </div>
+        <div class="btn-group btn-group-sm mr-1" id="deleteitem-btn-group">
+          <button onclick="deleteproductpackitem()" class="btn btn-danger">
+            <i class="fal fa-trash-alt"></i> @Html.L("Delete")
+          </button>
+        </div>
+    </div>
+  </div>
+ <!-- panel container form  -->
+ <div class="panel-container show">
+   <div class="container">
+    <div class="panel-content">
+           <form id="productpack_form" 
+              class="easyui-form form-horizontal padding-10" 
+              method="post" 
+              data-options="novalidate:true,
+                            onChange: function(target){
+                              hook = true;
+                              $('button[name*=\'saveitembutton\']').prop('disabled', false);
+                             },
+                             onLoadSuccess:function(data){
+                               hook = false;
+                               $('button[name*=\'saveitembutton\']').prop('disabled', true);
+                             }">
+  @Html.AntiForgeryToken()
+   <!--Primary Key-->
+  @Html.HiddenFor(model=>model.Id)
+   <fieldset class="form-group">
+   <div class="row h-100 align-items-center">
+
+   <!--包装单位-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Package)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Package)" 
+				   name="@Html.NameFor(model => model.Package)" 
+				   value="@Html.ValueFor(model => model.Package)"
+				   tabindex="0" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Package)',
+								 required:true, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+   <!--内装数量-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.InnerBoxQty)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.InnerBoxQty)"
+				   name="@Html.NameFor(model => model.InnerBoxQty)" 
+				   value="@Html.ValueFor(model => model.InnerBoxQty)"
+				   tabindex="1" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.InnerBoxQty)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+
+   <!--长-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Length)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.Length)"
+				   name="@Html.NameFor(model => model.Length)" 
+				   value="@Html.ValueFor(model => model.Length)"
+				   tabindex="2" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Length)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+   <!--宽-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Width)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.Width)"
+				   name="@Html.NameFor(model => model.Width)" 
+				   value="@Html.ValueFor(model => model.Width)"
+				   tabindex="3" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Width)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+
+   <!--高-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Height)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.Height)"
+				   name="@Html.NameFor(model => model.Height)" 
+				   value="@Html.ValueFor(model => model.Height)"
+				   tabindex="4" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Height)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+   <!--长度单位-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Unit)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Unit)" 
+				   name="@Html.NameFor(model => model.Unit)" 
+				   value="@Html.ValueFor(model => model.Unit)"
+				   tabindex="5" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Unit)',
+								 required:false, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+
+   <!--毛重(kg)-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.GWeight)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.GWeight)"
+				   name="@Html.NameFor(model => model.GWeight)" 
+				   value="@Html.ValueFor(model => model.GWeight)"
+				   tabindex="6" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.GWeight)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+   <!--净重(kg)-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.NWeight)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.NWeight)"
+				   name="@Html.NameFor(model => model.NWeight)" 
+				   value="@Html.ValueFor(model => model.NWeight)"
+				   tabindex="7" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.NWeight)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+
+   <!--体积(m3)-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Volume)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.Volume)"
+				   name="@Html.NameFor(model => model.Volume)" 
+				   value="@Html.ValueFor(model => model.Volume)"
+				   tabindex="8" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Volume)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+   <!--20尺装量-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.TwentyQtc)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.TwentyQtc)"
+				   name="@Html.NameFor(model => model.TwentyQtc)" 
+				   value="@Html.ValueFor(model => model.TwentyQtc)"
+				   tabindex="9" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.TwentyQtc)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+
+   <!--40尺装量-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.FortyQtc)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.FortyQtc)"
+				   name="@Html.NameFor(model => model.FortyQtc)" 
+				   value="@Html.ValueFor(model => model.FortyQtc)"
+				   tabindex="10" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.FortyQtc)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+   <!--40HQ装量-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.FortyHQQtc)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.FortyHQQtc)"
+				   name="@Html.NameFor(model => model.FortyHQQtc)" 
+				   value="@Html.ValueFor(model => model.FortyHQQtc)"
+				   tabindex="11" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.FortyHQQtc)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+
+     <!--默认包装-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Default)</label>
+	   <div class="col-md-4 mb-1 pl-1">      
+               <div class="custom-control custom-checkbox pt-1">
+                            <input id="@Html.IdFor(model => model.Default)"
+                                   name="@Html.NameFor(model => model.Default)"
+                                   value="true" @(Model.Default ? "checked=\"checked\"" : "")
+                                   data-unchecked-value="false"
+                                   tabindex="12"
+                                   class="custom-control-input"
+                                   type="checkbox" />
+                            <label class="custom-control-label" for="@Html.NameFor(model => model.Default)"> @Html.DisplayNameFor(model => model.Default)</label>
+              </div>
+        </div>
+				   
+    <!--所属产品-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ProductId)</label>
+		<div class="col-md-4 mb-1 pl-1">   	
+            <input id="@Html.IdFor(model => model.ProductId)"
+			       name="@Html.NameFor(model => model.ProductId)"
+				   value="@Html.ValueFor(model => model.ProductId)"
+                   tabindex="13" required
+              	   class="easyui-combobox"      
+                   style="width:100%"
+                   data-options="prompt:'@Html.DescriptionFor(model => model.ProductId)' ,
+						required:true ,
+						valueField: 'Id',
+						textField:  'ProductNo' ,
+                        panelHeight:'auto',
+                        editable:false,
+						url: '/ProductPacks/GetProducts' ,
+						onSelect: function(item){
+						  //console.log(item);
+				        }">
+       </div>
+	   
+	    </div> 
+      </fieldset>
+   </form>
+    </div>
+    </div>
+    </div>
+</div>
+
+<!-- 弹出窗体form表单 -->
+<!-- 弹出编辑对话框 -->
+
+<!--begin popup detailview javascript block -->
+<script type="text/javascript">
+    //判断新增编辑状态
+    var MODELSTATE = 'Added';
+    var productpackid = null;
+    function openproductpackdetailwindow(data,state) {
+         MODELSTATE = state;
+         initproductpackdetailview();
+         productpackid = (data.Id || 0);
+         $('#productpackdetailwindow').window('open');
+         $('#productpack_form').form('reset');
+         $('#productpack_form').form('load', data);
+             }
+  //删除当前记录
+  function deleteproductpackitem() {
+    $.messager.confirm('确认', '你确定要删除该记录?', result => {
+      if (result) {
+        const url = `/ProductPacks/Delete/${productpackid}`;
+        $.get(url).done(res => {
+          if (res.success) {
+            toastr.success("删除成功");
+            $('#productpackdetailwindow').window('close');
+            reloadData();
+          } else {
+            $.messager.alert('错误', res.err, 'error');
+          }
+        });
+      }
+    });
+  }
+    //async 保存数据
+    async function saveproductpackitem() { 
+      const $productpackform = $('#productpack_form');
+      if ($productpackform.form('enableValidation').form('validate')) {
+            let productpack = $productpackform.serializeJSON();
+            let url = '/ProductPacks/Edit';
+            //判断是新增或是修改方法
+            if (MODELSTATE === 'Added') {
+                url = '/ProductPacks/Create';
+            }
+            var token = $('input[name="__RequestVerificationToken"]', $productpackform).val();
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        __RequestVerificationToken: token,
+                        productpack:productpack
+                    },
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+                })
+                .done(response => {
+                    if (response.success) {
+                        hook = false;
+                        $productpackform.form('disableValidation');
+                        $('#productpackdetailwindow').window("close");
+                        toastr.success("保存成功"); 
+                        reloadData();
+                    } else {
+                        $.messager.alert("错误",   response.err, "error");
+                    }
+                    })
+                .fail((jqXHR, textStatus, errorThrown) => {
+                       $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+                    });
+        }
+    }
+    //关闭窗口
+    function closeproductpackdetailwindow() {
+        $('#productpackdetailwindow').window('close');
+    }
+     //判断是否有没有保存的记录
+     function productpackhasmodified() {
+            return hook;
+
+     }
+
+
+function initproductpackdetailview() {
+  //判断是否显示功能按钮
+  if (MODELSTATE === 'Added') {
+    $('#deleteitem-btn-group').hide();
+  } else {
+    $('#deleteitem-btn-group').show();
+  }
+
+//回车光标移动到下个输入控件
+    //如果是枚举类型需要把numberbox改成combobox
+    //内装数量
+	$('#InnerBoxQty').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //长
+	$('#Length').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //宽
+	$('#Width').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //高
+	$('#Height').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //毛重(kg)
+	$('#GWeight').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //净重(kg)
+	$('#NWeight').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //体积(m3)
+	$('#Volume').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //20尺装量
+	$('#TwentyQtc').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //40尺装量
+	$('#FortyQtc').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //40HQ装量
+	$('#FortyHQQtc').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //所属产品默认外键使用combobox,也可以使用combogrid
+	$('#ProductId').combobox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+}
+</script>
+

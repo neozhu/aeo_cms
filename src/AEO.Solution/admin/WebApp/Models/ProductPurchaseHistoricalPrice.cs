@@ -12,8 +12,6 @@ namespace WebApp.Models
   //产品历史价格(采购)
   public partial class ProductPurchaseHistoricalPrice : Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "供应商代码", Description = "供应商代码")]
     [MaxLength(20)]
     [Required]
@@ -44,8 +42,8 @@ namespace WebApp.Models
     public string DocNo { get; set; }
     [Display(Name = "备注", Description = "备注")]
     public string Remark { get; set; }
-    [Display(Name = "货号", Description = "货号(自动生成,可手工修改)")]
-    [MaxLength(50)]
+    [Display(Name = "产品编号", Description = "产品编号(自动生成,可手工修改)")]
+    [MaxLength(128)]
     [Required]
     public string ProductNo { get; set; }
     [Display(Name = "产品名称", Description = "产品名称")]
