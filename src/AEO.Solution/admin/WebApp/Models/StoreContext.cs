@@ -38,6 +38,7 @@ namespace WebApp.Models
 
     public DbSet<Attachment> Attachments { get; set; }
     #region 产品库
+    public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductPricture> ProductPrictures { get; set; }
     public DbSet<ProductExtend> ProductExtends { get; set; }

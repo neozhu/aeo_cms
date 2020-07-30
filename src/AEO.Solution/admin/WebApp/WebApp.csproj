@@ -198,15 +198,15 @@
     <Reference Include="PresentationCore" />
     <Reference Include="Repository.Pattern, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Repository.Pattern.dll</HintPath>
+      <HintPath>..\..\urflib\Repository.Pattern.dll</HintPath>
     </Reference>
     <Reference Include="Repository.Pattern.Ef6, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Repository.Pattern.Ef6.dll</HintPath>
+      <HintPath>..\..\urflib\Repository.Pattern.Ef6.dll</HintPath>
     </Reference>
     <Reference Include="Service.Pattern, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Service.Pattern.dll</HintPath>
+      <HintPath>..\..\urflib\Service.Pattern.dll</HintPath>
     </Reference>
     <Reference Include="SqlSugar, Version=5.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\sqlSugar.5.0.0.15\lib\SqlSugar.dll</HintPath>
@@ -424,6 +424,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountManageController.cs" />
     <Compile Include="Controllers\AttachmentsController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CodeItemsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\DataTableImportMappingsController.cs" />
@@ -491,6 +492,10 @@
     <Compile Include="Migrations\202007300301372_md_company.designer.cs">
       <DependentUpon>202007300301372_md_company.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007300357533_md_category.cs" />
+    <Compile Include="Migrations\202007300357533_md_category.designer.cs">
+      <DependentUpon>202007300357533_md_category.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
     <Compile Include="Models\Category.cs" />
@@ -502,8 +507,10 @@
     <Compile Include="Models\CustomerInvoice.cs" />
     <Compile Include="Models\CustomerBank.cs" />
     <Compile Include="Models\CustomerContact.cs" />
+    <Compile Include="Models\Dto\CategoryTreeItem.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
+    <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
     <Compile Include="Models\ProductRefCustomerTrade.cs" />
     <Compile Include="Models\ProductRefCustomerPicture.cs" />
@@ -540,6 +547,7 @@
     <Compile Include="Models\ReceiptManageRecDetail.cs" />
     <Compile Include="Models\ReceiptManageProduct.cs" />
     <Compile Include="Models\resource\Attachment.Designer.cs" />
+    <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
     <Compile Include="Models\resource\Log.Designer.cs" />
     <Compile Include="Models\resource\Notification.Designer.cs" />
@@ -550,6 +558,8 @@
     <Compile Include="Models\WorkFlow.cs" />
     <Compile Include="Repositories\Attachments\AttachmentQuery.cs" />
     <Compile Include="Repositories\Attachments\AttachmentRepository.cs" />
+    <Compile Include="Repositories\Categories\CategoryQuery.cs" />
+    <Compile Include="Repositories\Categories\CategoryRepository.cs" />
     <Compile Include="Repositories\Companies\CompanyQuery.cs" />
     <Compile Include="Repositories\Companies\CompanyRepository.cs" />
     <Compile Include="Repositories\Logs\LogQuery.cs" />
@@ -573,6 +583,8 @@
     </Compile>
     <Compile Include="Services\Attachments\AttachmentService.cs" />
     <Compile Include="Services\Attachments\IAttachmentService.cs" />
+    <Compile Include="Services\Categories\CategoryService.cs" />
+    <Compile Include="Services\Categories\ICategoryService.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
     <Compile Include="Services\Companies\ICompanyService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
@@ -3632,6 +3644,13 @@
     <Content Include="Views\Companies\Details.cshtml" />
     <Content Include="Views\Companies\Edit.cshtml" />
     <Content Include="Views\Companies\EditForm.cshtml" />
+    <Content Include="Views\Categories\_DisplayForm.cshtml" />
+    <Content Include="Views\Categories\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\EditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -3747,9 +3766,15 @@
     <EmbeddedResource Include="Migrations\202007300301372_md_company.resx">
       <DependentUpon>202007300301372_md_company.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007300357533_md_category.resx">
+      <DependentUpon>202007300357533_md_category.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\Attachment.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\Category.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\Category.resx" />
+    <EmbeddedResource Include="Models\resource\Category.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Company.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Company.resx" />
     <EmbeddedResource Include="Models\resource\Company.zh-TW.resx" />

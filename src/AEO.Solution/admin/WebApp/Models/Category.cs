@@ -11,18 +11,21 @@ namespace WebApp.Models
   //产品类别
   public partial class Category:Entity
   {
-    [Key]
-    public int Id { get; set; }
-    [Display(Name = "产品类别", Description = "产品类别")]
-    [MaxLength(50)]
-    public string Name { get; set; }
-    [Display(Name = "英文名称", Description = "英文名称")]
-    [MaxLength(200)]
-    public string EName { get; set; }
 
-    [Display(Name = "保存路径", Description = "保存路径")]
-    public int? ParentId { get; set; }
+    [Display(Name = "类别名称", Description = "类别名称")]
+    [MaxLength(128)]
+    public virtual string Name { get; set; }
+    [Display(Name = "英文名称", Description = "英文名称")]
+    [MaxLength(128)]
+    public virtual string EName { get; set; }
+    [Display(Name = "图标", Description = "图标")]
+    [MaxLength(30)]
+    public virtual string Icon { get; set; }
+
+    [Display(Name = "上级类别", Description = "上级类别")]
+    public virtual int? ParentId { get; set; }
     [ForeignKey("ParentId")]
-    public Category Parent { get; set; }
+    [Display(Name = "上级类别", Description = "上级类别")]
+    public virtual Category Parent { get; set; }
   }
 }

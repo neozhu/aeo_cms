@@ -3578,6 +3578,8 @@
 
 .tree-node {
   height: 18px;
+  padding: 2px;
+  margin: 2px 0;
 }
 
 .tree-expanded,

@@ -88,6 +88,9 @@ namespace WebApp
       container.RegisterType<IRepositoryAsync<Attachment>, Repository<Attachment>>();
       container.RegisterType<IAttachmentService, AttachmentService>();
 
+      container.RegisterType<IRepositoryAsync<Category>, Repository<Category>>();
+      container.RegisterType<ICategoryService, CategoryService>();
+
 
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();
