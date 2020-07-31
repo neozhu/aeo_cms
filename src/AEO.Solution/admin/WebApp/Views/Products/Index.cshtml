@@ -13,6 +13,9 @@
   <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
   <style>
+    .bootbox.modal {
+      z-index:15000;
+    }
     .picture-content {
       /*display: flex;
       justify-content: space-around;
@@ -22,8 +25,8 @@
     }
       .picture-content .upload-border,
       .picture-content .files-border {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         /*background: linear-gradient(to left, #acb1d9, #c4d3f0);*/
         display: flex;
         justify-content: center;
@@ -33,8 +36,8 @@
       }
         .picture-content .upload-border .upload,
         .picture-content .files-border .upload {
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height: 60px;
           background: #fff;
           border-radius: 8px;
           display: flex;
@@ -52,8 +55,8 @@
 
           .picture-content .upload-border .upload .plus,
           .picture-content .files-border .upload .plus {
-            font-size: 40px;
-            padding: 20px;
+            font-size: 25px;
+            padding: 15px;
             border: 5px dashed #7d8ace;
             /*margin-bottom: 10px;*/
             color: #7d8ace;

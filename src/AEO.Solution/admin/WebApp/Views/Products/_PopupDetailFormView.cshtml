@@ -113,12 +113,14 @@
                 @Html.AntiForgeryToken()
                 <!--Primary Key-->
                 @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Category)
+                <input type="file" id="picturesinput" name="picturesinput" style="display:none" />
                 <fieldset class="form-group">
                   <legend style="font-size:1.2rem">产品信息</legend>
                   <div class="row h-100 align-items-center">
 
                     <!--产品编号(自动生成,可手工修改)-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ProductNo)</label>
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ProductNo)</label>
                     <div class="col-md-4 mb-1 pl-1">
                       <input id="@Html.IdFor(model => model.ProductNo)"
                              name="@Html.NameFor(model => model.ProductNo)"
@@ -134,25 +136,34 @@
                     </div>
 
                     <!--产品类别-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Category)</label>
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CategoryId)</label>
                     <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Category)"
-                             name="@Html.NameFor(model => model.Category)"
-                             value="@Html.ValueFor(model => model.Category)"
+                      <input id="@Html.IdFor(model => model.CategoryId)"
+                             name="@Html.NameFor(model => model.CategoryId)"
+                             value="@Html.ValueFor(model => model.CategoryId)"
                              tabindex="1"
-                             class="easyui-textbox"
+                             class="easyui-combotree"
                              style="width:100%"
                              type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Category)',
-								 required:false,
-                                 validType: 'length[0,128]'
+                             data-options="prompt:'@Html.DescriptionFor(model => model.CategoryId)',
+								               required:true,
+    						               valueField: 'id',
+						                   textField:  'text' ,
+                               panelHeight:'auto',
+                               editable:true,
+						                   url: '/Categories/GetComboTreeData' ,
+                               method:'get',
+						                   onSelect: function(item){
+						                     console.log(item);
+                                 $('#product_form #Category').val(item.text);
+				                       }
                                  " />
                     </div>
 
 
                     <!--中文品名-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ProductName)</label>
-                    <div class="col-md-4 mb-1 pl-1">
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ProductName)</label>
+                    <div class="col-md-10 mb-1 pl-1">
                       <input id="@Html.IdFor(model => model.ProductName)"
                              name="@Html.NameFor(model => model.ProductName)"
                              value="@Html.ValueFor(model => model.ProductName)"
@@ -161,14 +172,14 @@
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.ProductName)',
-								 required:false,
+								 required:true,
                                  validType: 'length[0,200]'
                                  " />
                     </div>
 
                     <!--英文品名-->
                     <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ProductEnName)</label>
-                    <div class="col-md-4 mb-1 pl-1">
+                    <div class="col-md-10 mb-1 pl-1">
                       <input id="@Html.IdFor(model => model.ProductEnName)"
                              name="@Html.NameFor(model => model.ProductEnName)"
                              value="@Html.ValueFor(model => model.ProductEnName)"
@@ -183,25 +194,11 @@
                     </div>
 
 
-                    <!--规格型号-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Spec)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Spec)"
-                             name="@Html.NameFor(model => model.Spec)"
-                             value="@Html.ValueFor(model => model.Spec)"
-                             tabindex="4"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Spec)',
-								 required:false,
-                                 validType: 'length[0,100]'
-                                 " />
-                    </div>
+
 
                     <!--中文描述-->
                     <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.CnDescription)</label>
-                    <div class="col-md-4 mb-1 pl-1">
+                    <div class="col-md-10 mb-1 pl-1">
                       <input id="@Html.IdFor(model => model.CnDescription)"
                              name="@Html.NameFor(model => model.CnDescription)"
                              value="@Html.ValueFor(model => model.CnDescription)"
@@ -218,7 +215,7 @@
 
                     <!--英文描述-->
                     <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.EnDescription)</label>
-                    <div class="col-md-4 mb-1 pl-1">
+                    <div class="col-md-10 mb-1 pl-1">
                       <input id="@Html.IdFor(model => model.EnDescription)"
                              name="@Html.NameFor(model => model.EnDescription)"
                              value="@Html.ValueFor(model => model.EnDescription)"
@@ -232,6 +229,53 @@
                                  " />
                     </div>
 
+
+                    <!--规格型号-->
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Spec)</label>
+                    <div class="col-md-4 mb-1 pl-1">
+                      <input id="@Html.IdFor(model => model.Spec)"
+                             name="@Html.NameFor(model => model.Spec)"
+                             value="@Html.ValueFor(model => model.Spec)"
+                             tabindex="4"
+                             class="easyui-textbox"
+                             style="width:100%"
+                             type="text"
+                             data-options="prompt:'@Html.DescriptionFor(model => model.Spec)',
+								 required:true,
+                                 validType: 'length[0,100]'
+                                 " />
+                    </div>
+                    <!--单位-->
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Unit)</label>
+                    <div class="col-md-4 mb-1 pl-1">
+                      <input id="@Html.IdFor(model => model.Unit)"
+                             name="@Html.NameFor(model => model.Unit)"
+                             value="@Html.ValueFor(model => model.Unit)"
+                             tabindex="20"
+                             class="easyui-textbox"
+                             style="width:100%"
+                             type="text"
+                             data-options="prompt:'@Html.DescriptionFor(model => model.Unit)',
+								 required:false,
+                                 validType: 'length[0,10]'
+                                 " />
+                    </div>
+
+                    <!--产品状态-->
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
+                    <div class="col-md-4 mb-1 pl-1">
+                      <input id="@Html.IdFor(model => model.Status)"
+                             name="@Html.NameFor(model => model.Status)"
+                             value="@Html.ValueFor(model => model.Status)"
+                             tabindex="8"
+                             class="easyui-textbox"
+                             style="width:100%"
+                             type="text"
+                             data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
+								 required:false,readonly:true,
+                                 validType: 'length[0,10]'
+                                 " />
+                    </div>
                     <!--备注-->
                     <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Remark)</label>
                     <div class="col-md-4 mb-1 pl-1">
@@ -247,23 +291,6 @@
                                  validType: 'length[0,50]'
                                  " />
                     </div>
-
-
-                    <!--产品状态-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Status)"
-                             name="@Html.NameFor(model => model.Status)"
-                             value="@Html.ValueFor(model => model.Status)"
-                             tabindex="8"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
-								 required:false,
-                                 validType: 'length[0,10]'
-                                 " />
-                    </div>
                   </div>
                   <div class="row h-100 align-items-center">
                     <!--产品图片-->
@@ -272,9 +299,9 @@
                       <div class="mt-1 fw-300 fs-sm text-muted">
                         <i class="color-primary-600 fal fa-exclamation-circle"></i>
 
-                 
-                          支持jpg.png格式，拖动图片重新排序，默认第一张图片为主图，建议每张上传文件大小200K以内
-                     
+
+                        支持jpg.png格式，拖动图片重新排序，默认第一张图片为主图，建议每张上传文件大小200K以内
+
                       </div>
                       <div class="d-flex">
                         <div class="picture-content">
@@ -287,16 +314,7 @@
                           </div>
                         </div>
                         <div class="align-self-center w-100" id="js-lightgallery">
-                          <a class="" href="/content/img/demo/gallery/1.jpg" data-id="001" data-sub-html="The free in pointed they their for the so fame.">
 
-                            <img class="img-responsive" src="/content/img/demo/gallery/thumb/1.jpg" alt="图片1">
-                          </a>
-                          <a class="" href="/content/img/demo/gallery/2.jpg" data-id="002" data-sub-html="Sinking self-interest along four magazine he each specially rewritten">
-                            <img class="img-responsive" src="/content/img/demo/gallery/thumb/2.jpg" alt="图片2">
-                          </a>
-                          <a class="" href="/content/img/demo/gallery/3.jpg" data-id="003" data-sub-html="More and of are the of wonder, make written it checks, intrigued its the in.">
-                            <img class="img-responsive" src="/content/img/demo/gallery/thumb/3.jpg" alt="图片3">
-                          </a>
                         </div>
                       </div>
                     </div>
@@ -453,234 +471,245 @@
                   </div>
                 </fieldset>
                 <fieldset>
-                  <legend style="font-size:1.2rem">包装信息</legend>
-                  <div class="row h-100 align-items-center">
-                    <!--包装方式-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Package)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Package)"
-                             name="@Html.NameFor(model => model.Package)"
-                             value="@Html.ValueFor(model => model.Package)"
-                             tabindex="18"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Package)',
+                  <legend style="font-size:1.2rem">
+                    包装信息
+                  </legend>
+                  <div class="pack-container">
+                    <div class="d-flex flex-row-reverse">
+                      <div class="button-group btn-group-sm ">
+                        <button type="button" class="btn btn-primary"><i class="fal fa-plus-circle"></i></button>
+                        <button type="button" class="btn btn-danger"><i class="fal fa-minus-circle"></i></button>
+                      </div>
+                    </div>
+                    <div class="row h-100 align-items-center">
+
+                      <!--包装方式-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Package)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.Package)"
+                               name="@Html.NameFor(model => model.Package)"
+                               value="@Html.ValueFor(model => model.Package)"
+                               tabindex="18"
+                               class="easyui-textbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.Package)',
 								 required:false,
                                  validType: 'length[0,10]'
                                  " />
-                    </div>
+                      </div>
 
-                    <!--内装数量-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.InnerBoxQty)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.InnerBoxQty)"
-                             name="@Html.NameFor(model => model.InnerBoxQty)"
-                             value="@Html.ValueFor(model => model.InnerBoxQty)"
-                             tabindex="19"
-                             class="easyui-numberbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.InnerBoxQty)',
+                      <!--内装数量-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.InnerBoxQty)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.InnerBoxQty)"
+                               name="@Html.NameFor(model => model.InnerBoxQty)"
+                               value="@Html.ValueFor(model => model.InnerBoxQty)"
+                               tabindex="19"
+                               class="easyui-numberbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.InnerBoxQty)',
 								 required:false,formatter:numberformatter,
                                  parser:parsernumber,precision:2,
 
                                  " />
 
-                    </div>
+                      </div>
 
 
-                    <!--单位-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Unit)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Unit)"
-                             name="@Html.NameFor(model => model.Unit)"
-                             value="@Html.ValueFor(model => model.Unit)"
-                             tabindex="20"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Unit)',
+                      <!--单位-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.InnerUnit)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.InnerUnit)"
+                               name="@Html.NameFor(model => model.InnerUnit)"
+                               value="@Html.ValueFor(model => model.InnerUnit)"
+                               tabindex="20"
+                               class="easyui-textbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.InnerUnit)',
 								 required:false,
                                  validType: 'length[0,10]'
                                  " />
-                    </div>
+                      </div>
 
-                    <!--毛重-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.GWeight)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.GWeight)"
-                             name="@Html.NameFor(model => model.GWeight)"
-                             value="@Html.ValueFor(model => model.GWeight)"
-                             tabindex="21"
-                             class="easyui-numberbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.GWeight)',
+                      <!--毛重-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.GWeight)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.GWeight)"
+                               name="@Html.NameFor(model => model.GWeight)"
+                               value="@Html.ValueFor(model => model.GWeight)"
+                               tabindex="21"
+                               class="easyui-numberbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.GWeight)',
 								 required:false,formatter:numberformatter,
                                  parser:parsernumber,precision:2,
 
                                  " />
 
-                    </div>
+                      </div>
 
 
-                    <!--毛重单位-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.GWUnit)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.GWUnit)"
-                             name="@Html.NameFor(model => model.GWUnit)"
-                             value="@Html.ValueFor(model => model.GWUnit)"
-                             tabindex="22"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.GWUnit)',
+                      <!--毛重单位-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.GWUnit)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.GWUnit)"
+                               name="@Html.NameFor(model => model.GWUnit)"
+                               value="@Html.ValueFor(model => model.GWUnit)"
+                               tabindex="22"
+                               class="easyui-textbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.GWUnit)',
 								 required:false,
                                  validType: 'length[0,10]'
                                  " />
-                    </div>
+                      </div>
 
-                    <!--净重-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.NWeight)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.NWeight)"
-                             name="@Html.NameFor(model => model.NWeight)"
-                             value="@Html.ValueFor(model => model.NWeight)"
-                             tabindex="23"
-                             class="easyui-numberbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.NWeight)',
+                      <!--净重-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.NWeight)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.NWeight)"
+                               name="@Html.NameFor(model => model.NWeight)"
+                               value="@Html.ValueFor(model => model.NWeight)"
+                               tabindex="23"
+                               class="easyui-numberbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.NWeight)',
 								 required:false,formatter:numberformatter,
                                  parser:parsernumber,precision:2,
 
                                  " />
 
-                    </div>
+                      </div>
 
 
-                    <!--净重单位-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.NWUnit)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.NWUnit)"
-                             name="@Html.NameFor(model => model.NWUnit)"
-                             value="@Html.ValueFor(model => model.NWUnit)"
-                             tabindex="24"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.NWUnit)',
+                      <!--净重单位-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.NWUnit)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.NWUnit)"
+                               name="@Html.NameFor(model => model.NWUnit)"
+                               value="@Html.ValueFor(model => model.NWUnit)"
+                               tabindex="24"
+                               class="easyui-textbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.NWUnit)',
 								 required:false,
                                  validType: 'length[0,10]'
                                  " />
-                    </div>
+                      </div>
 
-                    <!--体积-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Volume)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Volume)"
-                             name="@Html.NameFor(model => model.Volume)"
-                             value="@Html.ValueFor(model => model.Volume)"
-                             tabindex="25"
-                             class="easyui-numberbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Volume)',
+                      <!--体积-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Volume)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.Volume)"
+                               name="@Html.NameFor(model => model.Volume)"
+                               value="@Html.ValueFor(model => model.Volume)"
+                               tabindex="25"
+                               class="easyui-numberbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.Volume)',
 								 required:false,formatter:numberformatter,
                                  parser:parsernumber,precision:2,
 
                                  " />
 
-                    </div>
+                      </div>
 
 
-                    <!--体积单位-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.VUnit)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.VUnit)"
-                             name="@Html.NameFor(model => model.VUnit)"
-                             value="@Html.ValueFor(model => model.VUnit)"
-                             tabindex="26"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.VUnit)',
+                      <!--体积单位-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.VUnit)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.VUnit)"
+                               name="@Html.NameFor(model => model.VUnit)"
+                               value="@Html.ValueFor(model => model.VUnit)"
+                               tabindex="26"
+                               class="easyui-textbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.VUnit)',
 								 required:false,
                                  validType: 'length[0,10]'
                                  " />
-                    </div>
+                      </div>
 
-                    <!--长-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Length)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Length)"
-                             name="@Html.NameFor(model => model.Length)"
-                             value="@Html.ValueFor(model => model.Length)"
-                             tabindex="27"
-                             class="easyui-numberbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Length)',
+                      <!--长-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Length)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.Length)"
+                               name="@Html.NameFor(model => model.Length)"
+                               value="@Html.ValueFor(model => model.Length)"
+                               tabindex="27"
+                               class="easyui-numberbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.Length)',
 								 required:false,formatter:numberformatter,
                                  parser:parsernumber,precision:2,
 
                                  " />
 
-                    </div>
+                      </div>
 
 
-                    <!--宽-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Width)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Width)"
-                             name="@Html.NameFor(model => model.Width)"
-                             value="@Html.ValueFor(model => model.Width)"
-                             tabindex="28"
-                             class="easyui-numberbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Width)',
+                      <!--宽-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Width)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.Width)"
+                               name="@Html.NameFor(model => model.Width)"
+                               value="@Html.ValueFor(model => model.Width)"
+                               tabindex="28"
+                               class="easyui-numberbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.Width)',
 								 required:false,formatter:numberformatter,
                                  parser:parsernumber,precision:2,
 
                                  " />
 
-                    </div>
+                      </div>
 
-                    <!--高-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.High)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.High)"
-                             name="@Html.NameFor(model => model.High)"
-                             value="@Html.ValueFor(model => model.High)"
-                             tabindex="29"
-                             class="easyui-numberbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.High)',
+                      <!--高-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.High)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.High)"
+                               name="@Html.NameFor(model => model.High)"
+                               value="@Html.ValueFor(model => model.High)"
+                               tabindex="29"
+                               class="easyui-numberbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.High)',
 								 required:false,formatter:numberformatter,
                                  parser:parsernumber,precision:2,
 
                                  " />
 
-                    </div>
+                      </div>
 
 
-                    <!--单位-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LUnit)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.LUnit)"
-                             name="@Html.NameFor(model => model.LUnit)"
-                             value="@Html.ValueFor(model => model.LUnit)"
-                             tabindex="30"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.LUnit)',
+                      <!--单位-->
+                      <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LUnit)</label>
+                      <div class="col-md-4 mb-1 pl-1">
+                        <input id="@Html.IdFor(model => model.LUnit)"
+                               name="@Html.NameFor(model => model.LUnit)"
+                               value="@Html.ValueFor(model => model.LUnit)"
+                               tabindex="30"
+                               class="easyui-textbox"
+                               style="width:100%"
+                               type="text"
+                               data-options="prompt:'@Html.DescriptionFor(model => model.LUnit)',
 								 required:false,
                                  validType: 'length[0,10]'
                                  " />
+                      </div>
                     </div>
                   </div>
                 </fieldset>
@@ -823,6 +852,28 @@
               </table>
             </div>
           </div>
+          <div class="tab-pane fade show "
+               id="tab-actionlog"
+               role="tabpanel"
+               aria-labelledby="tab-actionlog">
+
+            <div class="d-flex justify-content-start flex-wrap p-2">
+              <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
+                <button name="productsaleshistoricalprice_searchbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed"
+                        onclick="productsaleshistoricalprice_reloadData()">
+                  查询
+                </button>
+                
+              </div>
+
+            </div>
+            <div class="table-responsive">
+              <table class="m-0" id="actionlog_datagrid">
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -859,31 +910,31 @@
     var url = '/ProductSalesHistoricalPrices/GetDataByProductId?productid=' + productid;
     $productsaleshistoricalpricedg.datagrid('load', url);
     $productsaleshistoricalpricedg.datagrid('resize');
-
-    var $initScope = $('#js-lightgallery');
-    if ($initScope.length) {
-      $initScope.justifiedGallery(
-        {
-          border: -1,
-          rowHeight: 80,
-          margins: 8,
-          waitThumbnailsLoad: true,
-          randomize: false,
-        }).on('jg.complete', function () {
-          $initScope.lightGallery(
-            {
-              thumbnail: true,
-              animateThumb: true,
-              showThumbByDefault: true,
-              onDeletePicture: function (item) {
-                console.log('onDeletePicture', item, $(item).data("id"))
-              }
-            })
-
-        });
-     
-      
-    };
+    $('#js-lightgallery').empty();
+    if (state != 'Added') {
+      loadPictureList(data.Id);
+    }
+    //var $initScope = $('#js-lightgallery');
+    //if ($initScope.length) {
+    //  $initScope.justifiedGallery(
+    //    {
+    //      border: -1,
+    //      rowHeight: 80,
+    //      margins: 8,
+    //      waitThumbnailsLoad: true,
+    //      randomize: false,
+    //    }).on('jg.complete', function () {
+    //      $initScope.lightGallery(
+    //        {
+    //          thumbnail: true,
+    //          animateThumb: true,
+    //          showThumbByDefault: true,
+    //          onDeletePicture: function (item) {
+    //            console.log('onDeletePicture', item, $(item).data("id"))
+    //          }
+    //        })
+    //    });
+    //};
   }
   //删除当前记录
   function deleteproductitem() {
@@ -908,7 +959,11 @@
     if ($productform.form('enableValidation').form('validate')) {
       let product = $productform.serializeJSON();
       //获取明细表数据
-
+      let fileidarray = [];
+      $('#js-lightgallery > a').each(function () {
+        fileidarray.push($(this).data("id"));
+      });
+      product.Pictures = fileidarray;
       const productfile_result = await productfile_acceptChanges();
       if (!productfile_result.success) {
         return false;
@@ -1079,6 +1134,178 @@
         $(e.target).emulateTab();
       }
     });
+  }
+
+  document.addEventListener('DOMContentLoaded', (event) => {
+    $('.upload').on('click', function (e) {
+      console.log('click')
+      var el = window._protected_reference= document.getElementById("picturesinput");
+      el.type = "file";
+      el.accept = "image/*";
+      el.multiple = "multiple"; // remove to have a single file selection
+
+      // (cancel will not trigger 'change')
+      el.addEventListener('change', function (ev2) {
+        // access el.files[] to do something with it (test its length!)
+
+        // add first image, if available
+   
+        if (el!= undefined && el.files.length) {
+          var form = document.getElementById('product_form')
+          const form_data = new FormData(form);
+          const dialog = bootbox.dialog({
+            message: '<div class="text-center"><i class="fal fa-spinner fa-pulse fa-lg mr-1"></i> 上传中...</div>',
+            closeButton: false
+          });
+          $.ajax({
+            type: 'POST',
+            url: '/Attachments/PostFiles',
+            enctype: 'multipart/form-data',
+            data: form_data,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+              console.log(data)
+              appendpicturegallay(data.result)
+              console.log('upload completed!');
+              el = window._protected_reference = undefined;
+              var productid = parseInt($('#product_form #Id').val());
+              if (MODELSTATE != 'Added' && productid > 0) {
+                $.post(`/Products/AddPrictures`, { id: productid, fileId: data.result.map(m => m.FileId) }).done(
+                  res => {
+                    console.log('AddPricture')
+                  }
+                )
+              }
+              setTimeout(() => {
+                dialog.modal('hide')
+              },200)
+              
+              //el.value = '';
+              //$(el).val('');
+         
+            }
+          }
+          );
+
+          //console.log(URL.createObjectURL(el.files[0]));
+        }
+
+
+        // test some async handling
+        //new Promise(function (resolve) {
+        //  setTimeout(function () { console.log(el.files); resolve(); }, 1000);
+        //})
+        //  .then(function () {
+        //    // clear / free reference
+        //    el = window._protected_reference = undefined;
+          
+        //  });
+
+      });
+
+      el.click(); // open
+    }
+    );
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      e.target // newly activated tab
+      e.relatedTarget // previous active tab
+      console.log(e)
+      if (e.target.innerText == "产品信息") {
+
+      }
+      if (e.target.innerText == "历史采购价格") {
+        $productpurchasehistoricalpricedg.datagrid('resize');
+      }
+      if (e.target.innerText == "历史销售价格") {
+        $productsaleshistoricalpricedg.datagrid('resize');
+      }
+      if (e.target.innerText == "附件信息") {
+        $productfiledg.datagrid('resize');
+      }
+      if (e.target.innerText == "操作日志") {
+        //$productfiledg.datagrid('resize');
+      }
+    })
+  });
+  function loadPictureList(productid) {
+    $.get('/ProductPrictures/GetDataByProductId?productid=' + productid).done(res => {
+      console.log(res);
+      if (res.length > 0) {
+        res.forEach(item => {
+          const el = `<a class="" href="${item.RelativePath}" data-id="${item.FileId}" data-sub-html="${item.FileName}">
+                   <img class="img-responsive" src="${item.RelativePath}" alt="${item.FileName}">
+                 </a>`
+          $('#js-lightgallery').append(el)
+        });
+        var $initScope = $('#js-lightgallery');
+        if ($initScope.length) {
+          $initScope.justifiedGallery(
+            {
+              border: -1,
+              rowHeight: 60,
+              margins: 5,
+              waitThumbnailsLoad: true,
+              randomize: false,
+            }).on('jg.complete', function () {
+              if ($initScope.data("lightGallery")) {
+                $initScope.data('lightGallery').destroy(true)
+              }
+              $initScope.lightGallery(
+                {
+                  thumbnail: true,
+                  animateThumb: true,
+                  showThumbByDefault: true,
+                  onDeletePicture: function (item) {
+                    console.log('onDeletePicture', item, $(item).data("id"));
+                    $.get('/Products/DeleteFile/' + $(item).data("id")).done(res => {
+                      $(`a[data-id="${$(item).data("id")}"]`).remove();
+                    });
+                  }
+                })
+            });
+
+        };
+      }
+    });
+  }
+  function appendpicturegallay(list) {
+    list.forEach(item => {
+      const el = `<a class="" href="${item.RelativePath}" data-id="${item.FileId}" data-sub-html="${item.FileName}">
+                   <img class="img-responsive" src="${item.RelativePath}" alt="${item.FileName}">
+                 </a>`
+      $('#js-lightgallery').append(el)
+
+    })
+    
+    var $initScope = $('#js-lightgallery');
+    if ($initScope.length) {
+      $initScope.justifiedGallery(
+        {
+          border: -1,
+          rowHeight: 60,
+          margins: 5,
+          waitThumbnailsLoad: true,
+          randomize: false,
+        }).on('jg.complete', function () {
+          if ($initScope.data("lightGallery")) {
+            $initScope.data('lightGallery').destroy(true)
+          }
+          $initScope.lightGallery(
+            {
+              thumbnail: true,
+              animateThumb: true,
+              showThumbByDefault: true,
+              onDeletePicture: function (item) {
+                console.log('onDeletePicture', item, $(item).data("id"));
+                $.get('/Products/DeleteFile/'+ $(item).data("id")).done(res => {
+                  $(`a[data-id="${$(item).data("id")}"]`).remove();
+                });
+              }
+            })
+        });
+      
+    };
   }
 </script>
 

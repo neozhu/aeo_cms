@@ -17,5 +17,15 @@ namespace WebApp
 
 
     }
+    //获取产品编号
+    public static string GetProductKey()
+    {
+      var prefix = DateTime.Now.ToString("yyyyMM00");
+
+      var result = db.Ado.GetInt("exec [dbo].[SP_NextVal]  @prefix", new {prefix= prefix });
+      return prefix+Convert.ToInt32(result).ToString("0000");
+
+
+    }
   }
 }

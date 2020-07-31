@@ -12,24 +12,27 @@ using System.Data;
 using System.IO;
 namespace WebApp.Services
 {
-/// <summary>
-/// File: IProductService.cs
-/// Purpose: Service interfaces. Services expose a service interface
-/// to which all inbound messages are sent. You can think of a service interface
-/// as a façade that exposes the business logic implemented in the application
-/// Created Date: 2020/7/30 16:45:00
-/// Author: neo.zhu
-/// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
-/// Copyright (c) 2012-2018 All Rights Reserved
-/// </summary>
-    public interface IProductService:IService<Product>
-    {
-         Task<IEnumerable<ProductFile>>   GetProductFilesByProductIdAsync (int productid);
-         Task<IEnumerable<ProductPurchaseHistoricalPrice>>   GetProductPurchaseHistoricalPricesByProductIdAsync (int productid);
-         Task<IEnumerable<ProductSalesHistoricalPrice>>   GetProductSalesHistoricalPricesByProductIdAsync (int productid);
- 
-		Task ImportDataTableAsync(DataTable datatable,string username="");
-		Task<Stream> ExportExcelAsync( string filterRules = "",string sort = "Id", string order = "asc");
-	    Task Delete(int[] id);
-    }
+  /// <summary>
+  /// File: IProductService.cs
+  /// Purpose: Service interfaces. Services expose a service interface
+  /// to which all inbound messages are sent. You can think of a service interface
+  /// as a façade that exposes the business logic implemented in the application
+  /// Created Date: 2020/7/30 16:45:00
+  /// Author: neo.zhu
+  /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
+  /// Copyright (c) 2012-2018 All Rights Reserved
+  /// </summary>
+  public interface IProductService : IService<Product>
+  {
+    Task<IEnumerable<ProductFile>> GetProductFilesByProductIdAsync(int productid);
+    Task<IEnumerable<ProductPurchaseHistoricalPrice>> GetProductPurchaseHistoricalPricesByProductIdAsync(int productid);
+    Task<IEnumerable<ProductSalesHistoricalPrice>> GetProductSalesHistoricalPricesByProductIdAsync(int productid);
+
+    Task ImportDataTableAsync(DataTable datatable, string username = "");
+    Task<Stream> ExportExcelAsync(string filterRules = "", string sort = "Id", string order = "asc");
+    Task Delete(int[] id);
+    Task Create(CreateProductViewModel product);
+    Task DeleteFile(string id);
+    Task AddPrictures(int id, string[] fileId);
+  }
 }

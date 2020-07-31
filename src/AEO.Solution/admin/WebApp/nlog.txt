@@ -36,3 +36,13 @@
 2020-07-30 14:06:55.8379|FATAL|WebApp.MvcApplication|This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet.
 2020-07-30 14:07:36.8843|FATAL|WebApp.MvcApplication|This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet.
 2020-07-30 15:00:39.3720|FATAL|WebApp.MvcApplication|A public action method 'GetComboTreeData' was not found on controller 'WebApp.Controllers.CategoriesController'.
+2020-07-31 10:51:34.5072|FATAL|WebApp.MvcApplication|The conversion of a datetime2 data type to a datetime data type resulted in an out-of-range value.
+The statement has been terminated.
+2020-07-31 13:07:05.6474|FATAL|WebApp.MvcApplication|Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2020-07-31 13:07:18.2769|FATAL|WebApp.MvcApplication|Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2020-07-31 13:07:19.3779|FATAL|WebApp.MvcApplication|Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2020-07-31 13:20:09.0685|FATAL|WebApp.MvcApplication|A public action method 'undefined' was not found on controller 'WebApp.Controllers.ProductsController'.
+2020-07-31 13:20:15.3833|FATAL|WebApp.MvcApplication|A public action method 'undefined' was not found on controller 'WebApp.Controllers.ProductsController'.
+2020-07-31 16:52:39.9743|FATAL|WebApp.MvcApplication|The parameters dictionary contains a null entry for parameter 'productid' of non-nullable type 'System.Int32' for method 'System.Threading.Tasks.Task`1[System.Web.Mvc.JsonResult] GetDataByProductId(Int32, Int32, Int32, System.String, System.String, System.String)' in 'WebApp.Controllers.ProductPricturesController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+???: parameters
+2020-07-31 17:17:05.9418|FATAL|WebApp.MvcApplication|A public action method 'AddPricture' was not found on controller 'WebApp.Controllers.ProductsController'.

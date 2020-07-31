@@ -36,8 +36,9 @@ namespace WebApp.Controllers
     public async Task<ActionResult> Index()
     {
       //var list = this.companyService.Queryable().ToList();
+     //var key= KeyGenerator.GetProductKey();
 
-      
+
       ViewBag.P1 = 0;
       ViewBag.P2 = 0;
       ViewBag.P3 =0;

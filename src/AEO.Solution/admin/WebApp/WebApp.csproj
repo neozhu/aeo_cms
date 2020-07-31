@@ -511,6 +511,18 @@
     <Compile Include="Migrations\202007300746414_md_actionlog.designer.cs">
       <DependentUpon>202007300746414_md_actionlog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007310249486_md_attchange.cs" />
+    <Compile Include="Migrations\202007310249486_md_attchange.designer.cs">
+      <DependentUpon>202007310249486_md_attchange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007310602431_md_unit.cs" />
+    <Compile Include="Migrations\202007310602431_md_unit.designer.cs">
+      <DependentUpon>202007310602431_md_unit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007310707204_md_addCategoryId.cs" />
+    <Compile Include="Migrations\202007310707204_md_addCategoryId.designer.cs">
+      <DependentUpon>202007310707204_md_addCategoryId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
@@ -524,6 +536,7 @@
     <Compile Include="Models\CustomerBank.cs" />
     <Compile Include="Models\CustomerContact.cs" />
     <Compile Include="Models\Dto\CategoryTreeItem.cs" />
+    <Compile Include="Models\Dto\CreateProductViewModel.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
     <Compile Include="Models\Metadata\ActionLogMetadata.cs" />
@@ -3888,6 +3901,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007300746414_md_actionlog.resx">
       <DependentUpon>202007300746414_md_actionlog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007310249486_md_attchange.resx">
+      <DependentUpon>202007310249486_md_attchange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007310602431_md_unit.resx">
+      <DependentUpon>202007310602431_md_unit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007310707204_md_addCategoryId.resx">
+      <DependentUpon>202007310707204_md_addCategoryId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />

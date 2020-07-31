@@ -20,6 +20,8 @@ namespace WebApp.Models
     [Display(Name = "产品类别", Description = "产品类别")]
     [MaxLength(128)]
     public string Category { get; set; }
+    [Display(Name = "产品类别", Description = "产品类别")]
+    public int? CategoryId { get; set; }
     [Display(Name = "中文品名", Description = "中文品名")]
     [MaxLength(200)]
     public string ProductName { get; set; }
@@ -33,7 +35,9 @@ namespace WebApp.Models
     public string CnDescription { get; set; }
     [Display(Name = "英文描述", Description = "英文描述")]
     public string EnDescription { get; set; }
-
+    [Display(Name = "单位", Description = "单位")]
+    [MaxLength(10)]
+    public string Unit { get; set; }
     [Display(Name = "备注", Description = "备注")]
     public string Remark { get; set; }
     [Display(Name = "产品状态", Description = "产品状态")]
@@ -74,9 +78,9 @@ namespace WebApp.Models
     [Display(Name = "内装数量", Description = "内装数量")]
     [DefaultValue(null)]
     public decimal? InnerBoxQty { get; set; }
-    [Display(Name = "单位", Description = "单位")]
+    [Display(Name = "数量单位", Description = "数量单位")]
     [MaxLength(10)]
-    public string Unit { get; set; }
+    public string InnerUnit { get; set; }
     [Display(Name = "毛重", Description = "毛重")]
     [DefaultValue(null)]
     public decimal? GWeight { get; set; }
@@ -125,9 +129,12 @@ namespace WebApp.Models
       this.ProductSalesHistoricalPrices = new HashSet<ProductSalesHistoricalPrice>();
       this.ProductPurchaseHistoricalPrices = new HashSet<ProductPurchaseHistoricalPrice>();
       this.ProductFiles = new HashSet<ProductFile>();
+      this.ProductPrictures = new HashSet<ProductPricture>();
     }
     public virtual ICollection<ProductSalesHistoricalPrice> ProductSalesHistoricalPrices { get; set; }
     public virtual ICollection<ProductPurchaseHistoricalPrice> ProductPurchaseHistoricalPrices { get; set; }
     public virtual ICollection<ProductFile> ProductFiles { get; set; }
+
+    public virtual ICollection<ProductPricture> ProductPrictures { get; set; }
   }
 }

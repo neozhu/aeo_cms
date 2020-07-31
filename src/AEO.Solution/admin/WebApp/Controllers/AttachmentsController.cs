@@ -16,6 +16,7 @@ using WebApp.Models;
 using WebApp.Services;
 using WebApp.Repositories;
 using Microsoft.Ajax.Utilities;
+using System.IO;
 
 namespace WebApp.Controllers
 {
@@ -71,6 +72,70 @@ namespace WebApp.Controllers
         throw e;
       }
     }
+
+    //普通ajax上传文件
+    [HttpPost]
+    public async Task<JsonResult> PostFiles() {
+      var result = new List<Attachment>();
+      if (this.Request.Files.Count > 0)
+      {
+        var count = this.Request.Files.Count;
+        for (var i = 0; i < count; i++)
+        {
+          var date = DateTime.Now.ToString("yyyyMMdd");
+          var file = this.Request.Files[i];
+          var filename = file.FileName;
+          var ext = System.IO.Path.GetExtension(filename);
+          var size = file.ContentLength;
+          var fileid =  Guid.NewGuid().ToString();
+          var path = $"/UploadFiles/attachment/{date}/{ext.Replace(".", "")}";
+          var folder = this.Server.MapPath(path);
+          if (!Directory.Exists(folder))
+          {
+            Directory.CreateDirectory(folder);
+          }
+          var relpath =$"{path}/{fileid + ext}";
+          var filepath = Path.Combine(folder, fileid + ext);
+          file.SaveAs(filepath);
+          var item = new Attachment()
+          {
+            Ext = ext,
+            FileId = fileid,
+            Size = size,
+            FileName = filename,
+            Owner = Auth.GetFullName(),
+            RelativePath = relpath,
+            FilePath = filepath,
+            Upload=DateTime.Now,
+
+          };
+          result.Add(item);
+          this.attachmentService.Insert(item);
+        }
+        await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true, result }, JsonRequestBehavior.AllowGet);
+      }
+      else
+      {
+        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+      }
+     
+    }
+    //删除文件名
+    public async Task<JsonResult> DeleteFiles(string[] id) {
+      var items =await this.attachmentService.Queryable()
+        .Where(x => id.Contains(x.FileId)).ToListAsync();
+      foreach (var item in items)
+      {
+        if (System.IO.File.Exists(item.FilePath))
+        {
+          System.IO.File.Delete(item.FilePath);
+        }
+        this.attachmentService.Delete(item);
+      }
+      await  this.unitOfWork.SaveChangesAsync();
+      return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+    }
     //重命名
     public async Task<JsonResult> Rename(string fileid, string newfilename) {
       try
@@ -104,6 +169,7 @@ namespace WebApp.Controllers
     Id = n.Id,
     FileName = n.FileName,
     FileId = n.FileId,
+    n.Size,
     Ext = n.Ext,
     FilePath = n.FilePath,
     n.RelativePath,
