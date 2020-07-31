@@ -1059,8 +1059,10 @@
     //判断是否显示功能按钮
     if (MODELSTATE === 'Added') {
       $('#deleteitem-btn-group').hide();
+      $('div[class="btn-group btn-group-sm mr-2"] button').attr('disabled', 'disabled');
     } else {
       $('#deleteitem-btn-group').show();
+      $('div[class="btn-group btn-group-sm mr-2"] button').removeAttr('disabled');
     }
 
     //回车光标移动到下个输入控件

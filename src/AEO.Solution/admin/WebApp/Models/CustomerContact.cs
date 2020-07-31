@@ -12,42 +12,32 @@ namespace WebApp.Models
   //客户联系人
   public partial class CustomerContact:Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "姓名", Description = "姓名")]
     [MaxLength(80)]
     [Required]
     public string Name { get; set; }
-    [Display(Name = "状态", Description = "状态")]
-    [MaxLength(20)]
-    [DefaultValue("启用")]
-    public string Status { get; set; }
-    [Display(Name = "英文名", Description = "英文名")]
-    [MaxLength(80)]
-    [Required]
-    public string EName { get; set; }
+    [Display(Name = "称谓", Description = "称谓")]
+    [MaxLength(10)]
+    [DefaultValue("先生")]
+    public string Appellation { get; set; }
     [Display(Name = "性别", Description = "性别")]
     [MaxLength(10)]
     [DefaultValue("男")]
     public string Sex { get; set; }
-    [Display(Name = "部门", Description = "部门")]
-    [MaxLength(80)]
-    [Required]
-    public string Dept { get; set; }
+    [Display(Name = "状态", Description = "状态")]
+    [MaxLength(20)]
+    [DefaultValue("启用")]
+    public string Status { get; set; }
+   
+
     [Display(Name = "职务", Description = "职务")]
     [MaxLength(80)]
     [Required]
-    public string Duty { get; set; }
+    public string Job { get; set; }
 
     [Display(Name = "手机号", Description = "手机号")]
     [MaxLength(50)]
     public string MobilePhone { get; set; }
-    [Display(Name = "电话1", Description = "电话1")]
-    [MaxLength(50)]
-    public string PhoneNumber1 { get; set; }
-    [Display(Name = "电话2", Description = "电话2")]
-    [MaxLength(50)]
-    public string PhoneNumber2 { get; set; }
     [Display(Name = "固话", Description = "固话")]
     [MaxLength(50)]
     public string PhoneNumber3 { get; set; }
@@ -58,9 +48,6 @@ namespace WebApp.Models
     [MaxLength(80)]
     [Required]
     public string Email { get; set; }
-
-
- 
     [Display(Name = "备注", Description = "备注")]
     [MaxLength(20)]
     public string Remark { get; set; }

@@ -36,6 +36,7 @@ namespace WebApp.Services
     private readonly IDataTableImportMappingService mappingservice;
     private readonly IAttachmentService attachmentService;
     private readonly IProductPrictureService productPrictureService;
+    private readonly IActionLogService actionLogService;
     private readonly NLog.ILogger logger;
     private readonly IMapper mapper;
     public ProductService(
@@ -43,6 +44,7 @@ namespace WebApp.Services
       IAttachmentService attachmentService,
       IRepositoryAsync<Product> repository,
       IDataTableImportMappingService mappingservice,
+      IActionLogService actionLogService,
       IMapper mapper,
       NLog.ILogger logger
       )
@@ -54,6 +56,7 @@ namespace WebApp.Services
       this.attachmentService = attachmentService;
       this.mapper = mapper;
       this.productPrictureService = productPrictureService;
+      this.actionLogService = actionLogService;
     }
     public async Task<IEnumerable<ProductFile>> GetProductFilesByProductIdAsync(int productid) => await repository.GetProductFilesByProductIdAsync(productid);
     public async Task<IEnumerable<ProductPurchaseHistoricalPrice>> GetProductPurchaseHistoricalPricesByProductIdAsync(int productid) => await repository.GetProductPurchaseHistoricalPricesByProductIdAsync(productid);
@@ -221,6 +224,17 @@ namespace WebApp.Services
         }
       }
       this.Insert(item);
+      var actionlog = new ActionLog()
+      {
+        Action = "新增",
+        Content = "新增产品:" + item.ProductNo,
+        ActionDateTime = DateTime.Now,
+        RekKey = item.ProductNo,
+        RefId = item.Id,
+        User = Auth.GetFullName()
+      };
+      this.actionLogService.Insert(actionlog);
+
     }
     public async Task DeleteFile(string id) {
       var item =await this.attachmentService.Queryable().Where(x => x.FileId == id).FirstOrDefaultAsync();

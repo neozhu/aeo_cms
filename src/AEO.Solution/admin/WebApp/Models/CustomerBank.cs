@@ -35,25 +35,10 @@ namespace WebApp.Models
     [MaxLength(100)]
     [Required]
     public string AccountNo { get; set; }
-    [Display(Name = "账户类型", Description = "账户类型")]
-    [MaxLength(100)]
-    [Required]
-    public string AccountType { get; set; }
-    [Display(Name = "银行国家", Description = "银行国家")]
-    [MaxLength(100)]
-    public string BankCountry { get; set; }
-
+    
     [Display(Name = "账户用途", Description = "账户用途")]
     [MaxLength(100)]
     public string BankUse { get; set; }
-    [Display(Name = "开户行地址", Description = "开户行地址")]
-    [MaxLength(100)]
-    public string BankAddress1 { get; set; }
-
-    [Display(Name = "开户行英文地址", Description = "开户行英文地址")]
-    [MaxLength(100)]
-    public string BankAddress2 { get; set; }
-
     [Display(Name = "SWIFT号", Description = "SWIFT号")]
     [MaxLength(50)]
     public string SWIFT { get; set; }
