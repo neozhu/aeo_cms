@@ -1,0 +1,158 @@
+﻿namespace WebApp.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class md_recustomer : DbMigration
+    {
+        public override void Up()
+        {
+            DropIndex("dbo.Customers", new[] { "CustomerCode" });
+            DropIndex("dbo.Customers", new[] { "CustomerName" });
+            AddColumn("dbo.Customers", "MasterCustom", c => c.String(maxLength: 10));
+            AddColumn("dbo.Customers", "CreditCode", c => c.String(nullable: false, maxLength: 18));
+            AddColumn("dbo.Customers", "Address", c => c.String(maxLength: 256));
+            AddColumn("dbo.Customers", "Flag", c => c.Boolean(nullable: false));
+            AddColumn("dbo.CustomerContacts", "Appellation", c => c.String(maxLength: 10));
+            AddColumn("dbo.CustomerContacts", "Job", c => c.String(nullable: false, maxLength: 80));
+            AlterColumn("dbo.Customers", "CustomerCode", c => c.String(nullable: false, maxLength: 32));
+            AlterColumn("dbo.Customers", "CustomerName", c => c.String(nullable: false, maxLength: 128));
+            AlterColumn("dbo.Customers", "CustomerEName", c => c.String(maxLength: 128));
+            AlterColumn("dbo.Customers", "CURR", c => c.String(maxLength: 32));
+            AlterColumn("dbo.Customers", "TradeCode", c => c.String(maxLength: 10));
+            AlterColumn("dbo.Customers", "Country", c => c.String(maxLength: 128));
+            AlterColumn("dbo.Customers", "BusinessScope", c => c.String(maxLength: 512));
+            AlterColumn("dbo.CustomerInvoices", "InvName", c => c.String(maxLength: 128));
+            AlterColumn("dbo.CustomerInvoices", "InvType", c => c.String(nullable: false, maxLength: 128));
+            AlterColumn("dbo.CustomerInvoices", "InvCountry", c => c.String(maxLength: 128));
+            AlterColumn("dbo.CustomerInvoices", "InvTax", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.CustomerInvoices", "TaxNo", c => c.String(maxLength: 128));
+            CreateIndex("dbo.Customers", "CustomerCode", unique: true);
+            CreateIndex("dbo.Customers", "CustomerName", unique: true);
+            CreateIndex("dbo.Customers", "CreditCode", unique: true);
+            DropColumn("dbo.Customers", "Overseas");
+            DropColumn("dbo.Customers", "CustomerType3");
+            DropColumn("dbo.Customers", "Capital");
+            DropColumn("dbo.Customers", "TaxProperty");
+            DropColumn("dbo.Customers", "ParentOrg");
+            DropColumn("dbo.Customers", "CustomMaster");
+            DropColumn("dbo.Customers", "Zone");
+            DropColumn("dbo.Customers", "Scale");
+            DropColumn("dbo.Customers", "Value");
+            DropColumn("dbo.Customers", "CreditRating");
+            DropColumn("dbo.Customers", "Cash");
+            DropColumn("dbo.Customers", "SDesc");
+            DropColumn("dbo.Customers", "CProvinces1");
+            DropColumn("dbo.Customers", "CCity1");
+            DropColumn("dbo.Customers", "CCounty1");
+            DropColumn("dbo.Customers", "CAddress1");
+            DropColumn("dbo.Customers", "CProvinces2");
+            DropColumn("dbo.Customers", "CCity2");
+            DropColumn("dbo.Customers", "CCounty2");
+            DropColumn("dbo.Customers", "CAddress2");
+            DropColumn("dbo.Customers", "EAddress1");
+            DropColumn("dbo.Customers", "EAddress2");
+            DropColumn("dbo.Customers", "PostCode");
+            DropColumn("dbo.Customers", "Status1");
+            DropColumn("dbo.Customers", "Status2");
+            DropColumn("dbo.Customers", "Status3");
+            DropColumn("dbo.Customers", "Status4");
+            DropColumn("dbo.Customers", "Status5");
+            DropColumn("dbo.Customers", "CompanyCode");
+            DropColumn("dbo.Customers", "CompanyName");
+            DropColumn("dbo.CustomerBanks", "AccountType");
+            DropColumn("dbo.CustomerBanks", "BankCountry");
+            DropColumn("dbo.CustomerBanks", "BankAddress1");
+            DropColumn("dbo.CustomerBanks", "BankAddress2");
+            DropColumn("dbo.CustomerContacts", "EName");
+            DropColumn("dbo.CustomerContacts", "Dept");
+            DropColumn("dbo.CustomerContacts", "Duty");
+            DropColumn("dbo.CustomerContacts", "PhoneNumber1");
+            DropColumn("dbo.CustomerContacts", "PhoneNumber2");
+            DropColumn("dbo.CustomerWarehouses", "Provinces");
+            DropColumn("dbo.CustomerWarehouses", "City");
+            DropColumn("dbo.CustomerWarehouses", "County");
+            DropColumn("dbo.CustomerWarehouses", "EAddress1");
+            DropColumn("dbo.CustomerWarehouses", "Remark1");
+            DropColumn("dbo.CustomerWarehouses", "WDept");
+            DropColumn("dbo.CustomerWarehouses", "WTitle");
+            DropColumn("dbo.CustomerWarehouses", "WSex");
+            DropColumn("dbo.CustomerWarehouses", "WPhone");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.CustomerWarehouses", "WPhone", c => c.String(maxLength: 256));
+            AddColumn("dbo.CustomerWarehouses", "WSex", c => c.String(maxLength: 10));
+            AddColumn("dbo.CustomerWarehouses", "WTitle", c => c.String(maxLength: 50));
+            AddColumn("dbo.CustomerWarehouses", "WDept", c => c.String(maxLength: 50));
+            AddColumn("dbo.CustomerWarehouses", "Remark1", c => c.String(maxLength: 256));
+            AddColumn("dbo.CustomerWarehouses", "EAddress1", c => c.String(maxLength: 256));
+            AddColumn("dbo.CustomerWarehouses", "County", c => c.String(maxLength: 50));
+            AddColumn("dbo.CustomerWarehouses", "City", c => c.String(maxLength: 50));
+            AddColumn("dbo.CustomerWarehouses", "Provinces", c => c.String(maxLength: 50));
+            AddColumn("dbo.CustomerContacts", "PhoneNumber2", c => c.String(maxLength: 50));
+            AddColumn("dbo.CustomerContacts", "PhoneNumber1", c => c.String(maxLength: 50));
+            AddColumn("dbo.CustomerContacts", "Duty", c => c.String(nullable: false, maxLength: 80));
+            AddColumn("dbo.CustomerContacts", "Dept", c => c.String(nullable: false, maxLength: 80));
+            AddColumn("dbo.CustomerContacts", "EName", c => c.String(nullable: false, maxLength: 80));
+            AddColumn("dbo.CustomerBanks", "BankAddress2", c => c.String(maxLength: 100));
+            AddColumn("dbo.CustomerBanks", "BankAddress1", c => c.String(maxLength: 100));
+            AddColumn("dbo.CustomerBanks", "BankCountry", c => c.String(maxLength: 100));
+            AddColumn("dbo.CustomerBanks", "AccountType", c => c.String(nullable: false, maxLength: 100));
+            AddColumn("dbo.Customers", "CompanyName", c => c.String(maxLength: 128));
+            AddColumn("dbo.Customers", "CompanyCode", c => c.String(maxLength: 10));
+            AddColumn("dbo.Customers", "Status5", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Status4", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Status3", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Status2", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Status1", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "PostCode", c => c.String(maxLength: 10));
+            AddColumn("dbo.Customers", "EAddress2", c => c.String(maxLength: 256));
+            AddColumn("dbo.Customers", "EAddress1", c => c.String(maxLength: 256));
+            AddColumn("dbo.Customers", "CAddress2", c => c.String(maxLength: 256));
+            AddColumn("dbo.Customers", "CCounty2", c => c.String(maxLength: 50));
+            AddColumn("dbo.Customers", "CCity2", c => c.String(maxLength: 50));
+            AddColumn("dbo.Customers", "CProvinces2", c => c.String(maxLength: 50));
+            AddColumn("dbo.Customers", "CAddress1", c => c.String(maxLength: 256));
+            AddColumn("dbo.Customers", "CCounty1", c => c.String(maxLength: 50));
+            AddColumn("dbo.Customers", "CCity1", c => c.String(maxLength: 50));
+            AddColumn("dbo.Customers", "CProvinces1", c => c.String(maxLength: 50));
+            AddColumn("dbo.Customers", "SDesc", c => c.String());
+            AddColumn("dbo.Customers", "Cash", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Customers", "CreditRating", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Value", c => c.String(maxLength: 256));
+            AddColumn("dbo.Customers", "Scale", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Zone", c => c.String(maxLength: 150));
+            AddColumn("dbo.Customers", "CustomMaster", c => c.String(maxLength: 128));
+            AddColumn("dbo.Customers", "ParentOrg", c => c.String(maxLength: 80));
+            AddColumn("dbo.Customers", "TaxProperty", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Capital", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Customers", "CustomerType3", c => c.String(maxLength: 20));
+            AddColumn("dbo.Customers", "Overseas", c => c.Boolean(nullable: false));
+            DropIndex("dbo.Customers", new[] { "CreditCode" });
+            DropIndex("dbo.Customers", new[] { "CustomerName" });
+            DropIndex("dbo.Customers", new[] { "CustomerCode" });
+            AlterColumn("dbo.CustomerInvoices", "TaxNo", c => c.String(maxLength: 100));
+            AlterColumn("dbo.CustomerInvoices", "InvTax", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.CustomerInvoices", "InvCountry", c => c.String(maxLength: 100));
+            AlterColumn("dbo.CustomerInvoices", "InvType", c => c.String(nullable: false, maxLength: 100));
+            AlterColumn("dbo.CustomerInvoices", "InvName", c => c.String(maxLength: 80));
+            AlterColumn("dbo.Customers", "BusinessScope", c => c.String());
+            AlterColumn("dbo.Customers", "Country", c => c.String(maxLength: 50));
+            AlterColumn("dbo.Customers", "TradeCode", c => c.String(maxLength: 128));
+            AlterColumn("dbo.Customers", "CURR", c => c.String(maxLength: 20));
+            AlterColumn("dbo.Customers", "CustomerEName", c => c.String(maxLength: 80));
+            AlterColumn("dbo.Customers", "CustomerName", c => c.String(nullable: false, maxLength: 80));
+            AlterColumn("dbo.Customers", "CustomerCode", c => c.String(nullable: false, maxLength: 20));
+            DropColumn("dbo.CustomerContacts", "Job");
+            DropColumn("dbo.CustomerContacts", "Appellation");
+            DropColumn("dbo.Customers", "Flag");
+            DropColumn("dbo.Customers", "Address");
+            DropColumn("dbo.Customers", "CreditCode");
+            DropColumn("dbo.Customers", "MasterCustom");
+            CreateIndex("dbo.Customers", "CustomerName", unique: true);
+            CreateIndex("dbo.Customers", "CustomerCode", unique: true);
+        }
+    }
+}

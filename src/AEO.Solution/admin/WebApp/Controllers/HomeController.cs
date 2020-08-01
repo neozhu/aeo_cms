@@ -12,7 +12,7 @@ using WebApp.Services;
 
 namespace WebApp.Controllers
 {
-  //[Authorize]
+  [Authorize]
   [RoutePrefix("Home")]
   public class HomeController : Controller
   {

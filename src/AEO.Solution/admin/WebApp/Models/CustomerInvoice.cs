@@ -12,25 +12,24 @@ namespace WebApp.Models
   //客户开票信息
   public partial class CustomerInvoice : Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "发票名称", Description = "发票名称")]
-    [MaxLength(80)]
+    [MaxLength(128)]
     public string InvName { get; set; }
     [Display(Name = "发票类型", Description = "发票类型")]
-    [MaxLength(100)]
+    [MaxLength(128)]
     [Required]
     public string InvType { get; set; }
     
     [Display(Name = "发票国家", Description = "发票国家")]
-    [MaxLength(100)]
+    [MaxLength(128)]
 
     public string InvCountry { get; set; }
 
     [Display(Name = "发票税点", Description = "发票税点")]
-    public decimal InvTax { get; set; }
+    public decimal? InvTax { get; set; }
     [Display(Name = "税务等级号", Description = "税务等级号")]
-    [MaxLength(100)]
+    [MaxLength(128)]
     public string TaxNo { get; set; }
     [Display(Name = "发票用途", Description = "发票用途")]
     [MaxLength(256)]

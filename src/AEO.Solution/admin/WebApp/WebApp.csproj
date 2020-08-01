@@ -523,6 +523,10 @@
     <Compile Include="Migrations\202007310707204_md_addCategoryId.designer.cs">
       <DependentUpon>202007310707204_md_addCategoryId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008010029248_md_recustomer.cs" />
+    <Compile Include="Migrations\202008010029248_md_recustomer.designer.cs">
+      <DependentUpon>202008010029248_md_recustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
@@ -3910,6 +3914,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007310707204_md_addCategoryId.resx">
       <DependentUpon>202007310707204_md_addCategoryId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008010029248_md_recustomer.resx">
+      <DependentUpon>202008010029248_md_recustomer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
