@@ -12,8 +12,6 @@ namespace WebApp.Models
   //客户共享记录
   public partial class CustomerShare : Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "共享人", Description = "共享人")]
     [MaxLength(20)]
     [Required]

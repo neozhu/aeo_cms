@@ -12,8 +12,6 @@ namespace WebApp.Models
   //客户沟通记录
   public partial class CustomerCommunication : Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "会议主题", Description = "会议主题")]
     [MaxLength(128)]
     [Required]

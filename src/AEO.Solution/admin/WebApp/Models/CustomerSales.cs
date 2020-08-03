@@ -12,8 +12,6 @@ namespace WebApp.Models
   //客户负责业务员关系历史表
   public partial class CustomerSales:Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "状态", Description = "状态")]
     [MaxLength(20)]
     public string Status { get; set; }

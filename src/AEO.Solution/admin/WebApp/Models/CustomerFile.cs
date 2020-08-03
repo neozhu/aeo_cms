@@ -12,8 +12,6 @@ namespace WebApp.Models
   //客户文件
   public partial class CustomerFile:Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "文件名", Description = "文件名")]
     [MaxLength(100)]
     [Required]

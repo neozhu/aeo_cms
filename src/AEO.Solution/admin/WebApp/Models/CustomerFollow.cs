@@ -12,8 +12,6 @@ namespace WebApp.Models
   //客户跟进情况
   public partial class CustomerFollow:Entity
   {
-    [Key]
-    public int Id { get; set; }
 
     [Display(Name = "客户联系人", Description = "客户联系人")]
     [MaxLength(80)]

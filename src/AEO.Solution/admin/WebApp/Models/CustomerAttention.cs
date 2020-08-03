@@ -12,8 +12,6 @@ namespace WebApp.Models
   //客户关注产品
   public partial class CustomerAttentionProduct:Entity
   {
-    [Key]
-    public int Id { get; set; }
 
     [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
     [MaxLength(20)]

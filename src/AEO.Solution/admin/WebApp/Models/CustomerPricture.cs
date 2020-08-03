@@ -12,8 +12,6 @@ namespace WebApp.Models
   //客户图片
   public partial class CustomerPicture:Entity
   {
-    [Key]
-    public int Id { get; set; }
     [Display(Name = "图片名称", Description = "图片名称")]
     [MaxLength(100)]
     [Required]

@@ -13,7 +13,7 @@ namespace WebApp.Models
   public partial class CustomerWarehouse:Entity
   {
     #region 基本信息
-    [Display(Name = "仓库代码", Description = "仓库代码")]
+    [Display(Name = "仓库代码", Description = "仓库代码(保存时系统自动分配也可以手工选择)")]
     [MaxLength(20)]
     public string WarehouseCode { get; set; }
     [Display(Name = "仓库名称", Description = "仓库名称")]
@@ -24,9 +24,7 @@ namespace WebApp.Models
     public string WarehouseType { get; set; }
     [Display(Name = "厂区门禁管理", Description = "厂区门禁管理")]
     public bool FactoryGuard { get; set; }
-    [Display(Name = "备注", Description = "备注")]
-    [MaxLength(256)]
-    public string Remark { get; set; }
+ 
     #endregion
     #region 仓库地址
 
@@ -61,6 +59,9 @@ namespace WebApp.Models
 
 
     #endregion
+    [Display(Name = "备注", Description = "备注")]
+    [MaxLength(256)]
+    public string Remark { get; set; }
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
