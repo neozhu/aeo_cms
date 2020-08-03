@@ -1,0 +1,166 @@
+﻿@model WebApp.Models.ProductFile
+  <script type="text/javascript">
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 ProductFile datagrid
+   var $productfiledg = $('#productfile_datagrid');
+   //当前行记录
+   var productfile = {};
+   //datagrid CRUD method
+    var productfile_editIndex = undefined;
+    //下载文件
+    function downloadFile(path) {
+      const url = `/FileUpload/Download?file=${path}`;
+      $.fileDownload(url)
+        .done(() => {
+          //console.log('file download a success!');
+          toastr.success('下载完成!');
+        })
+        .fail(() => {
+          $.messager.alert('下载失败', `没有找到文件!`, 'error');
+        });
+    }
+    //取消编辑恢复状态
+    function productfile_rejectChanges() {
+		$productfiledg.datagrid('rejectChanges');
+		productfile_editIndex = undefined;
+    }
+    //重新加载数据
+    function productfile_reloadData() {
+			$productfiledg.datagrid('unselectAll');
+            $productfiledg.datagrid('uncheckAll');
+	        $productfiledg.datagrid('reload');
+	}
+
+
+    //删除选中的行
+    function productfile_deleteChecked() {
+            const rows = $productfiledg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/ProductFiles/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $productfiledg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+  　
+
+
+  $(() => {
+    $productfiledg.datagrid({
+      fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      onLoadSuccess: function (data) {
+        productfile_editIndex = undefined;
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='productfile_deletebutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='productfile_deletebutton']").prop('disabled', !checked);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='productfile_deletebutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+      },
+     columns: [[
+        { field: 'ck', checkbox: true },
+       {
+         field: 'action',
+         title: '操作',
+         align: 'center',
+         width: 65,
+         formatter: function (v,row) {
+           return `<button onclick="downloadFile('${row.RelativePath }')" class="btn btn-outline-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="下载" ><i class="fal fa-download"></i> </button>`
+         }
+       },
+        {    /*文件名*/
+          field: 'FileName',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FileName)',
+          width: 200,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*大小*/
+          field: 'Size',
+          title: '  @Html.DisplayNameFor(model => model.Size)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          formatter: filesizeformatter,
+          sortable: true,
+          resizable: true,
+        },
+        {    /*上传用户*/
+          field: 'Owner',
+          title: '  @Html.DisplayNameFor(model => model.Owner)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {   /*上传时间*/
+          field: 'Upload',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Upload)',
+          width: 150,
+          align: 'right',
+          hidden: false,
+          sortable: true,
+          resizable: true,
+          formatter: datetimeformatter
+        },
+      ]]
+    })
+      .datagrid('enableFilter', [
+        {    /*大小*/
+          field: 'Size',
+          type: 'numberbox',
+          op: ['equal', 'notequal', 'less', 'lessorequal', 'greater', 'greaterorequal']
+        },
+        {     /*上传时间*/
+          field: 'Upload',
+          type: 'dateRange',
+          options: {
+          }
+        },
+      ]);
+  });
+
+  </script>
+
+
+ 

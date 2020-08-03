@@ -1,0 +1,88 @@
+﻿@{
+  ViewData["Title"] = "业务看板";
+  ViewData["PageName"] = "home_index";
+  ViewData["Category1"] = "Application";
+  ViewData["Heading"] = "<i class='subheader-icon fal fa-chart-area'></i> 资源 <span class='fw-300'>看板</span>";
+}
+@section HeadBlock {
+  <link href="~/Content/css/formplugins/ion-rangeslider/ion-rangeslider.css" rel="stylesheet" />
+  <link rel="stylesheet" media="screen, print" href="~/Content/css/datagrid/datatables/datatables.bundle.css">
+  <link rel="stylesheet" media="screen, print" href="~/Content/css/notifications/sweetalert2/sweetalert2.bundle.css">
+
+  <style>
+    
+  </style>
+}
+@section SubheaderBlock {
+
+}
+<div class="row">
+  <div class="col-sm-6 col-xl-3">
+    <div class="p-3 bg-primary-300 rounded overflow-hidden position-relative text-white mb-g">
+      <div class="">
+        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+          <div id="p1"></div>
+          <small class="m-0 l-h-n">新增客户</small>
+        </h3>
+      </div>
+      <i class="fal fa-user position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="p-3 bg-warning-400 rounded overflow-hidden position-relative text-white mb-g">
+      <div class="">
+        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+          <div id="p2"></div>
+          <small class="m-0 l-h-n">新增订单</small>
+        </h3>
+      </div>
+      <i class="fal fa-gem position-absolute pos-right pos-bottom opacity-15  mb-n1 mr-n4" style="font-size: 6rem;"></i>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="p-3 bg-success-200 rounded overflow-hidden position-relative text-white mb-g">
+      <div class="">
+        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+          <div id="p3"></div>
+          <small class="m-0 l-h-n">预警订单</small>
+        </h3>
+      </div>
+      <i class="fal fa-lightbulb position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem;"></i>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="p-3 bg-info-200 rounded overflow-hidden position-relative text-white mb-g">
+      <div class="">
+        <h3 class="display-4 d-block l-h-n m-0 fw-500">
+          <div id="p4"></div>
+          <small class="m-0 l-h-n">资源利用率</small>
+        </h3>
+      </div>
+      <i class="fal fa-globe position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
+    </div>
+  </div>
+</div>
+ 
+@section ScriptsBlock {
+  <script type="text/javascript">
+    /* Activate smart panels */
+    $('#js-page-content').smartPanel();
+  </script>
+
+  <script src="~/Scripts/datagrid/datatables/datatables.bundle.js"></script>
+  <script src="~/Scripts/notifications/sweetalert2/sweetalert2.bundle.js"></script>
+  <script src="~/Scripts/formplugins/ion-rangeslider/ion-rangeslider.js"></script>
+  <script type="module">
+   import { CountUp } from '/Scripts/plugin/countup/countUp.min.js';
+    $(async () => {
+      new CountUp('p1', @ViewBag.P2).start();
+      new CountUp('p2', @ViewBag.P3).start();
+      new CountUp('p3', @ViewBag.P4).start();
+      new CountUp('p4', @ViewBag.P1).start();
+
+    })
+
+  </script>
+   
+ 
+}
