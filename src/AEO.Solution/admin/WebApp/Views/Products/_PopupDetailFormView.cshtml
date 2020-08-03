@@ -252,12 +252,11 @@
                              name="@Html.NameFor(model => model.Unit)"
                              value="@Html.ValueFor(model => model.Unit)"
                              tabindex="20"
-                             class="easyui-textbox"
+                             class="easyui-combobox"
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.Unit)',
-								 required:false,
-                                 validType: 'length[0,10]'
+								 required:false,validType: 'length[0,10]',panelHeight:'auto',data:unitdatasource,
                                  " />
                     </div>
 
@@ -525,12 +524,11 @@
                                name="@Html.NameFor(model => model.InnerUnit)"
                                value="@Html.ValueFor(model => model.InnerUnit)"
                                tabindex="20"
-                               class="easyui-textbox"
+                               class="easyui-combobox"
                                style="width:100%"
                                type="text"
                                data-options="prompt:'@Html.DescriptionFor(model => model.InnerUnit)',
-								 required:false,
-                                 validType: 'length[0,10]'
+								 required:false,validType: 'length[0,10]',panelHeight:'auto',data:punitdatasource,
                                  " />
                       </div>
 
@@ -564,8 +562,7 @@
                                style="width:100%"
                                type="text"
                                data-options="prompt:'@Html.DescriptionFor(model => model.GWUnit)',
-								 required:false,
-                                 validType: 'length[0,10]'
+								 required:false, validType: 'length[0,10]',panelHeight:'auto',data:wunitdatasource,
                                  " />
                       </div>
 
@@ -595,12 +592,11 @@
                                name="@Html.NameFor(model => model.NWUnit)"
                                value="@Html.ValueFor(model => model.NWUnit)"
                                tabindex="24"
-                               class="easyui-textbox"
+                               class="easyui-combobox"
                                style="width:100%"
                                type="text"
                                data-options="prompt:'@Html.DescriptionFor(model => model.NWUnit)',
-								 required:false,
-                                 validType: 'length[0,10]'
+								 required:false,panelHeight:'auto',data:wunitdatasource,validType: 'length[0,10]'
                                  " />
                       </div>
 
@@ -630,12 +626,11 @@
                                name="@Html.NameFor(model => model.VUnit)"
                                value="@Html.ValueFor(model => model.VUnit)"
                                tabindex="26"
-                               class="easyui-textbox"
+                               class="easyui-combobox"
                                style="width:100%"
                                type="text"
                                data-options="prompt:'@Html.DescriptionFor(model => model.VUnit)',
-								 required:false,
-                                 validType: 'length[0,10]'
+								 required:false,validType: 'length[0,10]',panelHeight:'auto',data:cunitdatasource
                                  " />
                       </div>
 
@@ -702,11 +697,11 @@
                                name="@Html.NameFor(model => model.LUnit)"
                                value="@Html.ValueFor(model => model.LUnit)"
                                tabindex="30"
-                               class="easyui-textbox"
+                               class="easyui-combobox"
                                style="width:100%"
                                type="text"
                                data-options="prompt:'@Html.DescriptionFor(model => model.LUnit)',
-								 required:false,
+								 required:false,panelHeight:'auto',data:lunitdatasource,
                                  validType: 'length[0,10]'
                                  " />
                       </div>
@@ -733,27 +728,16 @@
                 <button name="productfile_addbutton"
                         type="button"
                         class="btn btn-default waves-effect waves-themed"
-                        onclick="productfile_appendItem()">
-                  新增
+                        onclick="openuploadfilemodal()">
+                  上传文件
                 </button>
                 <button name="productfile_deletebutton"
                         type="button"
-                        class="btn btn-default waves-effect waves-themed"
-                        onclick="productfile_removeItem()">
-                  删除
+                        class="btn btn-danger waves-effect waves-themed"
+                        onclick="productfile_deleteChecked()">
+                  删除文件
                 </button>
-                <button name="productfile_cancelbutton"
-                        type="button"
-                        class="btn btn-default waves-effect waves-themed"
-                        onclick="productfile_rejectChanges()">
-                  取消
-                </button>
-                <button name="productfile_savebutton"
-                        type="button"
-                        class="btn btn-default waves-effect waves-themed"
-                        onclick="productfile_acceptChanges()">
-                  保存
-                </button>
+                
               </div>
 
             </div>
@@ -862,7 +846,7 @@
                 <button name="productsaleshistoricalprice_searchbutton"
                         type="button"
                         class="btn btn-default waves-effect waves-themed"
-                        onclick="productsaleshistoricalprice_reloadData()">
+                        onclick="actionlog_reloadData()">
                   查询
                 </button>
                 
@@ -910,6 +894,9 @@
     var url = '/ProductSalesHistoricalPrices/GetDataByProductId?productid=' + productid;
     $productsaleshistoricalpricedg.datagrid('load', url);
     $productsaleshistoricalpricedg.datagrid('resize');
+    var url = '/ActionLogs/GetDataByRefKey?refkey=' + data.ProductNo;
+    $actionlogdg.datagrid('load', url);
+    $actionlogdg.datagrid('resize');
     $('#js-lightgallery').empty();
     if (state != 'Added') {
       loadPictureList(data.Id);
@@ -964,12 +951,7 @@
         fileidarray.push($(this).data("id"));
       });
       product.Pictures = fileidarray;
-      const productfile_result = await productfile_acceptChanges();
-      if (!productfile_result.success) {
-        return false;
-      } else {
-        product.ProductFiles = productfile_result.changed;
-      }
+      
 
 
       const productpurchasehistoricalprice_result = await productpurchasehistoricalprice_acceptChanges();
@@ -1026,13 +1008,7 @@
   //判断是否有没有保存的记录
   function producthasmodified() {
     if (!hook) {
-      if (!productfile_endEditing()) {
-        return true;
-      }
-      const productfiles = $productfiledg.datagrid("getChanges");
-      if (MODELSTATE == 'Modified' && productfiles.length > 0) {
-        return true;
-      }
+       
       if (!productpurchasehistoricalprice_endEditing()) {
         return true;
       }
@@ -1212,7 +1188,6 @@
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       e.target // newly activated tab
       e.relatedTarget // previous active tab
-      console.log(e)
       if (e.target.innerText == "产品信息") {
 
       }
@@ -1226,13 +1201,13 @@
         $productfiledg.datagrid('resize');
       }
       if (e.target.innerText == "操作日志") {
-        //$productfiledg.datagrid('resize');
+        $actionlogdg.datagrid('resize');
       }
     })
   });
   function loadPictureList(productid) {
     $.get('/ProductPrictures/GetDataByProductId?productid=' + productid).done(res => {
-      console.log(res);
+      //console.log(res);
       if (res.length > 0) {
         res.forEach(item => {
           const el = `<a class="" href="${item.RelativePath}" data-id="${item.FileId}" data-sub-html="${item.FileName}">

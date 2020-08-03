@@ -46,3 +46,6 @@ The statement has been terminated.
 2020-07-31 16:52:39.9743|FATAL|WebApp.MvcApplication|The parameters dictionary contains a null entry for parameter 'productid' of non-nullable type 'System.Int32' for method 'System.Threading.Tasks.Task`1[System.Web.Mvc.JsonResult] GetDataByProductId(Int32, Int32, Int32, System.String, System.String, System.String)' in 'WebApp.Controllers.ProductPricturesController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
 ???: parameters
 2020-07-31 17:17:05.9418|FATAL|WebApp.MvcApplication|A public action method 'AddPricture' was not found on controller 'WebApp.Controllers.ProductsController'.
+2020-08-03 15:27:30.2555|FATAL|WebApp.MvcApplication|“D:githubaeo_cmssrcAEO.SolutionadminWebAppUploadFilesProductFilesalse8d3e1824-1f17-41c3-8f86-7b7ed5b50c48.jpg”??????????
+2020-08-03 15:27:48.3680|FATAL|WebApp.MvcApplication|“D:githubaeo_cmssrcAEO.SolutionadminWebAppUploadFilesProductFilesalse8d3e1824-1f17-41c3-8f86-7b7ed5b50c48.jpg”??????????
+2020-08-03 15:41:28.8395|FATAL|WebApp.MvcApplication|A public action method 'PostFiles' was not found on controller 'WebApp.Controllers.AttachmentsController'.

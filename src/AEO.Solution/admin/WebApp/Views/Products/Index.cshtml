@@ -14,8 +14,9 @@
   <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
   <style>
     .bootbox.modal {
-      z-index:15000;
+      z-index: 15000;
     }
+
     .picture-content {
       /*display: flex;
       justify-content: space-around;
@@ -23,6 +24,7 @@
       height: 80px;
       width: 100%;*/
     }
+
       .picture-content .upload-border,
       .picture-content .files-border {
         width: 100px;
@@ -34,6 +36,7 @@
         border-radius: 15px;
         overflow: hidden;
       }
+
         .picture-content .upload-border .upload,
         .picture-content .files-border .upload {
           width: 60px;
@@ -494,8 +497,8 @@ High: null,
                             formatter: function showdetailsformatter(value, row, index) {
                                          if (!row.editing) {
                                             return `<div class="btn-group">\
-                                                         <button onclick="showdetailsWindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="@Html.L("EditDetail")" ><i class="fal fa-edit"></i> </button>\
-                                                         <button onclick="deleteRows(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="@Html.L("Delete")" ><i class="fal fa-trash-alt"></i> </button>\
+                                                         <button onclick="showdetailsWindow('${row.Id}',  ${index})" class="btn btn-outline-info btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="@Html.L("EditDetail")" ><i class="fal fa-edit"></i> </button>\
+                                                         <button onclick="deleteRows(['${row.Id}'],${index})" class="btn btn-outline-info btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="@Html.L("Delete")" ><i class="fal fa-trash-alt"></i> </button>\
                                                     </div>`;
                                          } else {
                                              return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="查看明细"  ><i class="fal fa-edit"></i> </button>`;
@@ -1173,9 +1176,11 @@ High: null,
 
      });
 
+
+
   </script>
 
-
+  @{ Html.RenderPartial("_PluploadModal"); }
 
   <!-- productfile datagrid  javascript block -->
   @Html.Partial("_productfiledatagridjsview", new WebApp.Models.ProductFile())
@@ -1183,6 +1188,7 @@ High: null,
   @Html.Partial("_productpurchasehistoricalpricedatagridjsview", new WebApp.Models.ProductPurchaseHistoricalPrice())
   <!-- productsaleshistoricalprice datagrid  javascript block -->
   @Html.Partial("_productsaleshistoricalpricedatagridjsview", new WebApp.Models.ProductSalesHistoricalPrice())
+  @Html.Partial("_actionlogdatagridjsview", new WebApp.Models.ActionLog())
   <!--end popup detailview javascript block -->
 }
 

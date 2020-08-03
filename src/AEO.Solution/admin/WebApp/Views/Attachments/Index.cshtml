@@ -8,11 +8,11 @@
 }
 @section HeadBlock {
   <link href="@Fingerprint.Tag("/Content/css/notifications/toastr/toastr.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.min.css")" rel="stylesheet" />
+  <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader.min.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader-theme-dragdrop.css")" rel="stylesheet" />
-  <link href="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/font/font-fileuploader.css")" rel="stylesheet" />
+
+
+
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
@@ -37,6 +37,9 @@
               <div class="btn-group btn-group-sm">
                 <button onclick="reload()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> @Html.L("Refresh") </button>
               </div>
+              <div class="btn-group btn-group-sm">
+                <button onclick="deletechecked()" name="deletebutton" class="btn btn-default"> <span class="fal fa-trash-alt mr-1"></span> 删除 </button>
+              </div>
               <div class="btn-group btn-group-sm hidden-xs">
                 <button type="button" onclick="openuploadfilemodal()" class="btn btn-default"><span class="fal  fa-upload mr-1"></span> 上传文件 </button>
               </div>
@@ -58,22 +61,18 @@
   </div>
 </div>
 
-@{ Html.RenderPartial("_PluploadModal"); }
+
 
 
 
 
 @section ScriptsBlock {
-  <script src="~/Scripts/plugin/plupload/js/plupload.full.min.js"></script>
-  <script src="~/Scripts/plugin/plupload/js/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
-  <script src="~/Scripts/plugin/plupload/js/jquery.ui.plupload/jquery.ui.plupload.min.js"></script>
-  <script src="@Fingerprint.Tag("/Scripts/plugin/numeral/numeral.min.js")"></script>
+  @{ Html.RenderPartial("_PluploadModal"); }
+
   <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/FileSaver.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/jquery.fileDownload.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/notifications/toastr/toastr.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.serializejson/jquery.serializejson.min.js")"></script>
-  <script src="@Fingerprint.Tag("/Scripts/plugin/moment/moment-with-locales.min.js")"></script>
-  <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.fileuploader/jquery.fileuploader.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/easyui/jquery.easyui.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/easyui/plugins/datagrid-filter.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/easyui/plugins/columns-ext.js")"></script>
@@ -156,8 +155,20 @@
                              $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
                           });
     }
-
-    //弹出明细信息
+    //预览文件
+    function previews(id, index) {
+      const item = $dg.datagrid('getRows')[index];
+      const url = `/FileUpload/Download?file=${item.RelativePath}`;
+      $.fileDownload(url)
+        .done(() => {
+          //console.log('file download a success!');
+          toastr.success('下载完成!');
+        })
+        .fail(() => {
+          $.messager.alert('下载失败', `没有找到[${item.FileName}]文件!`, 'error');
+        });
+    }
+    //弹出修改名文件
     async function showdetailswindow(id, index) {
       const item = $dg.datagrid('getRows')[index];
       bootbox.dialog({
@@ -183,108 +194,123 @@
     //初始化定义datagrid
     var $dg = $('#attachments_datagrid');
     $(() => {
-        //定义datagrid结构
-       $dg.datagrid({
-                        rownumbers:true,
-                        checkOnSelect:false,
-                        selectOnCheck:false,
-                        idField:'Id',
-                        sortName:'Id',
-                        sortOrder:'desc',
-                        remoteFilter: true,
-                        singleSelect: false,
-                        url: '/Attachments/GetData',
-                        method: 'get',
-                        pagination: true,
-                        clientPaging:false,
-                        striped:true,
-                        pageList: [10, 20, 50, 100, 500],
-                        onHeaderContextMenu: function (e, field) {
-                           e.preventDefault();
-                           $(this).datagrid('columnMenu').menu('show', {
-                             left: e.pageX,
-                             top: e.pageY
-                           });
-                        },
-                        onBeforeLoad: function () {
-                           const that = $(this);
-                           document.addEventListener('smartPanel.onFullscreen', () => {
-                              setTimeout(() => {
-                                that.datagrid('resize');
-                              },200)
-                           })
-                         },
+      //定义datagrid结构
+      $dg.datagrid({
+        rownumbers: true,
+        checkOnSelect: false,
+        selectOnCheck: false,
+        idField: 'Id',
+        sortName: 'Id',
+        sortOrder: 'desc',
+        remoteFilter: true,
+        singleSelect: false,
+        url: '/Attachments/GetData',
+        method: 'get',
+        pagination: true,
+        clientPaging: false,
+        striped: true,
+        pageList: [10, 20, 50, 100, 500],
+        onHeaderContextMenu: function (e, field) {
+          e.preventDefault();
+          $(this).datagrid('columnMenu').menu('show', {
+            left: e.pageX,
+            top: e.pageY
+          });
+        },
+        onBeforeLoad: function () {
+          const that = $(this);
+          document.addEventListener('panel.onfullscreen', () => {
+            setTimeout(() => {
+              that.datagrid('resize');
+            }, 200)
+          })
+        },
+        onCheckAll: function (rows) {
+          if (rows.length > 0) {
+            $("button[name*='deletebutton']").prop('disabled', false);
+          }
+        },
+        onUncheckAll: function () {
+          $("button[name*='deletebutton']").prop('disabled', true);
+        },
+        frozenColumns: [[
+          /*开启CheckBox选择功能*/
+          { field: 'ck', checkbox: true },
+          {
+            field: 'action',
+            title: '@Html.L("Command")',
+            width: 90,
+            sortable: false,
+            resizable: true,
+            formatter: function showdetailsformatter(value, row, index) {
 
-                        frozenColumns: [[
-                         /*开启CheckBox选择功能*/
-                         { field: 'ck', checkbox: true },
-                         {
-                            field: 'action',
-                            title:'@Html.L("Command")',
-                            width: 90,
-                            sortable: false,
-                            resizable: true,
-                            formatter: function showdetailsformatter(value, row, index) {
-
-                              return `<div class="btn-group">\
-                                          <button onclick="deleteRow('${row.Id}',${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="删除" ><i class="fal fa-times"></i> </button>\
+              return `<div class="btn-group">\
+                                          <button onclick="deleteRow('${row.Id}',${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="删除" ><i class="fal fa-trash-alt"></i> </button>\
                                           <button onclick="showdetailswindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="修改文件名" ><i class="fal fa-edit"></i> </button>\
-                                          <button onclick="showdetailswindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="预览" ><i class="fal fa-eye"></i> </button>\
+                                          <button onclick="previews('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="预览" ><i class="fal fa-eye"></i> </button>\
                                       </div>`;
 
-                                     }
-                          }
-                        ]],
-                        columns: [[
-
-            {    /*文件名*/
-                 field:'FileName',
-                 title:'@Html.DisplayNameFor(model => model.FileName)',
-                 width:260,
-                 hidden:false,
-                 sortable:true,
-                 resizable:true
-            },
-
-            {    /*附件类型*/
-                 field:'Ext',
-                 title:'@Html.DisplayNameFor(model => model.Ext)',
-                 width:100,
-                 hidden:false,
-                 sortable:true,
-                 resizable:true
-            },
-
-            {    /*上传用户*/
-                 field:'Owner',
-                 title:'@Html.DisplayNameFor(model => model.Owner)',
-                 width:120,
-                 hidden:false,
-                 sortable:true,
-                 resizable:true
-            },
-            {   /*上传时间*/
-                field:'Upload',
-                title:'@Html.DisplayNameFor(model => model.Upload)',
-                width:180,
-                align:'right',
-                hidden:false,
-                formatter:datetimeformatter,
-                sortable:true,
-                resizable:true
             }
-                 ]]
-           }) ;
+          }
+        ]],
+        columns: [[
 
-           $dg.datagrid('enableFilter',[
-                {     /*上传时间*/
-                      field: 'Upload',
-                      type: 'dateRange',
-                      options: {
-                      }
-                  },
-           ]);
-     });
+          {    /*文件名*/
+            field: 'FileName',
+            title: '@Html.DisplayNameFor(model => model.FileName)',
+            width: 260,
+            hidden: false,
+            sortable: true,
+            resizable: true
+          },
+          {    /*文件大小*/
+            field: 'Size',
+            title: '@Html.DisplayNameFor(model => model.Size)',
+            width: 100,
+            hidden: false,
+            sortable: true,
+            resizable: true,
+            formatter: filesizeformatter,
+          },
+          {    /*附件类型*/
+            field: 'Tags',
+            title: '@Html.DisplayNameFor(model => model.Tags)',
+            width: 100,
+            hidden: false,
+            sortable: true,
+            resizable: true
+          },
+
+          {    /*上传用户*/
+            field: 'Owner',
+            title: '@Html.DisplayNameFor(model => model.Owner)',
+            width: 120,
+            hidden: false,
+            sortable: true,
+            resizable: true
+          },
+          {   /*上传时间*/
+            field: 'Upload',
+            title: '@Html.DisplayNameFor(model => model.Upload)',
+            width: 180,
+            align: 'right',
+            hidden: false,
+            formatter: datetimeformatter,
+            sortable: true,
+            resizable: true
+          }
+        ]]
+      });
+
+      $dg.datagrid('enableFilter', [
+        {     /*上传时间*/
+          field: 'Upload',
+          type: 'dateRange',
+          options: {
+          }
+        },
+      ]);
+    });
 
   </script>
 

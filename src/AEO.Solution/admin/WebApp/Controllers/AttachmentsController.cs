@@ -63,7 +63,7 @@ namespace WebApp.Controllers
         var tags = this.Request.Form["tags"];
         var name = this.Request.Form["name"];
         var folder = this.Server.MapPath("~/UploadFiles");
-        var relpath = "~/UploadFiles";
+        var relpath = "/UploadFiles";
         await this.attachmentService.SaveFile(file, tags, folder, relpath, name, user);
         await this.unitOfWork.SaveChangesAsync();
         return Content($"{file.FileName}:上传成功", "text/plain");
@@ -72,10 +72,10 @@ namespace WebApp.Controllers
         throw e;
       }
     }
-
     //普通ajax上传文件
     [HttpPost]
-    public async Task<JsonResult> PostFiles() {
+    public async Task<JsonResult> PostFiles()
+    {
       var result = new List<Attachment>();
       if (this.Request.Files.Count > 0)
       {
@@ -87,14 +87,14 @@ namespace WebApp.Controllers
           var filename = file.FileName;
           var ext = System.IO.Path.GetExtension(filename);
           var size = file.ContentLength;
-          var fileid =  Guid.NewGuid().ToString();
+          var fileid = Guid.NewGuid().ToString();
           var path = $"/UploadFiles/attachment/{date}/{ext.Replace(".", "")}";
           var folder = this.Server.MapPath(path);
           if (!Directory.Exists(folder))
           {
             Directory.CreateDirectory(folder);
           }
-          var relpath =$"{path}/{fileid + ext}";
+          var relpath = $"{path}/{fileid + ext}";
           var filepath = Path.Combine(folder, fileid + ext);
           file.SaveAs(filepath);
           var item = new Attachment()
@@ -106,7 +106,7 @@ namespace WebApp.Controllers
             Owner = Auth.GetFullName(),
             RelativePath = relpath,
             FilePath = filepath,
-            Upload=DateTime.Now,
+            Upload = DateTime.Now,
 
           };
           result.Add(item);
@@ -119,11 +119,12 @@ namespace WebApp.Controllers
       {
         return Json(new { success = false }, JsonRequestBehavior.AllowGet);
       }
-     
+
     }
     //删除文件名
-    public async Task<JsonResult> DeleteFiles(string[] id) {
-      var items =await this.attachmentService.Queryable()
+    public async Task<JsonResult> DeleteFiles(string[] id)
+    {
+      var items = await this.attachmentService.Queryable()
         .Where(x => id.Contains(x.FileId)).ToListAsync();
       foreach (var item in items)
       {
@@ -133,7 +134,7 @@ namespace WebApp.Controllers
         }
         this.attachmentService.Delete(item);
       }
-      await  this.unitOfWork.SaveChangesAsync();
+      await this.unitOfWork.SaveChangesAsync();
       return Json(new { success = true }, JsonRequestBehavior.AllowGet);
     }
     //重命名
@@ -169,10 +170,10 @@ namespace WebApp.Controllers
     Id = n.Id,
     FileName = n.FileName,
     FileId = n.FileId,
-    n.Size,
     Ext = n.Ext,
     FilePath = n.FilePath,
     n.RelativePath,
+    n.Size,
     RefKey = n.RefKey,
     Owner = n.Owner,
     Upload = n.Upload.ToString("yyyy-MM-dd HH:mm:ss")

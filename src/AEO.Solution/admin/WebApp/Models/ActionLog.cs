@@ -16,7 +16,7 @@ namespace WebApp.Models
     [Display(Name = "关联单号", Description = "关联单号")]
     [MaxLength(128)]
     public string RekKey { get; set; }
-    [Display(Name = "操作事件", Description = "操作事件")]
+    [Display(Name = "操作时间", Description = "操作时间")]
     public DateTime ActionDateTime { get; set; }
     [Display(Name = "操作人员", Description = "操作人员")]
     [MaxLength(20)]

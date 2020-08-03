@@ -3701,13 +3701,6 @@
     <Content Include="Views\AccountManage\_RegisterFormPartial.cshtml" />
     <Content Include="Views\AccountManage\Tenant.cshtml" />
     <Content Include="Views\Shared\_PluploadModal.cshtml" />
-    <Content Include="Views\Attachments\_DisplayForm.cshtml" />
-    <Content Include="Views\Attachments\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\Attachments\Index.cshtml" />
-    <Content Include="Views\Attachments\Create.cshtml" />
-    <Content Include="Views\Attachments\Details.cshtml" />
-    <Content Include="Views\Attachments\Edit.cshtml" />
-    <Content Include="Views\Attachments\EditForm.cshtml" />
     <Content Include="Scripts\plugin\plupload\bower.json" />
     <Content Include="Scripts\plugin\plupload\js\Moxie.xap" />
     <Content Include="Scripts\plugin\plupload\readme.md" />
@@ -3782,6 +3775,11 @@
     <Content Include="Views\Products\_productpurchasehistoricalpricedatagridjsview.cshtml" />
     <Content Include="Views\Products\_ProductSalesHistoricalPriceEditForm.cshtml" />
     <Content Include="Views\Products\_productsaleshistoricalpricedatagridjsview.cshtml" />
+    <Content Include="Views\Products\_actionlogdatagridjsview.cshtml" />
+    <Content Include="Views\Attachments\Index.cshtml" />
+    <Content Include="Views\Attachments\_PluploadModal.cshtml" />
+    <Content Include="Views\Attachments\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Products\_PluploadModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />

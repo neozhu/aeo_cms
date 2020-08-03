@@ -119,17 +119,17 @@ accounttypeeditor: {
         }
   }  
 });
-//-------客户类型---------//
-var category1filtersource = [{ value: '', text: 'All'}];
-var category1datasource = [];
-category1filtersource.push({ value: '个人',text:'个人'  });
-category1datasource.push({ value: '个人',text:'个人'  });
-category1filtersource.push({ value: '快递公司',text:'快递公司'  });
-category1datasource.push({ value: '快递公司',text:'快递公司'  });
-category1filtersource.push({ value: '货运企业',text:'货运企业'  });
-category1datasource.push({ value: '货运企业',text:'货运企业'  });
-//for datagrid category1 field  formatter
-function category1formatter(value, row, index) { 
+//-------体积单位---------//
+var cunitfiltersource = [{ value: '', text: 'All'}];
+var cunitdatasource = [];
+cunitfiltersource.push({ value: '升',text:'升'  });
+cunitdatasource.push({ value: '升',text:'升'  });
+cunitfiltersource.push({ value: '毫升',text:'毫升'  });
+cunitdatasource.push({ value: '毫升',text:'毫升'  });
+cunitfiltersource.push({ value: '立方米',text:'立方米'  });
+cunitdatasource.push({ value: '立方米',text:'立方米'  });
+//for datagrid cunit field  formatter
+function cunitformatter(value, row, index) { 
      let multiple = false; 
      if (value === null || value === '' || value === undefined) 
      { 
@@ -137,29 +137,29 @@ function category1formatter(value, row, index) {
      } 
      if (multiple) { 
          let valarray = value.split(','); 
-         let result = category1datasource.filter(item => valarray.includes(item.value));
+         let result = cunitdatasource.filter(item => valarray.includes(item.value));
          let textarray = result.map(x => x.text);
          if (textarray.length > 0)
              return textarray.join(",");
          else 
              return value;
       } else { 
-         let result = category1datasource.filter(x => x.value == value);
+         let result = cunitdatasource.filter(x => x.value == value);
                if (result.length > 0)
                     return result[0].text;
                else
                     return value;
        } 
  } 
-//for datagrid   category1  field filter 
+//for datagrid   cunit  field filter 
 $.extend($.fn.datagrid.defaults.filters, {
-category1filter: {
+cunitfilter: {
      init: function(container, options) {
         var input = $('<select class="easyui-combobox" >').appendTo(container);
         var myoptions = {
              panelHeight: 'auto',
              editable: false,
-             data: category1filtersource ,
+             data: cunitfiltersource ,
              onChange: function () {
                 input.trigger('combobox.filter');
              }
@@ -187,132 +187,15 @@ category1filter: {
      }
    }
 });
-//for datagrid   category1   field  editor 
+//for datagrid   cunit   field  editor 
 $.extend($.fn.datagrid.defaults.editors, {
-category1editor: {
+cuniteditor: {
      init: function(container, options) {
         var input = $('<input type="text">').appendTo(container);
         var myoptions = {
          panelHeight: 'auto',
          editable: false,
-         data: category1datasource,
-         multiple: false,
-         valueField: 'value',
-         textField: 'text'
-     };
-    $.extend(options, myoptions);
-           input.combobox(options);
-         input.combobox('textbox').bind('keydown', function (e) {   
-            if (e.keyCode === 13) {
-              $(e.target).emulateTab();
-            }
-          });  
-           return input;
-       },
-     destroy: function(target) {
-         $(target).combobox('destroy');
-        },
-     getValue: function(target) {
-        let opts = $(target).combobox('options');
-        if (opts.multiple) {
-           return $(target).combobox('getValues').join(opts.separator);
-         } else {
-            return $(target).combobox('getValue');
-         }
-        },
-     setValue: function(target, value) {
-         let opts = $(target).combobox('options');
-         if (opts.multiple) {
-             if (value == '' || value == null) { 
-                 $(target).combobox('clear'); 
-              } else { 
-                  $(target).combobox('setValues', value.split(opts.separator));
-               }
-          }
-          else {
-             $(target).combobox('setValue', value);
-           }
-         },
-     resize: function(target, width) {
-         $(target).combobox('resize', width);
-        }
-  }  
-});
-//-------供应商类型---------//
-var category2filtersource = [{ value: '', text: 'All'}];
-var category2datasource = [];
-category2filtersource.push({ value: '网贷平台',text:'网贷平台'  });
-category2datasource.push({ value: '网贷平台',text:'网贷平台'  });
-category2filtersource.push({ value: '金融公司',text:'金融公司'  });
-category2datasource.push({ value: '金融公司',text:'金融公司'  });
-//for datagrid category2 field  formatter
-function category2formatter(value, row, index) { 
-     let multiple = false; 
-     if (value === null || value === '' || value === undefined) 
-     { 
-         return "";
-     } 
-     if (multiple) { 
-         let valarray = value.split(','); 
-         let result = category2datasource.filter(item => valarray.includes(item.value));
-         let textarray = result.map(x => x.text);
-         if (textarray.length > 0)
-             return textarray.join(",");
-         else 
-             return value;
-      } else { 
-         let result = category2datasource.filter(x => x.value == value);
-               if (result.length > 0)
-                    return result[0].text;
-               else
-                    return value;
-       } 
- } 
-//for datagrid   category2  field filter 
-$.extend($.fn.datagrid.defaults.filters, {
-category2filter: {
-     init: function(container, options) {
-        var input = $('<select class="easyui-combobox" >').appendTo(container);
-        var myoptions = {
-             panelHeight: 'auto',
-             editable: false,
-             data: category2filtersource ,
-             onChange: function () {
-                input.trigger('combobox.filter');
-             }
-         };
-         $.extend(options, myoptions);
-         input.combobox(options);
-         input.combobox('textbox').bind('keydown', function (e) {   
-            if (e.keyCode === 13) {
-              $(e.target).emulateTab();
-            }
-          });  
-         return input;
-      },
-     destroy: function(target) {
-                  
-     },
-     getValue: function(target) {
-         return $(target).combobox('getValue');
-     },
-     setValue: function(target, value) {
-         $(target).combobox('setValue', value);
-     },
-     resize: function(target, width) {
-         $(target).combobox('resize', width);
-     }
-   }
-});
-//for datagrid   category2   field  editor 
-$.extend($.fn.datagrid.defaults.editors, {
-category2editor: {
-     init: function(container, options) {
-        var input = $('<input type="text">').appendTo(container);
-        var myoptions = {
-         panelHeight: 'auto',
-         editable: false,
-         data: category2datasource,
+         data: cunitdatasource,
          multiple: false,
          valueField: 'value',
          textField: 'text'
@@ -1089,6 +972,127 @@ leveleditor: {
         }
   }  
 });
+//-------长度单位---------//
+var lunitfiltersource = [{ value: '', text: 'All'}];
+var lunitdatasource = [];
+lunitfiltersource.push({ value: '千米',text:'千米'  });
+lunitdatasource.push({ value: '千米',text:'千米'  });
+lunitfiltersource.push({ value: '厘米',text:'厘米'  });
+lunitdatasource.push({ value: '厘米',text:'厘米'  });
+lunitfiltersource.push({ value: '毫米',text:'毫米'  });
+lunitdatasource.push({ value: '毫米',text:'毫米'  });
+lunitfiltersource.push({ value: '米',text:'米'  });
+lunitdatasource.push({ value: '米',text:'米'  });
+//for datagrid lunit field  formatter
+function lunitformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = lunitdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = lunitdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   lunit  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+lunitfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: lunitfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   lunit   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+luniteditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: lunitdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
 //-------日志分组---------//
 var messagegroupfiltersource = [{ value: '', text: 'All'}];
 var messagegroupdatasource = [];
@@ -1448,125 +1452,6 @@ notifygroupeditor: {
         }
   }  
 });
-//-------还款周期---------//
-var periodfiltersource = [{ value: '', text: 'All'}];
-var perioddatasource = [];
-periodfiltersource.push({ value: '年',text:'年'  });
-perioddatasource.push({ value: '年',text:'年'  });
-periodfiltersource.push({ value: '日',text:'日'  });
-perioddatasource.push({ value: '日',text:'日'  });
-periodfiltersource.push({ value: '月',text:'月'  });
-perioddatasource.push({ value: '月',text:'月'  });
-//for datagrid Period field  formatter
-function periodformatter(value, row, index) { 
-     let multiple = false; 
-     if (value === null || value === '' || value === undefined) 
-     { 
-         return "";
-     } 
-     if (multiple) { 
-         let valarray = value.split(','); 
-         let result = perioddatasource.filter(item => valarray.includes(item.value));
-         let textarray = result.map(x => x.text);
-         if (textarray.length > 0)
-             return textarray.join(",");
-         else 
-             return value;
-      } else { 
-         let result = perioddatasource.filter(x => x.value == value);
-               if (result.length > 0)
-                    return result[0].text;
-               else
-                    return value;
-       } 
- } 
-//for datagrid   Period  field filter 
-$.extend($.fn.datagrid.defaults.filters, {
-periodfilter: {
-     init: function(container, options) {
-        var input = $('<select class="easyui-combobox" >').appendTo(container);
-        var myoptions = {
-             panelHeight: 'auto',
-             editable: false,
-             data: periodfiltersource ,
-             onChange: function () {
-                input.trigger('combobox.filter');
-             }
-         };
-         $.extend(options, myoptions);
-         input.combobox(options);
-         input.combobox('textbox').bind('keydown', function (e) {   
-            if (e.keyCode === 13) {
-              $(e.target).emulateTab();
-            }
-          });  
-         return input;
-      },
-     destroy: function(target) {
-                  
-     },
-     getValue: function(target) {
-         return $(target).combobox('getValue');
-     },
-     setValue: function(target, value) {
-         $(target).combobox('setValue', value);
-     },
-     resize: function(target, width) {
-         $(target).combobox('resize', width);
-     }
-   }
-});
-//for datagrid   Period   field  editor 
-$.extend($.fn.datagrid.defaults.editors, {
-periodeditor: {
-     init: function(container, options) {
-        var input = $('<input type="text">').appendTo(container);
-        var myoptions = {
-         panelHeight: 'auto',
-         editable: false,
-         data: perioddatasource,
-         multiple: false,
-         valueField: 'value',
-         textField: 'text'
-     };
-    $.extend(options, myoptions);
-           input.combobox(options);
-         input.combobox('textbox').bind('keydown', function (e) {   
-            if (e.keyCode === 13) {
-              $(e.target).emulateTab();
-            }
-          });  
-           return input;
-       },
-     destroy: function(target) {
-         $(target).combobox('destroy');
-        },
-     getValue: function(target) {
-        let opts = $(target).combobox('options');
-        if (opts.multiple) {
-           return $(target).combobox('getValues').join(opts.separator);
-         } else {
-            return $(target).combobox('getValue');
-         }
-        },
-     setValue: function(target, value) {
-         let opts = $(target).combobox('options');
-         if (opts.multiple) {
-             if (value == '' || value == null) { 
-                 $(target).combobox('clear'); 
-              } else { 
-                  $(target).combobox('setValues', value.split(opts.separator));
-               }
-          }
-          else {
-             $(target).combobox('setValue', value);
-           }
-         },
-     resize: function(target, width) {
-         $(target).combobox('resize', width);
-        }
-  }  
-});
 //-------优先级---------//
 var priorityfiltersource = [{ value: '', text: 'All'}];
 var prioritydatasource = [];
@@ -1688,17 +1573,19 @@ priorityeditor: {
         }
   }  
 });
-//-------还款方式---------//
-var repaytypefiltersource = [{ value: '', text: 'All'}];
-var repaytypedatasource = [];
-repaytypefiltersource.push({ value: '卡口',text:'卡口'  });
-repaytypedatasource.push({ value: '卡口',text:'卡口'  });
-repaytypefiltersource.push({ value: '现金',text:'现金'  });
-repaytypedatasource.push({ value: '现金',text:'现金'  });
-repaytypefiltersource.push({ value: '转账',text:'转账'  });
-repaytypedatasource.push({ value: '转账',text:'转账'  });
-//for datagrid repaytype field  formatter
-function repaytypeformatter(value, row, index) { 
+//-------包装单位---------//
+var punitfiltersource = [{ value: '', text: 'All'}];
+var punitdatasource = [];
+punitfiltersource.push({ value: '打',text:'打'  });
+punitdatasource.push({ value: '打',text:'打'  });
+punitfiltersource.push({ value: '板',text:'板'  });
+punitdatasource.push({ value: '板',text:'板'  });
+punitfiltersource.push({ value: '桶',text:'桶'  });
+punitdatasource.push({ value: '桶',text:'桶'  });
+punitfiltersource.push({ value: '箱',text:'箱'  });
+punitdatasource.push({ value: '箱',text:'箱'  });
+//for datagrid punit field  formatter
+function punitformatter(value, row, index) { 
      let multiple = false; 
      if (value === null || value === '' || value === undefined) 
      { 
@@ -1706,29 +1593,29 @@ function repaytypeformatter(value, row, index) {
      } 
      if (multiple) { 
          let valarray = value.split(','); 
-         let result = repaytypedatasource.filter(item => valarray.includes(item.value));
+         let result = punitdatasource.filter(item => valarray.includes(item.value));
          let textarray = result.map(x => x.text);
          if (textarray.length > 0)
              return textarray.join(",");
          else 
              return value;
       } else { 
-         let result = repaytypedatasource.filter(x => x.value == value);
+         let result = punitdatasource.filter(x => x.value == value);
                if (result.length > 0)
                     return result[0].text;
                else
                     return value;
        } 
  } 
-//for datagrid   repaytype  field filter 
+//for datagrid   punit  field filter 
 $.extend($.fn.datagrid.defaults.filters, {
-repaytypefilter: {
+punitfilter: {
      init: function(container, options) {
         var input = $('<select class="easyui-combobox" >').appendTo(container);
         var myoptions = {
              panelHeight: 'auto',
              editable: false,
-             data: repaytypefiltersource ,
+             data: punitfiltersource ,
              onChange: function () {
                 input.trigger('combobox.filter');
              }
@@ -1756,15 +1643,15 @@ repaytypefilter: {
      }
    }
 });
-//for datagrid   repaytype   field  editor 
+//for datagrid   punit   field  editor 
 $.extend($.fn.datagrid.defaults.editors, {
-repaytypeeditor: {
+puniteditor: {
      init: function(container, options) {
         var input = $('<input type="text">').appendTo(container);
         var myoptions = {
          panelHeight: 'auto',
          editable: false,
-         data: repaytypedatasource,
+         data: punitdatasource,
          multiple: false,
          valueField: 'value',
          textField: 'text'
@@ -2048,22 +1935,22 @@ statuseditor: {
 //-------单位代码---------//
 var unitfiltersource = [{ value: '', text: 'All'}];
 var unitdatasource = [];
-unitfiltersource.push({ value: '001',text:'台'  });
-unitdatasource.push({ value: '001',text:'台'  });
-unitfiltersource.push({ value: '002',text:'座'  });
-unitdatasource.push({ value: '002',text:'座'  });
-unitfiltersource.push({ value: '003',text:'辆'  });
-unitdatasource.push({ value: '003',text:'辆'  });
-unitfiltersource.push({ value: '004',text:'艘'  });
-unitdatasource.push({ value: '004',text:'艘'  });
-unitfiltersource.push({ value: '005',text:'架'  });
-unitdatasource.push({ value: '005',text:'架'  });
-unitfiltersource.push({ value: '006',text:'套'  });
-unitdatasource.push({ value: '006',text:'套'  });
-unitfiltersource.push({ value: '007',text:'个'  });
-unitdatasource.push({ value: '007',text:'个'  });
-unitfiltersource.push({ value: '035',text:'千克'  });
-unitdatasource.push({ value: '035',text:'千克'  });
+unitfiltersource.push({ value: '个',text:'个'  });
+unitdatasource.push({ value: '个',text:'个'  });
+unitfiltersource.push({ value: '千克',text:'千克'  });
+unitdatasource.push({ value: '千克',text:'千克'  });
+unitfiltersource.push({ value: '台',text:'台'  });
+unitdatasource.push({ value: '台',text:'台'  });
+unitfiltersource.push({ value: '套',text:'套'  });
+unitdatasource.push({ value: '套',text:'套'  });
+unitfiltersource.push({ value: '座',text:'座'  });
+unitdatasource.push({ value: '座',text:'座'  });
+unitfiltersource.push({ value: '架',text:'架'  });
+unitdatasource.push({ value: '架',text:'架'  });
+unitfiltersource.push({ value: '艘',text:'艘'  });
+unitdatasource.push({ value: '艘',text:'艘'  });
+unitfiltersource.push({ value: '辆',text:'辆'  });
+unitdatasource.push({ value: '辆',text:'辆'  });
 //for datagrid unit field  formatter
 function unitformatter(value, row, index) { 
      let multiple = false; 
@@ -2255,6 +2142,125 @@ workstatuseditor: {
          panelHeight: 'auto',
          editable: false,
          data: workstatusdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------重量单位---------//
+var wunitfiltersource = [{ value: '', text: 'All'}];
+var wunitdatasource = [];
+wunitfiltersource.push({ value: '克',text:'克'  });
+wunitdatasource.push({ value: '克',text:'克'  });
+wunitfiltersource.push({ value: '千克',text:'千克'  });
+wunitdatasource.push({ value: '千克',text:'千克'  });
+wunitfiltersource.push({ value: '吨',text:'吨'  });
+wunitdatasource.push({ value: '吨',text:'吨'  });
+//for datagrid wunit field  formatter
+function wunitformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = wunitdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = wunitdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   wunit  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+wunitfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: wunitfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   wunit   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+wuniteditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: wunitdatasource,
          multiple: false,
          valueField: 'value',
          textField: 'text'

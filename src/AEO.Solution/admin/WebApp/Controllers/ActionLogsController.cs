@@ -78,8 +78,31 @@ namespace WebApp.Controllers
 			var pagelist = new { total = totalCount, rows = pagerows };
 			return Json(pagelist, JsonRequestBehavior.AllowGet);
 		}
-        //easyui datagrid post acceptChanges 
-		[HttpPost]
+    [HttpGet]
+    //[OutputCache(Duration = 10, VaryByParam = "*")]
+    public async Task<JsonResult> GetDataByRefKey(string refkey="",int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+    {
+      var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
+      var pagerows = ( await this.actionLogService
+                           .Query(new ActionLogQuery().WithfilterKey(refkey,filters))
+                         .OrderBy(n => n.OrderBy(sort, order))
+                         .SelectPageAsync(page, rows, out var totalCount) )
+                                       .Select(n => new {
+
+                                         Id = n.Id,
+                                         RefId = n.RefId,
+                                         RekKey = n.RekKey,
+                                         ActionDateTime = n.ActionDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                         User = n.User,
+                                         Action = n.Action,
+                                         Content = n.Content,
+                                         Flag = n.Flag
+                                       }).ToList();
+      var pagelist = new { total = totalCount, rows = pagerows };
+      return Json(pagelist, JsonRequestBehavior.AllowGet);
+    }
+    //easyui datagrid post acceptChanges 
+    [HttpPost]
 		public async Task<JsonResult> AcceptChanges(ActionLog[] actionlogs)
 		{
             if (ModelState.IsValid)

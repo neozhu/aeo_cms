@@ -10,24 +10,27 @@ using WebApp.Models;
 using WebApp.Repositories;
 using System.Data;
 using System.IO;
+using System.Web;
+
 namespace WebApp.Services
 {
-/// <summary>
-/// File: IProductFileService.cs
-/// Purpose: Service interfaces. Services expose a service interface
-/// to which all inbound messages are sent. You can think of a service interface
-/// as a façade that exposes the business logic implemented in the application
-/// Created Date: 2020/7/30 15:29:46
-/// Author: neo.zhu
-/// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
-/// Copyright (c) 2012-2018 All Rights Reserved
-/// </summary>
-    public interface IProductFileService:IService<ProductFile>
-    {
-         Task<IEnumerable<ProductFile>> GetByProductIdAsync(int  productid);
- 
-		Task ImportDataTableAsync(DataTable datatable,string username="");
-		Task<Stream> ExportExcelAsync( string filterRules = "",string sort = "Id", string order = "asc");
-	    Task Delete(int[] id);
-    }
+  /// <summary>
+  /// File: IProductFileService.cs
+  /// Purpose: Service interfaces. Services expose a service interface
+  /// to which all inbound messages are sent. You can think of a service interface
+  /// as a façade that exposes the business logic implemented in the application
+  /// Created Date: 2020/7/30 15:29:46
+  /// Author: neo.zhu
+  /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
+  /// Copyright (c) 2012-2018 All Rights Reserved
+  /// </summary>
+  public interface IProductFileService : IService<ProductFile>
+  {
+    Task<IEnumerable<ProductFile>> GetByProductIdAsync(int productid);
+
+    Task ImportDataTableAsync(DataTable datatable, string username = "");
+    Task<Stream> ExportExcelAsync(string filterRules = "", string sort = "Id", string order = "asc");
+    Task Delete(int[] id,string user);
+    void AddFile(int productId,string productNo,HttpPostedFileBase file, string folder, string relpath, string user);
+  }
 }

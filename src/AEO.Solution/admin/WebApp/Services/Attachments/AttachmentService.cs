@@ -154,6 +154,7 @@ namespace WebApp.Services
        var path= Path.Combine(folder, user);
       var relativepath = $"{relpath}/{user}/{name}";
       var ext = Path.GetExtension(name);
+      var size = file.ContentLength;
       if (!Directory.Exists(path))
       {
         Directory.CreateDirectory(path);
@@ -169,6 +170,7 @@ namespace WebApp.Services
         FileName = name,
         FilePath = filepath,
         RelativePath= relativepath,
+        Size=size,
         FileId = Guid.NewGuid().ToString(),
         Owner = user,
         Upload = DateTime.Now

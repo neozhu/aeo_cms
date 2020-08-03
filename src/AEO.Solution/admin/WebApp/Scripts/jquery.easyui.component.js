@@ -444,14 +444,26 @@ function filesizeformatter(value) {
 
 //number formmater
 function numberformatter(value) {
-  return numeral(value).format('0,0.00');
+  if (value == null || value.length === 0) {
+    return null;
+  } else {
+    return numeral(value).format('0,0.00');
+  }
 }
-function parsernumber(str) {
-  return numeral(str).value();
+function parsernumber(value) {
+  if (value == null || value.length === 0) {
+    return null
+  } else {
+    return numeral(value).value();
+  }
 }
 //int formatter
 function intformatter(value) {
-  return numeral(value).format('0,0');
+  if (value == null || value.length === 0) {
+    return null;
+  } else {
+    return numeral(value).format('0,0');
+  }
 }
 function istrue(value) {
   if (typeof (value) === 'string') {
