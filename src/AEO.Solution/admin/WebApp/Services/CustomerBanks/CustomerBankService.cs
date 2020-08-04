@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.Infrastructure;
 using Service.Pattern;
+using System.Text.RegularExpressions;
 using WebApp.Models;
 using WebApp.Repositories;
 
@@ -23,7 +24,7 @@ namespace WebApp.Services
 /// One of the more important concepts to keep in mind is that a service
 /// should never expose details of the internal processes or 
 /// the business entities used within the application. 
-/// Created Date: 2020/7/3 13:28:34
+/// Created Date: 2020/8/4 19:05:45
 /// Author: neo.zhu
 /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
 /// Copyright (c) 2012-2018 All Rights Reserved
@@ -82,6 +83,7 @@ namespace WebApp.Services
                     )
                 {
                     var item = new CustomerBank();
+                    var customerbanktype = item.GetType();
                     foreach (var field in mapping)
                     {
 						var defval = field.DefaultValue;
@@ -91,13 +93,12 @@ namespace WebApp.Services
                            !string.IsNullOrEmpty(row[field.SourceFieldName].ToString())
                         )
 						{
-                            var customerbanktype = item.GetType();
 							var propertyInfo = customerbanktype.GetProperty(field.FieldName);
                                                         //关联外键查询获取Id
                             switch (field.FieldName) {
                                                                  case "CustomerId":
-                                     var customercode =  row[field.SourceFieldName].ToString();
-                                     var customerid = await this.getCustomerIdByCustomerCodeAsync(customercode);
+                                     var customer_customercode =  row[field.SourceFieldName].ToString();
+                                     var customerid = await this.getCustomerIdByCustomerCodeAsync(customer_customercode);
                                      propertyInfo.SetValue(item, Convert.ChangeType(customerid, propertyInfo.PropertyType), null);
                                      break;
                                                                 default:
@@ -109,7 +110,6 @@ namespace WebApp.Services
                                                     }
 						else if (!string.IsNullOrEmpty(defval))
 						{
-							var customerbanktype = item.GetType();
 							var propertyInfo = customerbanktype.GetProperty(field.FieldName);
 							if (string.Equals(defval, "now", StringComparison.OrdinalIgnoreCase) && (propertyInfo.PropertyType ==typeof(DateTime) || propertyInfo.PropertyType == typeof(Nullable<DateTime>)))
                             {
@@ -161,17 +161,13 @@ namespace WebApp.Services
     AccountName = n.AccountName,
     Bank = n.Bank,
     AccountNo = n.AccountNo,
-    AccountType = n.AccountType,
-    BankCountry = n.BankCountry,
     BankUse = n.BankUse,
-    BankAddress1 = n.BankAddress1,
-    BankAddress2 = n.BankAddress2,
     SWIFT = n.SWIFT,
     CUR = n.CUR,
     Remark = n.Remark,
     CustomerId = n.CustomerId
 }).ToList();
-            return await NPOIHelper.ExportExcelAsync("客户开户行信息", datarows,expcolopts);
+            return await NPOIHelper.ExportExcelAsync("开户行信息", datarows,expcolopts);
         }
         public async Task Delete(int[] id) {
             var items = await this.Queryable().Where(x => id.Contains(x.Id)).ToListAsync();
@@ -183,6 +179,3 @@ namespace WebApp.Services
         }
     }
 }
-
-
-

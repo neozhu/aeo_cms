@@ -14,7 +14,7 @@ namespace WebApp.Repositories
 /// <summary>
 /// File: CustomerBankQuery.cs
 /// Purpose: easyui datagrid filter query 
-/// Created Date: 2020/7/3 13:28:34
+/// Created Date: 2020/8/4 19:05:44
 /// Author: neo.zhu
 /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
 /// Copyright (c) 2012-2018 All Rights Reserved
@@ -74,25 +74,9 @@ namespace WebApp.Repositories
 						{
 							And(x => x.AccountNo.Contains(rule.value));
 						}
-						if (rule.field == "AccountType"  && !string.IsNullOrEmpty(rule.value))
-						{
-							And(x => x.AccountType.Contains(rule.value));
-						}
-						if (rule.field == "BankCountry"  && !string.IsNullOrEmpty(rule.value))
-						{
-							And(x => x.BankCountry.Contains(rule.value));
-						}
 						if (rule.field == "BankUse"  && !string.IsNullOrEmpty(rule.value))
 						{
 							And(x => x.BankUse.Contains(rule.value));
-						}
-						if (rule.field == "BankAddress1"  && !string.IsNullOrEmpty(rule.value))
-						{
-							And(x => x.BankAddress1.Contains(rule.value));
-						}
-						if (rule.field == "BankAddress2"  && !string.IsNullOrEmpty(rule.value))
-						{
-							And(x => x.BankAddress2.Contains(rule.value));
 						}
 						if (rule.field == "SWIFT"  && !string.IsNullOrEmpty(rule.value))
 						{
@@ -286,28 +270,6 @@ namespace WebApp.Repositories
 							And(x => x.AccountNo.Contains(rule.value));
 						    }
                         }
-						if (rule.field == "AccountType"  && !string.IsNullOrEmpty(rule.value))
-						{
-                           if (rule.op == "equal")
-                           {
-                             And(x => x.AccountType == rule.value);
-                           } 
-                           else
-                           {
-							And(x => x.AccountType.Contains(rule.value));
-						    }
-                        }
-						if (rule.field == "BankCountry"  && !string.IsNullOrEmpty(rule.value))
-						{
-                           if (rule.op == "equal")
-                           {
-                             And(x => x.BankCountry == rule.value);
-                           } 
-                           else
-                           {
-							And(x => x.BankCountry.Contains(rule.value));
-						    }
-                        }
 						if (rule.field == "BankUse"  && !string.IsNullOrEmpty(rule.value))
 						{
                            if (rule.op == "equal")
@@ -317,28 +279,6 @@ namespace WebApp.Repositories
                            else
                            {
 							And(x => x.BankUse.Contains(rule.value));
-						    }
-                        }
-						if (rule.field == "BankAddress1"  && !string.IsNullOrEmpty(rule.value))
-						{
-                           if (rule.op == "equal")
-                           {
-                             And(x => x.BankAddress1 == rule.value);
-                           } 
-                           else
-                           {
-							And(x => x.BankAddress1.Contains(rule.value));
-						    }
-                        }
-						if (rule.field == "BankAddress2"  && !string.IsNullOrEmpty(rule.value))
-						{
-                           if (rule.op == "equal")
-                           {
-                             And(x => x.BankAddress2 == rule.value);
-                           } 
-                           else
-                           {
-							And(x => x.BankAddress2.Contains(rule.value));
 						    }
                         }
 						if (rule.field == "SWIFT"  && !string.IsNullOrEmpty(rule.value))

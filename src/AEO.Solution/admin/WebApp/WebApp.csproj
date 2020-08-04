@@ -427,6 +427,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CodeItemsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\CustomerBanksController.cs" />
     <Compile Include="Controllers\DataTableImportMappingsController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\EFMigrationsManagerController.cs" />
@@ -614,6 +615,8 @@
     <Compile Include="Repositories\Categories\CategoryRepository.cs" />
     <Compile Include="Repositories\Companies\CompanyQuery.cs" />
     <Compile Include="Repositories\Companies\CompanyRepository.cs" />
+    <Compile Include="Repositories\CustomerBanks\CustomerBankQuery.cs" />
+    <Compile Include="Repositories\CustomerBanks\CustomerBankRepository.cs" />
     <Compile Include="Repositories\Logs\LogQuery.cs" />
     <Compile Include="Repositories\Logs\LogRepository.cs" />
     <Compile Include="Repositories\Notifications\NotificationQuery.cs" />
@@ -653,6 +656,8 @@
     <Compile Include="Services\Categories\ICategoryService.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
     <Compile Include="Services\Companies\ICompanyService.cs" />
+    <Compile Include="Services\CustomerBanks\CustomerBankService.cs" />
+    <Compile Include="Services\CustomerBanks\ICustomerBankService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
     <Compile Include="Services\Logs\LogService.cs" />
     <Compile Include="Services\Notifications\INotificationService.cs" />
@@ -3785,6 +3790,13 @@
     <Content Include="Views\Attachments\_PluploadModal.cshtml" />
     <Content Include="Views\Attachments\_PopupDetailFormView.cshtml" />
     <Content Include="Views\Products\_PluploadModal.cshtml" />
+    <Content Include="Views\CustomerBanks\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerBanks\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerBanks\Index.cshtml" />
+    <Content Include="Views\CustomerBanks\Create.cshtml" />
+    <Content Include="Views\CustomerBanks\Details.cshtml" />
+    <Content Include="Views\CustomerBanks\Edit.cshtml" />
+    <Content Include="Views\CustomerBanks\EditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />

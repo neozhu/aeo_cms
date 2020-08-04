@@ -196,7 +196,9 @@ namespace WebApp.Services
     }
     public async Task Delete(int[] id)
     {
-      var items = await this.Queryable().Where(x => id.Contains(x.Id)).ToListAsync();
+      var items = await this.Queryable()
+        .Where(x => id.Contains(x.Id))
+        .ToListAsync();
       foreach (var item in items)
       {
         this.Delete(item);
