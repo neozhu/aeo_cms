@@ -36,8 +36,8 @@ namespace WebApp
         // SmartAdmin Default Settings
         controller.ViewBag.App = "AEO认证外贸出口服务平台";
         controller.ViewBag.AppName = "AEO认证外贸出口服务平台";
-        controller.ViewBag.AppFlavor = "ASP.NET Core 3.1";
-        controller.ViewBag.AppFlavorSubscript = ".NET Core 3.1";
+        controller.ViewBag.AppFlavor = "ASP.NET MVC 5";
+        controller.ViewBag.AppFlavorSubscript = ".NET 4.8";
         controller.ViewBag.User = username;
         controller.ViewBag.Role = role;
         controller.ViewBag.Email = email;

@@ -2468,6 +2468,8 @@
     <Content Include="Scripts\plugin\bootbox\bootbox.locales.min.js" />
     <Content Include="Scripts\plugin\bootbox\bootbox.min.js" />
     <Content Include="Scripts\plugin\countup\countUp-jquery.js" />
+    <Content Include="Scripts\plugin\filesize\filesize.js" />
+    <Content Include="Scripts\plugin\filesize\filesize.min.js" />
     <Content Include="Scripts\plugin\plupload\examples\custom.html" />
     <Content Include="Scripts\plugin\plupload\examples\dump.php" />
     <Content Include="Scripts\plugin\plupload\examples\events.html" />
