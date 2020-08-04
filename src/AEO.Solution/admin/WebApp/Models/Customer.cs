@@ -116,7 +116,7 @@ namespace WebApp.Models
     #endregion
     #region 其它
     [Display(Name = "客户状态", Description = "客户状态")]
-    [MaxLength(20)]
+    [MaxLength(10)]
     public string Status { get; set; }
     [Display(Name = "标志", Description = "标志")]
     public bool Flag { get; set; }

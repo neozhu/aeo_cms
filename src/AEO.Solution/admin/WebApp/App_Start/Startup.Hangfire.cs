@@ -5,7 +5,6 @@ using Hangfire.Dashboard;
 using Hangfire.SqlServer;
 using Microsoft.Owin;
 using Owin;
-using WebApp.App_Helpers.third_party.api;
 
 namespace WebApp
 {

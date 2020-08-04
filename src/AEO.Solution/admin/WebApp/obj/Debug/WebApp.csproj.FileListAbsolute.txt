@@ -450,8 +450,9 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Product.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Product.en-US.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Product.zh-TW.resources
-D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.csprojAssemblyReference.cache
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_attchange.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_unit.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_addCategoryId.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_recustomer.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_changelength.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.csprojAssemblyReference.cache

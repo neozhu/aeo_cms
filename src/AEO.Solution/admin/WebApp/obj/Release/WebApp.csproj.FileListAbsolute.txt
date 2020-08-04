@@ -245,3 +245,4 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\zh-TW\WebApp.resourc
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.csproj.CopyComplete
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.dll
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.pdb
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_changelength.resources

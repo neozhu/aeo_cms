@@ -36,7 +36,7 @@ namespace WebApp
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
       RouteConfig.RegisterRoutes(RouteTable.Routes);
      //BundleConfig.RegisterBundles(BundleTable.Bundles);
-      this.logger.Info("网站启动");
+      this.logger.Trace("网站启动");
    
     }
     protected void Application_Error()

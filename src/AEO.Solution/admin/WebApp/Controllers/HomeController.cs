@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using AutoMapper;
 using LazyCache;
 using NLog;
-using WebApp.App_Helpers.third_party.api;
 using WebApp.Models;
 using WebApp.Services;
 
@@ -36,9 +35,9 @@ namespace WebApp.Controllers
     public async Task<ActionResult> Index()
     {
       //var list = this.companyService.Queryable().ToList();
-     //var key= KeyGenerator.GetProductKey();
+      //var key= KeyGenerator.GetProductKey();
 
-
+      this.logger.Debug("访问首页");
       ViewBag.P1 = 0;
       ViewBag.P2 = 0;
       ViewBag.P3 =0;

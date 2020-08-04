@@ -62,7 +62,7 @@ namespace WebApp.Controllers
       {
         var tags = this.Request.Form["tags"];
         var name = this.Request.Form["name"];
-        var folder = this.Server.MapPath("~/UploadFiles");
+        var folder = this.Server.MapPath("/UploadFiles");
         var relpath = "/UploadFiles";
         await this.attachmentService.SaveFile(file, tags, folder, relpath, name, user);
         await this.unitOfWork.SaveChangesAsync();

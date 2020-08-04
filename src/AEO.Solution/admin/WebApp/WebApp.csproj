@@ -378,14 +378,14 @@
       <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="Z.EntityFramework.Extensions, Version=4.0.86.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.EntityFramework.Extensions.4.0.86\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Extensions, Version=4.0.87.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.EntityFramework.Extensions.4.0.87\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.12.28.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.EntityFramework.Plus.EF6.1.12.28\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.12.29.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.EntityFramework.Plus.EF6.1.12.29\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="Z.Expressions.Eval, Version=4.0.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.Expressions.Eval.4.0.10\lib\net45\Z.Expressions.Eval.dll</HintPath>
+    <Reference Include="Z.Expressions.Eval, Version=4.0.11.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.Expressions.Eval.4.0.11\lib\net45\Z.Expressions.Eval.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -404,7 +404,6 @@
     <Compile Include="App_Helpers\KeyGenerator.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
-    <Compile Include="App_Helpers\third-party.api\covid19api.cs" />
     <Compile Include="App_Helpers\UserManager.cs" />
     <Compile Include="App_Helpers\ApplicationPreload.cs" />
     <Compile Include="App_Helpers\ApplicationRoleManager.cs" />
@@ -526,6 +525,10 @@
     <Compile Include="Migrations\202008010029248_md_recustomer.cs" />
     <Compile Include="Migrations\202008010029248_md_recustomer.designer.cs">
       <DependentUpon>202008010029248_md_recustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008031017581_md_changelength.cs" />
+    <Compile Include="Migrations\202008031017581_md_changelength.designer.cs">
+      <DependentUpon>202008031017581_md_changelength.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -2458,6 +2461,12 @@
     <Content Include="Scripts\miscellaneous\treeview\treeview.js" />
     <Content Include="Scripts\notifications\sweetalert2\sweetalert2.bundle.js" />
     <Content Include="Scripts\notifications\toastr\toastr.js" />
+    <Content Include="Scripts\plugin\bootbox\bootbox.all.js" />
+    <Content Include="Scripts\plugin\bootbox\bootbox.all.min.js" />
+    <Content Include="Scripts\plugin\bootbox\bootbox.js" />
+    <Content Include="Scripts\plugin\bootbox\bootbox.locales.js" />
+    <Content Include="Scripts\plugin\bootbox\bootbox.locales.min.js" />
+    <Content Include="Scripts\plugin\bootbox\bootbox.min.js" />
     <Content Include="Scripts\plugin\countup\countUp-jquery.js" />
     <Content Include="Scripts\plugin\plupload\examples\custom.html" />
     <Content Include="Scripts\plugin\plupload\examples\dump.php" />
@@ -3594,13 +3603,7 @@
     <Content Include="Scripts\plugin\sennajs\globals\senna.js.map" />
     <Content Include="Views\Account\Error.cshtml" />
     <Content Include="Views\Account\Error404.cshtml" />
-    <Content Include="Views\Logs\_DisplayForm.cshtml" />
-    <Content Include="Views\Logs\_PopupDetailFormView.cshtml" />
     <Content Include="Views\Logs\Index.cshtml" />
-    <Content Include="Views\Logs\Create.cshtml" />
-    <Content Include="Views\Logs\Details.cshtml" />
-    <Content Include="Views\Logs\Edit.cshtml" />
-    <Content Include="Views\Logs\EditForm.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Int.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -3915,6 +3918,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008010029248_md_recustomer.resx">
       <DependentUpon>202008010029248_md_recustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008031017581_md_changelength.resx">
+      <DependentUpon>202008031017581_md_changelength.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
