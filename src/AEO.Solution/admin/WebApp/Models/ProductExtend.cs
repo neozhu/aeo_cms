@@ -12,8 +12,6 @@ namespace WebApp.Models
   //产品参数设定
   public partial class ProductExtend : Entity
   {
-    [Key]
-    public int Id { get; set; }
 
     #region 采购相关
     [Display(Name = "采购机构", Description = "采购机构")]

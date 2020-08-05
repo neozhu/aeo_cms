@@ -12,15 +12,7 @@ namespace WebApp.Models
   //客户银行账户
   public partial class CustomerBank:Entity
   {
-    [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
-    [MaxLength(20)]
-    [DefaultValue("customer.CustomerCode")]
-    public string CustomerCode { get; set; }
-    [Display(Name = "单位名称", Description = "单位名称")]
-    [MaxLength(80)]
-    [Required]
-    [DefaultValue("customer.CustomerName")]
-    public string CustomerName { get; set; }
+    
     [Display(Name = "开户名称", Description = "开户名称")]
     [MaxLength(100)]
     [Required]
@@ -44,6 +36,7 @@ namespace WebApp.Models
     [MaxLength(10)]
     public string CUR { get; set; }
     [Display(Name = "备注说明", Description = "备注说明")]
+    [MaxLength(512)]
     public string Remark { get; set; }
 
   
@@ -57,5 +50,14 @@ namespace WebApp.Models
     [ForeignKey("CustomerId")]
     [Display(Name = "所属客户", Description = "所属客户")]
     public Customer Customer { get; set; }
+    [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
+    [MaxLength(20)]
+    [DefaultValue("customer.CustomerCode")]
+    public string CustomerCode { get; set; }
+    [Display(Name = "单位名称", Description = "单位名称")]
+    [MaxLength(80)]
+    [Required]
+    [DefaultValue("customer.CustomerName")]
+    public string CustomerName { get; set; }
   }
 }

@@ -11,8 +11,7 @@ namespace WebApp.Models
   //询价单附件
   public partial class InquiryFile : Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "文件名", Description = "文件名")]
     [MaxLength(100)]
     [Required]

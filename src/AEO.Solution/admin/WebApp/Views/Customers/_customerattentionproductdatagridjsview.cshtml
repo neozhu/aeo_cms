@@ -1,0 +1,523 @@
+﻿@model WebApp.Models.CustomerAttentionProduct
+<script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $customerattentionproductdg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 CustomerAttentionProduct datagrid
+   var $customerattentionproductdg = $('#customerattentionproduct_datagrid');
+   //当前行记录
+   var customerattentionproduct = {};
+   //datagrid CRUD method
+    var customerattentionproduct_editIndex = undefined;
+    //取消编辑恢复状态
+    function customerattentionproduct_rejectChanges() {
+		$customerattentionproductdg.datagrid('rejectChanges');
+		customerattentionproduct_editIndex = undefined;
+    }
+    //重新加载数据
+    function customerattentionproduct_reloadData() {
+			$customerattentionproductdg.datagrid('unselectAll');
+            $customerattentionproductdg.datagrid('uncheckAll');
+	        $customerattentionproductdg.datagrid('reload');
+	}
+    //关闭编辑状态
+	function customerattentionproduct_endEditing() {
+			if (customerattentionproduct_editIndex === undefined) {
+                return true; 
+            }
+			if ($customerattentionproductdg.datagrid('validateRow', customerattentionproduct_editIndex)) {
+				$customerattentionproductdg.datagrid('endEdit', customerattentionproduct_editIndex);
+				customerattentionproduct_editIndex = undefined;
+                return true;
+			} else {
+				const invalidinput = $('input.validatebox-invalid',$customerattentionproductdg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+				return false;
+			}
+		}
+    //单击列开启编辑功能
+	function customerattentionproduct_onClickCell(index, field) {
+			const _operates = ['_operate1', 'ck'];
+             $('button[name*=\'customerattentionproductdeleterowbutton\']').prop('disabled', false);
+			if (!SUBEDITINLINE || $.inArray(field, _operates) >= 0) {
+				return false;
+			}
+			if (customerattentionproduct_editIndex !== index) {
+				if (customerattentionproduct_endEditing()) {
+					$customerattentionproductdg.datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    //customerattentionproduct_editIndex = index;
+					var ed = $customerattentionproductdg.datagrid('getEditor', { index: index, field: field });
+					if (ed) {
+						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+					}
+				} else {
+					$customerattentionproductdg.datagrid('selectRow', customerattentionproduct_editIndex);
+				}
+			}
+		}
+    //双击弹出编辑当前行对话框
+    function customerattentionproduct_onDblClickRow(index, row) {
+        if (!SUBEDITINLINE) {
+            open_customerattentionproductdlg(index, row, 'Modified');
+        }
+    }
+    //订阅对话框新增返回事件
+    $(document).on('customerattentionproduct_form.add', (e, index,item) => {
+        $customerattentionproductdg.datagrid("insertRow",
+            {
+                index: 0,
+                row: item
+            });
+    });
+    //订阅对话框修改返回事件
+    $(document).on('customerattentionproduct_form.edit', (e,index, item) => {
+        $customerattentionproductdg.datagrid('updateRow', {
+            index: index,
+            row: item
+        });
+    });
+    //新增记录
+    function customerattentionproduct_appendItem() {
+       const $customerform = $('#customer_form');
+       if ($customerform.form('enableValidation').form('validate')) {
+          const customer = $customerform.serializeJSON();
+       const item = {
+          CUR: 'CNY', 
+CustomerId: customer.Id, 
+CustomerCode: 'customer.CustomerCode', 
+CustomerName: 'customer.CustomerName', 
+
+          CustomerId:customer.Id
+        };
+      if (!SUBEDITINLINE) {
+        open_customerattentionproductdlg(0, item, 'Added');
+      } else {
+			if (customerattentionproduct_endEditing()) {
+				//对必填字段进行默认值初始化
+				$customerattentionproductdg.datagrid('insertRow', 
+                               { index: 0,
+                                  row: item 
+                               });
+				customerattentionproduct_editIndex = 0;
+				$customerattentionproductdg.datagrid('selectRow', customerattentionproduct_editIndex)
+						.datagrid('beginEdit', customerattentionproduct_editIndex);
+			}
+        }
+        }
+	 }
+    //删除编辑的行
+	function customerattentionproduct_removeItem() {
+		if (customerattentionproduct_editIndex !== undefined) {  
+            const delindex = orderdetail_editIndex;
+			$customerattentionproductdg.datagrid('cancelEdit', delindex)
+					           .datagrid('deleteRow', delindex);
+            $("button[name*='customerattentionproduct_cancelchangesbutton']").prop('disabled', false);
+            $("button[name*='customerattentionproduct_savechangesbutton']").prop('disabled', false);
+        } else {
+           const rows = $customerattentionproductdg.datagrid('getChecked');
+           rows.slice().reverse().forEach(row => {
+                const rowindex = $customerattentionproductdg.datagrid('getRowIndex', row);
+                $customerattentionproductdg.datagrid('deleteRow', rowindex);
+                $("button[name*='customerattentionproduct_cancelchangesbutton']").prop('disabled', false);
+                $("button[name*='customerattentionproduct_savechangesbutton']").prop('disabled', false);
+            });
+        }
+	}
+    //删除选中的行
+    function customerattentionproduct_deleteChecked() {
+            const rows = $customerattentionproductdg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/CustomerAttentionProducts/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $customerattentionproductdg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });  
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+  //获取修改的行
+  function customerattentionproduct_getChanges() {
+    if (customerattentionproduct_endEditing()) {
+      if ($customerattentionproductdg.datagrid('getChanges').length > 0) {
+        const inserted = $customerattentionproductdg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const deleted = $customerattentionproductdg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3;
+          return item;
+        });
+        const updated = $customerattentionproductdg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2;
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        return { success: true, changed };
+      } else {
+        return { success: true, changed:undefined};
+      }
+    } else {
+      return { success: false,changed:undefined };
+    }
+  }
+  //提交修改的数据
+  //function customerattentionproduct_acceptChanges() {
+  //  $customerattentionproductdg.datagrid('acceptChanges');
+  //}
+  //提交保存后台数据库
+  async function customerattentionproduct_acceptChanges() {
+			if (customerattentionproduct_endEditing()) {
+				if ($customerattentionproductdg.datagrid('getChanges').length > 0) {
+					const inserted = $customerattentionproductdg.datagrid('getChanges', 'inserted').map(item => {
+                       item.TrackingState = 1;
+                       return item;
+                    });
+					const deleted = $customerattentionproductdg.datagrid('getChanges', 'deleted').map(item => {
+                       item.TrackingState = 3;
+                       return item;
+                    });
+					const updated = $customerattentionproductdg.datagrid('getChanges', 'updated').map(item => {
+                       item.TrackingState = 2;
+                       return item;
+                    });
+					//过滤已删除的重复项
+                    const changed = inserted.concat(updated.filter(item => {
+                           return !deleted.includes(item);
+                         })).concat(deleted);
+                   //console.table(changed);
+				  if (MODELSTATE === 'Added') {
+                    return { success:true, changed };
+                  } else {
+                    const response = await $.post('/CustomerAttentionProducts/SaveData', {customerattentionproducts:changed});
+                    response.changed = undefined;
+    				if (response.success) {
+							toastr.success('保存明细成功'); 
+							$customerattentionproductdg.datagrid('acceptChanges');
+							customerattentionproduct_reloadData()
+                            return { success:true}; 
+				    } else {
+                           $.messager.alert('错误', response.err ,'error');
+                           return { success:false, err:response.err };
+                    }
+                   }
+				} else {
+                  return { success: true, changed: undefined};
+                }
+			} else {
+               return { success: false };
+            }
+      }
+
+
+$(() => {
+    $customerattentionproductdg.datagrid({
+            fit: false,
+            height: 300,
+            rownumbers: true,
+            striped: true,
+            idField: 'Id',
+            sortName: 'Id',
+            sortOrder: 'asc',
+            remoteFilter: true,
+            singleSelect: true,
+            checkOnSelect: false,
+		    selectOnCheck: false,
+            method: 'get',
+            pageList: [10, 20, 50, 100,1000],
+            pagination: true,
+            clientPaging:false,
+            pagination: true,
+            onDblClickRow: customerattentionproduct_onDblClickRow,
+            onClickCell: customerattentionproduct_onClickCell,
+            onBeforeLoad: function () {
+
+            },
+            onLoadSuccess: function (data) {
+              customerattentionproduct_editIndex = undefined;
+              $("button[name*='customerattentionproduct_deleterowbutton']").prop('disabled', true);
+              $("button[name*='customerattentionproduct_cancelchangesbutton']").prop('disabled', true);
+              $("button[name*='customerattentionproduct_savechangesbutton']").prop('disabled', true);
+            },
+            onCheck: function () {
+                $("button[name*='customerattentionproduct_deleterowbutton']").prop('disabled', false);
+            },
+            onUncheck: function () {
+               const checked = $(this).datagrid('getChecked').length > 0;
+               $("button[name*='customerattentionproduct_deleterowbutton']").prop('disabled', !checked);
+            },
+           onCheckAll: function (rows) {
+              if (rows.length > 0) {
+                 $("button[name*='customerattentionproduct_deleterowbutton']").prop('disabled', false);
+              }
+           },
+           onUncheckAll: function () {
+              $("button[name*='customerattentionproduct_deleterowbutton']").prop('disabled', true);           
+           },
+            onSelect: function(index,row) {
+              customerattentionproduct = row;
+            },
+            onBeforeEdit: function (index, row) {
+                 customerattentionproduct_editIndex = index;
+                 row.editing = true;
+                 $("button[name*='customerattentionproduct_deleterowbutton']").prop('disabled', false);
+                 $("button[name*='customerattentionproduct_cancelchangesbutton']").prop('disabled', false);
+                 $("button[name*='customerattentionproduct_savechangesbutton']").prop('disabled', false);
+                 $(this).datagrid('refreshRow', index);
+             },
+            onBeginEdit: function (index, row) {
+               //const editors = $(this).datagrid('getEditors', index);
+  
+            },
+            onEndEdit: function (index, row) {
+
+             },
+             onAfterEdit: function (index, row) {
+                   row.editing = false;
+                   customerattentionproduct_editIndex = undefined;
+                   $(this).datagrid('refreshRow', index);
+             },
+             onCancelEdit: function (index, row) {
+                customerattentionproduct_editIndex = undefined;
+                row.editing = false;
+                $("button[name*='customerattentionproduct_deleterowbutton']").prop('disabled', true);
+              $("button[name*='customerattentionproduct_cancelchangesbutton']").prop('disabled', true);
+              $("button[name*='customerattentionproduct_savechangesbutton']").prop('disabled', true);
+                $(this).datagrid('refreshRow', index);
+            },
+            columns: [[
+            { field: 'ck', checkbox: true },
+		     
+			{    /*产品类别*/
+                 field:'Category', 
+                 title:'  @Html.DisplayNameFor(model => model.Category)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Category',
+                                 prompt:'@Html.DescriptionFor(model => model.Category)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+           {     /*产品类别*/
+                 field:'CategoryId', 
+                 title:'  @Html.DisplayNameFor(model => model.CategoryId)', 
+                 width:100, 
+                 align:'right',
+                 editor:{
+                        type:'numberbox',
+                        options:{ 
+                                  id:'editor_CategoryId',
+                                  prompt:'@Html.DescriptionFor(model => model.CategoryId)',
+                                  required:false,
+                                  validType:'integer',
+                                  
+                                 } 
+                        },
+                sortable:true,
+                resizable:true,
+                hidden:false,
+                formatter:intformatter
+			},
+			{    /*产品编号*/
+                 field:'ProductNo', 
+                 title:'  @Html.DisplayNameFor(model => model.ProductNo)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_ProductNo',
+                                 prompt:'@Html.DescriptionFor(model => model.ProductNo)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*中文品名*/
+                 field:'ProductName', 
+                 title:'  @Html.DisplayNameFor(model => model.ProductName)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_ProductName',
+                                 prompt:'@Html.DescriptionFor(model => model.ProductName)',
+                                 required:false, 
+                                 validType: 'length[0,200]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*币种*/
+                 field:'CUR', 
+                 title:'  @Html.DisplayNameFor(model => model.CUR)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_CUR',
+                                 prompt:'@Html.DescriptionFor(model => model.CUR)',
+                                 required:false, 
+                                 validType: 'length[0,10]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*单价*/
+                 field:'Pric', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Pric)', 
+                 width:100, 
+                 align:'right',
+                 hidden:false,
+                 editor:{
+                        type:'numberbox',
+                        options:{ 
+                                  id:'editor_Pric',
+                                  prompt:'@Html.DescriptionFor(model => model.Pric)',
+                                  required:true,
+                                  precision:2,
+                                  validType:'decimal',
+                                  
+                                 } 
+                        },
+                sortable:true,
+                resizable:true,
+                formatter:numberformatter
+			},
+           {     /*报价次数*/
+                 field:'SummaryQuote', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.SummaryQuote)', 
+                 width:100, 
+                 align:'right',
+                 editor:{
+                        type:'numberbox',
+                        options:{ 
+                                  id:'editor_SummaryQuote',
+                                  prompt:'@Html.DescriptionFor(model => model.SummaryQuote)',
+                                  required:true,
+                                  validType:'integer',
+                                  
+                                 } 
+                        },
+                sortable:true,
+                resizable:true,
+                hidden:false,
+                formatter:intformatter
+			},
+           {     /*订单次数*/
+                 field:'SummaryOrders', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.SummaryOrders)', 
+                 width:100, 
+                 align:'right',
+                 editor:{
+                        type:'numberbox',
+                        options:{ 
+                                  id:'editor_SummaryOrders',
+                                  prompt:'@Html.DescriptionFor(model => model.SummaryOrders)',
+                                  required:true,
+                                  validType:'integer',
+                                  
+                                 } 
+                        },
+                sortable:true,
+                resizable:true,
+                hidden:false,
+                formatter:intformatter
+			},
+			{    /*客户编号(保存时系统自动分配也可以手工选择)*/
+                 field:'CustomerCode', 
+                 title:'  @Html.DisplayNameFor(model => model.CustomerCode)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_CustomerCode',
+                                 prompt:'@Html.DescriptionFor(model => model.CustomerCode)',
+                                 required:false, 
+                                 validType: 'length[0,20]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*客户名称*/
+                 field:'CustomerName', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.CustomerName)', 
+                 width:160,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_CustomerName',
+                                 prompt:'@Html.DescriptionFor(model => model.CustomerName)',
+                                 required:true, 
+                                 validType: 'length[0,80]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+            ]]
+            })
+            .datagrid('enableFilter',[
+				{    /*产品类别*/
+					  field: 'CategoryId',
+					  type: 'numberbox',
+					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+				  },
+				{    /*单价*/
+					  field: 'Pric',
+					  type: 'numberbox',
+					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+				  },
+				{    /*报价次数*/
+					  field: 'SummaryQuote',
+					  type: 'numberbox',
+					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+				  },
+				{    /*订单次数*/
+					  field: 'SummaryOrders',
+					  type: 'numberbox',
+					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+				  },
+		   ]);
+  });
+      
+</script>
+
+
+ 

@@ -62,6 +62,14 @@ namespace WebApp.Models
     [Display(Name = "备注", Description = "备注")]
     [MaxLength(256)]
     public string Remark { get; set; }
+
+
+    [Display(Name = "所属客户", Description = "所属客户")]
+    [DefaultValue("customer.Id")]
+    public int CustomerId { get; set; }
+    [ForeignKey("CustomerId")]
+    [Display(Name = "所属客户", Description = "所属客户")]
+    public Customer Customer { get; set; }
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
@@ -72,12 +80,5 @@ namespace WebApp.Models
     [Required]
     [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
-
-    [Display(Name = "所属客户", Description = "所属客户")]
-    [DefaultValue("customer.Id")]
-    public int CustomerId { get; set; }
-    [ForeignKey("CustomerId")]
-    [Display(Name = "所属客户", Description = "所属客户")]
-    public Customer Customer { get; set; }
   }
 }

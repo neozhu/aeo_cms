@@ -30,19 +30,28 @@ namespace WebApp.Models
     [DefaultValue("now")]
     public DateTime FollowDate { get; set; }
     [Display(Name = "跟进内容", Description = "跟进内容")]
+    [MaxLength(512)]
     public string Content { get; set; }
 
     #region 需要设置提醒
     [Display(Name = "设置提醒时间", Description = "设置提醒时间")]
     public DateTime? ReminderTime { get; set; }
     [Display(Name = "提醒内容", Description = "提醒内容")]
+    [MaxLength(512)]
     public string ReminderContent { get; set; }
     [Display(Name = "提醒人员", Description = "提醒人员")]
-    [MaxLength(200)]
+    [MaxLength(128)]
     public string ReminderTo { get; set; }
     #endregion
 
 
+
+    [Display(Name = "所属客户", Description = "所属客户")]
+    [DefaultValue("customer.Id")]
+    public int CustomerId { get; set; }
+    [ForeignKey("CustomerId")]
+    [Display(Name = "所属客户", Description = "所属客户")]
+    public Customer Customer { get; set; }
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
@@ -53,12 +62,5 @@ namespace WebApp.Models
     [Required]
     [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
-
-    [Display(Name = "所属客户", Description = "所属客户")]
-    [DefaultValue("customer.Id")]
-    public int CustomerId { get; set; }
-    [ForeignKey("CustomerId")]
-    [Display(Name = "所属客户", Description = "所属客户")]
-    public Customer Customer { get; set; }
   }
 }

@@ -104,6 +104,28 @@ namespace WebApp
       container.RegisterType<IProductPurchaseHistoricalPriceService, ProductPurchaseHistoricalPriceService>();
       container.RegisterType<IRepositoryAsync<Product>, Repository<Product>>();
       container.RegisterType<IProductService, ProductService>();
+      //客户相关
+      container.RegisterType<IRepositoryAsync<Customer>, Repository<Customer>>();
+      container.RegisterType<ICustomerService, CustomerService>();
+      container.RegisterType<IRepositoryAsync<CustomerContact>, Repository<CustomerContact>>();
+      container.RegisterType<ICustomerContactService, CustomerContactService>();
+      container.RegisterType<IRepositoryAsync<CustomerBank>, Repository<CustomerBank>>();
+      container.RegisterType<ICustomerBankService, CustomerBankService>();
+      container.RegisterType<IRepositoryAsync<CustomerCommunication>, Repository<CustomerCommunication>>();
+      container.RegisterType<ICustomerCommunicationService, CustomerCommunicationService>();
+      container.RegisterType<IRepositoryAsync<CustomerFile>, Repository<CustomerFile>>();
+      container.RegisterType<ICustomerFileService, CustomerFileService>();
+      container.RegisterType<IRepositoryAsync<CustomerFollow>, Repository<CustomerFollow>>();
+      container.RegisterType<ICustomerFollowService, CustomerFollowService>();
+      container.RegisterType<IRepositoryAsync<CustomerSales>, Repository<CustomerSales>>();
+      container.RegisterType<ICustomerSalesService, CustomerSalesService>();
+      container.RegisterType<IRepositoryAsync<CustomerShare>, Repository<CustomerShare>>();
+      container.RegisterType<ICustomerShareService, CustomerShareService>();
+      container.RegisterType<IRepositoryAsync<CustomerWarehouse>, Repository<CustomerWarehouse>>();
+      container.RegisterType<ICustomerWarehouseService, CustomerWarehouseService>();
+      container.RegisterType<IRepositoryAsync<CustomerAttentionProduct>, Repository<CustomerAttentionProduct>>();
+      container.RegisterType<ICustomerAttentionProductService, CustomerAttentionProductService>();
+      ///    
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();
       //container.RegisterType<IRepositoryAsync<ReceiptManageBankFL>, Repository<ReceiptManageBankFL>>();

@@ -28,19 +28,23 @@ namespace WebApp.Models
     [MaxLength(20)]
     [DefaultValue("启用")]
     public string Status { get; set; }
-   
-
+    [Display(Name = "负责人", Description = "负责人")]
+    [MaxLength(20)]
+    public string Owner { get; set; }
     [Display(Name = "职务", Description = "职务")]
     [MaxLength(80)]
     [Required]
     public string Job { get; set; }
+    [Display(Name = "微信", Description = "微信")]
+    [MaxLength(50)]
+    public string Wx { get; set; }
 
     [Display(Name = "手机号", Description = "手机号")]
     [MaxLength(50)]
     public string MobilePhone { get; set; }
     [Display(Name = "固话", Description = "固话")]
     [MaxLength(50)]
-    public string PhoneNumber3 { get; set; }
+    public string PhoneNumber { get; set; }
     [Display(Name = "传真", Description = "传真")]
     [MaxLength(50)]
     public string Fax { get; set; }
@@ -54,6 +58,15 @@ namespace WebApp.Models
    
   
 
+  
+
+    [Display(Name = "所属客户", Description = "所属客户")]
+    [DefaultValue("customer.Id")]
+    public int CustomerId { get; set; }
+    [ForeignKey("CustomerId")]
+    [Display(Name = "所属客户", Description = "所属客户")]
+    public Customer Customer { get; set; }
+
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
@@ -64,12 +77,5 @@ namespace WebApp.Models
     [Required]
     [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
-
-    [Display(Name = "所属客户", Description = "所属客户")]
-    [DefaultValue("customer.Id")]
-    public int CustomerId { get; set; }
-    [ForeignKey("CustomerId")]
-    [Display(Name = "所属客户", Description = "所属客户")]
-    public Customer Customer { get; set; }
   }
 }

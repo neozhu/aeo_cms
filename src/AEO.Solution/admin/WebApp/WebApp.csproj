@@ -427,7 +427,16 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CodeItemsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\CustomerAttentionProductsController.cs" />
     <Compile Include="Controllers\CustomerBanksController.cs" />
+    <Compile Include="Controllers\CustomerCommunicationsController.cs" />
+    <Compile Include="Controllers\CustomerContactsController.cs" />
+    <Compile Include="Controllers\CustomerFilesController.cs" />
+    <Compile Include="Controllers\CustomerFollowsController.cs" />
+    <Compile Include="Controllers\CustomerSalesesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\CustomerSharesController.cs" />
+    <Compile Include="Controllers\CustomerWarehousesController.cs" />
     <Compile Include="Controllers\DataTableImportMappingsController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\EFMigrationsManagerController.cs" />
@@ -531,6 +540,22 @@
     <Compile Include="Migrations\202008031017581_md_changelength.designer.cs">
       <DependentUpon>202008031017581_md_changelength.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008050243166_md_changecustomer.cs" />
+    <Compile Include="Migrations\202008050243166_md_changecustomer.designer.cs">
+      <DependentUpon>202008050243166_md_changecustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008050259429_md_CustomerCommunication.cs" />
+    <Compile Include="Migrations\202008050259429_md_CustomerCommunication.designer.cs">
+      <DependentUpon>202008050259429_md_CustomerCommunication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008050309261_md_customerfollow.cs" />
+    <Compile Include="Migrations\202008050309261_md_customerfollow.designer.cs">
+      <DependentUpon>202008050309261_md_customerfollow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008050336368_md_changeCustomerAttentionProduct.cs" />
+    <Compile Include="Migrations\202008050336368_md_changeCustomerAttentionProduct.designer.cs">
+      <DependentUpon>202008050336368_md_changeCustomerAttentionProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
@@ -615,8 +640,26 @@
     <Compile Include="Repositories\Categories\CategoryRepository.cs" />
     <Compile Include="Repositories\Companies\CompanyQuery.cs" />
     <Compile Include="Repositories\Companies\CompanyRepository.cs" />
+    <Compile Include="Repositories\CustomerAttentionProducts\CustomerAttentionProductQuery.cs" />
+    <Compile Include="Repositories\CustomerAttentionProducts\CustomerAttentionProductRepository.cs" />
     <Compile Include="Repositories\CustomerBanks\CustomerBankQuery.cs" />
     <Compile Include="Repositories\CustomerBanks\CustomerBankRepository.cs" />
+    <Compile Include="Repositories\CustomerCommunications\CustomerCommunicationQuery.cs" />
+    <Compile Include="Repositories\CustomerCommunications\CustomerCommunicationRepository.cs" />
+    <Compile Include="Repositories\CustomerContacts\CustomerContactQuery.cs" />
+    <Compile Include="Repositories\CustomerContacts\CustomerContactRepository.cs" />
+    <Compile Include="Repositories\CustomerFiles\CustomerFileQuery.cs" />
+    <Compile Include="Repositories\CustomerFiles\CustomerFileRepository.cs" />
+    <Compile Include="Repositories\CustomerFollows\CustomerFollowQuery.cs" />
+    <Compile Include="Repositories\CustomerFollows\CustomerFollowRepository.cs" />
+    <Compile Include="Repositories\CustomerSales\CustomerSalesQuery.cs" />
+    <Compile Include="Repositories\CustomerSales\CustomerSalesRepository.cs" />
+    <Compile Include="Repositories\CustomerShares\CustomerShareQuery.cs" />
+    <Compile Include="Repositories\CustomerShares\CustomerShareRepository.cs" />
+    <Compile Include="Repositories\Customers\CustomerQuery.cs" />
+    <Compile Include="Repositories\Customers\CustomerRepository.cs" />
+    <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseQuery.cs" />
+    <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
     <Compile Include="Repositories\Logs\LogQuery.cs" />
     <Compile Include="Repositories\Logs\LogRepository.cs" />
     <Compile Include="Repositories\Notifications\NotificationQuery.cs" />
@@ -656,8 +699,26 @@
     <Compile Include="Services\Categories\ICategoryService.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
     <Compile Include="Services\Companies\ICompanyService.cs" />
+    <Compile Include="Services\CustomerAttentionProducts\CustomerAttentionProductService.cs" />
+    <Compile Include="Services\CustomerAttentionProducts\ICustomerAttentionProductService.cs" />
     <Compile Include="Services\CustomerBanks\CustomerBankService.cs" />
     <Compile Include="Services\CustomerBanks\ICustomerBankService.cs" />
+    <Compile Include="Services\CustomerCommunications\CustomerCommunicationService.cs" />
+    <Compile Include="Services\CustomerCommunications\ICustomerCommunicationService.cs" />
+    <Compile Include="Services\CustomerContacts\CustomerContactService.cs" />
+    <Compile Include="Services\CustomerContacts\ICustomerContactService.cs" />
+    <Compile Include="Services\CustomerFiles\CustomerFileService.cs" />
+    <Compile Include="Services\CustomerFiles\ICustomerFileService.cs" />
+    <Compile Include="Services\CustomerFollows\CustomerFollowService.cs" />
+    <Compile Include="Services\CustomerFollows\ICustomerFollowService.cs" />
+    <Compile Include="Services\CustomerSales\CustomerSalesService.cs" />
+    <Compile Include="Services\CustomerSales\ICustomerSalesService.cs" />
+    <Compile Include="Services\CustomerShares\CustomerShareService.cs" />
+    <Compile Include="Services\CustomerShares\ICustomerShareService.cs" />
+    <Compile Include="Services\Customers\CustomerService.cs" />
+    <Compile Include="Services\Customers\ICustomerService.cs" />
+    <Compile Include="Services\CustomerWarehouses\CustomerWarehouseService.cs" />
+    <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
     <Compile Include="Services\Logs\LogService.cs" />
     <Compile Include="Services\Notifications\INotificationService.cs" />
@@ -3797,6 +3858,85 @@
     <Content Include="Views\CustomerBanks\Details.cshtml" />
     <Content Include="Views\CustomerBanks\Edit.cshtml" />
     <Content Include="Views\CustomerBanks\EditForm.cshtml" />
+    <Content Include="Views\CustomerContacts\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerContacts\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerContacts\Index.cshtml" />
+    <Content Include="Views\CustomerContacts\Create.cshtml" />
+    <Content Include="Views\CustomerContacts\Details.cshtml" />
+    <Content Include="Views\CustomerContacts\Edit.cshtml" />
+    <Content Include="Views\CustomerContacts\EditForm.cshtml" />
+    <Content Include="Views\CustomerCommunications\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerCommunications\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerCommunications\Index.cshtml" />
+    <Content Include="Views\CustomerCommunications\Create.cshtml" />
+    <Content Include="Views\CustomerCommunications\Details.cshtml" />
+    <Content Include="Views\CustomerCommunications\Edit.cshtml" />
+    <Content Include="Views\CustomerCommunications\EditForm.cshtml" />
+    <Content Include="Views\CustomerFiles\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerFiles\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerFiles\Index.cshtml" />
+    <Content Include="Views\CustomerFiles\Create.cshtml" />
+    <Content Include="Views\CustomerFiles\Details.cshtml" />
+    <Content Include="Views\CustomerFiles\Edit.cshtml" />
+    <Content Include="Views\CustomerFiles\EditForm.cshtml" />
+    <Content Include="Views\CustomerFollows\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerFollows\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerFollows\Index.cshtml" />
+    <Content Include="Views\CustomerFollows\Create.cshtml" />
+    <Content Include="Views\CustomerFollows\Details.cshtml" />
+    <Content Include="Views\CustomerFollows\Edit.cshtml" />
+    <Content Include="Views\CustomerFollows\EditForm.cshtml" />
+    <Content Include="Views\CustomerSaleses\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerSaleses\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerSaleses\Index.cshtml" />
+    <Content Include="Views\CustomerSaleses\Create.cshtml" />
+    <Content Include="Views\CustomerSaleses\Details.cshtml" />
+    <Content Include="Views\CustomerSaleses\Edit.cshtml" />
+    <Content Include="Views\CustomerSaleses\EditForm.cshtml" />
+    <Content Include="Views\CustomerShares\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerShares\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerShares\Index.cshtml" />
+    <Content Include="Views\CustomerShares\Create.cshtml" />
+    <Content Include="Views\CustomerShares\Details.cshtml" />
+    <Content Include="Views\CustomerShares\Edit.cshtml" />
+    <Content Include="Views\CustomerShares\EditForm.cshtml" />
+    <Content Include="Views\CustomerWarehouses\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerWarehouses\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerWarehouses\Index.cshtml" />
+    <Content Include="Views\CustomerWarehouses\Create.cshtml" />
+    <Content Include="Views\CustomerWarehouses\Details.cshtml" />
+    <Content Include="Views\CustomerWarehouses\Edit.cshtml" />
+    <Content Include="Views\CustomerWarehouses\EditForm.cshtml" />
+    <Content Include="Views\CustomerAttentionProducts\_DisplayForm.cshtml" />
+    <Content Include="Views\CustomerAttentionProducts\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\CustomerAttentionProducts\Index.cshtml" />
+    <Content Include="Views\CustomerAttentionProducts\Create.cshtml" />
+    <Content Include="Views\CustomerAttentionProducts\Details.cshtml" />
+    <Content Include="Views\CustomerAttentionProducts\Edit.cshtml" />
+    <Content Include="Views\CustomerAttentionProducts\EditForm.cshtml" />
+    <Content Include="Views\Customers\_DisplayForm.cshtml" />
+    <Content Include="Views\Customers\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\EditForm.cshtml" />
+    <Content Include="Views\Customers\_CustomerAttentionProductEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerattentionproductdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerBankEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerbankdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerContactEditForm.cshtml" />
+    <Content Include="Views\Customers\_customercontactdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerFileEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerfiledatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerFollowEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerfollowdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerSalesEditForm.cshtml" />
+    <Content Include="Views\Customers\_customersalesdatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerShareEditForm.cshtml" />
+    <Content Include="Views\Customers\_customersharedatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_CustomerWarehouseEditForm.cshtml" />
+    <Content Include="Views\Customers\_customerwarehousedatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -3935,6 +4075,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008031017581_md_changelength.resx">
       <DependentUpon>202008031017581_md_changelength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008050243166_md_changecustomer.resx">
+      <DependentUpon>202008050243166_md_changecustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008050259429_md_CustomerCommunication.resx">
+      <DependentUpon>202008050259429_md_CustomerCommunication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008050309261_md_customerfollow.resx">
+      <DependentUpon>202008050309261_md_customerfollow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008050336368_md_changeCustomerAttentionProduct.resx">
+      <DependentUpon>202008050336368_md_changeCustomerAttentionProduct.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />

@@ -11,8 +11,7 @@ namespace WebApp.Models
   //外汇核销单-财务应收单信息
   public partial class ReceiptManageRecDetail:Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "应收单编号", Description = "应收单编号")]
     [MaxLength(50)]
     public string REC_NO { get; set; }

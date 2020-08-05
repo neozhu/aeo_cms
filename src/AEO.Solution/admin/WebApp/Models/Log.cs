@@ -9,8 +9,7 @@ namespace WebApp.Models
 {
   public partial class Log:Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name ="主机名",Description = "主机名")]
     [MaxLength(50)]
     public string MachineName { get; set; }

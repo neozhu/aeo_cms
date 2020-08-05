@@ -13,11 +13,11 @@ namespace WebApp.Models
   public partial class CustomerCommunication : Entity
   {
     [Display(Name = "会议主题", Description = "会议主题")]
-    [MaxLength(128)]
+    [MaxLength(256)]
     [Required]
     public string Title { get; set; }
     [Display(Name = "沟通类型", Description = "沟通类型")]
-    [MaxLength(20)]
+    [MaxLength(56)]
     [DefaultValue("")]
     [Required]
     public string CommType { get; set; }
@@ -41,11 +41,18 @@ namespace WebApp.Models
     [DefaultValue(null)]
     public DateTime? EndDate { get; set; }
     [Display(Name = "备注", Description = "备注")]
-    [MaxLength(20)]
+    [MaxLength(512)]
     public string Remark { get; set; }
    
      
 
+   
+
+    [Display(Name = "所属客户", Description = "所属客户")]
+    public int CustomerId { get; set; }
+    [ForeignKey("CustomerId")]
+    [Display(Name = "所属客户", Description = "所属客户")]
+    public Customer Customer { get; set; }
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
@@ -54,11 +61,5 @@ namespace WebApp.Models
     [MaxLength(80)]
     [Required]
     public string CustomerName { get; set; }
-
-    [Display(Name = "所属客户", Description = "所属客户")]
-    public int CustomerId { get; set; }
-    [ForeignKey("CustomerId")]
-    [Display(Name = "所属客户", Description = "所属客户")]
-    public Customer Customer { get; set; }
   }
 }

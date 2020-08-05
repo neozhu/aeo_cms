@@ -11,8 +11,7 @@ namespace WebApp.Models
   //询价任务
   public partial class InquiryTask:Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "任务单号",Description = "任务单号")]
     [MaxLength(20)]
     [Required]

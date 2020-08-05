@@ -14,8 +14,7 @@ namespace WebApp.Models
         {
 
         }
-        [Key]
-        public int Id { get; set; }
+
         [Display( Name ="主题",Description = "主题")]
         [Required]
         [MaxLength(50)]

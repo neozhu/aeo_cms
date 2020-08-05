@@ -11,8 +11,7 @@ namespace WebApp.Models
   //询价任务产品明细
   public partial class InquiryTaskProduct:Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "产品编号", Description = "产品编号(自动生成,可手工修改)")]
     [MaxLength(50)]
     public string ProductNo { get; set; }
