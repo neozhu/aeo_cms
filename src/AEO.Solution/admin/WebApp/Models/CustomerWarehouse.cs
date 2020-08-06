@@ -13,7 +13,7 @@ namespace WebApp.Models
   public partial class CustomerWarehouse:Entity
   {
     #region 基本信息
-    [Display(Name = "仓库代码", Description = "仓库代码(保存时系统自动分配也可以手工选择)")]
+    [Display(Name = "仓库代码", Description = "仓库代码")]
     [MaxLength(20)]
     public string WarehouseCode { get; set; }
     [Display(Name = "仓库名称", Description = "仓库名称")]
@@ -42,20 +42,20 @@ namespace WebApp.Models
     public string WUser { get; set; }
   
 
-   [Display(Name = "传真", Description = "传真")]
-    [MaxLength(256)]
-    public string WFax { get; set; }
-    [Display(Name = "手机1", Description = "手机1")]
+  
+    [Display(Name = "联系人电话", Description = "联系人电话")]
     [MaxLength(256)]
     public string WMPhone1 { get; set; }
-    [Display(Name = "手机2", Description = "手机2")]
+    [Display(Name = "仓库电话", Description = "仓库电话")]
     [MaxLength(256)]
     public string WMPhone2 { get; set; }
     
     [Display(Name = "电子邮件", Description = "电子邮件")]
     [MaxLength(256)]
     public string WEmail1 { get; set; }
-
+    [Display(Name = "传真", Description = "传真")]
+    [MaxLength(256)]
+    public string WFax { get; set; }
 
 
     #endregion
@@ -72,12 +72,12 @@ namespace WebApp.Models
     public Customer Customer { get; set; }
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
-    [Required]
+    //[Required]
     [DefaultValue("customer.CustomerCode")]
     public string CustomerCode { get; set; }
     [Display(Name = "客户名称", Description = "客户名称")]
     [MaxLength(80)]
-    [Required]
+    //[Required]
     [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
   }

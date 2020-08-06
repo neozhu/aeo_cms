@@ -34,7 +34,7 @@
                       $customercontactdg.datagrid('resize');
                       $customerfiledg.datagrid('resize');
                       $customerfollowdg.datagrid('resize');
-                      $customersalesdg.datagrid('resize');
+                      //$customersalesdg.datagrid('resize');
                       $customersharedg.datagrid('resize');
                       $customerwarehousedg.datagrid('resize');
                     },
@@ -44,22 +44,38 @@
                       $customercontactdg.datagrid('resize');
                       $customerfiledg.datagrid('resize');
                       $customerfollowdg.datagrid('resize');
-                      $customersalesdg.datagrid('resize');
+                      //$customersalesdg.datagrid('resize');
                       $customersharedg.datagrid('resize');
                       $customerwarehousedg.datagrid('resize');
                     }
                     " style="width:800px;height:450px;display:none">
   <!-- toolbar -->
   <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
-    <div class="d-flex flex-row-reverse pr-4">
+    <div class="d-flex justify-content-end pr-4">
+
       <div class="btn-group btn-group-sm mr-1">
         <button name="saveitembutton" class="btn btn-default">
           <i class="fal fa-save"></i> @Html.L("Save")
         </button>
       </div>
+
+      <div class="btn-group btn-group-sm mr-1" id="follow-btn-group">
+        <button name="addfollowbutton" class="btn btn-info">
+          <i class="fal fa-code-merge"></i> 添加跟进记录
+        </button>
+      </div>
+      <div class="btn-group show  mr-1" id="more-btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">更多</button>
+        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 37px; left: 0px;">
+          <a class="dropdown-item" href="#">移交</a>
+          <a class="dropdown-item" href="#">新建日程</a>
+          <a class="dropdown-item" href="#">新建报价</a>
+          <a class="dropdown-item" href="#">新建合同</a>
+        </div>
+      </div>
       <div class="btn-group btn-group-sm mr-1" id="deleteitem-btn-group">
         <button name="deleteitembutton" class="btn btn-danger">
-          <i class="fal fa-trash-alt"></i> @Html.L("Delete")
+          <i class="fal fa-trash-alt"></i> 删除
         </button>
       </div>
     </div>
@@ -120,7 +136,13 @@
                href="#tab-customerfile"
                role="tab">附件</a>
           </li>
-
+          <li class="nav-item">
+            <a class="nav-link "
+               data-toggle="tab"
+               data-model="actionlog"
+               href="#tab-actionlog"
+               role="tab">操作日志</a>
+          </li>
         </ul>
         <div class="tab-content p-0">
           <div class="tab-pane fade show active"
@@ -145,6 +167,7 @@
                 @Html.AntiForgeryToken()
                 <!--Primary Key-->
                 @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Level)
                 <fieldset class="form-group">
                   <legend>客户信息</legend>
                   <div class="row h-100 align-items-center">
@@ -160,7 +183,7 @@
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.CustomerCode)',
-								 required:true,
+								 required:false,
                                  validType: 'length[0,32]'
                                  " />
                     </div>
@@ -205,11 +228,11 @@
                              name="@Html.NameFor(model => model.CustomerType)"
                              value="@Html.ValueFor(model => model.CustomerType)"
                              tabindex="3"
-                             class="easyui-textbox"
+                             class="easyui-combobox"
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.CustomerType)',
-								 required:false,
+								 required:false,data:ctypedatasource,panelHeight:'auto',
                                  validType: 'length[0,20]'
                                  " />
                     </div>
@@ -238,11 +261,11 @@
                              name="@Html.NameFor(model => model.Level)"
                              value="@Html.ValueFor(model => model.Level)"
                              tabindex="5"
-                             class="easyui-textbox"
+                             class="easyui-combobox"
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.Level)',
-								 required:false,
+								 required:false,data:cleveldatasource,panelHeight:'auto',
                                  validType: 'length[0,20]'
                                  " />
                     </div>
@@ -255,11 +278,11 @@
                              name="@Html.NameFor(model => model.Source)"
                              value="@Html.ValueFor(model => model.Source)"
                              tabindex="6"
-                             class="easyui-textbox"
+                             class="easyui-combobox"
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.Source)',
-								 required:false,
+								 required:false,data:sourcedatasource,panelHeight:'auto',
                                  validType: 'length[0,50]'
                                  " />
                     </div>
@@ -337,11 +360,11 @@
                              name="@Html.NameFor(model => model.Industry)"
                              value="@Html.ValueFor(model => model.Industry)"
                              tabindex="11"
-                             class="easyui-textbox"
+                             class="easyui-combobox"
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.Industry)',
-								 required:false,
+								 required:false,panelHeight:'auto',data:industrydatasource,
                                  validType: 'length[0,128]'
                                  " />
                     </div>
@@ -429,7 +452,7 @@
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.TradeCode)',
 								 required:false,
-                                 validType: 'length[0,10]'
+                                 validType: 'length[10,10]'
                                  " />
                     </div>
 
@@ -445,13 +468,13 @@
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.MasterCustom)',
 								 required:false,
-                                 validType: 'length[0,4]'
+                                 validType: 'length[4,4]'
                                  " />
                     </div>
 
 
                     <!--统一社会信用代码-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CreditCode)</label>
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right">@Html.DisplayNameFor(model => model.CreditCode)</label>
                     <div class="col-md-4 mb-1 pl-1">
                       <input id="@Html.IdFor(model => model.CreditCode)"
                              name="@Html.NameFor(model => model.CreditCode)"
@@ -461,8 +484,8 @@
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.CreditCode)',
-								 required:true,
-                                 validType: 'length[0,18]'
+								 required:false,
+                                 validType: 'length[18,18]'
                                  " />
                     </div>
                   </div>
@@ -510,11 +533,11 @@
                              name="@Html.NameFor(model => model.Sex)"
                              value="@Html.ValueFor(model => model.Sex)"
                              tabindex="21"
-                             class="easyui-textbox"
+                             class="easyui-combobox"
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.Sex)',
-								 required:false,
+								 required:false,data:sexdatasource,panelHeight:'auto',
                                  validType: 'length[0,10]'
                                  " />
                     </div>
@@ -603,75 +626,75 @@
                     </div>
 
                     @*客户状态
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Status)"
-                             name="@Html.NameFor(model => model.Status)"
-                             value="@Html.ValueFor(model => model.Status)"
-                             tabindex="27"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
-								 required:false,
-                                 validType: 'length[0,10]'
-                                 " />
-                    </div>
+           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
+           <div class="col-md-4 mb-1 pl-1">
+             <input id="@Html.IdFor(model => model.Status)"
+                    name="@Html.NameFor(model => model.Status)"
+                    value="@Html.ValueFor(model => model.Status)"
+                    tabindex="27"
+                    class="easyui-textbox"
+                    style="width:100%"
+                    type="text"
+                    data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
+        required:false,
+                        validType: 'length[0,10]'
+                        " />
+           </div>
 
 
-                    标志
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Flag)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <div class="custom-control custom-checkbox pt-1">
-                        <input id="@Html.IdFor(model => model.Flag)"
-                               name="@Html.NameFor(model => model.Flag)"
-                               value="true" @(Model.Flag ? "checked=\"checked\"" : "")
-                               data-unchecked-value="false"
-                               tabindex="28"
-                               class="custom-control-input"
-                               type="checkbox" />
-                        <label class="custom-control-label" for="@Html.NameFor(model => model.Flag)"> @Html.DisplayNameFor(model => model.Flag)</label>
-                      </div>
-                    </div>
+           标志
+           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Flag)</label>
+           <div class="col-md-4 mb-1 pl-1">
+             <div class="custom-control custom-checkbox pt-1">
+               <input id="@Html.IdFor(model => model.Flag)"
+                      name="@Html.NameFor(model => model.Flag)"
+                      value="true" @(Model.Flag ? "checked=\"checked\"" : "")
+                      data-unchecked-value="false"
+                      tabindex="28"
+                      class="custom-control-input"
+                      type="checkbox" />
+               <label class="custom-control-label" for="@Html.NameFor(model => model.Flag)"> @Html.DisplayNameFor(model => model.Flag)</label>
+             </div>
+           </div>
 
-                    客户图片
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Logo)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.Logo)"
-                             name="@Html.NameFor(model => model.Logo)"
-                             value="@Html.ValueFor(model => model.Logo)"
-                             tabindex="29"
-                             class="easyui-textbox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.Logo)',
-								 required:false,
-                                 validType: 'length[0,50]'
-                                 " />
-                    </div>
+           客户图片
+           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Logo)</label>
+           <div class="col-md-4 mb-1 pl-1">
+             <input id="@Html.IdFor(model => model.Logo)"
+                    name="@Html.NameFor(model => model.Logo)"
+                    value="@Html.ValueFor(model => model.Logo)"
+                    tabindex="29"
+                    class="easyui-textbox"
+                    style="width:100%"
+                    type="text"
+                    data-options="prompt:'@Html.DescriptionFor(model => model.Logo)',
+        required:false,
+                        validType: 'length[0,50]'
+                        " />
+           </div>
 
 
-                    最近联系时间
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LastContactDate)</label>
-                    <div class="col-md-4 mb-1 pl-1">
-                      <input id="@Html.IdFor(model => model.LastContactDate)"
-                             name="@Html.NameFor(model => model.LastContactDate)"
-                             value="@Html.ValueFor(model => model.LastContactDate)"
-                             tabindex="30"
-                             class="easyui-datebox"
-                             style="width:100%"
-                             type="text"
-                             data-options="prompt:'@Html.DescriptionFor(model => model.LastContactDate)',
-								 required:false,
-								 formatter:dateformatter" />
-                    </div>*@
+           最近联系时间
+           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LastContactDate)</label>
+           <div class="col-md-4 mb-1 pl-1">
+             <input id="@Html.IdFor(model => model.LastContactDate)"
+                    name="@Html.NameFor(model => model.LastContactDate)"
+                    value="@Html.ValueFor(model => model.LastContactDate)"
+                    tabindex="30"
+                    class="easyui-datebox"
+                    style="width:100%"
+                    type="text"
+                    data-options="prompt:'@Html.DescriptionFor(model => model.LastContactDate)',
+        required:false,
+        formatter:dateformatter" />
+           </div>*@
 
                   </div>
                 </fieldset>
               </form>
 
             </div>
-      
+
           </div>
           <div class="tab-pane fade show"
                id="tab-customerattentionproduct"
@@ -925,6 +948,29 @@
               </table>
             </div>
           </div>
+          <div class="tab-pane fade show "
+               id="tab-actionlog"
+               data-model="actionlog"
+               role="tabpanel"
+               aria-labelledby="tab-actionlog">
+
+            <div class="d-flex justify-content-start flex-wrap p-2">
+              <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
+                <button name="actionlog_searchbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed"
+                        onclick="actionlog_reloadData()">
+                  查询
+                </button>
+
+              </div>
+
+            </div>
+            <div class="table-responsive">
+              <table class="m-0" id="actionlog_datagrid">
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1013,8 +1059,13 @@
     //判断是否显示功能按钮
     if (MODELSTATE === 'Added') {
       $('#deleteitem-btn-group').hide();
+      $('#follow-btn-group').hide();
+      $('#more-btn-group').hide();
+
     } else {
       $('#deleteitem-btn-group').show();
+      $('#follow-btn-group').show();
+      $('#more-btn-group').show();
     }
     initcustomerdetailview();
     customerid = (data.Id || 0);
@@ -1036,15 +1087,18 @@
     var url = '/CustomerFollows/GetDataByCustomerId?customerid=' + customerid;
     $customerfollowdg.datagrid('load', url);
     $customerfollowdg.datagrid('resize');
-    var url = '/CustomerSaleses/GetDataByCustomerId?customerid=' + customerid;
-    $customersalesdg.datagrid('load', url);
-    $customersalesdg.datagrid('resize');
+    //var url = '/CustomerSaleses/GetDataByCustomerId?customerid=' + customerid;
+    //$customersalesdg.datagrid('load', url);
+    //$customersalesdg.datagrid('resize');
     var url = '/CustomerShares/GetDataByCustomerId?customerid=' + customerid;
     $customersharedg.datagrid('load', url);
     $customersharedg.datagrid('resize');
     var url = '/CustomerWarehouses/GetDataByCustomerId?customerid=' + customerid;
     $customerwarehousedg.datagrid('load', url);
     $customerwarehousedg.datagrid('resize');
+    var url = '/ActionLogs/GetDataByRefKey?refkey=' + data.CustomerCode;
+    $actionlogdg.datagrid('load', url);
+    $actionlogdg.datagrid('resize');
   }
   //删除当前记录
   function deletecustomeritem() {
@@ -1105,12 +1159,12 @@
 
 
 
-      const customersales_result = await customersales_acceptChanges();
-      if (!customersales_result.success) {
-        return false;
-      } else {
-        customer.CustomerSales = customersales_result.changed;
-      }
+      //const customersales_result = await customersales_acceptChanges();
+      //if (!customersales_result.success) {
+      //  return false;
+      //} else {
+      //  customer.CustomerSales = customersales_result.changed;
+      //}
 
 
       const customershare_result = await customershare_acceptChanges();
@@ -1198,10 +1252,10 @@
       if (!customersales_endEditing()) {
         return true;
       }
-      const customersales = $customersalesdg.datagrid("getChanges");
-      if (MODELSTATE == 'Modified' && customersales.length > 0) {
-        return true;
-      }
+      //const customersales = $customersalesdg.datagrid("getChanges");
+      //if (MODELSTATE == 'Modified' && customersales.length > 0) {
+      //  return true;
+      //}
       if (!customershare_endEditing()) {
         return true;
       }

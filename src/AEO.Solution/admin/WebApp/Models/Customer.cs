@@ -29,7 +29,7 @@ namespace WebApp.Models
     #region 客户信息
     [Display(Name = "客户编号", Description = "客户编号(保存时系统自动分配也可以手工选择)")]
     [MaxLength(32)]
-    [Required]
+    //[Required]
     [Index(IsUnique = true)]
     public string CustomerCode { get; set; }
     [Display(Name = "客户简称", Description = "客户简称")]
@@ -95,8 +95,8 @@ namespace WebApp.Models
     public string MasterCustom { get; set; }
     [Display(Name = "统一社会信用代码", Description = "统一社会信用代码")]
     [MaxLength(18)]
-    [Index(IsUnique = true)]
-    [Required]
+    //[Index(IsUnique = true)]
+    //[Required]
     public string CreditCode { get; set; }
     #endregion
 

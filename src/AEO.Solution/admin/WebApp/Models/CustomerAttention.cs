@@ -49,7 +49,7 @@ namespace WebApp.Models
     public string CustomerCode { get; set; }
     [Display(Name = "客户名称", Description = "客户名称")]
     [MaxLength(80)]
-    [Required]
+    //[Required]
     [DefaultValue("customer.CustomerName")]
     public string CustomerName { get; set; }
   }

@@ -556,6 +556,14 @@
     <Compile Include="Migrations\202008050336368_md_changeCustomerAttentionProduct.designer.cs">
       <DependentUpon>202008050336368_md_changeCustomerAttentionProduct.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008060555482_md_notrequired.cs" />
+    <Compile Include="Migrations\202008060555482_md_notrequired.designer.cs">
+      <DependentUpon>202008060555482_md_notrequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008060604576_md_notrequired1.cs" />
+    <Compile Include="Migrations\202008060604576_md_notrequired1.designer.cs">
+      <DependentUpon>202008060604576_md_notrequired1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
@@ -2534,6 +2542,28 @@
     <Content Include="Scripts\plugin\bootbox\bootbox.locales.js" />
     <Content Include="Scripts\plugin\bootbox\bootbox.locales.min.js" />
     <Content Include="Scripts\plugin\bootbox\bootbox.min.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\css\star-rating.css" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\css\star-rating.min.css" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\ar.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\bn.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\de.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\es.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\fa.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\fr.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\gr.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\it.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\kk.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\ko.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\LANG.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\pl.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\pt-BR.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\ro.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\ru.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\tr.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\ua.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\locales\zh.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\star-rating.js" />
+    <Content Include="Scripts\plugin\bootstrap-star-rating\js\star-rating.min.js" />
     <Content Include="Scripts\plugin\countup\countUp-jquery.js" />
     <Content Include="Scripts\plugin\filesize\filesize.js" />
     <Content Include="Scripts\plugin\filesize\filesize.min.js" />
@@ -3938,6 +3968,7 @@
     <Content Include="Views\Customers\_customersharedatagridjsview.cshtml" />
     <Content Include="Views\Customers\_CustomerWarehouseEditForm.cshtml" />
     <Content Include="Views\Customers\_customerwarehousedatagridjsview.cshtml" />
+    <Content Include="Views\Customers\_actionlogdatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4088,6 +4119,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008050336368_md_changeCustomerAttentionProduct.resx">
       <DependentUpon>202008050336368_md_changeCustomerAttentionProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008060555482_md_notrequired.resx">
+      <DependentUpon>202008060555482_md_notrequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008060604576_md_notrequired1.resx">
+      <DependentUpon>202008060604576_md_notrequired1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />

@@ -50,3 +50,6 @@ The statement has been terminated.
 2020-08-03 15:27:48.3680|FATAL|WebApp.MvcApplication|“D:githubaeo_cmssrcAEO.SolutionadminWebAppUploadFilesProductFilesalse8d3e1824-1f17-41c3-8f86-7b7ed5b50c48.jpg”??????????
 2020-08-03 15:41:28.8395|FATAL|WebApp.MvcApplication|A public action method 'PostFiles' was not found on controller 'WebApp.Controllers.AttachmentsController'.
 2020-08-05 15:59:19.2926|FATAL|WebApp.MvcApplication|The controller for path '/CustomerSales/GetDataByCustomerId' was not found or does not implement IController.
+2020-08-06 15:45:03.2023|FATAL|WebApp.MvcApplication|A public action method 'SaveData' was not found on controller 'WebApp.Controllers.CustomerBanksController'.
+2020-08-06 15:45:46.3909|FATAL|WebApp.MvcApplication|A public action method 'SaveData' was not found on controller 'WebApp.Controllers.CustomerBanksController'.
+2020-08-06 15:58:25.5167|FATAL|WebApp.MvcApplication|A public action method 'SaveData' was not found on controller 'WebApp.Controllers.CustomerContactsController'.

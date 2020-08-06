@@ -30,9 +30,9 @@ namespace WebApp
     //获取客户编号
     public static string GetCustomerCode()
     {
-      var prefix ="C" + DateTime.Now.ToString("yyyyMM00");
+      var prefix ="C" + DateTime.Now.ToString("yyyyMM");
       var result = _db.Ado.GetInt("exec [dbo].[SP_NextVal]  @prefix", new { prefix = prefix });
-      return prefix + Convert.ToInt32(result).ToString("0000");
+      return prefix + Convert.ToInt32(result).ToString("000");
     }
   }
 }

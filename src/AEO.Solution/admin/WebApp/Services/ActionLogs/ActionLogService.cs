@@ -158,6 +158,20 @@ namespace WebApp.Services
       }
 
     }
+
+    public void Log(int refid,string refkey, string action, string content, string user)
+    {
+      var actionlog = new ActionLog()
+      {
+        Action = action,
+        Content = content,
+        ActionDateTime = DateTime.Now,
+        RekKey = refkey,
+        RefId = refid,
+        User = user
+      };
+      this.Insert(actionlog);
+    }
   }
 }
 

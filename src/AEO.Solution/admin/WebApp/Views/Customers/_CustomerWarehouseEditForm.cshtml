@@ -24,243 +24,212 @@
                     }
                 }]
             ">
-<div class="panel-container show">
-      <div class="panel-content p-0">
-        <form id="customerwarehouse_form" class="form-horizontal needs-validation" novalidate>
-          <fieldset class="form-group">
-            <div class="row h-100 align-items-center m-0 pt-1">
-    <!--系统主键-->
-	@Html.HiddenFor(model => model.Id)		
-             
-    <!--仓库代码(保存时系统自动分配也可以手工选择)-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WarehouseCode)" >@Html.DisplayNameFor(model => model.WarehouseCode) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WarehouseCode)" 
-							name="@Html.NameFor(model => model.WarehouseCode)" 
-							value="@Html.ValueFor(model => model.WarehouseCode)"
-							tabindex="1" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WarehouseCode)',
-     						 required:false ,validType:'length[0,20]'" />
-    </div>
-             
-    <!--仓库名称-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WarehouseName)" >@Html.DisplayNameFor(model => model.WarehouseName) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WarehouseName)" 
-							name="@Html.NameFor(model => model.WarehouseName)" 
-							value="@Html.ValueFor(model => model.WarehouseName)"
-							tabindex="2" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WarehouseName)',
-     						 required:false ,validType:'length[0,128]'" />
-    </div>
-             
-    <!--仓库类型-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WarehouseType)" >@Html.DisplayNameFor(model => model.WarehouseType) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WarehouseType)" 
-							name="@Html.NameFor(model => model.WarehouseType)" 
-							value="@Html.ValueFor(model => model.WarehouseType)"
-							tabindex="3" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WarehouseType)',
-     						 required:false ,validType:'length[0,128]'" />
-    </div>
-             
-         
-        <!--厂区门禁管理-->
-           <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.FactoryGuard)" >@Html.DisplayNameFor(model => model.FactoryGuard) <span class="text-danger">*</span></label>
-<div class="col-md-4 mb-1">
-           <div class="custom-control custom-checkbox pt-1">
-                      <input id="@Html.IdFor(model => model.FactoryGuard)"
-                                   name="@Html.NameFor(model => model.FactoryGuard)"
-                                   value="true" @(Model.FactoryGuard ? "checked=\"checked\"" : "")
-                                   data-unchecked-value="false"
-                                   tabindex="4"
-                                   class="custom-control-input"
-                                   type="checkbox" />
-                       <label class="custom-control-label" for="@Html.NameFor(model => model.FactoryGuard)"> @Html.DisplayNameFor(model => model.FactoryGuard)</label>
-          
-            </div>
-         </div>
-             
-    <!--仓库地址-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WAddress)" >@Html.DisplayNameFor(model => model.WAddress) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WAddress)" 
-							name="@Html.NameFor(model => model.WAddress)" 
-							value="@Html.ValueFor(model => model.WAddress)"
-							tabindex="5" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WAddress)',
-     						 required:false ,validType:'length[0,256]'" />
-    </div>
-             
-    <!--仓库负责人-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WUser)" >@Html.DisplayNameFor(model => model.WUser) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WUser)" 
-							name="@Html.NameFor(model => model.WUser)" 
-							value="@Html.ValueFor(model => model.WUser)"
-							tabindex="6" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WUser)',
-     						 required:false ,validType:'length[0,20]'" />
-    </div>
-             
-    <!--传真-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WFax)" >@Html.DisplayNameFor(model => model.WFax) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WFax)" 
-							name="@Html.NameFor(model => model.WFax)" 
-							value="@Html.ValueFor(model => model.WFax)"
-							tabindex="7" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WFax)',
-     						 required:false ,validType:'length[0,256]'" />
-    </div>
-             
-    <!--手机1-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WMPhone1)" >@Html.DisplayNameFor(model => model.WMPhone1) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WMPhone1)" 
-							name="@Html.NameFor(model => model.WMPhone1)" 
-							value="@Html.ValueFor(model => model.WMPhone1)"
-							tabindex="8" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WMPhone1)',
-     						 required:false ,validType:'length[0,256]'" />
-    </div>
-             
-    <!--手机2-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WMPhone2)" >@Html.DisplayNameFor(model => model.WMPhone2) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WMPhone2)" 
-							name="@Html.NameFor(model => model.WMPhone2)" 
-							value="@Html.ValueFor(model => model.WMPhone2)"
-							tabindex="9" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WMPhone2)',
-     						 required:false ,validType:'length[0,256]'" />
-    </div>
-             
-    <!--电子邮件-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WEmail1)" >@Html.DisplayNameFor(model => model.WEmail1) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.WEmail1)" 
-							name="@Html.NameFor(model => model.WEmail1)" 
-							value="@Html.ValueFor(model => model.WEmail1)"
-							tabindex="10" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.WEmail1)',
-     						 required:false ,validType:'length[0,256]'" />
-    </div>
-             
-    <!--备注-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Remark)" >@Html.DisplayNameFor(model => model.Remark) </label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.Remark)" 
-							name="@Html.NameFor(model => model.Remark)" 
-							value="@Html.ValueFor(model => model.Remark)"
-							tabindex="11" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.Remark)',
-     						 required:false ,validType:'length[0,256]'" />
-    </div>
-             
-      <!--所属客户-->
-      <input type="hidden" id="CustomerCustomerCode" name="CustomerCustomerCode" value="">
-	  <input id="@Html.IdFor(model => model.CustomerId)"
-			       name="@Html.NameFor(model => model.CustomerId)"
-				   value="@Html.ValueFor(model => model.CustomerId)"
-                   type="hidden" />
-             
-    <!--客户编号-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerCode)" >@Html.DisplayNameFor(model => model.CustomerCode) <span class="text-danger">*</span></label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.CustomerCode)" 
-							name="@Html.NameFor(model => model.CustomerCode)" 
-							value="@Html.ValueFor(model => model.CustomerCode)"
-							tabindex="13" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerCode)',
+  <div class="panel-container show">
+    <div class="panel-content p-0">
+      <form id="customerwarehouse_form" class="form-horizontal needs-validation" novalidate>
+        <fieldset class="form-group">
+          <div class="row h-100 align-items-center m-0 pt-1">
+            <!--系统主键-->
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.CustomerId)
+            @Html.HiddenFor(model => model.CustomerCode)
+            @Html.HiddenFor(model => model.CustomerName)
+            <!--仓库代码(保存时系统自动分配也可以手工选择)-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WarehouseCode)"><span class="text-danger">*</span>@Html.DisplayNameFor(model => model.WarehouseCode) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WarehouseCode)"
+                     name="@Html.NameFor(model => model.WarehouseCode)"
+                     value="@Html.ValueFor(model => model.WarehouseCode)"
+                     tabindex="1"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WarehouseCode)',
      						 required:true ,validType:'length[0,20]'" />
+            </div>
+
+            <!--仓库名称-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WarehouseName)"><span class="text-danger">*</span>@Html.DisplayNameFor(model => model.WarehouseName) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WarehouseName)"
+                     name="@Html.NameFor(model => model.WarehouseName)"
+                     value="@Html.ValueFor(model => model.WarehouseName)"
+                     tabindex="2"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WarehouseName)',
+     						 required:true ,validType:'length[0,128]'" />
+            </div>
+
+            <!--仓库类型-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WarehouseType)">@Html.DisplayNameFor(model => model.WarehouseType) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WarehouseType)"
+                     name="@Html.NameFor(model => model.WarehouseType)"
+                     value="@Html.ValueFor(model => model.WarehouseType)"
+                     tabindex="3"
+                     class="easyui-combobox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WarehouseType)',
+     						 required:false ,validType:'length[0,128]',data:whtypedatasource,panelHeight:'auto'" />
+            </div>
+
+
+            <!--厂区门禁管理-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.FactoryGuard)">@Html.DisplayNameFor(model => model.FactoryGuard) <span class="text-danger">*</span></label>
+            <div class="col-md-4 mb-1">
+              <div class="custom-control custom-checkbox pt-1">
+                <input id="@Html.IdFor(model => model.FactoryGuard)"
+                       name="@Html.NameFor(model => model.FactoryGuard)"
+                       value="true" @(Model.FactoryGuard ? "checked=\"checked\"" : "")
+                       data-unchecked-value="false"
+                       tabindex="4"
+                       class="custom-control-input"
+                       type="checkbox" />
+                <label class="custom-control-label" for="@Html.NameFor(model => model.FactoryGuard)"> @Html.DisplayNameFor(model => model.FactoryGuard)</label>
+
+              </div>
+            </div>
+
+
+
+            <!--仓库负责人-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WUser)">@Html.DisplayNameFor(model => model.WUser) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WUser)"
+                     name="@Html.NameFor(model => model.WUser)"
+                     value="@Html.ValueFor(model => model.WUser)"
+                     tabindex="6"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WUser)',
+     						 required:false ,validType:'length[0,20]'" />
+            </div>
+
+            <!--传真-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WFax)">@Html.DisplayNameFor(model => model.WFax) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WFax)"
+                     name="@Html.NameFor(model => model.WFax)"
+                     value="@Html.ValueFor(model => model.WFax)"
+                     tabindex="7"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WFax)',
+     						 required:false ,validType:'length[0,256]'" />
+            </div>
+
+            <!--手机1-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WMPhone1)">@Html.DisplayNameFor(model => model.WMPhone1) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WMPhone1)"
+                     name="@Html.NameFor(model => model.WMPhone1)"
+                     value="@Html.ValueFor(model => model.WMPhone1)"
+                     tabindex="8"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WMPhone1)',
+     						 required:false ,validType:'length[0,256]'" />
+            </div>
+
+            <!--手机2-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WMPhone2)">@Html.DisplayNameFor(model => model.WMPhone2) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WMPhone2)"
+                     name="@Html.NameFor(model => model.WMPhone2)"
+                     value="@Html.ValueFor(model => model.WMPhone2)"
+                     tabindex="9"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WMPhone2)',
+     						 required:false ,validType:'length[0,256]'" />
+            </div>
+
+            <!--电子邮件-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WEmail1)">@Html.DisplayNameFor(model => model.WEmail1) </label>
+            <div class="col-md-4 mb-1">
+              <input id="@Html.IdFor(model => model.WEmail1)"
+                     name="@Html.NameFor(model => model.WEmail1)"
+                     value="@Html.ValueFor(model => model.WEmail1)"
+                     tabindex="10"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WEmail1)',
+     						 required:false ,validType:'length[0,256]'" />
+            </div>
+          </div>
+          <div class="row h-100 align-items-center m-0 pt-1">
+            <!--仓库地址-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.WAddress)">@Html.DisplayNameFor(model => model.WAddress) </label>
+            <div class="col-md-10 mb-1">
+              <input id="@Html.IdFor(model => model.WAddress)"
+                     name="@Html.NameFor(model => model.WAddress)"
+                     value="@Html.ValueFor(model => model.WAddress)"
+                     tabindex="5"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.WAddress)',
+     						 required:false ,validType:'length[0,256]'" />
+            </div>
+            <!--备注-->
+            <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Remark)">@Html.DisplayNameFor(model => model.Remark) </label>
+            <div class="col-md-10 mb-1">
+              <input id="@Html.IdFor(model => model.Remark)"
+                     name="@Html.NameFor(model => model.Remark)"
+                     value="@Html.ValueFor(model => model.Remark)"
+                     tabindex="11"
+                     class="easyui-textbox"
+                     type="text"
+                     style="width:100%"
+                     data-options="prompt:'@Html.DisplayNameFor(model => model.Remark)',
+     						 required:false ,validType:'length[0,256]'" />
+            </div>
+
+
+
+          </div>
+        </fieldset>
+      </form>
     </div>
-             
-    <!--客户名称-->
-        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerName)" >@Html.DisplayNameFor(model => model.CustomerName) <span class="text-danger">*</span></label>
-<div class="col-md-4 mb-1">
-		<input id="@Html.IdFor(model => model.CustomerName)" 
-							name="@Html.NameFor(model => model.CustomerName)" 
-							value="@Html.ValueFor(model => model.CustomerName)"
-							tabindex="14" 
-			     			class="easyui-textbox" 
-							type="text" 
-                            style="width:100%"
-							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerName)',
-     						 required:true ,validType:'length[0,80]'" />
-    </div>
-             
-  
-           </div>
-       </fieldset>
-    </form>
   </div>
 </div>
-</div>
 <script type="text/javascript">
-     var form_state = 'Added';
-     var current_index = -1;
-     var customerwarehouse = {};
- 
-     function open_customerwarehousedlg(index, row, state) {
-         form_state = state;
-         current_index = index;
-         customerwarehouse = row;
-         $('#customerwarehousedlg').dialog('open');
-         if (form_state === 'Added') {
-             $('#customerwarehousedlg').dialog('setTitle', '新增明细');
-         } else {
-             $('#customerwarehousedlg').dialog('setTitle', '修改明细');
-         }
-         $('#customerwarehouse_form').form('reset');
-         $('#customerwarehouse_form').form('load', customerwarehouse);
-     }
-     function confirm_customerwarehouseform() {
-         $customerwarehouseform = $('#customerwarehouse_form');
-         if ($customerwarehouseform.form('enableValidation').form('validate')) {
-             customerwarehouse = $customerwarehouseform.serializeJSON();
-             if (form_state === 'Added') {
-                 $(document).trigger('customerwarehouse_form.add', [current_index, customerwarehouse])
-             } else {
-                 $(document).trigger('customerwarehouse_form.edit', [current_index, customerwarehouse])
-             }
-             $('#customerwarehousedlg').dialog('close');
-         }
-     }
- </script>
+  var form_state = 'Added';
+  var current_index = -1;
+  var customerwarehouse = {};
 
- 
+  function open_customerwarehousedlg(index, row, state) {
+    form_state = state;
+    current_index = index;
+    customerwarehouse = row;
+    $('#customerwarehousedlg').dialog('open');
+    if (form_state === 'Added') {
+      $('#customerwarehousedlg').dialog('setTitle', '新增仓库信息');
+    } else {
+      $('#customerwarehousedlg').dialog('setTitle', '编辑仓库信息');
+    }
+    $('#customerwarehouse_form').form('reset');
+    $('#customerwarehouse_form').form('load', customerwarehouse);
+  }
+  function confirm_customerwarehouseform() {
+    $customerwarehouseform = $('#customerwarehouse_form');
+    if ($customerwarehouseform.form('enableValidation').form('validate')) {
+      customerwarehouse = $customerwarehouseform.serializeJSON();
+      if (form_state === 'Added') {
+        $(document).trigger('customerwarehouse_form.add', [current_index, customerwarehouse])
+      } else {
+        $(document).trigger('customerwarehouse_form.edit', [current_index, customerwarehouse])
+      }
+      $('#customerwarehousedlg').dialog('close');
+    }
+  }
+</script>
+

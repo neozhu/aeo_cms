@@ -55,11 +55,11 @@ namespace WebApp.Models
     public Customer Customer { get; set; }
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
-    [Required]
+    //[Required]
     public string CustomerCode { get; set; }
     [Display(Name = "客户名称", Description = "客户名称")]
     [MaxLength(80)]
-    [Required]
+    //[Required]
     public string CustomerName { get; set; }
   }
 }
