@@ -1164,6 +1164,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\datagrid\datatables\datatables.bundle.js" />
     <Content Include="Scripts\datagrid\datatables\datatables.export.js" />
+    <Content Include="Scripts\dependency\moment\moment-with-locales.js" />
     <Content Include="Scripts\dependency\moment\moment.js" />
     <Content Include="Scripts\easyui\changelog.txt" />
     <Content Include="Scripts\easyui\demo-mobile\accordion\basic.html" />
