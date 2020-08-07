@@ -1,0 +1,433 @@
+﻿@model WebApp.Models.CustomerShare
+<script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $customersharedg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 CustomerShare datagrid
+   var $customersharedg = $('#customershare_datagrid');
+   //当前行记录
+   var customershare = {};
+   //datagrid CRUD method
+    var customershare_editIndex = undefined;
+    //取消编辑恢复状态
+    function customershare_rejectChanges() {
+		$customersharedg.datagrid('rejectChanges');
+		customershare_editIndex = undefined;
+    }
+    //重新加载数据
+    function customershare_reloadData() {
+			$customersharedg.datagrid('unselectAll');
+            $customersharedg.datagrid('uncheckAll');
+	        $customersharedg.datagrid('reload');
+	}
+    //关闭编辑状态
+	function customershare_endEditing() {
+			if (customershare_editIndex === undefined) {
+                return true; 
+            }
+			if ($customersharedg.datagrid('validateRow', customershare_editIndex)) {
+				$customersharedg.datagrid('endEdit', customershare_editIndex);
+				customershare_editIndex = undefined;
+                return true;
+			} else {
+				const invalidinput = $('input.validatebox-invalid',$customersharedg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+				return false;
+			}
+		}
+    //单击列开启编辑功能
+	function customershare_onClickCell(index, field) {
+			const _operates = ['_operate1', 'ck'];
+             $('button[name*=\'customersharedeleterowbutton\']').prop('disabled', false);
+			if (!SUBEDITINLINE || $.inArray(field, _operates) >= 0) {
+				return false;
+			}
+			if (customershare_editIndex !== index) {
+				if (customershare_endEditing()) {
+					$customersharedg.datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    //customershare_editIndex = index;
+					var ed = $customersharedg.datagrid('getEditor', { index: index, field: field });
+					if (ed) {
+						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+					}
+				} else {
+					$customersharedg.datagrid('selectRow', customershare_editIndex);
+				}
+			}
+		}
+    //双击弹出编辑当前行对话框
+    function customershare_onDblClickRow(index, row) {
+        if (!SUBEDITINLINE) {
+            open_customersharedlg(index, row, 'Modified');
+        }
+    }
+    //订阅对话框新增返回事件
+    $(document).on('customershare_form.add', (e, index,item) => {
+        $customersharedg.datagrid("insertRow",
+            {
+                index: 0,
+                row: item
+            });
+    });
+    //订阅对话框修改返回事件
+    $(document).on('customershare_form.edit', (e,index, item) => {
+        $customersharedg.datagrid('updateRow', {
+            index: index,
+            row: item
+        });
+    });
+    //新增记录
+    function customershare_appendItem() {
+       const $customerform = $('#customer_form');
+       if ($customerform.form('enableValidation').form('validate')) {
+          const customer = $customerform.serializeJSON();
+       const item = {
+          Searchable: true, 
+Editable: false, 
+CustomerId: customer.Id, 
+CustomerCode: 'customer.CustomerCode', 
+CustomerName: 'customer.CustomerName', 
+
+          CustomerId:customer.Id
+        };
+      if (!SUBEDITINLINE) {
+        open_customersharedlg(0, item, 'Added');
+      } else {
+			if (customershare_endEditing()) {
+				//对必填字段进行默认值初始化
+				$customersharedg.datagrid('insertRow', 
+                               { index: 0,
+                                  row: item 
+                               });
+				customershare_editIndex = 0;
+				$customersharedg.datagrid('selectRow', customershare_editIndex)
+						.datagrid('beginEdit', customershare_editIndex);
+			}
+        }
+        }
+	 }
+    //删除编辑的行
+	function customershare_removeItem() {
+		if (customershare_editIndex !== undefined) {  
+            const delindex = orderdetail_editIndex;
+			$customersharedg.datagrid('cancelEdit', delindex)
+					           .datagrid('deleteRow', delindex);
+            $("button[name*='customershare_cancelchangesbutton']").prop('disabled', false);
+            $("button[name*='customershare_savechangesbutton']").prop('disabled', false);
+        } else {
+           const rows = $customersharedg.datagrid('getChecked');
+           rows.slice().reverse().forEach(row => {
+                const rowindex = $customersharedg.datagrid('getRowIndex', row);
+                $customersharedg.datagrid('deleteRow', rowindex);
+                $("button[name*='customershare_cancelchangesbutton']").prop('disabled', false);
+                $("button[name*='customershare_savechangesbutton']").prop('disabled', false);
+            });
+        }
+	}
+    //删除选中的行
+    function customershare_deleteChecked() {
+            const rows = $customersharedg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/CustomerShares/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $customersharedg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });  
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+  //获取修改的行
+  function customershare_getChanges() {
+    if (customershare_endEditing()) {
+      if ($customersharedg.datagrid('getChanges').length > 0) {
+        const inserted = $customersharedg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const deleted = $customersharedg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3;
+          return item;
+        });
+        const updated = $customersharedg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2;
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        return { success: true, changed };
+      } else {
+        return { success: true, changed:undefined};
+      }
+    } else {
+      return { success: false,changed:undefined };
+    }
+  }
+  //提交修改的数据
+  //function customershare_acceptChanges() {
+  //  $customersharedg.datagrid('acceptChanges');
+  //}
+  //提交保存后台数据库
+  async function customershare_acceptChanges() {
+			if (customershare_endEditing()) {
+				if ($customersharedg.datagrid('getChanges').length > 0) {
+					const inserted = $customersharedg.datagrid('getChanges', 'inserted').map(item => {
+                       item.TrackingState = 1;
+                       return item;
+                    });
+					const deleted = $customersharedg.datagrid('getChanges', 'deleted').map(item => {
+                       item.TrackingState = 3;
+                       return item;
+                    });
+					const updated = $customersharedg.datagrid('getChanges', 'updated').map(item => {
+                       item.TrackingState = 2;
+                       return item;
+                    });
+					//过滤已删除的重复项
+                    const changed = inserted.concat(updated.filter(item => {
+                           return !deleted.includes(item);
+                         })).concat(deleted);
+                   //console.table(changed);
+				  if (MODELSTATE === 'Added') {
+                    return { success:true, changed };
+                  } else {
+                    const response = await $.post('/CustomerShares/SaveData', {customershares:changed});
+                    response.changed = undefined;
+    				if (response.success) {
+							toastr.success('保存明细成功'); 
+							$customersharedg.datagrid('acceptChanges');
+							customershare_reloadData()
+                            return { success:true}; 
+				    } else {
+                           $.messager.alert('错误', response.err ,'error');
+                           return { success:false, err:response.err };
+                    }
+                   }
+				} else {
+                  return { success: true, changed: undefined};
+                }
+			} else {
+               return { success: false };
+            }
+      }
+
+
+$(() => {
+    $customersharedg.datagrid({
+            fit: false,
+            height: 300,
+            rownumbers: true,
+            striped: true,
+            idField: 'Id',
+            sortName: 'Id',
+            sortOrder: 'asc',
+            remoteFilter: true,
+            singleSelect: true,
+            checkOnSelect: false,
+		    selectOnCheck: false,
+            method: 'get',
+            pageList: [10, 20, 50, 100,1000],
+            pagination: true,
+            clientPaging:false,
+            pagination: true,
+            onDblClickRow: customershare_onDblClickRow,
+            onClickCell: customershare_onClickCell,
+            onBeforeLoad: function () {
+
+            },
+            onLoadSuccess: function (data) {
+              customershare_editIndex = undefined;
+              $("button[name*='customershare_deleterowbutton']").prop('disabled', true);
+              $("button[name*='customershare_cancelchangesbutton']").prop('disabled', true);
+              $("button[name*='customershare_savechangesbutton']").prop('disabled', true);
+            },
+            onCheck: function () {
+                $("button[name*='customershare_deleterowbutton']").prop('disabled', false);
+            },
+            onUncheck: function () {
+               const checked = $(this).datagrid('getChecked').length > 0;
+               $("button[name*='customershare_deleterowbutton']").prop('disabled', !checked);
+            },
+           onCheckAll: function (rows) {
+              if (rows.length > 0) {
+                 $("button[name*='customershare_deleterowbutton']").prop('disabled', false);
+              }
+           },
+           onUncheckAll: function () {
+              $("button[name*='customershare_deleterowbutton']").prop('disabled', true);           
+           },
+            onSelect: function(index,row) {
+              customershare = row;
+            },
+            onBeforeEdit: function (index, row) {
+                 customershare_editIndex = index;
+                 row.editing = true;
+                 $("button[name*='customershare_deleterowbutton']").prop('disabled', false);
+                 $("button[name*='customershare_cancelchangesbutton']").prop('disabled', false);
+                 $("button[name*='customershare_savechangesbutton']").prop('disabled', false);
+                 $(this).datagrid('refreshRow', index);
+             },
+            onBeginEdit: function (index, row) {
+               //const editors = $(this).datagrid('getEditors', index);
+  
+            },
+            onEndEdit: function (index, row) {
+
+             },
+             onAfterEdit: function (index, row) {
+                   row.editing = false;
+                   customershare_editIndex = undefined;
+                   $(this).datagrid('refreshRow', index);
+             },
+             onCancelEdit: function (index, row) {
+                customershare_editIndex = undefined;
+                row.editing = false;
+                $("button[name*='customershare_deleterowbutton']").prop('disabled', true);
+              $("button[name*='customershare_cancelchangesbutton']").prop('disabled', true);
+              $("button[name*='customershare_savechangesbutton']").prop('disabled', true);
+                $(this).datagrid('refreshRow', index);
+            },
+            columns: [[
+            { field: 'ck', checkbox: true },
+		     
+			{    /*共享人*/
+                 field:'Owner', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Owner)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Owner',
+                                 prompt:'@Html.DescriptionFor(model => model.Owner)',
+                                 required:true, 
+                                 validType: 'length[0,20]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*部门*/
+                 field:'Dept', 
+                 title:'  @Html.DisplayNameFor(model => model.Dept)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Dept',
+                                 prompt:'@Html.DescriptionFor(model => model.Dept)',
+                                 required:false, 
+                                 validType: 'length[0,20]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*人员*/
+                 field:'ShareTo', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.ShareTo)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_ShareTo',
+                                 prompt:'@Html.DescriptionFor(model => model.ShareTo)',
+                                 required:true, 
+                                 validType: 'length[0,20]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*模块*/
+                 field:'Module', 
+                 title:'  @Html.DisplayNameFor(model => model.Module)', 
+                 width:160,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Module',
+                                 prompt:'@Html.DescriptionFor(model => model.Module)',
+                                 required:false, 
+                                 validType: 'length[0,50]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{  /*查询*/
+               field:'Searchable', 
+               title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Searchable)', 
+               width:90, 
+               align:'center',
+               hidden:false,
+               editor:{
+                      type:'checkbox',
+                      options:{
+                                 id:'editor_Searchable',
+                                 prompt:'@Html.DescriptionFor(model => model.Searchable)', 
+                                 required:true
+                               } 
+                      },
+                formatter:booleanformatter,
+                sortable:true, 
+                resizable:true 
+			},
+			{  /*编辑*/
+               field:'Editable', 
+               title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Editable)', 
+               width:90, 
+               align:'center',
+               hidden:false,
+               editor:{
+                      type:'checkbox',
+                      options:{
+                                 id:'editor_Editable',
+                                 prompt:'@Html.DescriptionFor(model => model.Editable)', 
+                                 required:true
+                               } 
+                      },
+                formatter:booleanformatter,
+                sortable:true, 
+                resizable:true 
+			}
+            ]]
+            })
+            .datagrid('enableFilter',[
+				{     /*查询*/
+					  field: 'Searchable',
+					  type: 'booleanfilter'
+     			 },
+				{     /*编辑*/
+					  field: 'Editable',
+					  type: 'booleanfilter'
+     			 },
+		   ]);
+  });
+      
+</script>
+
+
+ 

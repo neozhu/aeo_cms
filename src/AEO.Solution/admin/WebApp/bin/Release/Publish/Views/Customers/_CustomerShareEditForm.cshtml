@@ -1,0 +1,199 @@
+﻿@model WebApp.Models.CustomerShare
+<div id="customersharedlg" class="easyui-dialog"
+     title="CustomerShare" style="width:600px;height:300px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                onOpen:function(){
+                   $('#customershare_form').form('disableValidation');
+                },
+                buttons: [{
+                    text:'确认',
+                    handler:function(){
+                        confirm_customershareform();
+                    }
+                },{
+                    text:'取消',
+                    handler:function(){
+                        $('#customersharedlg').dialog('close');
+                    }
+                }]
+            ">
+<div class="panel-container show">
+      <div class="panel-content p-0">
+        <form id="customershare_form" class="form-horizontal needs-validation" novalidate>
+          <fieldset class="form-group">
+            <div class="row h-100 align-items-center m-0 pt-1">
+    <!--系统主键-->
+	@Html.HiddenFor(model => model.Id)		
+             
+    <!--共享人-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Owner)" >@Html.DisplayNameFor(model => model.Owner) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Owner)" 
+							name="@Html.NameFor(model => model.Owner)" 
+							value="@Html.ValueFor(model => model.Owner)"
+							tabindex="1" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Owner)',
+     						 required:true ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--部门-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Dept)" >@Html.DisplayNameFor(model => model.Dept) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Dept)" 
+							name="@Html.NameFor(model => model.Dept)" 
+							value="@Html.ValueFor(model => model.Dept)"
+							tabindex="2" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Dept)',
+     						 required:false ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--人员-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ShareTo)" >@Html.DisplayNameFor(model => model.ShareTo) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.ShareTo)" 
+							name="@Html.NameFor(model => model.ShareTo)" 
+							value="@Html.ValueFor(model => model.ShareTo)"
+							tabindex="3" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.ShareTo)',
+     						 required:true ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--模块-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Module)" >@Html.DisplayNameFor(model => model.Module) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Module)" 
+							name="@Html.NameFor(model => model.Module)" 
+							value="@Html.ValueFor(model => model.Module)"
+							tabindex="4" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Module)',
+     						 required:false ,validType:'length[0,50]'" />
+    </div>
+             
+         
+        <!--查询-->
+           <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Searchable)" >@Html.DisplayNameFor(model => model.Searchable) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+           <div class="custom-control custom-checkbox pt-1">
+                      <input id="@Html.IdFor(model => model.Searchable)"
+                                   name="@Html.NameFor(model => model.Searchable)"
+                                   value="true" @(Model.Searchable ? "checked=\"checked\"" : "")
+                                   data-unchecked-value="false"
+                                   tabindex="5"
+                                   class="custom-control-input"
+                                   type="checkbox" />
+                       <label class="custom-control-label" for="@Html.NameFor(model => model.Searchable)"> @Html.DisplayNameFor(model => model.Searchable)</label>
+          
+            </div>
+         </div>
+             
+         
+        <!--编辑-->
+           <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Editable)" >@Html.DisplayNameFor(model => model.Editable) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+           <div class="custom-control custom-checkbox pt-1">
+                      <input id="@Html.IdFor(model => model.Editable)"
+                                   name="@Html.NameFor(model => model.Editable)"
+                                   value="true" @(Model.Editable ? "checked=\"checked\"" : "")
+                                   data-unchecked-value="false"
+                                   tabindex="6"
+                                   class="custom-control-input"
+                                   type="checkbox" />
+                       <label class="custom-control-label" for="@Html.NameFor(model => model.Editable)"> @Html.DisplayNameFor(model => model.Editable)</label>
+          
+            </div>
+         </div>
+             
+      <!--所属客户-->
+      <input type="hidden" id="CustomerCustomerCode" name="CustomerCustomerCode" value="">
+	  <input id="@Html.IdFor(model => model.CustomerId)"
+			       name="@Html.NameFor(model => model.CustomerId)"
+				   value="@Html.ValueFor(model => model.CustomerId)"
+                   type="hidden" />
+             
+    <!--客户编号-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerCode)" >@Html.DisplayNameFor(model => model.CustomerCode) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.CustomerCode)" 
+							name="@Html.NameFor(model => model.CustomerCode)" 
+							value="@Html.ValueFor(model => model.CustomerCode)"
+							tabindex="8" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerCode)',
+     						 required:true ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--客户名称-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerName)" >@Html.DisplayNameFor(model => model.CustomerName) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.CustomerName)" 
+							name="@Html.NameFor(model => model.CustomerName)" 
+							value="@Html.ValueFor(model => model.CustomerName)"
+							tabindex="9" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerName)',
+     						 required:true ,validType:'length[0,80]'" />
+    </div>
+             
+  
+           </div>
+       </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+     var form_state = 'Added';
+     var current_index = -1;
+     var customershare = {};
+ 
+     function open_customersharedlg(index, row, state) {
+         form_state = state;
+         current_index = index;
+         customershare = row;
+         $('#customersharedlg').dialog('open');
+         if (form_state === 'Added') {
+             $('#customersharedlg').dialog('setTitle', '新增明细');
+         } else {
+             $('#customersharedlg').dialog('setTitle', '修改明细');
+         }
+         $('#customershare_form').form('reset');
+         $('#customershare_form').form('load', customershare);
+     }
+     function confirm_customershareform() {
+         $customershareform = $('#customershare_form');
+         if ($customershareform.form('enableValidation').form('validate')) {
+             customershare = $customershareform.serializeJSON();
+             if (form_state === 'Added') {
+                 $(document).trigger('customershare_form.add', [current_index, customershare])
+             } else {
+                 $(document).trigger('customershare_form.edit', [current_index, customershare])
+             }
+             $('#customersharedlg').dialog('close');
+         }
+     }
+ </script>
+
+ 

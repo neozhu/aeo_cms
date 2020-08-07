@@ -12,10 +12,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/12/2020 15:39:06</publishTime>
     </File>
     <File Include="App_Data/aeodb.mdf">
-      <publishTime>08/04/2020 09:15:07</publishTime>
+      <publishTime>08/07/2020 16:05:34</publishTime>
     </File>
     <File Include="App_Data/aeodb_log.ldf">
-      <publishTime>08/04/2020 09:15:07</publishTime>
+      <publishTime>08/07/2020 16:05:34</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/10/2013 16:29:20</publishTime>
@@ -45,7 +45,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2020 18:55:04</publishTime>
     </File>
     <File Include="bin/en-US/WebApp.resources.dll">
-      <publishTime>08/04/2020 15:37:51</publishTime>
+      <publishTime>08/07/2020 16:05:39</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/16/2020 20:38:42</publishTime>
@@ -339,10 +339,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/05/2016 13:11:52</publishTime>
     </File>
     <File Include="bin/WebApp.dll">
-      <publishTime>08/04/2020 15:37:51</publishTime>
+      <publishTime>08/07/2020 16:05:39</publishTime>
     </File>
     <File Include="bin/WebApp.pdb">
-      <publishTime>08/04/2020 15:37:51</publishTime>
+      <publishTime>08/07/2020 16:05:39</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -366,7 +366,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/24/2020 15:02:46</publishTime>
     </File>
     <File Include="bin/zh-TW/WebApp.resources.dll">
-      <publishTime>08/04/2020 15:37:51</publishTime>
+      <publishTime>08/07/2020 16:05:39</publishTime>
     </File>
     <File Include="bin/zh/Hangfire.Core.resources.dll">
       <publishTime>07/24/2020 15:02:46</publishTime>
@@ -1765,6 +1765,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/datagrid/datatables/datatables.export.js">
       <publishTime>05/22/2020 14:02:42</publishTime>
+    </File>
+    <File Include="Scripts/dependency/moment/moment-with-locales.js">
+      <publishTime>08/06/2020 12:59:33</publishTime>
     </File>
     <File Include="Scripts/dependency/moment/moment.js">
       <publishTime>05/22/2020 14:02:42</publishTime>
@@ -5577,7 +5580,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2020 15:51:34</publishTime>
     </File>
     <File Include="Scripts/jquery.extend.formatter.js">
-      <publishTime>08/03/2020 18:29:27</publishTime>
+      <publishTime>08/06/2020 17:01:47</publishTime>
     </File>
     <File Include="Scripts/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
       <publishTime>05/22/2020 14:02:00</publishTime>
@@ -5731,6 +5734,72 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js">
       <publishTime>05/12/2020 15:42:40</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/css/star-rating.css">
+      <publishTime>08/06/2020 14:25:56</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/css/star-rating.min.css">
+      <publishTime>08/06/2020 14:25:56</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/ar.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/bn.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/de.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/es.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/fa.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/fr.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/gr.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/it.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/kk.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/ko.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/LANG.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/pl.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/pt-BR.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/ro.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/ru.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/tr.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/ua.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/locales/zh.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/star-rating.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
+    </File>
+    <File Include="Scripts/plugin/bootstrap-star-rating/js/star-rating.min.js">
+      <publishTime>08/06/2020 14:25:47</publishTime>
     </File>
     <File Include="Scripts/plugin/bootstrap-suggest/bootstrap-suggest.js">
       <publishTime>05/12/2020 15:42:40</publishTime>
@@ -7168,6 +7237,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/plugin/filesaver/jquery.fileDownload.js">
       <publishTime>05/20/2020 17:49:17</publishTime>
+    </File>
+    <File Include="Scripts/plugin/filesize/filesize.js">
+      <publishTime>08/04/2020 15:43:53</publishTime>
+    </File>
+    <File Include="Scripts/plugin/filesize/filesize.min.js">
+      <publishTime>08/04/2020 15:43:54</publishTime>
     </File>
     <File Include="Scripts/plugin/flot/jquery.colorhelpers.js">
       <publishTime>05/12/2020 15:42:58</publishTime>
@@ -9165,7 +9240,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/30/2020 15:48:50</publishTime>
     </File>
     <File Include="Views/Attachments/Index.cshtml">
-      <publishTime>08/03/2020 16:13:21</publishTime>
+      <publishTime>08/04/2020 15:45:29</publishTime>
     </File>
     <File Include="Views/Attachments/_PluploadModal.cshtml">
       <publishTime>08/03/2020 14:10:07</publishTime>
@@ -9207,25 +9282,289 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/29/2020 09:12:59</publishTime>
     </File>
     <File Include="Views/Companies/Create.cshtml">
-      <publishTime>07/30/2020 11:08:35</publishTime>
+      <publishTime>08/07/2020 09:08:08</publishTime>
     </File>
     <File Include="Views/Companies/Details.cshtml">
-      <publishTime>07/30/2020 11:08:36</publishTime>
+      <publishTime>08/07/2020 09:08:08</publishTime>
     </File>
     <File Include="Views/Companies/Edit.cshtml">
-      <publishTime>07/30/2020 11:08:36</publishTime>
+      <publishTime>08/07/2020 09:08:09</publishTime>
     </File>
     <File Include="Views/Companies/EditForm.cshtml">
-      <publishTime>07/30/2020 11:08:37</publishTime>
+      <publishTime>08/07/2020 09:08:09</publishTime>
     </File>
     <File Include="Views/Companies/Index.cshtml">
-      <publishTime>07/30/2020 11:16:40</publishTime>
+      <publishTime>08/07/2020 10:45:22</publishTime>
     </File>
     <File Include="Views/Companies/_DisplayForm.cshtml">
-      <publishTime>07/30/2020 11:08:33</publishTime>
+      <publishTime>08/07/2020 09:08:05</publishTime>
     </File>
     <File Include="Views/Companies/_PopupDetailFormView.cshtml">
-      <publishTime>07/30/2020 11:18:38</publishTime>
+      <publishTime>08/07/2020 10:34:15</publishTime>
+    </File>
+    <File Include="Views/CustomerAttentionProducts/Create.cshtml">
+      <publishTime>08/05/2020 11:41:15</publishTime>
+    </File>
+    <File Include="Views/CustomerAttentionProducts/Details.cshtml">
+      <publishTime>08/05/2020 11:41:16</publishTime>
+    </File>
+    <File Include="Views/CustomerAttentionProducts/Edit.cshtml">
+      <publishTime>08/05/2020 11:41:17</publishTime>
+    </File>
+    <File Include="Views/CustomerAttentionProducts/EditForm.cshtml">
+      <publishTime>08/05/2020 11:41:17</publishTime>
+    </File>
+    <File Include="Views/CustomerAttentionProducts/Index.cshtml">
+      <publishTime>08/05/2020 11:41:15</publishTime>
+    </File>
+    <File Include="Views/CustomerAttentionProducts/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:41:14</publishTime>
+    </File>
+    <File Include="Views/CustomerAttentionProducts/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 11:41:14</publishTime>
+    </File>
+    <File Include="Views/CustomerBanks/Create.cshtml">
+      <publishTime>08/04/2020 19:05:48</publishTime>
+    </File>
+    <File Include="Views/CustomerBanks/Details.cshtml">
+      <publishTime>08/04/2020 19:05:49</publishTime>
+    </File>
+    <File Include="Views/CustomerBanks/Edit.cshtml">
+      <publishTime>08/04/2020 19:05:50</publishTime>
+    </File>
+    <File Include="Views/CustomerBanks/EditForm.cshtml">
+      <publishTime>08/04/2020 19:05:51</publishTime>
+    </File>
+    <File Include="Views/CustomerBanks/Index.cshtml">
+      <publishTime>08/04/2020 19:05:48</publishTime>
+    </File>
+    <File Include="Views/CustomerBanks/_DisplayForm.cshtml">
+      <publishTime>08/04/2020 19:05:46</publishTime>
+    </File>
+    <File Include="Views/CustomerBanks/_PopupDetailFormView.cshtml">
+      <publishTime>08/04/2020 19:05:47</publishTime>
+    </File>
+    <File Include="Views/CustomerCommunications/Create.cshtml">
+      <publishTime>08/05/2020 11:01:56</publishTime>
+    </File>
+    <File Include="Views/CustomerCommunications/Details.cshtml">
+      <publishTime>08/05/2020 11:01:57</publishTime>
+    </File>
+    <File Include="Views/CustomerCommunications/Edit.cshtml">
+      <publishTime>08/05/2020 11:01:57</publishTime>
+    </File>
+    <File Include="Views/CustomerCommunications/EditForm.cshtml">
+      <publishTime>08/05/2020 11:01:58</publishTime>
+    </File>
+    <File Include="Views/CustomerCommunications/Index.cshtml">
+      <publishTime>08/05/2020 11:01:55</publishTime>
+    </File>
+    <File Include="Views/CustomerCommunications/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:01:54</publishTime>
+    </File>
+    <File Include="Views/CustomerCommunications/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 11:01:55</publishTime>
+    </File>
+    <File Include="Views/CustomerContacts/Create.cshtml">
+      <publishTime>08/05/2020 10:49:32</publishTime>
+    </File>
+    <File Include="Views/CustomerContacts/Details.cshtml">
+      <publishTime>08/05/2020 10:49:33</publishTime>
+    </File>
+    <File Include="Views/CustomerContacts/Edit.cshtml">
+      <publishTime>08/05/2020 10:49:33</publishTime>
+    </File>
+    <File Include="Views/CustomerContacts/EditForm.cshtml">
+      <publishTime>08/05/2020 10:49:34</publishTime>
+    </File>
+    <File Include="Views/CustomerContacts/Index.cshtml">
+      <publishTime>08/05/2020 10:49:32</publishTime>
+    </File>
+    <File Include="Views/CustomerContacts/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 10:49:30</publishTime>
+    </File>
+    <File Include="Views/CustomerContacts/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 10:49:31</publishTime>
+    </File>
+    <File Include="Views/CustomerFiles/Create.cshtml">
+      <publishTime>08/05/2020 11:04:39</publishTime>
+    </File>
+    <File Include="Views/CustomerFiles/Details.cshtml">
+      <publishTime>08/05/2020 11:04:40</publishTime>
+    </File>
+    <File Include="Views/CustomerFiles/Edit.cshtml">
+      <publishTime>08/05/2020 11:04:40</publishTime>
+    </File>
+    <File Include="Views/CustomerFiles/EditForm.cshtml">
+      <publishTime>08/05/2020 11:04:41</publishTime>
+    </File>
+    <File Include="Views/CustomerFiles/Index.cshtml">
+      <publishTime>08/05/2020 11:04:39</publishTime>
+    </File>
+    <File Include="Views/CustomerFiles/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:04:38</publishTime>
+    </File>
+    <File Include="Views/CustomerFiles/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 11:04:38</publishTime>
+    </File>
+    <File Include="Views/CustomerFollows/Create.cshtml">
+      <publishTime>08/05/2020 11:12:38</publishTime>
+    </File>
+    <File Include="Views/CustomerFollows/Details.cshtml">
+      <publishTime>08/05/2020 11:12:38</publishTime>
+    </File>
+    <File Include="Views/CustomerFollows/Edit.cshtml">
+      <publishTime>08/05/2020 11:12:39</publishTime>
+    </File>
+    <File Include="Views/CustomerFollows/EditForm.cshtml">
+      <publishTime>08/05/2020 11:12:39</publishTime>
+    </File>
+    <File Include="Views/CustomerFollows/Index.cshtml">
+      <publishTime>08/05/2020 11:12:37</publishTime>
+    </File>
+    <File Include="Views/CustomerFollows/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:12:36</publishTime>
+    </File>
+    <File Include="Views/CustomerFollows/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 11:12:37</publishTime>
+    </File>
+    <File Include="Views/Customers/Create.cshtml">
+      <publishTime>08/05/2020 11:52:48</publishTime>
+    </File>
+    <File Include="Views/Customers/Details.cshtml">
+      <publishTime>08/05/2020 11:52:48</publishTime>
+    </File>
+    <File Include="Views/Customers/Edit.cshtml">
+      <publishTime>08/05/2020 11:52:49</publishTime>
+    </File>
+    <File Include="Views/Customers/EditForm.cshtml">
+      <publishTime>08/05/2020 11:52:49</publishTime>
+    </File>
+    <File Include="Views/Customers/Index.cshtml">
+      <publishTime>08/07/2020 15:54:24</publishTime>
+    </File>
+    <File Include="Views/Customers/_actionlogdatagridjsview.cshtml">
+      <publishTime>08/06/2020 14:08:16</publishTime>
+    </File>
+    <File Include="Views/Customers/_customerattentionproductdatagridjsview.cshtml">
+      <publishTime>08/07/2020 14:52:34</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerAttentionProductEditForm.cshtml">
+      <publishTime>08/05/2020 11:52:50</publishTime>
+    </File>
+    <File Include="Views/Customers/_customerbankdatagridjsview.cshtml">
+      <publishTime>08/06/2020 16:36:28</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerBankEditForm.cshtml">
+      <publishTime>08/05/2020 11:52:51</publishTime>
+    </File>
+    <File Include="Views/Customers/_customercontactdatagridjsview.cshtml">
+      <publishTime>08/06/2020 15:59:41</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerContactEditForm.cshtml">
+      <publishTime>08/06/2020 16:00:46</publishTime>
+    </File>
+    <File Include="Views/Customers/_customerfiledatagridjsview.cshtml">
+      <publishTime>08/07/2020 14:28:50</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerFileEditForm.cshtml">
+      <publishTime>08/05/2020 11:52:54</publishTime>
+    </File>
+    <File Include="Views/Customers/_customerfollowdatagridjsview.cshtml">
+      <publishTime>08/07/2020 14:51:02</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerFollowEditForm.cshtml">
+      <publishTime>08/05/2020 11:52:55</publishTime>
+    </File>
+    <File Include="Views/Customers/_customersalesdatagridjsview.cshtml">
+      <publishTime>08/07/2020 14:52:34</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerSalesEditForm.cshtml">
+      <publishTime>08/05/2020 11:52:56</publishTime>
+    </File>
+    <File Include="Views/Customers/_customersharedatagridjsview.cshtml">
+      <publishTime>08/07/2020 14:52:34</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerShareEditForm.cshtml">
+      <publishTime>08/05/2020 11:52:57</publishTime>
+    </File>
+    <File Include="Views/Customers/_customerwarehousedatagridjsview.cshtml">
+      <publishTime>08/06/2020 16:51:15</publishTime>
+    </File>
+    <File Include="Views/Customers/_CustomerWarehouseEditForm.cshtml">
+      <publishTime>08/06/2020 17:05:09</publishTime>
+    </File>
+    <File Include="Views/Customers/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:52:46</publishTime>
+    </File>
+    <File Include="Views/Customers/_PluploadModal.cshtml">
+      <publishTime>08/07/2020 14:21:02</publishTime>
+    </File>
+    <File Include="Views/Customers/_PopupDetailFormView.cshtml">
+      <publishTime>08/07/2020 14:48:03</publishTime>
+    </File>
+    <File Include="Views/CustomerSaleses/Create.cshtml">
+      <publishTime>08/05/2020 11:18:34</publishTime>
+    </File>
+    <File Include="Views/CustomerSaleses/Details.cshtml">
+      <publishTime>08/05/2020 11:18:35</publishTime>
+    </File>
+    <File Include="Views/CustomerSaleses/Edit.cshtml">
+      <publishTime>08/05/2020 11:18:35</publishTime>
+    </File>
+    <File Include="Views/CustomerSaleses/EditForm.cshtml">
+      <publishTime>08/05/2020 11:18:36</publishTime>
+    </File>
+    <File Include="Views/CustomerSaleses/Index.cshtml">
+      <publishTime>08/05/2020 11:18:34</publishTime>
+    </File>
+    <File Include="Views/CustomerSaleses/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:18:32</publishTime>
+    </File>
+    <File Include="Views/CustomerSaleses/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 11:18:33</publishTime>
+    </File>
+    <File Include="Views/CustomerShares/Create.cshtml">
+      <publishTime>08/05/2020 11:20:15</publishTime>
+    </File>
+    <File Include="Views/CustomerShares/Details.cshtml">
+      <publishTime>08/05/2020 11:20:15</publishTime>
+    </File>
+    <File Include="Views/CustomerShares/Edit.cshtml">
+      <publishTime>08/05/2020 11:20:16</publishTime>
+    </File>
+    <File Include="Views/CustomerShares/EditForm.cshtml">
+      <publishTime>08/05/2020 11:20:16</publishTime>
+    </File>
+    <File Include="Views/CustomerShares/Index.cshtml">
+      <publishTime>08/05/2020 11:20:14</publishTime>
+    </File>
+    <File Include="Views/CustomerShares/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:20:13</publishTime>
+    </File>
+    <File Include="Views/CustomerShares/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 11:20:14</publishTime>
+    </File>
+    <File Include="Views/CustomerWarehouses/Create.cshtml">
+      <publishTime>08/05/2020 11:22:17</publishTime>
+    </File>
+    <File Include="Views/CustomerWarehouses/Details.cshtml">
+      <publishTime>08/05/2020 11:22:17</publishTime>
+    </File>
+    <File Include="Views/CustomerWarehouses/Edit.cshtml">
+      <publishTime>08/05/2020 11:22:18</publishTime>
+    </File>
+    <File Include="Views/CustomerWarehouses/EditForm.cshtml">
+      <publishTime>08/05/2020 11:22:18</publishTime>
+    </File>
+    <File Include="Views/CustomerWarehouses/Index.cshtml">
+      <publishTime>08/05/2020 11:22:16</publishTime>
+    </File>
+    <File Include="Views/CustomerWarehouses/_DisplayForm.cshtml">
+      <publishTime>08/05/2020 11:22:15</publishTime>
+    </File>
+    <File Include="Views/CustomerWarehouses/_PopupDetailFormView.cshtml">
+      <publishTime>08/05/2020 11:22:16</publishTime>
     </File>
     <File Include="Views/DataTableImportMappings/Create.cshtml">
       <publishTime>05/12/2020 15:43:29</publishTime>
@@ -9273,7 +9612,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/12/2020 15:43:30</publishTime>
     </File>
     <File Include="Views/Logs/Index.cshtml">
-      <publishTime>08/04/2020 13:25:33</publishTime>
+      <publishTime>08/04/2020 15:56:08</publishTime>
     </File>
     <File Include="Views/Logs/_DisplayForm.cshtml">
       <publishTime>05/12/2020 15:43:30</publishTime>
@@ -9588,10 +9927,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/12/2020 15:43:32</publishTime>
     </File>
     <File Include="Views/Shared/_ImportWindow.cshtml">
-      <publishTime>07/30/2020 10:17:13</publishTime>
+      <publishTime>08/07/2020 16:05:02</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/12/2020 15:43:32</publishTime>
+      <publishTime>08/06/2020 14:40:06</publishTime>
     </File>
     <File Include="Views/Shared/_LeftPanel.cshtml">
       <publishTime>05/12/2020 15:43:32</publishTime>

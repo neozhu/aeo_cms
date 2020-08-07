@@ -1,0 +1,432 @@
+﻿﻿@model WebApp.Models.CustomerContact
+<!-- 弹出编辑窗体表单 -->
+ <div id="customercontactdetailwindow" class="easyui-window" 
+      title="明细数据" 
+      data-options="modal:true,
+                    closed:true,
+                    minimizable:false,
+                    collapsible:false,
+                    maximized:false,
+                    iconCls:'fal fa-window',
+                    onBeforeClose:function(){
+                      var that = $(this);
+                      if(customercontacthasmodified()){
+                        $.messager.confirm('确认','你确定要放弃保存修改的记录?',function(r){
+                        if (r){
+                          var opts = that.panel('options');
+                          var onBeforeClose = opts.onBeforeClose;
+                          opts.onBeforeClose = function(){};
+                          that.panel('close');
+                          opts.onBeforeClose = onBeforeClose;
+                          hook = false;
+                        }
+                        });
+                        return false;
+                      }
+                    },
+                    onOpen:function(){
+                       $(this).window('vcenter');
+                       $(this).window('hcenter');
+                    },
+                    onRestore:function(){
+                    },
+                    onMaximize:function(){
+                    }
+                    " style="width:800px;height:450px;display:none">
+  <!-- toolbar -->
+  <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
+  <div class="d-flex flex-row-reverse pr-4">
+        <div class="btn-group btn-group-sm mr-1">
+          <button name="saveitembutton"   class="btn btn-default">
+            <i class="fal fa-save"></i> @Html.L("Save")
+          </button>
+        </div>
+        <div class="btn-group btn-group-sm mr-1" id="deleteitem-btn-group">
+          <button  name="deleteitembutton" class="btn btn-danger">
+            <i class="fal fa-trash-alt"></i> @Html.L("Delete")
+          </button>
+        </div>
+    </div>
+  </div>
+ <!-- panel container form  -->
+ <div class="panel-container show">
+   <div class="container">
+    <div class="panel-content">
+           <form id="customercontact_form" 
+              class="easyui-form form-horizontal padding-10" 
+              method="post" 
+              data-options="novalidate:true,
+                            onChange: function(target){
+                              hook = true;
+                              $('button[name*=\'saveitembutton\']').prop('disabled', false);
+                             },
+                             onLoadSuccess:function(data){
+                               hook = false;
+                               $('button[name*=\'saveitembutton\']').prop('disabled', true);
+                             }">
+  @Html.AntiForgeryToken()
+   <!--Primary Key-->
+  @Html.HiddenFor(model=>model.Id)
+   <fieldset class="form-group">
+   <div class="row h-100 align-items-center">
+
+   <!--姓名-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Name)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Name)" 
+				   name="@Html.NameFor(model => model.Name)" 
+				   value="@Html.ValueFor(model => model.Name)"
+				   tabindex="0" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Name)',
+								 required:true, 
+                                 validType: 'length[0,80]'
+                                 " />
+       </div>
+				   
+   <!--称谓-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Appellation)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Appellation)" 
+				   name="@Html.NameFor(model => model.Appellation)" 
+				   value="@Html.ValueFor(model => model.Appellation)"
+				   tabindex="1" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Appellation)',
+								 required:false, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+
+   <!--性别-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Sex)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Sex)" 
+				   name="@Html.NameFor(model => model.Sex)" 
+				   value="@Html.ValueFor(model => model.Sex)"
+				   tabindex="2" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Sex)',
+								 required:false, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+   <!--状态-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Status)" 
+				   name="@Html.NameFor(model => model.Status)" 
+				   value="@Html.ValueFor(model => model.Status)"
+				   tabindex="3" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
+								 required:false, 
+                                 validType: 'length[0,20]'
+                                 " />
+       </div>
+				   
+
+   <!--负责人-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Owner)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Owner)" 
+				   name="@Html.NameFor(model => model.Owner)" 
+				   value="@Html.ValueFor(model => model.Owner)"
+				   tabindex="4" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Owner)',
+								 required:false, 
+                                 validType: 'length[0,20]'
+                                 " />
+       </div>
+				   
+   <!--职务-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Job)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Job)" 
+				   name="@Html.NameFor(model => model.Job)" 
+				   value="@Html.ValueFor(model => model.Job)"
+				   tabindex="5" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Job)',
+								 required:true, 
+                                 validType: 'length[0,80]'
+                                 " />
+       </div>
+				   
+
+   <!--微信-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Wx)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Wx)" 
+				   name="@Html.NameFor(model => model.Wx)" 
+				   value="@Html.ValueFor(model => model.Wx)"
+				   tabindex="6" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Wx)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--手机号-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.MobilePhone)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.MobilePhone)" 
+				   name="@Html.NameFor(model => model.MobilePhone)" 
+				   value="@Html.ValueFor(model => model.MobilePhone)"
+				   tabindex="7" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.MobilePhone)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+
+   <!--固话-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.PhoneNumber)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.PhoneNumber)" 
+				   name="@Html.NameFor(model => model.PhoneNumber)" 
+				   value="@Html.ValueFor(model => model.PhoneNumber)"
+				   tabindex="8" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.PhoneNumber)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--传真-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Fax)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Fax)" 
+				   name="@Html.NameFor(model => model.Fax)" 
+				   value="@Html.ValueFor(model => model.Fax)"
+				   tabindex="9" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Fax)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+
+   <!--邮箱-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Email)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Email)" 
+				   name="@Html.NameFor(model => model.Email)" 
+				   value="@Html.ValueFor(model => model.Email)"
+				   tabindex="10" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Email)',
+								 required:true, 
+                                 validType: 'length[0,80]'
+                                 " />
+       </div>
+				   
+   <!--备注-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Remark)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Remark)" 
+				   name="@Html.NameFor(model => model.Remark)" 
+				   value="@Html.ValueFor(model => model.Remark)"
+				   tabindex="11" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Remark)',
+								 required:false, 
+                                 validType: 'length[0,20]'
+                                 " />
+       </div>
+				   
+
+    <!--所属客户-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerId)</label>
+		<div class="col-md-4 mb-1 pl-1">   	
+            <input id="@Html.IdFor(model => model.CustomerId)"
+			       name="@Html.NameFor(model => model.CustomerId)"
+				   value="@Html.ValueFor(model => model.CustomerId)"
+                   tabindex="12" required
+              	   class="easyui-combobox"      
+                   style="width:100%"
+                   data-options="prompt:'@Html.DescriptionFor(model => model.CustomerId)' ,
+						required:true ,
+						valueField: 'Id',
+						textField:  'CustomerCode' ,
+                        panelHeight:'auto',
+                        editable:false,
+						url: '/CustomerContacts/GetCustomers' ,
+						onSelect: function(item){
+						  //console.log(item);
+				        }">
+       </div>
+	   
+   <!--客户编号-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerCode)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.CustomerCode)" 
+				   name="@Html.NameFor(model => model.CustomerCode)" 
+				   value="@Html.ValueFor(model => model.CustomerCode)"
+				   tabindex="13" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.CustomerCode)',
+								 required:true, 
+                                 validType: 'length[0,20]'
+                                 " />
+       </div>
+				   
+
+   <!--客户名称-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerName)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.CustomerName)" 
+				   name="@Html.NameFor(model => model.CustomerName)" 
+				   value="@Html.ValueFor(model => model.CustomerName)"
+				   tabindex="14" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.CustomerName)',
+								 required:true, 
+                                 validType: 'length[0,80]'
+                                 " />
+       </div>
+				   
+	    </div> 
+      </fieldset>
+   </form>
+    </div>
+    </div>
+    </div>
+</div>
+
+<!-- 弹出窗体form表单 -->
+<!-- 弹出编辑对话框 -->
+
+<!--begin popup detailview javascript block -->
+<script type="text/javascript">
+ //当初始的 HTML 文档被完全加载和解析完成之后
+ document.addEventListener('DOMContentLoaded', function () {
+     //绑定按钮事件
+    $('button[name="saveitembutton"]').on('click', savecustomercontactitem);
+    $('button[name="deleteitembutton"]').on('click', deletecustomercontactitem);
+  });
+    //判断新增编辑状态
+    var MODELSTATE = 'Added';
+    var customercontactid = null;
+    function opencustomercontactdetailwindow(data,state) {
+         MODELSTATE = state;
+         //判断是否显示功能按钮
+        if (MODELSTATE === 'Added') {
+          $('#deleteitem-btn-group').hide();
+        } else {
+          $('#deleteitem-btn-group').show();
+        }
+        initcustomercontactdetailview();
+         customercontactid = (data.Id || 0);
+         $('#customercontactdetailwindow').window('open');
+         $('#customercontact_form').form('reset');
+         $('#customercontact_form').form('load', data);
+             }
+  //删除当前记录
+  function deletecustomercontactitem() {
+    $.messager.confirm('确认', '你确定要删除该记录?', result => {
+      if (result) {
+        const url = `/CustomerContacts/Delete/${customercontactid}`;
+        $.get(url).done(res => {
+          if (res.success) {
+            toastr.success("删除成功");
+            $('#customercontactdetailwindow').window('close');
+            reloadData();
+          } else {
+            $.messager.alert('错误', res.err, 'error');
+          }
+        });
+      }
+    });
+  }
+    //async 保存数据
+    async function savecustomercontactitem() { 
+      const $customercontactform = $('#customercontact_form');
+      if ($customercontactform.form('enableValidation').form('validate')) {
+            let customercontact = $customercontactform.serializeJSON();
+            let url = '/CustomerContacts/Edit';
+            //判断是新增或是修改方法
+            if (MODELSTATE === 'Added') {
+                url = '/CustomerContacts/Create';
+            }
+            var token = $('input[name="__RequestVerificationToken"]', $customercontactform).val();
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        __RequestVerificationToken: token,
+                        customercontact:customercontact
+                    },
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+                })
+                .done(response => {
+                    if (response.success) {
+                        hook = false;
+                        $customercontactform.form('disableValidation');
+                        $('#customercontactdetailwindow').window("close");
+                        toastr.success("保存成功"); 
+                        reloadData();
+                    } else {
+                        $.messager.alert("错误",   response.err, "error");
+                    }
+                    })
+                .fail((jqXHR, textStatus, errorThrown) => {
+                       $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+                    });
+        }
+    }
+     //判断是否有没有保存的记录
+     function customercontacthasmodified() {
+            return hook;
+
+     }
+
+
+function initcustomercontactdetailview() {
+//回车光标移动到下个输入控件
+    //所属客户默认外键使用combobox,也可以使用combogrid
+	$('#CustomerId').combobox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+}
+</script>
+

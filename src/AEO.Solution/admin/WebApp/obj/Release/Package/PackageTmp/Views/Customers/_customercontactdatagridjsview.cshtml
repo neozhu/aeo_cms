@@ -1,0 +1,499 @@
+﻿@model WebApp.Models.CustomerContact
+<script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $customercontactdg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = false;
+   //初始化 CustomerContact datagrid
+   var $customercontactdg = $('#customercontact_datagrid');
+   //当前行记录
+   var customercontact = {};
+   //datagrid CRUD method
+    var customercontact_editIndex = undefined;
+    //取消编辑恢复状态
+    function customercontact_rejectChanges() {
+		$customercontactdg.datagrid('rejectChanges');
+		customercontact_editIndex = undefined;
+    }
+    //重新加载数据
+    function customercontact_reloadData() {
+			$customercontactdg.datagrid('unselectAll');
+            $customercontactdg.datagrid('uncheckAll');
+	        $customercontactdg.datagrid('reload');
+	}
+    //关闭编辑状态
+	function customercontact_endEditing() {
+			if (customercontact_editIndex === undefined) {
+                return true; 
+            }
+			if ($customercontactdg.datagrid('validateRow', customercontact_editIndex)) {
+				$customercontactdg.datagrid('endEdit', customercontact_editIndex);
+				customercontact_editIndex = undefined;
+                return true;
+			} else {
+				const invalidinput = $('input.validatebox-invalid',$customercontactdg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+				return false;
+			}
+		}
+    //单击列开启编辑功能
+	function customercontact_onClickCell(index, field) {
+			const _operates = ['_operate1', 'ck'];
+             $('button[name*=\'customercontactdeleterowbutton\']').prop('disabled', false);
+			if (!SUBEDITINLINE || $.inArray(field, _operates) >= 0) {
+				return false;
+			}
+			if (customercontact_editIndex !== index) {
+				if (customercontact_endEditing()) {
+					$customercontactdg.datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    //customercontact_editIndex = index;
+					var ed = $customercontactdg.datagrid('getEditor', { index: index, field: field });
+					if (ed) {
+						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+					}
+				} else {
+					$customercontactdg.datagrid('selectRow', customercontact_editIndex);
+				}
+			}
+		}
+    //双击弹出编辑当前行对话框
+    function customercontact_onDblClickRow(index, row) {
+            open_customercontactdlg(index, row, 'Modified');
+
+    }
+    //订阅对话框新增返回事件
+    $(document).on('customercontact_form.add', (e, index,item) => {
+        $customercontactdg.datagrid("insertRow",
+            {
+                index: 0,
+                row: item
+          });
+      $("button[name*='customercontact_cancelchangesbutton']").prop('disabled', false);
+      $("button[name*='customercontact_savechangesbutton']").prop('disabled', false);
+    });
+    //订阅对话框修改返回事件
+    $(document).on('customercontact_form.edit', (e,index, item) => {
+        $customercontactdg.datagrid('updateRow', {
+            index: index,
+            row: item
+        });
+      $("button[name*='customercontact_cancelchangesbutton']").prop('disabled', false);
+      $("button[name*='customercontact_savechangesbutton']").prop('disabled', false);
+    });
+    //新增记录
+  function customercontact_appendItem() {
+    const $customerform = $('#customer_form');
+    if ($customerform.form('enableValidation').form('validate')) {
+      const customer = $customerform.serializeJSON();
+      const item = {
+        Appellation: '先生',
+        Sex: '男',
+        Status: '启用',
+        CustomerId: customer.Id,
+        CustomerCode: customer.CustomerCode,
+        CustomerName: customer.CustomerName
+      };
+       open_customercontactdlg(0, item, 'Added');
+      
+    }
+  }
+    //删除编辑的行
+	function customercontact_removeItem() {
+		if (customercontact_editIndex !== undefined) {  
+            const delindex = orderdetail_editIndex;
+			$customercontactdg.datagrid('cancelEdit', delindex)
+					           .datagrid('deleteRow', delindex);
+            $("button[name*='customercontact_cancelchangesbutton']").prop('disabled', false);
+            $("button[name*='customercontact_savechangesbutton']").prop('disabled', false);
+        } else {
+           const rows = $customercontactdg.datagrid('getChecked');
+           rows.slice().reverse().forEach(row => {
+                const rowindex = $customercontactdg.datagrid('getRowIndex', row);
+                $customercontactdg.datagrid('deleteRow', rowindex);
+                $("button[name*='customercontact_cancelchangesbutton']").prop('disabled', false);
+                $("button[name*='customercontact_savechangesbutton']").prop('disabled', false);
+            });
+        }
+	}
+    //删除选中的行
+    function customercontact_deleteChecked() {
+            const rows = $customercontactdg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/CustomerContacts/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $customercontactdg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });  
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+  //获取修改的行
+  function customercontact_getChanges() {
+    if (customercontact_endEditing()) {
+      if ($customercontactdg.datagrid('getChanges').length > 0) {
+        const inserted = $customercontactdg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const deleted = $customercontactdg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3;
+          return item;
+        });
+        const updated = $customercontactdg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2;
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        return { success: true, changed };
+      } else {
+        return { success: true, changed:undefined};
+      }
+    } else {
+      return { success: false,changed:undefined };
+    }
+  }
+  //提交修改的数据
+  //function customercontact_acceptChanges() {
+  //  $customercontactdg.datagrid('acceptChanges');
+  //}
+  //提交保存后台数据库
+  async function customercontact_acceptChanges() {
+			if (customercontact_endEditing()) {
+				if ($customercontactdg.datagrid('getChanges').length > 0) {
+					const inserted = $customercontactdg.datagrid('getChanges', 'inserted').map(item => {
+                       item.TrackingState = 1;
+                       return item;
+                    });
+					const deleted = $customercontactdg.datagrid('getChanges', 'deleted').map(item => {
+                       item.TrackingState = 3;
+                       return item;
+                    });
+					const updated = $customercontactdg.datagrid('getChanges', 'updated').map(item => {
+                       item.TrackingState = 2;
+                       return item;
+                    });
+					//过滤已删除的重复项
+                    const changed = inserted.concat(updated.filter(item => {
+                           return !deleted.includes(item);
+                         })).concat(deleted);
+                   //console.table(changed);
+				  if (MODELSTATE === 'Added') {
+                    return { success:true, changed };
+                  } else {
+                    const response = await $.post('/CustomerContacts/AcceptChanges', {customercontacts:changed});
+                    response.changed = undefined;
+    				if (response.success) {
+							toastr.success('保存明细成功'); 
+							$customercontactdg.datagrid('acceptChanges');
+							customercontact_reloadData()
+                            return { success:true}; 
+				    } else {
+                           $.messager.alert('错误', response.err ,'error');
+                           return { success:false, err:response.err };
+                    }
+                   }
+				} else {
+                  return { success: true, changed: undefined};
+                }
+			} else {
+               return { success: false };
+            }
+      }
+
+
+  $(() => {
+    $customercontactdg.datagrid({
+      fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      onDblClickRow: customercontact_onDblClickRow,
+      //onClickCell: customercontact_onClickCell,
+      onBeforeLoad: function () {
+
+      },
+      onLoadSuccess: function (data) {
+        customercontact_editIndex = undefined;
+        $("button[name*='customercontact_deleterowbutton']").prop('disabled', true);
+        $("button[name*='customercontact_cancelchangesbutton']").prop('disabled', true);
+        $("button[name*='customercontact_savechangesbutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='customercontact_deleterowbutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='customercontact_deleterowbutton']").prop('disabled', !checked);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='customercontact_deleterowbutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='customercontact_deleterowbutton']").prop('disabled', true);
+      },
+      onSelect: function (index, row) {
+        customercontact = row;
+      },
+      onBeforeEdit: function (index, row) {
+        customercontact_editIndex = index;
+        row.editing = true;
+        $("button[name*='customercontact_deleterowbutton']").prop('disabled', false);
+        $("button[name*='customercontact_cancelchangesbutton']").prop('disabled', false);
+        $("button[name*='customercontact_savechangesbutton']").prop('disabled', false);
+        $(this).datagrid('refreshRow', index);
+      },
+      onBeginEdit: function (index, row) {
+        //const editors = $(this).datagrid('getEditors', index);
+
+      },
+      onEndEdit: function (index, row) {
+
+      },
+      onAfterEdit: function (index, row) {
+        row.editing = false;
+        customercontact_editIndex = undefined;
+        $(this).datagrid('refreshRow', index);
+      },
+      onCancelEdit: function (index, row) {
+        customercontact_editIndex = undefined;
+        row.editing = false;
+        $("button[name*='customercontact_deleterowbutton']").prop('disabled', true);
+        $("button[name*='customercontact_cancelchangesbutton']").prop('disabled', true);
+        $("button[name*='customercontact_savechangesbutton']").prop('disabled', true);
+        $(this).datagrid('refreshRow', index);
+      },
+      columns: [[
+        { field: 'ck', checkbox: true },
+
+        {    /*姓名*/
+          field: 'Name',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Name)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Name',
+              prompt: '@Html.DescriptionFor(model => model.Name)',
+              required: true,
+              validType: 'length[0,80]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*称谓*/
+          field: 'Appellation',
+          title: '  @Html.DisplayNameFor(model => model.Appellation)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Appellation',
+              prompt: '@Html.DescriptionFor(model => model.Appellation)',
+              required: false,
+              validType: 'length[0,10]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*性别*/
+          field: 'Sex',
+          title: '  @Html.DisplayNameFor(model => model.Sex)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Sex',
+              prompt: '@Html.DescriptionFor(model => model.Sex)',
+              required: false,
+              validType: 'length[0,10]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*负责人*/
+          field: 'Owner',
+          title: '  @Html.DisplayNameFor(model => model.Owner)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Owner',
+              prompt: '@Html.DescriptionFor(model => model.Owner)',
+              required: false,
+              validType: 'length[0,20]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*职务*/
+          field: 'Job',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Job)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Job',
+              prompt: '@Html.DescriptionFor(model => model.Job)',
+              required: true,
+              validType: 'length[0,80]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*微信*/
+          field: 'Wx',
+          title: '  @Html.DisplayNameFor(model => model.Wx)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Wx',
+              prompt: '@Html.DescriptionFor(model => model.Wx)',
+              required: false,
+              validType: 'length[0,50]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*手机号*/
+          field: 'MobilePhone',
+          title: '  @Html.DisplayNameFor(model => model.MobilePhone)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_MobilePhone',
+              prompt: '@Html.DescriptionFor(model => model.MobilePhone)',
+              required: false,
+              validType: 'length[0,50]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*固话*/
+          field: 'PhoneNumber',
+          title: '  @Html.DisplayNameFor(model => model.PhoneNumber)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_PhoneNumber',
+              prompt: '@Html.DescriptionFor(model => model.PhoneNumber)',
+              required: false,
+              validType: 'length[0,50]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*传真*/
+          field: 'Fax',
+          title: '  @Html.DisplayNameFor(model => model.Fax)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Fax',
+              prompt: '@Html.DescriptionFor(model => model.Fax)',
+              required: false,
+              validType: 'length[0,50]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*邮箱*/
+          field: 'Email',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Email)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Email',
+              prompt: '@Html.DescriptionFor(model => model.Email)',
+              required: true,
+              validType: 'length[0,80]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*备注*/
+          field: 'Remark',
+          title: '  @Html.DisplayNameFor(model => model.Remark)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Remark',
+              prompt: '@Html.DescriptionFor(model => model.Remark)',
+              required: false,
+              validType: 'length[0,20]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        }
+      ]]
+    })
+      .datagrid('enableFilter', [
+ 
+      ]);
+  });
+      
+</script>
+
+
+ 

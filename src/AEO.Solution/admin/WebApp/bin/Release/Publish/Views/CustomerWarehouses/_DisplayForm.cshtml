@@ -1,0 +1,112 @@
+﻿﻿@model WebApp.Models.CustomerWarehouse
+  <div class="form-row">
+   @Html.HiddenFor(x=>x.Id)
+         <!--仓库代码(保存时系统自动分配也可以手工选择)-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WarehouseCode)</label>
+			@Html.EditorFor(x => x.WarehouseCode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WarehouseCode) } })
+      
+         </div>
+
+        <!--仓库名称-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WarehouseName)</label>
+			@Html.EditorFor(x => x.WarehouseName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WarehouseName) } })
+      
+         </div>
+
+        <!--仓库类型-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WarehouseType)</label>
+			@Html.EditorFor(x => x.WarehouseType, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WarehouseType) } })
+      
+         </div>
+
+		
+      <!--厂区门禁管理-->
+      <div class="col-xs-12 col-md-6">
+              <label class="form-label text-danger">@Html.DisplayNameFor(model => model.FactoryGuard)</label>
+              <div class="custom-control custom-checkbox">
+                 <input id="@Html.IdFor(model => model.FactoryGuard)"
+                       name="@Html.NameFor(model => model.FactoryGuard)"
+                       value="true" @(Model.FactoryGuard ? "checked=\"checked\"" : "")
+                       class="custom-control-input"
+                       tabindex="6"
+                       type="checkbox" />
+                <label class="custom-control-label" for="@Html.IdFor(model => model.FactoryGuard)">@Html.DisplayNameFor(model => model.FactoryGuard)</label>
+            </div>
+      </div>
+
+        <!--仓库地址-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WAddress)</label>
+			@Html.EditorFor(x => x.WAddress, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WAddress) } })
+      
+         </div>
+
+        <!--仓库负责人-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WUser)</label>
+			@Html.EditorFor(x => x.WUser, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WUser) } })
+      
+         </div>
+
+        <!--传真-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WFax)</label>
+			@Html.EditorFor(x => x.WFax, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WFax) } })
+      
+         </div>
+
+        <!--手机1-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WMPhone1)</label>
+			@Html.EditorFor(x => x.WMPhone1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WMPhone1) } })
+      
+         </div>
+
+        <!--手机2-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WMPhone2)</label>
+			@Html.EditorFor(x => x.WMPhone2, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WMPhone2) } })
+      
+         </div>
+
+        <!--电子邮件-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.WEmail1)</label>
+			@Html.EditorFor(x => x.WEmail1, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.WEmail1) } })
+      
+         </div>
+
+        <!--备注-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Remark)</label>
+			@Html.EditorFor(x => x.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Remark) } })
+      
+         </div>
+
+     
+       <!--所属客户-->
+       <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.CustomerId)</label>
+   	        @Html.DropDownListFor(model => model.CustomerId, ViewBag.CustomerId as List<SelectListItem>, htmlAttributes: new { @class = "form-control" }) 
+       </div>
+
+        <!--客户编号-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.CustomerCode)</label>
+			@Html.EditorFor(x => x.CustomerCode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerCode) } })
+      
+         </div>
+
+        <!--客户名称-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.CustomerName)</label>
+			@Html.EditorFor(x => x.CustomerName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CustomerName) } })
+      
+         </div>
+
+	    
+</div>
+

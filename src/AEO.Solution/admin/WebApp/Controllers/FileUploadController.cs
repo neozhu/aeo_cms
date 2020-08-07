@@ -20,6 +20,7 @@ namespace WebApp.Controllers
     private readonly ICodeItemService _codeService;
     private readonly IUnitOfWorkAsync _unitOfWork;
     private readonly NLog.ILogger logger;
+    private readonly ICustomerService customerService;
     private  ApplicationUserManager userManager
     {
       get =>  this.HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -30,11 +31,12 @@ namespace WebApp.Controllers
       get => this.HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
     }
     public FileUploadController(
+      ICustomerService customerService,
        NLog.ILogger logger,
             ICodeItemService _codeService,
-
             IUnitOfWorkAsync unitOfWork)
     {
+      this.customerService = customerService;
       this._unitOfWork = unitOfWork;
       this._codeService = _codeService;
       this.logger = logger;
@@ -78,7 +80,13 @@ namespace WebApp.Controllers
           await this.ImportUser(datatable);
         }
 
-
+        if (model == "Customer")
+        {
+          this._unitOfWork.SetAutoDetectChangesEnabled(false);
+          await this.customerService.ImportDataTableAsync(datatable);
+          await this._unitOfWork.SaveChangesAsync();
+          this._unitOfWork.SetAutoDetectChangesEnabled(true);
+        }
 
         if (model == "CodeItem")
         {

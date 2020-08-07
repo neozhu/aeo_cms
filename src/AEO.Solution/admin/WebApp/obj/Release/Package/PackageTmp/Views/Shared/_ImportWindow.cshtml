@@ -78,11 +78,11 @@
             onSuccess: function (result, item) {
               // if success
               if (result.success && result.filename) {
+                $('#fileupload').modal('toggle');
                 //item.name = result.filename;
                 item.html.find('.column-title > div:first-child').text(item.name).attr('title', result.filename);
                 $.messager.alert('导入完成', '导入完成！<br> 耗时：' + result.elapsedTime, 'info');
-                reload();
-                $('#fileupload').modal('toggle');
+                reloadData();
               } else {
                 item.html.find('.column-title > div:first-child').text(item.name).attr('title', result.filename);
                 item.html.removeClass('upload-successful').addClass('upload-failed');

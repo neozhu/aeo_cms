@@ -1,0 +1,82 @@
+﻿@model WebApp.Models.ActionLog
+  <script type="text/javascript">
+   //初始化 actionlog datagrid
+   var $actionlogdg = $('#actionlog_datagrid');
+   //datagrid CRUD method
+    //重新加载数据
+    function actionlog_reloadData() {
+			$actionlogdg.datagrid('unselectAll');
+            $actionlogdg.datagrid('uncheckAll');
+	        $actionlogdg.datagrid('reload');
+	}
+
+  $(() => {
+    document.addEventListener('panel.onfullscreen', () => {
+        $actionlogdg.datagrid('resize');
+    })
+
+    $actionlogdg.datagrid({
+            fit: false,
+            height: 300,
+            rownumbers: true,
+            striped: true,
+            idField: 'Id',
+            sortName: 'Id',
+            sortOrder: 'desc',
+            remoteFilter: true,
+            singleSelect: true,
+            checkOnSelect: false,
+		    selectOnCheck: false,
+            method: 'get',
+            pageList: [10, 20, 50, 100,1000],
+            pagination: true,
+            clientPaging:false,
+            pagination: true,
+            columns: [[
+            { field: 'ck', checkbox: true },
+
+              {    /*操作时间*/
+                field:'ActionDateTime',
+                 title:'@Html.DisplayNameFor(model => model.ActionDateTime)',
+                 width:150,
+                 sortable:true,
+                resizable: true,
+                 formatter:datetimeformatter
+              },
+              {    /*操作人员*/
+                field:'User',
+                 title:'  @Html.DisplayNameFor(model => model.User)',
+                 width:130,
+                 sortable:true,
+                 hidden:false,
+                 resizable:true
+			},
+              {    /*操作类型*/
+                field:'Action',
+                 title:'  @Html.DisplayNameFor(model => model.Action)',
+                 width:130,
+                 sortable:true,
+                 hidden:false,
+                 resizable:true
+              },
+              {    /*操作内容*/
+                field:'Content',
+                 title:'  @Html.DisplayNameFor(model => model.Content)',
+                 width:200,
+                 sortable:true,
+                 hidden:false,
+                 resizable:true
+			},
+			
+            ]]
+            })
+            .datagrid('enableFilter',[
+              {     /*操作时间*/
+                field: 'ActionDateTime',
+					  type: 'dateRange',
+					  options: {
+					  }
+				  },
+		   ]);
+  });
+  </script>

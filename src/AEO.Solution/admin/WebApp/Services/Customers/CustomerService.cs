@@ -129,6 +129,10 @@ namespace WebApp.Services
               }
             }
           }
+          if (string.IsNullOrEmpty(item.CustomerCode))
+          {
+            item.CustomerCode = KeyGenerator.GetCustomerCode();
+          }
           this.Insert(item);
         }
       }

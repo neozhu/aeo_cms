@@ -1,0 +1,334 @@
+﻿@model WebApp.Models.CustomerFile
+  <script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $customerfiledg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 CustomerFile datagrid
+   var $customerfiledg = $('#customerfile_datagrid');
+   //当前行记录
+   var customerfile = {};
+   //datagrid CRUD method
+    var customerfile_editIndex = undefined;
+    //下载文件
+    function downloadFile(path) {
+      const url = `/FileUpload/Download?file=${path}`;
+      $.fileDownload(url)
+        .done(() => {
+          //console.log('file download a success!');
+          toastr.success('下载完成!');
+        })
+        .fail(() => {
+          $.messager.alert('下载失败', `没有找到文件!`, 'error');
+        });
+    }
+    //取消编辑恢复状态
+    function customerfile_rejectChanges() {
+		$customerfiledg.datagrid('rejectChanges');
+		customerfile_editIndex = undefined;
+    }
+    //重新加载数据
+    function customerfile_reloadData() {
+			$customerfiledg.datagrid('unselectAll');
+            $customerfiledg.datagrid('uncheckAll');
+	        $customerfiledg.datagrid('reload');
+	}
+    //关闭编辑状态
+	function customerfile_endEditing() {
+			if (customerfile_editIndex === undefined) {
+                return true;
+            }
+			if ($customerfiledg.datagrid('validateRow', customerfile_editIndex)) {
+				$customerfiledg.datagrid('endEdit', customerfile_editIndex);
+				customerfile_editIndex = undefined;
+                return true;
+			} else {
+				const invalidinput = $('input.validatebox-invalid',$customerfiledg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+				return false;
+			}
+		}
+    //单击列开启编辑功能
+	function customerfile_onClickCell(index, field) {
+			const _operates = ['_operate1', 'ck'];
+             $('button[name*=\'customerfiledeleterowbutton\']').prop('disabled', false);
+			if (!SUBEDITINLINE || $.inArray(field, _operates) >= 0) {
+				return false;
+			}
+			if (customerfile_editIndex !== index) {
+				if (customerfile_endEditing()) {
+					$customerfiledg.datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    //customerfile_editIndex = index;
+					var ed = $customerfiledg.datagrid('getEditor', { index: index, field: field });
+					if (ed) {
+						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+					}
+				} else {
+					$customerfiledg.datagrid('selectRow', customerfile_editIndex);
+				}
+			}
+		}
+    //双击弹出编辑当前行对话框
+    function customerfile_onDblClickRow(index, row) {
+        if (!SUBEDITINLINE) {
+            open_customerfiledlg(index, row, 'Modified');
+        }
+    }
+    //订阅对话框新增返回事件
+    $(document).on('customerfile_form.add', (e, index,item) => {
+        $customerfiledg.datagrid("insertRow",
+            {
+                index: 0,
+                row: item
+            });
+    });
+    //订阅对话框修改返回事件
+    $(document).on('customerfile_form.edit', (e,index, item) => {
+        $customerfiledg.datagrid('updateRow', {
+            index: index,
+            row: item
+        });
+    });
+    //新增记录
+    function customerfile_appendItem() {
+       const $customerform = $('#customer_form');
+       if ($customerform.form('enableValidation').form('validate')) {
+          const customer = $customerform.serializeJSON();
+       const item = {
+          CustomerId: customer.Id,
+CustomerCode: 'customer.CustomerCode',
+CustomerName: 'customer.CustomerName',
+
+          CustomerId:customer.Id
+        };
+      if (!SUBEDITINLINE) {
+        open_customerfiledlg(0, item, 'Added');
+      } else {
+			if (customerfile_endEditing()) {
+				//对必填字段进行默认值初始化
+				$customerfiledg.datagrid('insertRow',
+                               { index: 0,
+                                  row: item
+                               });
+				customerfile_editIndex = 0;
+				$customerfiledg.datagrid('selectRow', customerfile_editIndex)
+						.datagrid('beginEdit', customerfile_editIndex);
+			}
+        }
+        }
+	 }
+    //删除编辑的行
+	function customerfile_removeItem() {
+    customerfile_deleteChecked()
+	}
+    //删除选中的行
+    function customerfile_deleteChecked() {
+            const rows = $customerfiledg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/CustomerFiles/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $customerfiledg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+  //获取修改的行
+  function customerfile_getChanges() {
+    if (customerfile_endEditing()) {
+      if ($customerfiledg.datagrid('getChanges').length > 0) {
+        const inserted = $customerfiledg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const deleted = $customerfiledg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3;
+          return item;
+        });
+        const updated = $customerfiledg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2;
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        return { success: true, changed };
+      } else {
+        return { success: true, changed:undefined};
+      }
+    } else {
+      return { success: false,changed:undefined };
+    }
+  }
+  //提交修改的数据
+  //function customerfile_acceptChanges() {
+  //  $customerfiledg.datagrid('acceptChanges');
+  //}
+  //提交保存后台数据库
+  async function customerfile_acceptChanges() {
+			if (customerfile_endEditing()) {
+				if ($customerfiledg.datagrid('getChanges').length > 0) {
+					const inserted = $customerfiledg.datagrid('getChanges', 'inserted').map(item => {
+                       item.TrackingState = 1;
+                       return item;
+                    });
+					const deleted = $customerfiledg.datagrid('getChanges', 'deleted').map(item => {
+                       item.TrackingState = 3;
+                       return item;
+                    });
+					const updated = $customerfiledg.datagrid('getChanges', 'updated').map(item => {
+                       item.TrackingState = 2;
+                       return item;
+                    });
+					//过滤已删除的重复项
+                    const changed = inserted.concat(updated.filter(item => {
+                           return !deleted.includes(item);
+                         })).concat(deleted);
+                   //console.table(changed);
+				  if (MODELSTATE === 'Added') {
+                    return { success:true, changed };
+                  } else {
+                    const response = await $.post('/CustomerFiles/SaveData', {customerfiles:changed});
+                    response.changed = undefined;
+    				if (response.success) {
+							toastr.success('保存明细成功');
+							$customerfiledg.datagrid('acceptChanges');
+							customerfile_reloadData()
+                            return { success:true};
+				    } else {
+                           $.messager.alert('错误', response.err ,'error');
+                           return { success:false, err:response.err };
+                    }
+                   }
+				} else {
+                  return { success: true, changed: undefined};
+                }
+			} else {
+               return { success: false };
+            }
+      }
+
+
+$(() => {
+    $customerfiledg.datagrid({
+           fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      onLoadSuccess: function (data) {
+        productfile_editIndex = undefined;
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', !checked);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='customerfile_deleterowbutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', true);
+      },
+     columns: [[
+        { field: 'ck', checkbox: true },
+       {
+         field: 'action',
+         title: '操作',
+         align: 'center',
+         width: 65,
+         formatter: function (v,row) {
+           return `<button onclick="downloadFile('${row.RelativePath }')" class="btn btn-outline-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="下载" ><i class="fal fa-download"></i> </button>`
+         }
+       },
+        {    /*文件名*/
+          field: 'FileName',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FileName)',
+          width: 200,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*大小*/
+          field: 'Size',
+          title: '  @Html.DisplayNameFor(model => model.Size)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          formatter: filesizeformatter,
+          sortable: true,
+          resizable: true,
+        },
+        {    /*上传用户*/
+          field: 'Owner',
+          title: '  @Html.DisplayNameFor(model => model.Owner)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {   /*上传时间*/
+          field: 'Upload',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Upload)',
+          width: 150,
+          align: 'right',
+          hidden: false,
+          sortable: true,
+          resizable: true,
+          formatter: datetimeformatter
+        },
+      ]]
+    })
+      .datagrid('enableFilter', [
+        {    /*大小*/
+          field: 'Size',
+          type: 'numberbox',
+          op: ['equal', 'notequal', 'less', 'lessorequal', 'greater', 'greaterorequal']
+        },
+        {     /*上传时间*/
+          field: 'Upload',
+          type: 'dateRange',
+          options: {
+          }
+        },
+      ]);
+  });
+
+  </script>
+
+
+ 

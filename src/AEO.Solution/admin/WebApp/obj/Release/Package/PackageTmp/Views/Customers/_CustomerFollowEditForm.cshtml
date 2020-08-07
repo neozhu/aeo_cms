@@ -1,0 +1,237 @@
+﻿@model WebApp.Models.CustomerFollow
+<div id="customerfollowdlg" class="easyui-dialog"
+     title="CustomerFollow" style="width:600px;height:300px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                onOpen:function(){
+                   $('#customerfollow_form').form('disableValidation');
+                },
+                buttons: [{
+                    text:'确认',
+                    handler:function(){
+                        confirm_customerfollowform();
+                    }
+                },{
+                    text:'取消',
+                    handler:function(){
+                        $('#customerfollowdlg').dialog('close');
+                    }
+                }]
+            ">
+<div class="panel-container show">
+      <div class="panel-content p-0">
+        <form id="customerfollow_form" class="form-horizontal needs-validation" novalidate>
+          <fieldset class="form-group">
+            <div class="row h-100 align-items-center m-0 pt-1">
+    <!--系统主键-->
+	@Html.HiddenFor(model => model.Id)		
+             
+    <!--客户联系人-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ContactName)" >@Html.DisplayNameFor(model => model.ContactName) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.ContactName)" 
+							name="@Html.NameFor(model => model.ContactName)" 
+							value="@Html.ValueFor(model => model.ContactName)"
+							tabindex="1" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.ContactName)',
+     						 required:true ,validType:'length[0,80]'" />
+    </div>
+             
+    <!--跟进方式-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.FollowType)" >@Html.DisplayNameFor(model => model.FollowType) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.FollowType)" 
+							name="@Html.NameFor(model => model.FollowType)" 
+							value="@Html.ValueFor(model => model.FollowType)"
+							tabindex="2" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.FollowType)',
+     						 required:false ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--跟进状态-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Status)" >@Html.DisplayNameFor(model => model.Status) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Status)" 
+							name="@Html.NameFor(model => model.Status)" 
+							value="@Html.ValueFor(model => model.Status)"
+							tabindex="3" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Status)',
+     						 required:false ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--跟进人-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Owner)" >@Html.DisplayNameFor(model => model.Owner) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Owner)" 
+							name="@Html.NameFor(model => model.Owner)" 
+							value="@Html.ValueFor(model => model.Owner)"
+							tabindex="4" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Owner)',
+     						 required:false ,validType:'length[0,20]'" />
+    </div>
+             
+     <!--跟进时间-->
+          <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.FollowDate)" >@Html.DisplayNameFor(model => model.FollowDate) <span class="text-danger">*</span></label>
+		  <div class="col-md-4 mb-1">
+          <input id="@Html.IdFor(model => model.FollowDate)" 
+							name="@Html.NameFor(model => model.FollowDate)" 
+							tabindex="5" 
+							class="easyui-datebox" 
+                            type="text"
+                            style="width:100%"
+							value="@Html.ValueFor(model => model.FollowDate)"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.FollowDate)',
+								 formatter:dateformatter,
+                                 required:true " />
+     </div>
+             
+    <!--跟进内容-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Content)" >@Html.DisplayNameFor(model => model.Content) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Content)" 
+							name="@Html.NameFor(model => model.Content)" 
+							value="@Html.ValueFor(model => model.Content)"
+							tabindex="6" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Content)',
+     						 required:false ,validType:'length[0,512]'" />
+    </div>
+             
+     <!--设置提醒时间-->
+          <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ReminderTime)" >@Html.DisplayNameFor(model => model.ReminderTime) </label>
+		  <div class="col-md-4 mb-1">
+          <input id="@Html.IdFor(model => model.ReminderTime)" 
+							name="@Html.NameFor(model => model.ReminderTime)" 
+							tabindex="7" 
+							class="easyui-datebox" 
+                            type="text"
+                            style="width:100%"
+							value="@Html.ValueFor(model => model.ReminderTime)"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.ReminderTime)',
+								 formatter:dateformatter,
+                                 required:false " />
+     </div>
+             
+    <!--提醒内容-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ReminderContent)" >@Html.DisplayNameFor(model => model.ReminderContent) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.ReminderContent)" 
+							name="@Html.NameFor(model => model.ReminderContent)" 
+							value="@Html.ValueFor(model => model.ReminderContent)"
+							tabindex="8" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.ReminderContent)',
+     						 required:false ,validType:'length[0,512]'" />
+    </div>
+             
+    <!--提醒人员-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ReminderTo)" >@Html.DisplayNameFor(model => model.ReminderTo) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.ReminderTo)" 
+							name="@Html.NameFor(model => model.ReminderTo)" 
+							value="@Html.ValueFor(model => model.ReminderTo)"
+							tabindex="9" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.ReminderTo)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+      <!--所属客户-->
+      <input type="hidden" id="CustomerCustomerCode" name="CustomerCustomerCode" value="">
+	  <input id="@Html.IdFor(model => model.CustomerId)"
+			       name="@Html.NameFor(model => model.CustomerId)"
+				   value="@Html.ValueFor(model => model.CustomerId)"
+                   type="hidden" />
+             
+    <!--客户编号-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerCode)" >@Html.DisplayNameFor(model => model.CustomerCode) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.CustomerCode)" 
+							name="@Html.NameFor(model => model.CustomerCode)" 
+							value="@Html.ValueFor(model => model.CustomerCode)"
+							tabindex="11" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerCode)',
+     						 required:true ,validType:'length[0,20]'" />
+    </div>
+             
+    <!--客户名称-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CustomerName)" >@Html.DisplayNameFor(model => model.CustomerName) <span class="text-danger">*</span></label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.CustomerName)" 
+							name="@Html.NameFor(model => model.CustomerName)" 
+							value="@Html.ValueFor(model => model.CustomerName)"
+							tabindex="12" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.CustomerName)',
+     						 required:true ,validType:'length[0,80]'" />
+    </div>
+             
+  
+           </div>
+       </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+     var form_state = 'Added';
+     var current_index = -1;
+     var customerfollow = {};
+ 
+     function open_customerfollowdlg(index, row, state) {
+         form_state = state;
+         current_index = index;
+         customerfollow = row;
+         $('#customerfollowdlg').dialog('open');
+         if (form_state === 'Added') {
+             $('#customerfollowdlg').dialog('setTitle', '新增明细');
+         } else {
+             $('#customerfollowdlg').dialog('setTitle', '修改明细');
+         }
+         $('#customerfollow_form').form('reset');
+         $('#customerfollow_form').form('load', customerfollow);
+     }
+     function confirm_customerfollowform() {
+         $customerfollowform = $('#customerfollow_form');
+         if ($customerfollowform.form('enableValidation').form('validate')) {
+             customerfollow = $customerfollowform.serializeJSON();
+             if (form_state === 'Added') {
+                 $(document).trigger('customerfollow_form.add', [current_index, customerfollow])
+             } else {
+                 $(document).trigger('customerfollow_form.edit', [current_index, customerfollow])
+             }
+             $('#customerfollowdlg').dialog('close');
+         }
+     }
+ </script>
+
+ 
