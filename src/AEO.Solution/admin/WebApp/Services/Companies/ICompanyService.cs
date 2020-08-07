@@ -17,7 +17,7 @@ namespace WebApp.Services
 /// Purpose: Service interfaces. Services expose a service interface
 /// to which all inbound messages are sent. You can think of a service interface
 /// as a façade that exposes the business logic implemented in the application
-/// Created Date: 2020/7/30 11:08:31
+/// Created Date: 2020/8/7 9:08:03
 /// Author: neo.zhu
 /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
 /// Copyright (c) 2012-2018 All Rights Reserved

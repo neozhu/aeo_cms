@@ -112,11 +112,11 @@ namespace WebApp.Controllers
       var list = await getComboTreeData();
       return Json(list, JsonRequestBehavior.AllowGet);
     }
-    private async Task<IEnumerable<ComboTreeItem>> getComboTreeData()
+    private async Task<IEnumerable<CategoryComboTreeItem>> getComboTreeData()
     {
-      var list = new List<ComboTreeItem>();
+      var list = new List<CategoryComboTreeItem>();
       var root = await this.categoryService.Queryable().Where(x => x.ParentId == null)
-          .Select(x => new ComboTreeItem()
+          .Select(x => new CategoryComboTreeItem()
           {
             id=x.Id,
              text=x.Name,
@@ -129,11 +129,11 @@ namespace WebApp.Controllers
       return root;
 
     }
-    private async Task recursioncategcombotreedata(ComboTreeItem item, int? parentid)
+    private async Task recursioncategcombotreedata(CategoryComboTreeItem item, int? parentid)
     {
       var children = await categoryService.Queryable().Where(x => x.ParentId == parentid
            )
-          .Select(x => new ComboTreeItem()
+          .Select(x => new CategoryComboTreeItem()
           {
             id = x.Id,
             text = x.Name,

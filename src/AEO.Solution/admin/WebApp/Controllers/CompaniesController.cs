@@ -15,12 +15,14 @@ using TrackableEntities;
 using WebApp.Models;
 using WebApp.Services;
 using WebApp.Repositories;
+using AutoMapper;
+
 namespace WebApp.Controllers
 {
 /// <summary>
 /// File: CompaniesController.cs
-/// Purpose:组织管理/企业信息
-/// Created Date: 2020/7/30 11:08:32
+/// Purpose:组织管理/公司信息
+/// Created Date: 2020/8/7 9:08:04
 /// Author: neo.zhu
 /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
 /// TODO: Registers the type mappings with the Unity container(Mvc.UnityConfig.cs)
@@ -37,25 +39,64 @@ namespace WebApp.Controllers
 		private readonly ICompanyService  companyService;
 		private readonly IUnitOfWorkAsync unitOfWork;
         private readonly NLog.ILogger logger;
+    private readonly IMapper mapper;
 		public CompaniesController (
+       IMapper mapper,
           ICompanyService  companyService, 
           IUnitOfWorkAsync unitOfWork,
           NLog.ILogger logger
           )
 		{
-			this.companyService  = companyService;
+      this.mapper = mapper;
+      this.companyService  = companyService;
 			this.unitOfWork = unitOfWork;
             this.logger = logger;
 		}
         		//GET: Companies/Index
         //[OutputCache(Duration = 60, VaryByParam = "none")]
-        [Route("Index", Name = "企业信息", Order = 1)]
+        [Route("Index", Name = "公司信息", Order = 1)]
 		public ActionResult Index() => this.View();
 
-		//Get :Companies/GetData
-		//For Index View datagrid datasource url
-        
-		[HttpGet]
+    //Get :Companies/GetData
+    //For Index View datagrid datasource url
+    [HttpGet]
+    public async Task<JsonResult> GetTreeData()
+    {
+      var list = await getCompanyTreeData();
+      return Json(list, JsonRequestBehavior.AllowGet);
+    }
+    private async Task<IEnumerable<CompanyTreeItem>> getCompanyTreeData()
+    {
+      var list = new List<CompanyTreeItem>();
+      var result = await this.companyService.Queryable().Where(x => x.ParentId == null).ToListAsync();
+      var root = this.mapper.Map< IEnumerable<Company>, IEnumerable<CompanyTreeItem>>(
+       result
+        );
+       
+      foreach (var top in root)
+      {
+        await recursioncompanytreedata(top, top.Id);
+      }
+      return root;
+
+    }
+    private async Task recursioncompanytreedata(CompanyTreeItem item, int? parentid)
+    {
+      var result = await companyService.Queryable().Where(x => x.ParentId == parentid
+           ).ToListAsync();
+      var children= this.mapper.Map<IEnumerable<Company>, IEnumerable<CompanyTreeItem>>(
+       result
+        );
+      foreach (var child in children)
+      {
+        await recursioncompanytreedata(child, child.Id);
+      }
+      item.children = children.ToArray();
+    }
+
+
+
+    [HttpGet]
         //[OutputCache(Duration = 10, VaryByParam = "*")]
 		 public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
 		{

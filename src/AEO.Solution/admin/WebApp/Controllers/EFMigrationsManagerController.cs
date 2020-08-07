@@ -1,4 +1,4 @@
-namespace WebApp.Controllers
+﻿namespace WebApp.Controllers
 {
   using System.Net;
   using System.Web;
@@ -12,14 +12,20 @@ namespace WebApp.Controllers
   [RoutePrefix("EFMigrationsManager")]
   public class EFMigrationsManagerController : Controller
   {
-    private ApplicationSignInManager _signInManager;
 
+    private ApplicationSignInManager _signInManager;
+    private readonly NLog.ILogger logger;
     public ApplicationSignInManager SignInManager
         {
             get => this._signInManager ?? this.HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             private set => this._signInManager = value;
         }
-    //[Route("Publish", Name = "�������ݿ�", Order = 1)]
+    public EFMigrationsManagerController(
+      NLog.ILogger logger)
+    {
+      this.logger = logger;
+    }
+    //[Route("Publish", Name = "¸üÐÂÊý¾Ý¿â", Order = 1)]
     public ActionResult Publish(bool isRollback = false)
     {
       var _service = new EFMigrationService();
@@ -46,7 +52,7 @@ namespace WebApp.Controllers
       }
 
       _service.Update(entity.TargetMigration);
-
+      this.logger.Info("数据库版本更新完成");
       this.TempData["StatusMessage"] = entity.IsRollback ? "Database restored successfully." : "Database updated successfully.";
       //return RedirectToAction("Publish", new {isRollback = entity.IsRollback});
       return this.Redirect("/");

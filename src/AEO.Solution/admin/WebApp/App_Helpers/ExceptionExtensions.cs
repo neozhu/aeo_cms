@@ -29,7 +29,7 @@ namespace WebApp
                 message = sqlexception.Message;
                 break;
               case 547:   // Constraint check violation
-                message = sqlexception.Message;
+                message = $"有关联的明细数据存在,不允许删除该记录";
                 break;
               case 2601:  // Duplicated key row error
                 var regex = @"\ACannot insert duplicate key row in object \'(?<TableName>.+?)\' with unique index \'(?<IndexName>.+?)\'\. The duplicate key value is \((?<KeyValues>.+?)\)";

@@ -14,9 +14,9 @@ namespace WebApp.Models.Dto
     public string state { get; set; }
     public IEnumerable<CategoryTreeItem> children { get; set; }
   }
-  public class ComboTreeItem {
+  public class CategoryComboTreeItem {
     public int id { get; set; }
     public string text { get; set; }
-    public IEnumerable<ComboTreeItem> children { get; set; }
+    public IEnumerable<CategoryComboTreeItem> children { get; set; }
    }
 }

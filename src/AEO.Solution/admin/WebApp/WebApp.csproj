@@ -564,6 +564,18 @@
     <Compile Include="Migrations\202008060604576_md_notrequired1.designer.cs">
       <DependentUpon>202008060604576_md_notrequired1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008070105340_md_company_required.cs" />
+    <Compile Include="Migrations\202008070105340_md_company_required.designer.cs">
+      <DependentUpon>202008070105340_md_company_required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008070140449_md_changecompanylength.cs" />
+    <Compile Include="Migrations\202008070140449_md_changecompanylength.designer.cs">
+      <DependentUpon>202008070140449_md_changecompanylength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008070144117_md_changecompanylength1.cs" />
+    <Compile Include="Migrations\202008070144117_md_changecompanylength1.designer.cs">
+      <DependentUpon>202008070144117_md_changecompanylength1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
@@ -577,6 +589,7 @@
     <Compile Include="Models\CustomerBank.cs" />
     <Compile Include="Models\CustomerContact.cs" />
     <Compile Include="Models\Dto\CategoryTreeItem.cs" />
+    <Compile Include="Models\Dto\CompanyTreeItem.cs" />
     <Compile Include="Models\Dto\CreateProductViewModel.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
@@ -3808,13 +3821,6 @@
     <Content Include="Scripts\plugin\plupload\readme.md" />
     <Content Include="Views\RoleManage\Index.cshtml" />
     <Content Include="Views\Tenants\Index.cshtml" />
-    <Content Include="Views\Companies\_DisplayForm.cshtml" />
-    <Content Include="Views\Companies\_PopupDetailFormView.cshtml" />
-    <Content Include="Views\Companies\Index.cshtml" />
-    <Content Include="Views\Companies\Create.cshtml" />
-    <Content Include="Views\Companies\Details.cshtml" />
-    <Content Include="Views\Companies\Edit.cshtml" />
-    <Content Include="Views\Companies\EditForm.cshtml" />
     <Content Include="Views\Categories\_DisplayForm.cshtml" />
     <Content Include="Views\Categories\_PopupDetailFormView.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
@@ -3969,6 +3975,13 @@
     <Content Include="Views\Customers\_CustomerWarehouseEditForm.cshtml" />
     <Content Include="Views\Customers\_customerwarehousedatagridjsview.cshtml" />
     <Content Include="Views\Customers\_actionlogdatagridjsview.cshtml" />
+    <Content Include="Views\Companies\_DisplayForm.cshtml" />
+    <Content Include="Views\Companies\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Companies\Index.cshtml" />
+    <Content Include="Views\Companies\Create.cshtml" />
+    <Content Include="Views\Companies\Details.cshtml" />
+    <Content Include="Views\Companies\Edit.cshtml" />
+    <Content Include="Views\Companies\EditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4125,6 +4138,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008060604576_md_notrequired1.resx">
       <DependentUpon>202008060604576_md_notrequired1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008070105340_md_company_required.resx">
+      <DependentUpon>202008070105340_md_company_required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008070140449_md_changecompanylength.resx">
+      <DependentUpon>202008070140449_md_changecompanylength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008070144117_md_changecompanylength1.resx">
+      <DependentUpon>202008070144117_md_changecompanylength1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />

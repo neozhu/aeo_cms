@@ -45,9 +45,10 @@ namespace WebApp
 
       if (EFMigrationsManagerConfig.HandleEFMigrationException(exception, this.Server, this.Response, this.Context))
       {
+        this.logger.Warn(exception,"数据库版本不一致需要同步更新");
         return;
       }
-      this.logger.Fatal(exception, exception.GetBaseException().Message);
+      this.logger.Fatal(exception, exception.GetMessage());
 
        
     }

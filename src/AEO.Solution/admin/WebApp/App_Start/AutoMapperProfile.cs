@@ -16,6 +16,7 @@ namespace WebApp
       //  .ForMember(x => x.OrderId, opt => opt.MapFrom(x => x.Id));
       CreateMap<CreateProductViewModel, Product>();
       CreateMap<Attachment, ProductPricture>();
+      CreateMap<Company, CompanyTreeItem>();
     }
   }
    

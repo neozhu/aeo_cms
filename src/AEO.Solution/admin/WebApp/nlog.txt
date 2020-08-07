@@ -53,3 +53,7 @@ The statement has been terminated.
 2020-08-06 15:45:03.2023|FATAL|WebApp.MvcApplication|A public action method 'SaveData' was not found on controller 'WebApp.Controllers.CustomerBanksController'.
 2020-08-06 15:45:46.3909|FATAL|WebApp.MvcApplication|A public action method 'SaveData' was not found on controller 'WebApp.Controllers.CustomerBanksController'.
 2020-08-06 15:58:25.5167|FATAL|WebApp.MvcApplication|A public action method 'SaveData' was not found on controller 'WebApp.Controllers.CustomerContactsController'.
+2020-08-07 09:28:36.8778|FATAL|WebApp.MvcApplication|A public action method 'GetTreeData' was not found on controller 'WebApp.Controllers.CompaniesController'.
+2020-08-07 09:35:49.6698|FATAL|WebApp.MvcApplication|A public action method 'GetTreeData' was not found on controller 'WebApp.Controllers.CompaniesController'.
+2020-08-07 10:58:18.3434|FATAL|WebApp.MvcApplication|????“\AThe DELETE statement conflicted with the SAME TABLE REFERENCE constraint \'FK_dbo.Companies_dbo.Companies_ParentId\'. The conflict occurred in database \'aeodb\', table \'(?< TableName >.+?)\' column '(?<column>.+?)'.The statement has been terminated.”- ?????: ????????????
+2020-08-07 11:04:51.3450|FATAL|WebApp.MvcApplication|????“\AThe DELETE statement conflicted with the SAME TABLE REFERENCE constraint \"FK_dbo.Companies_dbo.Companies_ParentId\". The conflict occurred in database \"aeodb\", table \"(?< TableName >.+?)\" column '(?<column>.+?)'.The statement has been terminated.”- ?????: ????????????
