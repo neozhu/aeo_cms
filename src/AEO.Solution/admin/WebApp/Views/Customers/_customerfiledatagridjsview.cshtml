@@ -125,21 +125,7 @@ CustomerName: 'customer.CustomerName',
 	 }
     //删除编辑的行
 	function customerfile_removeItem() {
-		if (customerfile_editIndex !== undefined) {
-            const delindex = orderdetail_editIndex;
-			$customerfiledg.datagrid('cancelEdit', delindex)
-					           .datagrid('deleteRow', delindex);
-            $("button[name*='customerfile_cancelchangesbutton']").prop('disabled', false);
-            $("button[name*='customerfile_savechangesbutton']").prop('disabled', false);
-        } else {
-           const rows = $customerfiledg.datagrid('getChecked');
-           rows.slice().reverse().forEach(row => {
-                const rowindex = $customerfiledg.datagrid('getRowIndex', row);
-                $customerfiledg.datagrid('deleteRow', rowindex);
-                $("button[name*='customerfile_cancelchangesbutton']").prop('disabled', false);
-                $("button[name*='customerfile_savechangesbutton']").prop('disabled', false);
-            });
-        }
+    customerfile_deleteChecked()
 	}
     //删除选中的行
     function customerfile_deleteChecked() {
@@ -261,22 +247,22 @@ $(() => {
       pagination: true,
       onLoadSuccess: function (data) {
         productfile_editIndex = undefined;
-        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', true);
       },
       onCheck: function () {
-        $("button[name*='productfile_deletebutton']").prop('disabled', false);
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', false);
       },
       onUncheck: function () {
         const checked = $(this).datagrid('getChecked').length > 0;
-        $("button[name*='productfile_deletebutton']").prop('disabled', !checked);
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', !checked);
       },
       onCheckAll: function (rows) {
         if (rows.length > 0) {
-          $("button[name*='productfile_deletebutton']").prop('disabled', false);
+          $("button[name*='customerfile_deleterowbutton']").prop('disabled', false);
         }
       },
       onUncheckAll: function () {
-        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+        $("button[name*='customerfile_deleterowbutton']").prop('disabled', true);
       },
      columns: [[
         { field: 'ck', checkbox: true },
