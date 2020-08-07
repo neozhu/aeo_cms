@@ -52,10 +52,33 @@ namespace WebApp.Controllers
         [Route("Index", Name = "客户附件信息", Order = 1)]
 		public ActionResult Index() => this.View();
 
-		//Get :CustomerFiles/GetData
-		//For Index View datagrid datasource url
-        
-		[HttpGet]
+
+    //接收上传文件
+    public async Task<ActionResult> Upload()
+    {
+      try
+      {
+        var file = this.Request.Files[0];
+        var user = (string)ViewBag.GivenName;
+        var tags = this.Request.Form["tags"];
+        var name = this.Request.Form["name"];
+        var customerId = Convert.ToInt32(this.Request.Form["customerId"]);
+        var customerCode = this.Request.Form["customerCode"];
+        var folder = this.Server.MapPath("~/UploadFiles/Customer/Files/" + customerCode);
+        var relpath = "/UploadFiles/Customer/Files/" + customerCode + "/";
+        this.customerFileService.AddFile(customerId, customerCode, file, folder, relpath, user);
+        await this.unitOfWork.SaveChangesAsync();
+        return Content($"{file.FileName}:上传成功", "text/plain");
+      }
+      catch (Exception e)
+      {
+        throw e;
+      }
+    }
+    //Get :CustomerFiles/GetData
+    //For Index View datagrid datasource url
+
+    [HttpGet]
         //[OutputCache(Duration = 10, VaryByParam = "*")]
 		 public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
 		{
@@ -285,7 +308,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<JsonResult> DeleteChecked(int[] id) {
            try{
-               await this.customerFileService.Delete(id);
+               await this.customerFileService.Delete(id,Auth.GetFullName());
                await this.unitOfWork.SaveChangesAsync();
                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
            }

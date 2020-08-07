@@ -1,5 +1,5 @@
 ﻿@model WebApp.Models.CustomerFile
-<script type="text/javascript">
+  <script type="text/javascript">
   //全屏事件
   document.addEventListener('panel.onfullscreen', () => {
        $customerfiledg.datagrid('resize');
@@ -12,6 +12,18 @@
    var customerfile = {};
    //datagrid CRUD method
     var customerfile_editIndex = undefined;
+    //下载文件
+    function downloadFile(path) {
+      const url = `/FileUpload/Download?file=${path}`;
+      $.fileDownload(url)
+        .done(() => {
+          //console.log('file download a success!');
+          toastr.success('下载完成!');
+        })
+        .fail(() => {
+          $.messager.alert('下载失败', `没有找到文件!`, 'error');
+        });
+    }
     //取消编辑恢复状态
     function customerfile_rejectChanges() {
 		$customerfiledg.datagrid('rejectChanges');
@@ -26,7 +38,7 @@
     //关闭编辑状态
 	function customerfile_endEditing() {
 			if (customerfile_editIndex === undefined) {
-                return true; 
+                return true;
             }
 			if ($customerfiledg.datagrid('validateRow', customerfile_editIndex)) {
 				$customerfiledg.datagrid('endEdit', customerfile_editIndex);
@@ -89,9 +101,9 @@
        if ($customerform.form('enableValidation').form('validate')) {
           const customer = $customerform.serializeJSON();
        const item = {
-          CustomerId: customer.Id, 
-CustomerCode: 'customer.CustomerCode', 
-CustomerName: 'customer.CustomerName', 
+          CustomerId: customer.Id,
+CustomerCode: 'customer.CustomerCode',
+CustomerName: 'customer.CustomerName',
 
           CustomerId:customer.Id
         };
@@ -100,9 +112,9 @@ CustomerName: 'customer.CustomerName',
       } else {
 			if (customerfile_endEditing()) {
 				//对必填字段进行默认值初始化
-				$customerfiledg.datagrid('insertRow', 
+				$customerfiledg.datagrid('insertRow',
                                { index: 0,
-                                  row: item 
+                                  row: item
                                });
 				customerfile_editIndex = 0;
 				$customerfiledg.datagrid('selectRow', customerfile_editIndex)
@@ -113,7 +125,7 @@ CustomerName: 'customer.CustomerName',
 	 }
     //删除编辑的行
 	function customerfile_removeItem() {
-		if (customerfile_editIndex !== undefined) {  
+		if (customerfile_editIndex !== undefined) {
             const delindex = orderdetail_editIndex;
 			$customerfiledg.datagrid('cancelEdit', delindex)
 					           .datagrid('deleteRow', delindex);
@@ -147,7 +159,7 @@ CustomerName: 'customer.CustomerName',
                             }
                          });
                     }
-                });  
+                });
             } else {
                 $.messager.alert('提示', '请先选择要删除的记录!','question');
             }
@@ -211,10 +223,10 @@ CustomerName: 'customer.CustomerName',
                     const response = await $.post('/CustomerFiles/SaveData', {customerfiles:changed});
                     response.changed = undefined;
     				if (response.success) {
-							toastr.success('保存明细成功'); 
+							toastr.success('保存明细成功');
 							$customerfiledg.datagrid('acceptChanges');
 							customerfile_reloadData()
-                            return { success:true}; 
+                            return { success:true};
 				    } else {
                            $.messager.alert('错误', response.err ,'error');
                            return { success:false, err:response.err };
@@ -231,309 +243,106 @@ CustomerName: 'customer.CustomerName',
 
 $(() => {
     $customerfiledg.datagrid({
-            fit: false,
-            height: 300,
-            rownumbers: true,
-            striped: true,
-            idField: 'Id',
-            sortName: 'Id',
-            sortOrder: 'asc',
-            remoteFilter: true,
-            singleSelect: true,
-            checkOnSelect: false,
-		    selectOnCheck: false,
-            method: 'get',
-            pageList: [10, 20, 50, 100,1000],
-            pagination: true,
-            clientPaging:false,
-            pagination: true,
-            onDblClickRow: customerfile_onDblClickRow,
-            onClickCell: customerfile_onClickCell,
-            onBeforeLoad: function () {
-
-            },
-            onLoadSuccess: function (data) {
-              customerfile_editIndex = undefined;
-              $("button[name*='customerfile_deleterowbutton']").prop('disabled', true);
-              $("button[name*='customerfile_cancelchangesbutton']").prop('disabled', true);
-              $("button[name*='customerfile_savechangesbutton']").prop('disabled', true);
-            },
-            onCheck: function () {
-                $("button[name*='customerfile_deleterowbutton']").prop('disabled', false);
-            },
-            onUncheck: function () {
-               const checked = $(this).datagrid('getChecked').length > 0;
-               $("button[name*='customerfile_deleterowbutton']").prop('disabled', !checked);
-            },
-           onCheckAll: function (rows) {
-              if (rows.length > 0) {
-                 $("button[name*='customerfile_deleterowbutton']").prop('disabled', false);
-              }
-           },
-           onUncheckAll: function () {
-              $("button[name*='customerfile_deleterowbutton']").prop('disabled', true);           
-           },
-            onSelect: function(index,row) {
-              customerfile = row;
-            },
-            onBeforeEdit: function (index, row) {
-                 customerfile_editIndex = index;
-                 row.editing = true;
-                 $("button[name*='customerfile_deleterowbutton']").prop('disabled', false);
-                 $("button[name*='customerfile_cancelchangesbutton']").prop('disabled', false);
-                 $("button[name*='customerfile_savechangesbutton']").prop('disabled', false);
-                 $(this).datagrid('refreshRow', index);
-             },
-            onBeginEdit: function (index, row) {
-               //const editors = $(this).datagrid('getEditors', index);
-  
-            },
-            onEndEdit: function (index, row) {
-
-             },
-             onAfterEdit: function (index, row) {
-                   row.editing = false;
-                   customerfile_editIndex = undefined;
-                   $(this).datagrid('refreshRow', index);
-             },
-             onCancelEdit: function (index, row) {
-                customerfile_editIndex = undefined;
-                row.editing = false;
-                $("button[name*='customerfile_deleterowbutton']").prop('disabled', true);
-              $("button[name*='customerfile_cancelchangesbutton']").prop('disabled', true);
-              $("button[name*='customerfile_savechangesbutton']").prop('disabled', true);
-                $(this).datagrid('refreshRow', index);
-            },
-            columns: [[
-            { field: 'ck', checkbox: true },
-		     
-			{    /*文件名*/
-                 field:'FileName', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FileName)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_FileName',
-                                 prompt:'@Html.DescriptionFor(model => model.FileName)',
-                                 required:true, 
-                                 validType: 'length[0,100]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*大小*/
-                 field:'Size', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Size)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_Size',
-                                  prompt:'@Html.DescriptionFor(model => model.Size)',
-                                  required:true,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*目录*/
-                 field:'Folder', 
-                 title:'  @Html.DisplayNameFor(model => model.Folder)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Folder',
-                                 prompt:'@Html.DescriptionFor(model => model.Folder)',
-                                 required:false, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*保存路径*/
-                 field:'FilePath', 
-                 title:'  @Html.DisplayNameFor(model => model.FilePath)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_FilePath',
-                                 prompt:'@Html.DescriptionFor(model => model.FilePath)',
-                                 required:false, 
-                                 validType: 'length[0,50]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*相对路径*/
-                 field:'RelativePath', 
-                 title:'  @Html.DisplayNameFor(model => model.RelativePath)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_RelativePath',
-                                 prompt:'@Html.DescriptionFor(model => model.RelativePath)',
-                                 required:false, 
-                                 validType: 'length[0,50]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*上传用户*/
-                 field:'Owner', 
-                 title:'  @Html.DisplayNameFor(model => model.Owner)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Owner',
-                                 prompt:'@Html.DescriptionFor(model => model.Owner)',
-                                 required:false, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-            {   /*上传时间*/
-                field:'Upload', 
-                title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Upload)', 
-                width:100, 
-                align:'right', 
-                hidden:false,
-                editor:{
-                      type:'datebox',
-                      options:{
-                           id:'editor_Upload',
-                           prompt:'@Html.DescriptionFor(model => model.Upload)',
-                           required:true
-                           }  
-                      },
-                sortable:true, 
-                resizable:true, 
-                formatter:dateformatter 
-			} ,
-			{    /*附件类型*/
-                 field:'Ext', 
-                 title:'  @Html.DisplayNameFor(model => model.Ext)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Ext',
-                                 prompt:'@Html.DescriptionFor(model => model.Ext)',
-                                 required:false, 
-                                 validType: 'length[0,100]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*文件ID*/
-                 field:'FileId', 
-                 title:'  @Html.DisplayNameFor(model => model.FileId)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_FileId',
-                                 prompt:'@Html.DescriptionFor(model => model.FileId)',
-                                 required:false, 
-                                 validType: 'length[0,100]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*关联单号*/
-                 field:'RefKey', 
-                 title:'  @Html.DisplayNameFor(model => model.RefKey)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_RefKey',
-                                 prompt:'@Html.DescriptionFor(model => model.RefKey)',
-                                 required:false, 
-                                 validType: 'length[0,100]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*客户编号*/
-                 field:'CustomerCode', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.CustomerCode)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_CustomerCode',
-                                 prompt:'@Html.DescriptionFor(model => model.CustomerCode)',
-                                 required:true, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*客户名称*/
-                 field:'CustomerName', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.CustomerName)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_CustomerName',
-                                 prompt:'@Html.DescriptionFor(model => model.CustomerName)',
-                                 required:true, 
-                                 validType: 'length[0,80]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-            ]]
-            })
-            .datagrid('enableFilter',[
-				{    /*大小*/
-					  field: 'Size',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{     /*上传时间*/
-					  field: 'Upload',
-					  type: 'dateRange',
-					  options: {
-					  }
-				  },
-		   ]);
+           fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      onLoadSuccess: function (data) {
+        productfile_editIndex = undefined;
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='productfile_deletebutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='productfile_deletebutton']").prop('disabled', !checked);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='productfile_deletebutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='productfile_deletebutton']").prop('disabled', true);
+      },
+     columns: [[
+        { field: 'ck', checkbox: true },
+       {
+         field: 'action',
+         title: '操作',
+         align: 'center',
+         width: 65,
+         formatter: function (v,row) {
+           return `<button onclick="downloadFile('${row.RelativePath }')" class="btn btn-outline-primary btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="下载" ><i class="fal fa-download"></i> </button>`
+         }
+       },
+        {    /*文件名*/
+          field: 'FileName',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FileName)',
+          width: 200,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*大小*/
+          field: 'Size',
+          title: '  @Html.DisplayNameFor(model => model.Size)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          formatter: filesizeformatter,
+          sortable: true,
+          resizable: true,
+        },
+        {    /*上传用户*/
+          field: 'Owner',
+          title: '  @Html.DisplayNameFor(model => model.Owner)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {   /*上传时间*/
+          field: 'Upload',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Upload)',
+          width: 150,
+          align: 'right',
+          hidden: false,
+          sortable: true,
+          resizable: true,
+          formatter: datetimeformatter
+        },
+      ]]
+    })
+      .datagrid('enableFilter', [
+        {    /*大小*/
+          field: 'Size',
+          type: 'numberbox',
+          op: ['equal', 'notequal', 'less', 'lessorequal', 'greater', 'greaterorequal']
+        },
+        {     /*上传时间*/
+          field: 'Upload',
+          type: 'dateRange',
+          options: {
+          }
+        },
+      ]);
   });
-      
-</script>
+
+  </script>
 
 
  

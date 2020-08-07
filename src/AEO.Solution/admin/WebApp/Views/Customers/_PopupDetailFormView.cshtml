@@ -833,29 +833,21 @@
                 <button name="customerfile_searchbutton"
                         type="button"
                         class="btn btn-default waves-effect waves-themed"
-                        onclick="customerfile_reloadData()">
+                        >
                   查询
                 </button>
-                <button name="customerfile_appenditembutton"
+                <button name="productfile_addbutton"
                         type="button"
-                        class="btn btn-default waves-effect waves-themed">
-                  新增
+                        class="btn btn-default waves-effect waves-themed"
+                         >
+                  上传文件
                 </button>
                 <button name="customerfile_deleterowbutton"
                         type="button"
                         class="btn btn-default waves-effect waves-themed">
                   删除
                 </button>
-                <button name="customerfile_cancelchangesbutton"
-                        type="button"
-                        class="btn btn-default waves-effect waves-themed">
-                  取消
-                </button>
-                <button name="customerfile_savechangesbutton"
-                        type="button"
-                        class="btn btn-default waves-effect waves-themed">
-                  保存
-                </button>
+                
               </div>
 
             </div>
@@ -1019,10 +1011,9 @@
     $('button[name="customercontact_cancelchangesbutton"]').on('click', customercontact_rejectChanges);
     $('button[name="customercontact_savechangesbutton"]').on('click', customercontact_acceptChanges);
     $('button[name="customerfile_searchbutton"]').on('click', customerfile_reloadData);
-    $('button[name="customerfile_appenditembutton"]').on('click', customerfile_appendItem);
+    $('button[name="productfile_addbutton"]').on('click', openuploadfilemodal);
     $('button[name="customerfile_deleterowbutton"]').on('click', customerfile_removeItem);
-    $('button[name="customerfile_cancelchangesbutton"]').on('click', customerfile_rejectChanges);
-    $('button[name="customerfile_savechangesbutton"]').on('click', customerfile_acceptChanges);
+    
     $('button[name="customerfollow_searchbutton"]').on('click', customerfollow_reloadData);
     $('button[name="customerfollow_appenditembutton"]').on('click', customerfollow_appendItem);
     $('button[name="customerfollow_deleterowbutton"]').on('click', customerfollow_removeItem);
