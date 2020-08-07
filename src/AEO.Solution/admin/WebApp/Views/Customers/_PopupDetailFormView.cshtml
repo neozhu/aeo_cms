@@ -1052,11 +1052,12 @@
       $('#deleteitem-btn-group').hide();
       $('#follow-btn-group').hide();
       $('#more-btn-group').hide();
-
+      $('div[class="btn-group btn-group-sm mr-2"] button').attr('disabled', 'disabled');
     } else {
       $('#deleteitem-btn-group').show();
       $('#follow-btn-group').show();
       $('#more-btn-group').show();
+      $('div[class="btn-group btn-group-sm mr-2"] button').removeAttr('disabled');
     }
     initcustomerdetailview();
     customerid = (data.Id || 0);

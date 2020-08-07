@@ -456,41 +456,7 @@ $(() => {
                 resizable:true,
                 hidden:false,
                 formatter:intformatter
-			},
-			{    /*客户编号(保存时系统自动分配也可以手工选择)*/
-                 field:'CustomerCode', 
-                 title:'  @Html.DisplayNameFor(model => model.CustomerCode)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_CustomerCode',
-                                 prompt:'@Html.DescriptionFor(model => model.CustomerCode)',
-                                 required:false, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*客户名称*/
-                 field:'CustomerName', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.CustomerName)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_CustomerName',
-                                 prompt:'@Html.DescriptionFor(model => model.CustomerName)',
-                                 required:true, 
-                                 validType: 'length[0,80]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
+			}
             ]]
             })
             .datagrid('enableFilter',[
