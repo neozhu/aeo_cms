@@ -43,6 +43,8 @@ namespace WebApp.Models
     public string Notes { get; set; }
     [Display(Name = "分数", Description = "分数")]
     public int StdScore { get; set; }
+    [Display(Name = "测试分数", Description = "测试分数")]
+    public int Score { get; set; }
     [Display(Name = "评分说明", Description = "评分说明")]
     [MaxLength(256)]
     public string ScoreDescription { get; set; }
@@ -52,6 +54,8 @@ namespace WebApp.Models
     [Display(Name = "测试人", Description = "测试人")]
     [MaxLength(28)]
     public string Tester { get; set; }
+    [Display(Name = "测试时间", Description = "测试时间")]
+    public DateTime? TestDateTime { get; set; }
     [Display(Name = "AEO自认证测评", Description = "AEO自认证测评")]
     public int AeoAuthTestId { get; set; }
     [Display(Name = "AEO自认证测评", Description = "AEO自认证测评")]

@@ -587,6 +587,10 @@
     <Compile Include="Migrations\202008100742363_md_changeaeotest.designer.cs">
       <DependentUpon>202008100742363_md_changeaeotest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008101006244_md-chtest.cs" />
+    <Compile Include="Migrations\202008101006244_md-chtest.designer.cs">
+      <DependentUpon>202008101006244_md-chtest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -4182,6 +4186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008100742363_md_changeaeotest.resx">
       <DependentUpon>202008100742363_md_changeaeotest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008101006244_md-chtest.resx">
+      <DependentUpon>202008101006244_md-chtest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
