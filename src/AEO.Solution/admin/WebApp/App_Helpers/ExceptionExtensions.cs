@@ -38,7 +38,7 @@ The statement has been terminated.");
                 {
                   var table = mc.Groups["table"].Value;
                   var index = mc.Groups["index"].Value;
-                  message = $"有关联的明细数据存在,不允许删除该记录.在表:{table}上有约束:{index}";
+                  message = $"有关联的数据存在,不允许删除该记录.在表:{table}上有约束:{index}";
                 }
                 else
                 {
@@ -53,7 +53,7 @@ The statement has been terminated.");
                   var tablename = match?.Groups["tableName"].Value;
                   var indexname = match?.Groups["indexName"].Value;
                   var keyvalue = match?.Groups["keyValues"].Value;
-                  message = $"值:{keyvalue} 已经存在表 {tablename} 中已存在,不允许重复插入,约束:{indexname}";
+                  message = $"值:{keyvalue} 已经存在,不允许重复.索引:{indexname}";
                 }
                 else
                 {

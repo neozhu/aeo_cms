@@ -111,26 +111,11 @@ namespace WebApp.Controllers
         filedata.SaveAs(virtualPath);
         return this.Json(new { success = true, filename = newfileName, elapsedTime = elapsedTime }, JsonRequestBehavior.AllowGet);
       }
-      catch (System.Data.SqlClient.SqlException e)
-      {
-        this.logger.Error(e, $"文件名:{uploadfilename},{e.GetBaseException().Message}");
-        return this.Json(new { success = false, filename = uploadfilename, message = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
-      }
-      catch (System.Data.Entity.Infrastructure.DbUpdateException e)
-      {
-        this.logger.Error(e, $"文件名:{uploadfilename},{e.GetBaseException().Message}");
-        return this.Json(new { success = false, filename = uploadfilename, message = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
-      }
-      catch (System.Data.Entity.Validation.DbEntityValidationException e)
-      {
-        var errormessage = string.Join(",", e.EntityValidationErrors.Select(x => x.ValidationErrors.FirstOrDefault()?.PropertyName + ":" + x.ValidationErrors.FirstOrDefault()?.ErrorMessage).Distinct());
-        this.logger.Error(e, $"文件名:{uploadfilename},{errormessage}");
-        return this.Json(new { success = false, filename = uploadfilename, message = errormessage }, JsonRequestBehavior.AllowGet);
-      }
+      
       catch (Exception e)
       {
-        this.logger.Error(e, $"文件名:{uploadfilename},{e.GetBaseException().Message}");
-        return this.Json(new { success = false, filename = uploadfilename, message = e.GetBaseException().Message }, JsonRequestBehavior.AllowGet);
+        this.logger.Error(e, $"文件名:{uploadfilename},{e.GetMessage()}");
+        return this.Json(new { success = false, filename = uploadfilename, message = e.GetMessage() }, JsonRequestBehavior.AllowGet);
       }
     }
 

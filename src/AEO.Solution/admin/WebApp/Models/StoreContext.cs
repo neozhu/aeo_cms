@@ -81,6 +81,11 @@ namespace WebApp.Models
 
     #endregion
 
+    #region AEO自测
+    public DbSet<QuestionTpl> QuestionTpls { get; set; }
+    public DbSet<AeoAuthTest> AeoAuthTests { get; set; }
+    public DbSet<AeoQuestion> AeoQuestions { get; set; }
+    #endregion
     //业务相关
 
     #region 系统必须

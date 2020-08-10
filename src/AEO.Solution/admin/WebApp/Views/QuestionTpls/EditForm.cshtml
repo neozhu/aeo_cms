@@ -1,0 +1,90 @@
+﻿﻿@model WebApp.Models.QuestionTpl
+  <div class="form-row">
+   @Html.HiddenFor(x=>x.Id)
+         <!--模板名-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Tpl)</label>
+			@Html.EditorFor(x => x.Tpl, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Tpl) } })
+      
+         </div>
+
+        <!--AEO认证类别-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.AuthType)</label>
+			@Html.EditorFor(x => x.AuthType, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.AuthType) } })
+      
+         </div>
+
+        <!--类别-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Category)</label>
+			@Html.EditorFor(x => x.Category, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Category) } })
+      
+         </div>
+
+        <!--说明-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Description)</label>
+			@Html.EditorFor(x => x.Description, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Description) } })
+      
+         </div>
+
+        <!--代码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Code)</label>
+			@Html.EditorFor(x => x.Code, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Code) } })
+      
+         </div>
+
+        <!--名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Title)</label>
+			@Html.EditorFor(x => x.Title, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Title) } })
+      
+         </div>
+
+        <!--简称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Short)</label>
+			@Html.EditorFor(x => x.Short, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Short) } })
+      
+         </div>
+
+        <!--标准说明-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.StdDescription)</label>
+			@Html.EditorFor(x => x.StdDescription, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.StdDescription) } })
+      
+         </div>
+
+        <!--注意-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Notes)</label>
+			@Html.EditorFor(x => x.Notes, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Notes) } })
+      
+         </div>
+
+		<!--分数-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.StdScore)</label>
+            @Html.EditorFor(x => x.StdScore, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.StdScore) } })
+
+        </div>
+
+        <!--评分说明-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ScoreDescription)</label>
+			@Html.EditorFor(x => x.ScoreDescription, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ScoreDescription) } })
+      
+         </div>
+
+        <!--备注-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.Remark)</label>
+			@Html.EditorFor(x => x.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Remark) } })
+      
+         </div>
+
+	    
+</div>
+

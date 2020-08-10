@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using Repository.Pattern.Ef6;
+
+namespace WebApp.Models
+{
+  //自测题库模板
+  public partial class QuestionTpl:Entity
+  {
+    [Display(Name = "模板名", Description = "模板名")]
+    [MaxLength(128)]
+    [Required]
+    public string Tpl { get; set; }
+    [Display(Name = "AEO认证类别", Description = "AEO认证类别")]
+    [MaxLength(128)]
+    [Required]
+    public string AuthType { get; set; }
+    [Display(Name = "类别", Description = "类别")]
+    [MaxLength(128)]
+    [Required]
+    public string Category { get; set; }
+    [Display(Name = "说明", Description = "说明")]
+    [MaxLength(128)]
+    public string Description { get; set; }
+    [Display(Name = "代码", Description = "代码")]
+    [MaxLength(12)]
+    public string Code { get; set; }
+    [Display(Name = "项目", Description = "项目")]
+    [MaxLength(128)]
+    public string Title { get; set; }
+    [Display(Name = "简称", Description = "简称")]
+    [MaxLength(128)]
+    public string Short { get; set; }
+    [Display(Name = "标准说明", Description = "标准说明")]
+    [MaxLength(256)]
+    public string StdDescription { get; set; }
+    [Display(Name = "注意", Description = "注意")]
+    [MaxLength(128)]
+    public string Notes { get; set; }
+    [Display(Name = "分数", Description = "分数")]
+    public int StdScore { get; set; }
+    [Display(Name = "评分说明", Description = "评分说明")]
+    [MaxLength(256)]
+    public string ScoreDescription { get; set; }
+    [Display(Name = "备注", Description = "备注")]
+    [MaxLength(128)]
+    public string Remark { get; set; }
+    
+  }
+}

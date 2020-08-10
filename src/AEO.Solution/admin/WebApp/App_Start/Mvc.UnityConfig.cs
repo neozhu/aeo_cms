@@ -125,6 +125,9 @@ namespace WebApp
       container.RegisterType<ICustomerWarehouseService, CustomerWarehouseService>();
       container.RegisterType<IRepositoryAsync<CustomerAttentionProduct>, Repository<CustomerAttentionProduct>>();
       container.RegisterType<ICustomerAttentionProductService, CustomerAttentionProductService>();
+      //AEO自测
+      container.RegisterType<IRepositoryAsync<QuestionTpl>, Repository<QuestionTpl>>();
+      container.RegisterType<IQuestionTplService, QuestionTplService>();
       ///    
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();

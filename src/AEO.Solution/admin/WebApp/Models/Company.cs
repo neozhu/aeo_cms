@@ -12,8 +12,7 @@ namespace WebApp.Models
   public partial class Company : Entity
   {
 
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "企业名称", Description = "企业名称")]
     [MaxLength(50)]
     [Required]

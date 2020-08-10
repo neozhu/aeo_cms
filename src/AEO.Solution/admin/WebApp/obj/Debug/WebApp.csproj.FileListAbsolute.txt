@@ -465,3 +465,8 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_c
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.csprojAssemblyReference.cache
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_changecompanylength.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_changecompanylength1.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_aeotest.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.QuestionTpl.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.QuestionTpl.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.QuestionTpl.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_changeaeotest.resources

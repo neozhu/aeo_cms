@@ -391,6 +391,7 @@
   <ItemGroup>
     <Compile Include="App_Helpers\ExceptionExtensions.cs" />
     <Compile Include="App_Helpers\HubInjectorResolver.cs" />
+    <Compile Include="App_Helpers\JsonNetResult.cs" />
     <Compile Include="App_Helpers\NPOIHelper.cs" />
     <Compile Include="App_Helpers\PredicateBuilder.cs" />
     <Compile Include="App_Helpers\SqlSugarFactory.cs" />
@@ -440,6 +441,7 @@
     <Compile Include="Controllers\DataTableImportMappingsController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\EFMigrationsManagerController.cs" />
+    <Compile Include="Controllers\FileManagerController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
@@ -453,6 +455,7 @@
     <Compile Include="Controllers\ProductPurchaseHistoricalPricesController.cs" />
     <Compile Include="Controllers\ProductSalesHistoricalPricesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\QuestionTplsController.cs" />
     <Compile Include="Controllers\RoleManageController.cs" />
     <Compile Include="Controllers\RoleMenusController.cs" />
     <Compile Include="Controllers\TenantsController.cs" />
@@ -576,7 +579,16 @@
     <Compile Include="Migrations\202008070144117_md_changecompanylength1.designer.cs">
       <DependentUpon>202008070144117_md_changecompanylength1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008100707361_md_aeotest.cs" />
+    <Compile Include="Migrations\202008100707361_md_aeotest.designer.cs">
+      <DependentUpon>202008100707361_md_aeotest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008100742363_md_changeaeotest.cs" />
+    <Compile Include="Migrations\202008100742363_md_changeaeotest.designer.cs">
+      <DependentUpon>202008100742363_md_changeaeotest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
+    <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
     <Compile Include="Models\Category.cs" />
@@ -602,12 +614,15 @@
     <Compile Include="Models\Metadata\ProductPrictureMetadata.cs" />
     <Compile Include="Models\Metadata\ProductPurchaseHistoricalPriceMetadata.cs" />
     <Compile Include="Models\Metadata\ProductSalesHistoricalPriceMetadata.cs" />
+    <Compile Include="Models\Metadata\QuestionTplMetadata.cs" />
     <Compile Include="Models\ProductRefCustomerTrade.cs" />
     <Compile Include="Models\ProductRefCustomerPicture.cs" />
     <Compile Include="Models\ProductRefCustomer.cs" />
     <Compile Include="Models\ProductExtend.cs" />
     <Compile Include="Models\ProductPricture.cs" />
     <Compile Include="Models\ProductRef.cs" />
+    <Compile Include="Models\AeoQuestion.cs" />
+    <Compile Include="Models\QuestionTpl.cs" />
     <Compile Include="Models\QuotationFile.cs" />
     <Compile Include="Models\QuotationProduct.cs" />
     <Compile Include="Models\InquiryRef.cs" />
@@ -648,6 +663,7 @@
     <Compile Include="Models\resource\ProductPricture.Designer.cs" />
     <Compile Include="Models\resource\ProductPurchaseHistoricalPrice.Designer.cs" />
     <Compile Include="Models\resource\ProductSalesHistoricalPrice.Designer.cs" />
+    <Compile Include="Models\resource\QuestionTpl.Designer.cs" />
     <Compile Include="Models\ViewModel\ErrorViewModel.cs" />
     <Compile Include="Models\ViewModel\logtotal.cs" />
     <Compile Include="Models\ViewModel\NavigationModel.cs" />
@@ -697,6 +713,8 @@
     <Compile Include="Repositories\ProductSalesHistoricalPrices\ProductSalesHistoricalPriceRepository.cs" />
     <Compile Include="Repositories\Products\ProductQuery.cs" />
     <Compile Include="Repositories\Products\ProductRepository.cs" />
+    <Compile Include="Repositories\QuestionTpls\QuestionTplQuery.cs" />
+    <Compile Include="Repositories\QuestionTpls\QuestionTplRepository.cs" />
     <Compile Include="resource\Global.zh-TW.Designer.cs">
       <DependentUpon>Global.zh-TW.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -756,6 +774,8 @@
     <Compile Include="Services\ProductSalesHistoricalPrices\ProductSalesHistoricalPriceService.cs" />
     <Compile Include="Services\Products\IProductService.cs" />
     <Compile Include="Services\Products\ProductService.cs" />
+    <Compile Include="Services\QuestionTpls\IQuestionTplService.cs" />
+    <Compile Include="Services\QuestionTpls\QuestionTplService.cs" />
     <Compile Include="SmartHubs\ChatHub.cs" />
     <Compile Include="App_Start\CustomModelBinders.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -3983,6 +4003,14 @@
     <Content Include="Views\Companies\Edit.cshtml" />
     <Content Include="Views\Companies\EditForm.cshtml" />
     <Content Include="Views\Customers\_PluploadModal.cshtml" />
+    <Content Include="Views\QuestionTpls\_DisplayForm.cshtml" />
+    <Content Include="Views\QuestionTpls\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\QuestionTpls\Index.cshtml" />
+    <Content Include="Views\QuestionTpls\Create.cshtml" />
+    <Content Include="Views\QuestionTpls\Details.cshtml" />
+    <Content Include="Views\QuestionTpls\Edit.cshtml" />
+    <Content Include="Views\QuestionTpls\EditForm.cshtml" />
+    <Content Include="Views\QuestionTpls\_ImportWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4149,6 +4177,12 @@
     <EmbeddedResource Include="Migrations\202008070144117_md_changecompanylength1.resx">
       <DependentUpon>202008070144117_md_changecompanylength1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008100707361_md_aeotest.resx">
+      <DependentUpon>202008100707361_md_aeotest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008100742363_md_changeaeotest.resx">
+      <DependentUpon>202008100742363_md_changeaeotest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4185,6 +4219,9 @@
     <EmbeddedResource Include="Models\resource\ProductSalesHistoricalPrice.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ProductSalesHistoricalPrice.resx" />
     <EmbeddedResource Include="Models\resource\ProductSalesHistoricalPrice.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\QuestionTpl.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\QuestionTpl.resx" />
+    <EmbeddedResource Include="Models\resource\QuestionTpl.zh-TW.resx" />
     <EmbeddedResource Include="resource\Global.zh-TW.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.zh-TW.Designer.cs</LastGenOutput>
