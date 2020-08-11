@@ -93,15 +93,17 @@ namespace WebApp
       //var currentAction =
       //    ( helper.ViewContext.RequestContext.RouteData.Values["action"] ?? string.Empty ).ToString().UnDash();
 
-      var currentController =
-         ( helper.ViewContext.HttpContext.Request.RequestContext.RouteData.Values["controller"] ?? string.Empty ).ToString().UnDash();
-      var currentAction =
-          ( helper.ViewContext.HttpContext.Request.RequestContext.RouteData.Values["action"] ?? string.Empty ).ToString().UnDash();
+      var url = helper.ViewContext.HttpContext.Request.Url.LocalPath;
+      var exist = values.Contains(url);
+      //var currentController =
+      //   ( helper.ViewContext.HttpContext.Request.RequestContext.RouteData.Values["controller"] ?? string.Empty ).ToString().UnDash();
+      //var currentAction =
+      //    ( helper.ViewContext.HttpContext.Request.RequestContext.RouteData.Values["action"] ?? string.Empty ).ToString().UnDash();
 
-      var hasController = values.Contains(currentController, StringComparer.InvariantCultureIgnoreCase);
-      var hasAction = values.Contains(currentAction, StringComparer.InvariantCultureIgnoreCase);
+      //var hasController = values.Contains(currentController, StringComparer.InvariantCultureIgnoreCase);
+      //var hasAction = values.Contains(currentAction, StringComparer.InvariantCultureIgnoreCase);
 
-      return hasAction || hasController ? new HtmlString(attribute) : new HtmlString(string.Empty);
+      return exist ? new HtmlString(attribute) : new HtmlString(string.Empty);
     }
 
     /// <summary>

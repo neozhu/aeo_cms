@@ -1,0 +1,685 @@
+﻿﻿@model WebApp.Models.AeoAuthTest
+<!-- 弹出编辑窗体表单 -->
+ <div id="aeoauthtestdetailwindow" class="easyui-window" 
+      title="明细数据" 
+      data-options="modal:true,
+                    closed:true,
+                    minimizable:false,
+                    collapsible:false,
+                    maximized:false,
+                    iconCls:'fal fa-window',
+                    onBeforeClose:function(){
+                      var that = $(this);
+                      if(aeoauthtesthasmodified()){
+                        $.messager.confirm('确认','你确定要放弃保存修改的记录?',function(r){
+                        if (r){
+                          var opts = that.panel('options');
+                          var onBeforeClose = opts.onBeforeClose;
+                          opts.onBeforeClose = function(){};
+                          that.panel('close');
+                          opts.onBeforeClose = onBeforeClose;
+                          hook = false;
+                        }
+                        });
+                        return false;
+                      }
+                    },
+                    onOpen:function(){
+                       $(this).window('vcenter');
+                       $(this).window('hcenter');
+                    },
+                    onRestore:function(){
+                      $aeoquestiondg.datagrid('resize');
+                    },
+                    onMaximize:function(){
+                      $aeoquestiondg.datagrid('resize');
+                    }
+                    " style="width:800px;height:450px;display:none">
+  <!-- toolbar -->
+  <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
+  <div class="d-flex justify-content-end pr-4">
+        <div class="btn-group btn-group-sm mr-1">
+          <button name="saveitembutton"   class="btn btn-default">
+            <i class="fal fa-save"></i> @Html.L("Save")
+          </button>
+        </div>
+        <div class="btn-group btn-group-sm mr-1" id="deleteitem-btn-group">
+          <button  name="deleteitembutton" class="btn btn-danger">
+            <i class="fal fa-trash-alt"></i> @Html.L("Delete")
+          </button>
+        </div>
+    </div>
+  </div>
+ <!-- panel container form  -->
+ <div class="panel-container show">
+   <div class="container">
+    <div class="panel-content">
+           <form id="aeoauthtest_form" 
+              class="easyui-form form-horizontal padding-10" 
+              method="post" 
+              data-options="novalidate:true,
+                            onChange: function(target){
+                              hook = true;
+                              $('button[name*=\'saveitembutton\']').prop('disabled', false);
+                             },
+                             onLoadSuccess:function(data){
+                               hook = false;
+                               $('button[name*=\'saveitembutton\']').prop('disabled', true);
+                             }">
+  @Html.AntiForgeryToken()
+   <!--Primary Key-->
+  @Html.HiddenFor(model=>model.Id)
+   <fieldset class="form-group">
+   <div class="row h-100 align-items-center">
+
+   <!--企业名称-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Name)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Name)" 
+				   name="@Html.NameFor(model => model.Name)" 
+				   value="@Html.ValueFor(model => model.Name)"
+				   tabindex="0" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Name)',
+								 required:false, 
+                                 validType: 'length[0,128]'
+                                 " />
+       </div>
+				   
+   <!--企业十位编码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.TradeCode)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.TradeCode)" 
+				   name="@Html.NameFor(model => model.TradeCode)" 
+				   value="@Html.ValueFor(model => model.TradeCode)"
+				   tabindex="1" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.TradeCode)',
+								 required:false, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+
+   <!--统一社会信用代码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.CreditCode)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.CreditCode)" 
+				   name="@Html.NameFor(model => model.CreditCode)" 
+				   value="@Html.ValueFor(model => model.CreditCode)"
+				   tabindex="2" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.CreditCode)',
+								 required:false, 
+                                 validType: 'length[0,18]'
+                                 " />
+       </div>
+				   
+   <!--企业类型-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Ctype)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Ctype)" 
+				   name="@Html.NameFor(model => model.Ctype)" 
+				   value="@Html.ValueFor(model => model.Ctype)"
+				   tabindex="3" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Ctype)',
+								 required:false, 
+                                 validType: 'length[0,128]'
+                                 " />
+       </div>
+				   
+
+   <!--测试编号-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.TestNo)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.TestNo)" 
+				   name="@Html.NameFor(model => model.TestNo)" 
+				   value="@Html.ValueFor(model => model.TestNo)"
+				   tabindex="4" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.TestNo)',
+								 required:true, 
+                                 validType: 'length[0,20]'
+                                 " />
+       </div>
+				   
+   <!--AEO认证类别-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.AuthType)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.AuthType)" 
+				   name="@Html.NameFor(model => model.AuthType)" 
+				   value="@Html.ValueFor(model => model.AuthType)"
+				   tabindex="5" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.AuthType)',
+								 required:false, 
+                                 validType: 'length[0,128]'
+                                 " />
+       </div>
+				   
+
+   <!--主管海关代码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.MasterCustom)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.MasterCustom)" 
+				   name="@Html.NameFor(model => model.MasterCustom)" 
+				   value="@Html.ValueFor(model => model.MasterCustom)"
+				   tabindex="6" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.MasterCustom)',
+								 required:false, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+   <!--海关注册日期-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.RegistDate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+                <input id="@Html.IdFor(model => model.RegistDate)" 
+			       name="@Html.NameFor(model => model.RegistDate)"
+                   value="@Html.ValueFor(model => model.RegistDate)"
+           		   tabindex="7"  
+				   class="easyui-datebox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.RegistDate)',
+								 required:false,
+								 formatter:dateformatter" />
+     </div>
+				   
+
+   <!--是否境外-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.IsForeign)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.IsForeign)" 
+				   name="@Html.NameFor(model => model.IsForeign)" 
+				   value="@Html.ValueFor(model => model.IsForeign)"
+				   tabindex="8" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.IsForeign)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--特殊区域-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Zone)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Zone)" 
+				   name="@Html.NameFor(model => model.Zone)" 
+				   value="@Html.ValueFor(model => model.Zone)"
+				   tabindex="9" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Zone)',
+								 required:false, 
+                                 validType: 'length[0,128]'
+                                 " />
+       </div>
+				   
+
+   <!--海关注册时长-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.RegistedTime)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.RegistedTime)"
+				   name="@Html.NameFor(model => model.RegistedTime)" 
+				   value="@Html.ValueFor(model => model.RegistedTime)"
+				   tabindex="10" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.RegistedTime)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+   <!--单位-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Unit)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Unit)" 
+				   name="@Html.NameFor(model => model.Unit)" 
+				   value="@Html.ValueFor(model => model.Unit)"
+				   tabindex="11" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Unit)',
+								 required:false, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+
+   <!--自评日期-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.AuthDate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+                <input id="@Html.IdFor(model => model.AuthDate)" 
+			       name="@Html.NameFor(model => model.AuthDate)"
+                   value="@Html.ValueFor(model => model.AuthDate)"
+           		   tabindex="12"  
+				   class="easyui-datebox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.AuthDate)',
+								 required:false,
+								 formatter:dateformatter" />
+     </div>
+				   
+   <!--测试人-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Tester)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Tester)" 
+				   name="@Html.NameFor(model => model.Tester)" 
+				   value="@Html.ValueFor(model => model.Tester)"
+				   tabindex="13" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Tester)',
+								 required:false, 
+                                 validType: 'length[0,28]'
+                                 " />
+       </div>
+				   
+
+   <!--年份-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Year)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Year)"
+				   name="@Html.NameFor(model => model.Year)" 
+				   value="@Html.ValueFor(model => model.Year)"
+				   tabindex="14" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Year)',
+								 required:false,formatter:intformatter,
+                                 parser:parsernumber,
+                                 " />
+      </div>
+				   
+   <!--评定开始日期-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.BeginDate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+                <input id="@Html.IdFor(model => model.BeginDate)" 
+			       name="@Html.NameFor(model => model.BeginDate)"
+                   value="@Html.ValueFor(model => model.BeginDate)"
+           		   tabindex="15"  
+				   class="easyui-datebox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.BeginDate)',
+								 required:false,
+								 formatter:dateformatter" />
+     </div>
+				   
+
+   <!--评定结束日期-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.EndDate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+                <input id="@Html.IdFor(model => model.EndDate)" 
+			       name="@Html.NameFor(model => model.EndDate)"
+                   value="@Html.ValueFor(model => model.EndDate)"
+           		   tabindex="16"  
+				   class="easyui-datebox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.EndDate)',
+								 required:false,
+								 formatter:dateformatter" />
+     </div>
+				   
+   <!--备注-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Remark)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Remark)" 
+				   name="@Html.NameFor(model => model.Remark)" 
+				   value="@Html.ValueFor(model => model.Remark)"
+				   tabindex="17" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Remark)',
+								 required:false, 
+                                 validType: 'length[0,512]'
+                                 " />
+       </div>
+				   
+
+   <!--状态-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Status)" 
+				   name="@Html.NameFor(model => model.Status)" 
+				   value="@Html.ValueFor(model => model.Status)"
+				   tabindex="18" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
+								 required:false, 
+                                 validType: 'length[0,12]'
+                                 " />
+       </div>
+				   
+   <!--合格分数-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.StdScore)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.StdScore)"
+				   name="@Html.NameFor(model => model.StdScore)" 
+				   value="@Html.ValueFor(model => model.StdScore)"
+				   tabindex="19" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.StdScore)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+
+   <!--分数-->
+       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Score)</label>
+	   <div class="col-md-4 mb-1 pl-1">  
+             <input id="@Html.IdFor(model => model.Score)"
+				   name="@Html.NameFor(model => model.Score)" 
+				   value="@Html.ValueFor(model => model.Score)"
+				   tabindex="20" 
+				   class="easyui-numberbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Score)',
+								 required:false,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
+                                 
+                                 "  />
+
+        </div>
+				   
+   <!--结果-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Result)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.Result)" 
+				   name="@Html.NameFor(model => model.Result)" 
+				   value="@Html.ValueFor(model => model.Result)"
+				   tabindex="21" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.Result)',
+								 required:false, 
+                                 validType: 'length[0,128]'
+                                 " />
+       </div>
+				   
+	    </div> 
+      </fieldset>
+   </form>
+ <ul class="nav nav-tabs nav-tabs-clean" role="tablist">
+     <li class="nav-item">
+         <a class="nav-link active"
+            data-toggle="tab"
+            data-model="aeoquestion"
+            href="#tab-aeoquestion"
+            role="tab">aeoquestion</a>
+     </li>
+  </ul>
+  <div class="tab-content p-0">
+   <div class="tab-pane fade show active"
+              id="tab-aeoquestion"
+              data-model="aeoquestion"
+              role="tabpanel"
+              aria-labelledby="tab-aeoquestion">
+
+           <div class="d-flex justify-content-start flex-wrap p-2">
+             <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
+               <button 
+               name="aeoquestion_searchbutton"
+               type="button" 
+               class="btn btn-default waves-effect waves-themed"
+               onclick="aeoquestion_reloadData()"
+               >
+               查询
+               </button>
+               <button 
+                name="aeoquestion_appenditembutton"
+                type="button" 
+                class="btn btn-default waves-effect waves-themed"
+               >
+               新增
+               </button>
+               <button 
+               name="aeoquestion_deleterowbutton"
+               type="button" 
+               class="btn btn-default waves-effect waves-themed"
+               >
+               删除
+               </button>
+               <button 
+               name="aeoquestion_cancelchangesbutton"
+               type="button" 
+               class="btn btn-default waves-effect waves-themed"
+               >取消</button>
+               <button 
+               name="aeoquestion_savechangesbutton"
+               type="button" 
+               class="btn btn-default waves-effect waves-themed"
+               >保存</button>
+             </div>
+
+           </div>
+           <div class="table-responsive">
+           <table class="m-0" id="aeoquestion_datagrid">
+           </table>
+           </div>
+     </div>
+  </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<!-- 弹出窗体form表单 -->
+<!-- 弹出编辑对话框 -->
+<!-- aeoquestion datagrid  javascript block -->
+@Html.Partial("_AeoQuestionEditForm", new WebApp.Models.AeoQuestion())
+
+<!--begin popup detailview javascript block -->
+<script type="text/javascript">
+ //当初始的 HTML 文档被完全加载和解析完成之后
+ document.addEventListener('DOMContentLoaded', function () {
+     //绑定按钮事件
+    $('button[name="saveitembutton"]').on('click', saveaeoauthtestitem);
+    $('button[name="deleteitembutton"]').on('click', deleteaeoauthtestitem);
+ $('button[name="aeoquestion_searchbutton"]').on('click', aeoquestion_reloadData);
+ $('button[name="aeoquestion_appenditembutton"]').on('click', aeoquestion_appendItem);
+ $('button[name="aeoquestion_deleterowbutton"]').on('click', aeoquestion_removeItem);
+ $('button[name="aeoquestion_cancelchangesbutton"]').on('click', aeoquestion_rejectChanges);
+ $('button[name="aeoquestion_savechangesbutton"]').on('click', aeoquestion_acceptChanges);
+ $('a[data-toggle="tab"]').on('shown.bs.tab', (e)=> {
+    const model = $(e.target).data('model');
+    $(`#${model}dg`).datagrid('resize');
+ })
+  });
+    //判断新增编辑状态
+    var MODELSTATE = 'Added';
+    var aeoauthtestid = null;
+    function openaeoauthtestdetailwindow(data,state) {
+         MODELSTATE = state;
+         //判断是否显示功能按钮
+        if (MODELSTATE === 'Added') {
+          $('#deleteitem-btn-group').hide();
+        } else {
+          $('#deleteitem-btn-group').show();
+        }
+        initaeoauthtestdetailview();
+         aeoauthtestid = (data.Id || 0);
+         $('#aeoauthtestdetailwindow').window('open');
+         $('#aeoauthtest_form').form('reset');
+         $('#aeoauthtest_form').form('load', data);
+                   var url='/AeoQuestions/GetDataByAeoAuthTestId?aeoauthtestid=' +  aeoauthtestid;
+          $aeoquestiondg.datagrid('load',url);
+          $aeoquestiondg.datagrid('resize');
+             }
+  //删除当前记录
+  function deleteaeoauthtestitem() {
+    $.messager.confirm('确认', '你确定要删除该记录?', result => {
+      if (result) {
+        const url = `/AeoAuthTests/Delete/${aeoauthtestid}`;
+        $.get(url).done(res => {
+          if (res.success) {
+            toastr.success("删除成功");
+            $('#aeoauthtestdetailwindow').window('close');
+            reloadData();
+          } else {
+            $.messager.alert('错误', res.err, 'error');
+          }
+        });
+      }
+    });
+  }
+    //async 保存数据
+    async function saveaeoauthtestitem() { 
+      const $aeoauthtestform = $('#aeoauthtest_form');
+      if ($aeoauthtestform.form('enableValidation').form('validate')) {
+            let aeoauthtest = $aeoauthtestform.serializeJSON();
+				  //获取明细表数据
+ 
+                      const aeoquestion_result = await aeoquestion_acceptChanges();
+                      if (!aeoquestion_result.success) {
+                         return false;
+                      } else {
+                         aeoauthtest.Aeoquestions = aeoquestion_result.changed;
+                      }
+                      
+            let url = '/AeoAuthTests/Edit';
+            //判断是新增或是修改方法
+            if (MODELSTATE === 'Added') {
+                url = '/AeoAuthTests/Create';
+            }
+            var token = $('input[name="__RequestVerificationToken"]', $aeoauthtestform).val();
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        __RequestVerificationToken: token,
+                        aeoauthtest:aeoauthtest
+                    },
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+                })
+                .done(response => {
+                    if (response.success) {
+                        hook = false;
+                        $aeoauthtestform.form('disableValidation');
+                        $('#aeoauthtestdetailwindow').window("close");
+                        toastr.success("保存成功"); 
+                        reloadData();
+                    } else {
+                        $.messager.alert("错误",   response.err, "error");
+                    }
+                    })
+                .fail((jqXHR, textStatus, errorThrown) => {
+                       $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+                    });
+        }
+    }
+     //判断是否有没有保存的记录
+     function aeoauthtesthasmodified() {
+      if(!hook) {
+            if (!aeoquestion_endEditing()) {
+                 return true;
+             }
+            const aeoquestions = $aeoquestiondg.datagrid("getChanges");
+            if (MODELSTATE == 'Modified' && aeoquestions.length > 0) {
+                return true;
+            }
+            return false;
+         } else {
+            return hook;
+         }
+
+     }
+
+
+function initaeoauthtestdetailview() {
+//回车光标移动到下个输入控件
+    //如果是枚举类型需要把numberbox改成combobox
+    //海关注册时长
+	$('#RegistedTime').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //年份
+	$('#Year').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //合格分数
+	$('#StdScore').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //如果是枚举类型需要把numberbox改成combobox
+    //分数
+	$('#Score').numberbox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //日期类型 海关注册日期
+	$('#RegistDate').datebox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //日期类型 自评日期
+	$('#AuthDate').datebox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //日期类型 评定开始日期
+	$('#BeginDate').datebox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+    //日期类型 评定结束日期
+	$('#EndDate').datebox('textbox').bind('keydown', function (e) {
+      if (e.keyCode == 13) {
+        $(e.target).emulateTab();
+      }
+    });
+}
+</script>
+

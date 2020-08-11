@@ -13,7 +13,7 @@ namespace WebApp.Models
   {
     [Display(Name = "企业名称", Description = "企业名称")]
     [MaxLength(128)]
-    [Required]
+    //[Required]
     public string Name { get; set; }
     [Display(Name = "企业十位编码", Description = "企业十位编码")]
     [MaxLength(10)]
@@ -27,6 +27,10 @@ namespace WebApp.Models
     [Display(Name = "企业类型", Description = "企业类型")]
     [MaxLength(128)]
     public string Ctype { get; set; }
+    [Display(Name = "测试编号", Description = "测试编号")]
+    [MaxLength(20)]
+    [Required]
+    public string TestNo { get; set; }
     [Display(Name = "AEO认证类别", Description = "AEO认证类别")]
     [MaxLength(128)]
     public string AuthType { get; set; }
@@ -80,5 +84,11 @@ namespace WebApp.Models
     [MaxLength(128)]
     public string Result { get; set; }
     #endregion
+
+    public AeoAuthTest()
+    {
+      this.Aeoquestions = new HashSet<AeoQuestion>();
+    }
+    public virtual ICollection<AeoQuestion> Aeoquestions { get; set; }
   }
 }

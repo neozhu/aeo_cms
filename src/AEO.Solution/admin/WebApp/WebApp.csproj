@@ -424,6 +424,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountManageController.cs" />
     <Compile Include="Controllers\ActionLogsController.cs" />
+    <Compile Include="Controllers\AeoAuthTestsController.cs" />
+    <Compile Include="Controllers\AeoQuestionsController.cs" />
     <Compile Include="Controllers\AttachmentsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CodeItemsController.cs" />
@@ -591,6 +593,10 @@
     <Compile Include="Migrations\202008101006244_md-chtest.designer.cs">
       <DependentUpon>202008101006244_md-chtest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008110114521_md_chtest1.cs" />
+    <Compile Include="Migrations\202008110114521_md_chtest1.designer.cs">
+      <DependentUpon>202008110114521_md_chtest1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -610,6 +616,8 @@
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
     <Compile Include="Models\Metadata\ActionLogMetadata.cs" />
+    <Compile Include="Models\Metadata\AeoAuthTestMetadata.cs" />
+    <Compile Include="Models\Metadata\AeoQuestionMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
     <Compile Include="Models\Metadata\ProductFileMetadata.cs" />
@@ -656,6 +664,8 @@
     <Compile Include="Models\ReceiptManageRecDetail.cs" />
     <Compile Include="Models\ReceiptManageProduct.cs" />
     <Compile Include="Models\resource\ActionLog.Designer.cs" />
+    <Compile Include="Models\resource\AeoAuthTest.Designer.cs" />
+    <Compile Include="Models\resource\AeoQuestion.Designer.cs" />
     <Compile Include="Models\resource\Attachment.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
@@ -675,6 +685,10 @@
     <Compile Include="Models\WorkFlow.cs" />
     <Compile Include="Repositories\ActionLogs\ActionLogQuery.cs" />
     <Compile Include="Repositories\ActionLogs\ActionLogRepository.cs" />
+    <Compile Include="Repositories\AeoAuthTests\AeoAuthTestQuery.cs" />
+    <Compile Include="Repositories\AeoAuthTests\AeoAuthTestRepository.cs" />
+    <Compile Include="Repositories\AeoQuestions\AeoQuestionQuery.cs" />
+    <Compile Include="Repositories\AeoQuestions\AeoQuestionRepository.cs" />
     <Compile Include="Repositories\Attachments\AttachmentQuery.cs" />
     <Compile Include="Repositories\Attachments\AttachmentRepository.cs" />
     <Compile Include="Repositories\Categories\CategoryQuery.cs" />
@@ -736,6 +750,10 @@
     </Compile>
     <Compile Include="Services\ActionLogs\ActionLogService.cs" />
     <Compile Include="Services\ActionLogs\IActionLogService.cs" />
+    <Compile Include="Services\AeoAuthTests\AeoAuthTestService.cs" />
+    <Compile Include="Services\AeoAuthTests\IAeoAuthTestService.cs" />
+    <Compile Include="Services\AeoQuestions\AeoQuestionService.cs" />
+    <Compile Include="Services\AeoQuestions\IAeoQuestionService.cs" />
     <Compile Include="Services\Attachments\AttachmentService.cs" />
     <Compile Include="Services\Attachments\IAttachmentService.cs" />
     <Compile Include="Services\Categories\CategoryService.cs" />
@@ -4015,6 +4033,22 @@
     <Content Include="Views\QuestionTpls\Edit.cshtml" />
     <Content Include="Views\QuestionTpls\EditForm.cshtml" />
     <Content Include="Views\QuestionTpls\_ImportWindow.cshtml" />
+    <Content Include="Views\AeoQuestions\_DisplayForm.cshtml" />
+    <Content Include="Views\AeoQuestions\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\AeoQuestions\Index.cshtml" />
+    <Content Include="Views\AeoQuestions\Create.cshtml" />
+    <Content Include="Views\AeoQuestions\Details.cshtml" />
+    <Content Include="Views\AeoQuestions\Edit.cshtml" />
+    <Content Include="Views\AeoQuestions\EditForm.cshtml" />
+    <Content Include="Views\AeoAuthTests\_DisplayForm.cshtml" />
+    <Content Include="Views\AeoAuthTests\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\AeoAuthTests\Index.cshtml" />
+    <Content Include="Views\AeoAuthTests\Create.cshtml" />
+    <Content Include="Views\AeoAuthTests\Details.cshtml" />
+    <Content Include="Views\AeoAuthTests\Edit.cshtml" />
+    <Content Include="Views\AeoAuthTests\EditForm.cshtml" />
+    <Content Include="Views\AeoAuthTests\_AeoQuestionEditForm.cshtml" />
+    <Content Include="Views\AeoAuthTests\_aeoquestiondatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4190,9 +4224,18 @@
     <EmbeddedResource Include="Migrations\202008101006244_md-chtest.resx">
       <DependentUpon>202008101006244_md-chtest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008110114521_md_chtest1.resx">
+      <DependentUpon>202008110114521_md_chtest1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\AeoAuthTest.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\AeoAuthTest.resx" />
+    <EmbeddedResource Include="Models\resource\AeoAuthTest.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\AeoQuestion.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\AeoQuestion.resx" />
+    <EmbeddedResource Include="Models\resource\AeoQuestion.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.zh-TW.resx" />

@@ -34,5 +34,12 @@ namespace WebApp
       var result = _db.Ado.GetInt("exec [dbo].[SP_NextVal]  @prefix", new { prefix = prefix });
       return prefix + Convert.ToInt32(result).ToString("000");
     }
+    //获取测试编号
+    public static string GetTestNo()
+    {
+      var prefix = "AEO" + DateTime.Now.ToString("yyyy");
+      var result = _db.Ado.GetInt("exec [dbo].[SP_NextVal]  @prefix", new { prefix = prefix });
+      return prefix + Convert.ToInt32(result).ToString("000");
+    }
   }
 }

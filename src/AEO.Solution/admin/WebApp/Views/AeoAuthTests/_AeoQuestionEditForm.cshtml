@@ -1,0 +1,312 @@
+﻿@model WebApp.Models.AeoQuestion
+<div id="aeoquestiondlg" class="easyui-dialog"
+     title="AeoQuestion" style="width:600px;height:300px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                onOpen:function(){
+                   $('#aeoquestion_form').form('disableValidation');
+                },
+                buttons: [{
+                    text:'确认',
+                    handler:function(){
+                        confirm_aeoquestionform();
+                    }
+                },{
+                    text:'取消',
+                    handler:function(){
+                        $('#aeoquestiondlg').dialog('close');
+                    }
+                }]
+            ">
+<div class="panel-container show">
+      <div class="panel-content p-0">
+        <form id="aeoquestion_form" class="form-horizontal needs-validation" novalidate>
+          <fieldset class="form-group">
+            <div class="row h-100 align-items-center m-0 pt-1">
+    <!--系统主键-->
+	@Html.HiddenFor(model => model.Id)		
+             
+    <!--模板名-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Tpl)" ><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Tpl) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Tpl)" 
+							name="@Html.NameFor(model => model.Tpl)" 
+							value="@Html.ValueFor(model => model.Tpl)"
+							tabindex="1" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Tpl)',
+     						 required:true ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--AEO认证类别-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.AuthType)" > @Html.DisplayNameFor(model => model.AuthType) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.AuthType)" 
+							name="@Html.NameFor(model => model.AuthType)" 
+							value="@Html.ValueFor(model => model.AuthType)"
+							tabindex="2" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.AuthType)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--类别-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Category)" ><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Category) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Category)" 
+							name="@Html.NameFor(model => model.Category)" 
+							value="@Html.ValueFor(model => model.Category)"
+							tabindex="3" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Category)',
+     						 required:true ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--说明-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Description)" > @Html.DisplayNameFor(model => model.Description) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Description)" 
+							name="@Html.NameFor(model => model.Description)" 
+							value="@Html.ValueFor(model => model.Description)"
+							tabindex="4" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Description)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--代码-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Code)" > @Html.DisplayNameFor(model => model.Code) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Code)" 
+							name="@Html.NameFor(model => model.Code)" 
+							value="@Html.ValueFor(model => model.Code)"
+							tabindex="5" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Code)',
+     						 required:false ,validType:'length[0,12]'" />
+    </div>
+             
+    <!--项目-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Title)" > @Html.DisplayNameFor(model => model.Title) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Title)" 
+							name="@Html.NameFor(model => model.Title)" 
+							value="@Html.ValueFor(model => model.Title)"
+							tabindex="6" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Title)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--简称-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Short)" > @Html.DisplayNameFor(model => model.Short) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Short)" 
+							name="@Html.NameFor(model => model.Short)" 
+							value="@Html.ValueFor(model => model.Short)"
+							tabindex="7" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Short)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--标准说明-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.StdDescription)" > @Html.DisplayNameFor(model => model.StdDescription) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.StdDescription)" 
+							name="@Html.NameFor(model => model.StdDescription)" 
+							value="@Html.ValueFor(model => model.StdDescription)"
+							tabindex="8" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.StdDescription)',
+     						 required:false ,validType:'length[0,256]'" />
+    </div>
+             
+    <!--注意-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Notes)" > @Html.DisplayNameFor(model => model.Notes) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Notes)" 
+							name="@Html.NameFor(model => model.Notes)" 
+							value="@Html.ValueFor(model => model.Notes)"
+							tabindex="9" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Notes)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--分数-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.StdScore)" ><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.StdScore) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.StdScore)"
+							name="@Html.NameFor(model => model.StdScore)" 
+							value="@Html.ValueFor(model => model.StdScore)"
+							tabindex="10" 
+							class="easyui-numberbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.StdScore)',
+								 required:true,
+                                 formatter:intformatter,
+                                 parser:parsernumber
+                                 " />
+    </div>
+             
+    <!--测试分数-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Score)" ><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Score) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Score)"
+							name="@Html.NameFor(model => model.Score)" 
+							value="@Html.ValueFor(model => model.Score)"
+							tabindex="11" 
+							class="easyui-numberbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Score)',
+								 required:true,
+                                 formatter:intformatter,
+                                 parser:parsernumber
+                                 " />
+    </div>
+             
+    <!--评分说明-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ScoreDescription)" > @Html.DisplayNameFor(model => model.ScoreDescription) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.ScoreDescription)" 
+							name="@Html.NameFor(model => model.ScoreDescription)" 
+							value="@Html.ValueFor(model => model.ScoreDescription)"
+							tabindex="12" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.ScoreDescription)',
+     						 required:false ,validType:'length[0,256]'" />
+    </div>
+             
+    <!--备注-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Remark)" > @Html.DisplayNameFor(model => model.Remark) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Remark)" 
+							name="@Html.NameFor(model => model.Remark)" 
+							value="@Html.ValueFor(model => model.Remark)"
+							tabindex="13" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Remark)',
+     						 required:false ,validType:'length[0,128]'" />
+    </div>
+             
+    <!--测试人-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Tester)" > @Html.DisplayNameFor(model => model.Tester) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.Tester)" 
+							name="@Html.NameFor(model => model.Tester)" 
+							value="@Html.ValueFor(model => model.Tester)"
+							tabindex="14" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.Tester)',
+     						 required:false ,validType:'length[0,28]'" />
+    </div>
+             
+     <!--测试时间-->
+          <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.TestDateTime)" > @Html.DisplayNameFor(model => model.TestDateTime) </label>
+		  <div class="col-md-4 mb-1">
+          <input id="@Html.IdFor(model => model.TestDateTime)" 
+							name="@Html.NameFor(model => model.TestDateTime)" 
+							tabindex="15" 
+							class="easyui-datebox" 
+                            type="text"
+                            style="width:100%"
+							value="@Html.ValueFor(model => model.TestDateTime)"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.TestDateTime)',
+								 formatter:dateformatter,
+                                 required:false " />
+     </div>
+             
+    <!--测试编号-->
+        <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.TestNo)" > @Html.DisplayNameFor(model => model.TestNo) </label>
+<div class="col-md-4 mb-1">
+		<input id="@Html.IdFor(model => model.TestNo)" 
+							name="@Html.NameFor(model => model.TestNo)" 
+							value="@Html.ValueFor(model => model.TestNo)"
+							tabindex="16" 
+			     			class="easyui-textbox" 
+							type="text" 
+                            style="width:100%"
+							data-options="prompt:'@Html.DisplayNameFor(model => model.TestNo)',
+     						 required:false ,validType:'length[0,20]'" />
+    </div>
+             
+      <!--AEO自认证测评-->
+      <input type="hidden" id="AeoAuthTestName" name="AeoAuthTestName" value="">
+	  <input id="@Html.IdFor(model => model.AeoAuthTestId)"
+			       name="@Html.NameFor(model => model.AeoAuthTestId)"
+				   value="@Html.ValueFor(model => model.AeoAuthTestId)"
+                   type="hidden" />
+             
+  
+           </div>
+       </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+     var form_state = 'Added';
+     var current_index = -1;
+     var aeoquestion = {};
+ 
+     function open_aeoquestiondlg(index, row, state) {
+         form_state = state;
+         current_index = index;
+         aeoquestion = row;
+         $('#aeoquestiondlg').dialog('open');
+         if (form_state === 'Added') {
+             $('#aeoquestiondlg').dialog('setTitle', '新增明细');
+         } else {
+             $('#aeoquestiondlg').dialog('setTitle', '修改明细');
+         }
+         $('#aeoquestion_form').form('reset');
+         $('#aeoquestion_form').form('load', aeoquestion);
+     }
+     function confirm_aeoquestionform() {
+         $aeoquestionform = $('#aeoquestion_form');
+         if ($aeoquestionform.form('enableValidation').form('validate')) {
+             aeoquestion = $aeoquestionform.serializeJSON();
+             if (form_state === 'Added') {
+                 $(document).trigger('aeoquestion_form.add', [current_index, aeoquestion])
+             } else {
+                 $(document).trigger('aeoquestion_form.edit', [current_index, aeoquestion])
+             }
+             $('#aeoquestiondlg').dialog('close');
+         }
+     }
+ </script>
+
+ 

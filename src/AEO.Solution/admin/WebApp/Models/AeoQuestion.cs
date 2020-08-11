@@ -56,6 +56,9 @@ namespace WebApp.Models
     public string Tester { get; set; }
     [Display(Name = "测试时间", Description = "测试时间")]
     public DateTime? TestDateTime { get; set; }
+    [Display(Name = "测试编号", Description = "测试编号")]
+    [MaxLength(20)]
+    public string TestNo { get; set; }
     [Display(Name = "AEO自认证测评", Description = "AEO自认证测评")]
     public int AeoAuthTestId { get; set; }
     [Display(Name = "AEO自认证测评", Description = "AEO自认证测评")]

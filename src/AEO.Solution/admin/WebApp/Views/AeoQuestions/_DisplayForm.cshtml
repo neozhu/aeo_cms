@@ -1,0 +1,129 @@
+﻿﻿@model WebApp.Models.AeoQuestion
+  <div class="form-row">
+   @Html.HiddenFor(x=>x.Id)
+         <!--模板名-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.Tpl)</label>
+			@Html.EditorFor(x => x.Tpl, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Tpl) } })
+      
+         </div>
+
+        <!--AEO认证类别-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.AuthType)</label>
+			@Html.EditorFor(x => x.AuthType, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.AuthType) } })
+      
+         </div>
+
+        <!--类别-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.Category)</label>
+			@Html.EditorFor(x => x.Category, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Category) } })
+      
+         </div>
+
+        <!--说明-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Description)</label>
+			@Html.EditorFor(x => x.Description, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Description) } })
+      
+         </div>
+
+        <!--代码-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Code)</label>
+			@Html.EditorFor(x => x.Code, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Code) } })
+      
+         </div>
+
+        <!--项目-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Title)</label>
+			@Html.EditorFor(x => x.Title, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Title) } })
+      
+         </div>
+
+        <!--简称-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Short)</label>
+			@Html.EditorFor(x => x.Short, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Short) } })
+      
+         </div>
+
+        <!--标准说明-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.StdDescription)</label>
+			@Html.EditorFor(x => x.StdDescription, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.StdDescription) } })
+      
+         </div>
+
+        <!--注意-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Notes)</label>
+			@Html.EditorFor(x => x.Notes, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Notes) } })
+      
+         </div>
+
+		<!--分数-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.StdScore)</label>
+            @Html.EditorFor(x => x.StdScore, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.StdScore) } })
+
+        </div>
+
+		<!--测试分数-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.Score)</label>
+            @Html.EditorFor(x => x.Score, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.Score) } })
+
+        </div>
+
+        <!--评分说明-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.ScoreDescription)</label>
+			@Html.EditorFor(x => x.ScoreDescription, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ScoreDescription) } })
+      
+         </div>
+
+        <!--备注-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Remark)</label>
+			@Html.EditorFor(x => x.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Remark) } })
+      
+         </div>
+
+        <!--测试人-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Tester)</label>
+			@Html.EditorFor(x => x.Tester, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Tester) } })
+      
+         </div>
+
+       <!--测试时间-->
+       <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.TestDateTime)</label>
+            <div class="input-group">
+			  @Html.EditorFor(x => x.TestDateTime, 
+                         new { htmlAttributes = new { @class = "form-control datepicker hasDatepicker",
+                               placeholder = Html.DisplayNameFor(x => x.TestDateTime ) } })
+               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+			 </div>
+         </div>
+
+        <!--测试编号-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.TestNo)</label>
+			@Html.EditorFor(x => x.TestNo, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.TestNo) } })
+      
+         </div>
+
+     
+       <!--AEO自认证测评-->
+       <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.AeoAuthTestId)</label>
+   	        @Html.DropDownListFor(model => model.AeoAuthTestId, ViewBag.AeoAuthTestId as List<SelectListItem>, htmlAttributes: new { @class = "form-control" }) 
+       </div>
+
+	    
+</div>
+

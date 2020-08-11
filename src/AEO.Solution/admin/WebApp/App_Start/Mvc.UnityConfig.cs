@@ -128,6 +128,10 @@ namespace WebApp
       //AEO自测
       container.RegisterType<IRepositoryAsync<QuestionTpl>, Repository<QuestionTpl>>();
       container.RegisterType<IQuestionTplService, QuestionTplService>();
+      container.RegisterType<IRepositoryAsync<AeoQuestion>, Repository<AeoQuestion>>();
+      container.RegisterType<IAeoQuestionService, AeoQuestionService>();
+      container.RegisterType<IRepositoryAsync<AeoAuthTest>, Repository<AeoAuthTest>>();
+      container.RegisterType<IAeoAuthTestService, AeoAuthTestService>();
       ///    
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();
