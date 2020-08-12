@@ -61,3 +61,4 @@ The statement has been terminated.
 2020-08-11 16:31:40.2069|FATAL|WebApp.MvcApplication|A public action method 'GetComboData' was not found on controller 'WebApp.Controllers.CompaniesController'.
 2020-08-11 16:32:58.3422|FATAL|WebApp.MvcApplication|A public action method 'GetComboData' was not found on controller 'WebApp.Controllers.CompaniesController'.
 2020-08-11 16:33:52.1772|FATAL|WebApp.MvcApplication|A public action method 'GetComboData' was not found on controller 'WebApp.Controllers.CompaniesController'.
+2020-08-12 15:34:30.0252|FATAL|WebApp.MvcApplication|A public action method 'GetComboData' was not found on controller 'WebApp.Controllers.CustomersController'.

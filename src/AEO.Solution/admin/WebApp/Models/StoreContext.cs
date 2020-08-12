@@ -79,6 +79,10 @@ namespace WebApp.Models
     public DbSet<CustomerInvoice> CustomerInvoices { get; set; }
     public DbSet<CustomerCommunication> CustomerCommunications { get; set; }
 
+    //商机管理
+    public DbSet<OpportunityStage> OpportunityStages { get; set; }
+    public DbSet<BusinessOpportunity> BusinessOpportunities { get; set; }
+
     #endregion
 
     #region AEO自测
@@ -210,6 +214,7 @@ namespace WebApp.Models
       base.OnModelCreating(modelBuilder);
     }
 
+    
   }
 
 

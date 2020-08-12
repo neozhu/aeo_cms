@@ -12,10 +12,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/12/2020 15:39:06</publishTime>
     </File>
     <File Include="App_Data/aeodb.mdf">
-      <publishTime>08/12/2020 11:42:25</publishTime>
+      <publishTime>08/12/2020 16:18:31</publishTime>
     </File>
     <File Include="App_Data/aeodb_log.ldf">
-      <publishTime>08/12/2020 11:42:25</publishTime>
+      <publishTime>08/12/2020 16:18:31</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/10/2013 16:29:20</publishTime>
@@ -45,7 +45,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2020 18:55:04</publishTime>
     </File>
     <File Include="bin/en-US/WebApp.resources.dll">
-      <publishTime>08/12/2020 11:42:27</publishTime>
+      <publishTime>08/12/2020 16:18:53</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/16/2020 20:38:42</publishTime>
@@ -339,10 +339,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/05/2016 13:11:52</publishTime>
     </File>
     <File Include="bin/WebApp.dll">
-      <publishTime>08/12/2020 11:42:27</publishTime>
+      <publishTime>08/12/2020 16:18:53</publishTime>
     </File>
     <File Include="bin/WebApp.pdb">
-      <publishTime>08/12/2020 11:42:27</publishTime>
+      <publishTime>08/12/2020 16:18:53</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -366,7 +366,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/24/2020 15:02:46</publishTime>
     </File>
     <File Include="bin/zh-TW/WebApp.resources.dll">
-      <publishTime>08/12/2020 11:42:27</publishTime>
+      <publishTime>08/12/2020 16:18:53</publishTime>
     </File>
     <File Include="bin/zh/Hangfire.Core.resources.dll">
       <publishTime>07/24/2020 15:02:46</publishTime>
@@ -3906,7 +3906,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/12/2020 15:42:15</publishTime>
     </File>
     <File Include="Scripts/easyui/themes/insdep/easyui.css">
-      <publishTime>07/30/2020 15:06:13</publishTime>
+      <publishTime>08/12/2020 16:13:24</publishTime>
     </File>
     <File Include="Scripts/easyui/themes/insdep/easyui.min.css">
       <publishTime>06/11/2020 09:30:56</publishTime>
@@ -5580,7 +5580,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2020 15:51:34</publishTime>
     </File>
     <File Include="Scripts/jquery.extend.formatter.js">
-      <publishTime>08/10/2020 15:34:33</publishTime>
+      <publishTime>08/12/2020 16:10:05</publishTime>
     </File>
     <File Include="Scripts/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
       <publishTime>05/22/2020 14:02:00</publishTime>
@@ -9305,6 +9305,27 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Attachments/_PopupDetailFormView.cshtml">
       <publishTime>08/03/2020 14:10:07</publishTime>
     </File>
+    <File Include="Views/BusinessOpportunities/Create.cshtml">
+      <publishTime>08/12/2020 15:15:20</publishTime>
+    </File>
+    <File Include="Views/BusinessOpportunities/Details.cshtml">
+      <publishTime>08/12/2020 15:15:21</publishTime>
+    </File>
+    <File Include="Views/BusinessOpportunities/Edit.cshtml">
+      <publishTime>08/12/2020 15:15:21</publishTime>
+    </File>
+    <File Include="Views/BusinessOpportunities/EditForm.cshtml">
+      <publishTime>08/12/2020 15:15:22</publishTime>
+    </File>
+    <File Include="Views/BusinessOpportunities/Index.cshtml">
+      <publishTime>08/12/2020 16:17:27</publishTime>
+    </File>
+    <File Include="Views/BusinessOpportunities/_DisplayForm.cshtml">
+      <publishTime>08/12/2020 15:15:19</publishTime>
+    </File>
+    <File Include="Views/BusinessOpportunities/_PopupDetailFormView.cshtml">
+      <publishTime>08/12/2020 16:16:07</publishTime>
+    </File>
     <File Include="Views/Categories/Create.cshtml">
       <publishTime>07/30/2020 12:00:04</publishTime>
     </File>
@@ -9435,13 +9456,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/05/2020 10:49:34</publishTime>
     </File>
     <File Include="Views/CustomerContacts/Index.cshtml">
-      <publishTime>08/05/2020 10:49:32</publishTime>
+      <publishTime>08/12/2020 13:41:00</publishTime>
     </File>
     <File Include="Views/CustomerContacts/_DisplayForm.cshtml">
       <publishTime>08/05/2020 10:49:30</publishTime>
     </File>
     <File Include="Views/CustomerContacts/_PopupDetailFormView.cshtml">
-      <publishTime>08/05/2020 10:49:31</publishTime>
+      <publishTime>08/12/2020 13:49:30</publishTime>
     </File>
     <File Include="Views/CustomerFiles/Create.cshtml">
       <publishTime>08/05/2020 11:04:39</publishTime>
@@ -9763,6 +9784,27 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/Notifications/_PopupDetailFormView.cshtml">
       <publishTime>06/02/2020 09:00:03</publishTime>
+    </File>
+    <File Include="Views/OpportunityStages/Create.cshtml">
+      <publishTime>08/12/2020 15:03:30</publishTime>
+    </File>
+    <File Include="Views/OpportunityStages/Details.cshtml">
+      <publishTime>08/12/2020 15:03:31</publishTime>
+    </File>
+    <File Include="Views/OpportunityStages/Edit.cshtml">
+      <publishTime>08/12/2020 15:03:32</publishTime>
+    </File>
+    <File Include="Views/OpportunityStages/EditForm.cshtml">
+      <publishTime>08/12/2020 15:03:32</publishTime>
+    </File>
+    <File Include="Views/OpportunityStages/Index.cshtml">
+      <publishTime>08/12/2020 15:03:30</publishTime>
+    </File>
+    <File Include="Views/OpportunityStages/_DisplayForm.cshtml">
+      <publishTime>08/12/2020 15:03:28</publishTime>
+    </File>
+    <File Include="Views/OpportunityStages/_PopupDetailFormView.cshtml">
+      <publishTime>08/12/2020 15:03:29</publishTime>
     </File>
     <File Include="Views/ProductFiles/Create.cshtml">
       <publishTime>07/30/2020 15:29:50</publishTime>

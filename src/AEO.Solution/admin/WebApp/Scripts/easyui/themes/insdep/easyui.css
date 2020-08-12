@@ -144,7 +144,7 @@
 
 .panel-header {
   background-repeat: repeat-x;
-  border-bottom-color: #e5e5e5;
+  border-bottom-color: #e9e9e9;
 }
 
 .panel-header, .accordion, .accordion .accordion-header {
@@ -474,7 +474,7 @@
 
 .dialog-toolbar,
 .dialog-button {
-  background: #F4F4F4;
+  background: #f8f8f8;
   border-top: 1px solid #e9e9e9;
 }
 
@@ -485,7 +485,7 @@
 .window-thinborder .dialog-toolbar {
   border-left: transparent;
   border-right: transparent;
-  border-top-color: #F4F4F4;
+  border-top-color: #f8f8f8;
 }
 
 .window-thinborder .dialog-button {
@@ -1111,7 +1111,7 @@
 .combobox-group {
   font-weight: bold;
   color: #b0b0b0;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid #f8f8f8;
 }
 
 .combobox-stick {
@@ -2844,7 +2844,7 @@
 }
 
 .datebox-button {
-  background-color: #f4f4f4;
+  background-color: #f8f8f8;
 }
 
 
@@ -4031,7 +4031,7 @@
 .checkbox,
 .inputbox {
   border: 1px solid #bfbfbf;
-  background-color: #f4f4f4;
+  background-color: #f8f8f8;
   width: 20px;
   height: 20px !important;
   min-height:20px !important;
@@ -4056,7 +4056,7 @@
   }
   .checkbox-checked {
     color: #2E7BCC;
-    background: #f4f4f4;
+    background: #f8f8f8;
   }
 
 .checkbox-inner {

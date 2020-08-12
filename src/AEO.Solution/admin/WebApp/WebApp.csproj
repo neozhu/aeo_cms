@@ -31,7 +31,7 @@
     <SccProvider>SAK</SccProvider>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -427,6 +427,7 @@
     <Compile Include="Controllers\AeoAuthTestsController.cs" />
     <Compile Include="Controllers\AeoQuestionsController.cs" />
     <Compile Include="Controllers\AttachmentsController.cs" />
+    <Compile Include="Controllers\BusinessOpportunitiesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CodeItemsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
@@ -451,6 +452,7 @@
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MenuItemsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\OpportunityStagesController.cs" />
     <Compile Include="Controllers\ProductFilesController.cs" />
     <Compile Include="Controllers\ProductPacksController.cs" />
     <Compile Include="Controllers\ProductPricturesController.cs" />
@@ -597,10 +599,19 @@
     <Compile Include="Migrations\202008110114521_md_chtest1.designer.cs">
       <DependentUpon>202008110114521_md_chtest1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008120653260_md_BusinessOpportunity.cs" />
+    <Compile Include="Migrations\202008120653260_md_BusinessOpportunity.designer.cs">
+      <DependentUpon>202008120653260_md_BusinessOpportunity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008120944559_md_addstagesuccess.cs" />
+    <Compile Include="Migrations\202008120944559_md_addstagesuccess.designer.cs">
+      <DependentUpon>202008120944559_md_addstagesuccess.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
+    <Compile Include="Models\BusinessOpportunity.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\BusinessChance.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -619,8 +630,10 @@
     <Compile Include="Models\Metadata\ActionLogMetadata.cs" />
     <Compile Include="Models\Metadata\AeoAuthTestMetadata.cs" />
     <Compile Include="Models\Metadata\AeoQuestionMetadata.cs" />
+    <Compile Include="Models\Metadata\BusinessOpportunityMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
+    <Compile Include="Models\Metadata\OpportunityStageMetadata.cs" />
     <Compile Include="Models\Metadata\ProductFileMetadata.cs" />
     <Compile Include="Models\Metadata\ProductMetadata.cs" />
     <Compile Include="Models\Metadata\ProductPackMetadata.cs" />
@@ -628,6 +641,7 @@
     <Compile Include="Models\Metadata\ProductPurchaseHistoricalPriceMetadata.cs" />
     <Compile Include="Models\Metadata\ProductSalesHistoricalPriceMetadata.cs" />
     <Compile Include="Models\Metadata\QuestionTplMetadata.cs" />
+    <Compile Include="Models\OpportunityStage.cs" />
     <Compile Include="Models\ProductRefCustomerTrade.cs" />
     <Compile Include="Models\ProductRefCustomerPicture.cs" />
     <Compile Include="Models\ProductRefCustomer.cs" />
@@ -668,10 +682,12 @@
     <Compile Include="Models\resource\AeoAuthTest.Designer.cs" />
     <Compile Include="Models\resource\AeoQuestion.Designer.cs" />
     <Compile Include="Models\resource\Attachment.Designer.cs" />
+    <Compile Include="Models\resource\BusinessOpportunity.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
     <Compile Include="Models\resource\Log.Designer.cs" />
     <Compile Include="Models\resource\Notification.Designer.cs" />
+    <Compile Include="Models\resource\OpportunityStage.Designer.cs" />
     <Compile Include="Models\resource\Product.Designer.cs" />
     <Compile Include="Models\resource\ProductFile.Designer.cs" />
     <Compile Include="Models\resource\ProductPack.Designer.cs" />
@@ -692,6 +708,8 @@
     <Compile Include="Repositories\AeoQuestions\AeoQuestionRepository.cs" />
     <Compile Include="Repositories\Attachments\AttachmentQuery.cs" />
     <Compile Include="Repositories\Attachments\AttachmentRepository.cs" />
+    <Compile Include="Repositories\BusinessOpportunities\BusinessOpportunityQuery.cs" />
+    <Compile Include="Repositories\BusinessOpportunities\BusinessOpportunityRepository.cs" />
     <Compile Include="Repositories\Categories\CategoryQuery.cs" />
     <Compile Include="Repositories\Categories\CategoryRepository.cs" />
     <Compile Include="Repositories\Companies\CompanyQuery.cs" />
@@ -720,6 +738,8 @@
     <Compile Include="Repositories\Logs\LogRepository.cs" />
     <Compile Include="Repositories\Notifications\NotificationQuery.cs" />
     <Compile Include="Repositories\Notifications\NotificationRepository.cs" />
+    <Compile Include="Repositories\OpportunityStages\OpportunityStageQuery.cs" />
+    <Compile Include="Repositories\OpportunityStages\OpportunityStageRepository.cs" />
     <Compile Include="Repositories\ProductFiles\ProductFileQuery.cs" />
     <Compile Include="Repositories\ProductFiles\ProductFileRepository.cs" />
     <Compile Include="Repositories\ProductPacks\ProductPackQuery.cs" />
@@ -757,6 +777,8 @@
     <Compile Include="Services\AeoQuestions\IAeoQuestionService.cs" />
     <Compile Include="Services\Attachments\AttachmentService.cs" />
     <Compile Include="Services\Attachments\IAttachmentService.cs" />
+    <Compile Include="Services\BusinessOpportunities\BusinessOpportunityService.cs" />
+    <Compile Include="Services\BusinessOpportunities\IBusinessOpportunityService.cs" />
     <Compile Include="Services\Categories\CategoryService.cs" />
     <Compile Include="Services\Categories\ICategoryService.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -785,6 +807,8 @@
     <Compile Include="Services\Logs\LogService.cs" />
     <Compile Include="Services\Notifications\INotificationService.cs" />
     <Compile Include="Services\Notifications\NotificationService.cs" />
+    <Compile Include="Services\OpportunityStages\IOpportunityStageService.cs" />
+    <Compile Include="Services\OpportunityStages\OpportunityStageService.cs" />
     <Compile Include="Services\ProductFiles\IProductFileService.cs" />
     <Compile Include="Services\ProductFiles\ProductFileService.cs" />
     <Compile Include="Services\ProductPacks\IProductPackService.cs" />
@@ -4053,6 +4077,20 @@
     <Content Include="Views\AeoAuthTests\_AeoQuestionEditForm.cshtml" />
     <Content Include="Views\AeoAuthTests\_aeoquestiondatagridjsview.cshtml" />
     <Content Include="Scripts\plugin\progressbar\progressbar.min.js.map" />
+    <Content Include="Views\OpportunityStages\_DisplayForm.cshtml" />
+    <Content Include="Views\OpportunityStages\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\OpportunityStages\Index.cshtml" />
+    <Content Include="Views\OpportunityStages\Create.cshtml" />
+    <Content Include="Views\OpportunityStages\Details.cshtml" />
+    <Content Include="Views\OpportunityStages\Edit.cshtml" />
+    <Content Include="Views\OpportunityStages\EditForm.cshtml" />
+    <Content Include="Views\BusinessOpportunities\_DisplayForm.cshtml" />
+    <Content Include="Views\BusinessOpportunities\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\BusinessOpportunities\Index.cshtml" />
+    <Content Include="Views\BusinessOpportunities\Create.cshtml" />
+    <Content Include="Views\BusinessOpportunities\Details.cshtml" />
+    <Content Include="Views\BusinessOpportunities\Edit.cshtml" />
+    <Content Include="Views\BusinessOpportunities\EditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4231,6 +4269,12 @@
     <EmbeddedResource Include="Migrations\202008110114521_md_chtest1.resx">
       <DependentUpon>202008110114521_md_chtest1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008120653260_md_BusinessOpportunity.resx">
+      <DependentUpon>202008120653260_md_BusinessOpportunity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008120944559_md_addstagesuccess.resx">
+      <DependentUpon>202008120944559_md_addstagesuccess.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4243,6 +4287,9 @@
     <EmbeddedResource Include="Models\resource\Attachment.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\BusinessOpportunity.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\BusinessOpportunity.resx" />
+    <EmbeddedResource Include="Models\resource\BusinessOpportunity.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Category.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Category.resx" />
     <EmbeddedResource Include="Models\resource\Category.zh-TW.resx" />
@@ -4255,6 +4302,9 @@
     <EmbeddedResource Include="Models\resource\Notification.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Notification.resx" />
     <EmbeddedResource Include="Models\resource\Notification.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\OpportunityStage.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\OpportunityStage.resx" />
+    <EmbeddedResource Include="Models\resource\OpportunityStage.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Product.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Product.resx" />
     <EmbeddedResource Include="Models\resource\Product.zh-TW.resx" />

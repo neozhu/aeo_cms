@@ -55,6 +55,14 @@ namespace WebApp.Controllers
     //Get :CustomerContacts/GetData
     //For Index View datagrid datasource url
 
+    public async Task<JsonResult> GetComboData(int customerId, string q = "") {
+      var result = await this.customerContactService.Queryable()
+        .Where(x => x.CustomerId == customerId)
+        .Select(x => new { x.Id, x.CustomerId, x.Name, x.PhoneNumber, x.Email })
+        .ToListAsync();
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
+
     [HttpGet]
     //[OutputCache(Duration = 10, VaryByParam = "*")]
     public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
@@ -151,9 +159,9 @@ namespace WebApp.Controllers
       var customerRepository = this.unitOfWork.RepositoryAsync<Customer>();
       var rows = await customerRepository
                             .Queryable()
-                            .Where(n => n.CustomerCode.Contains(q))
-                            .OrderBy(n => n.CustomerCode)
-                            .Select(n => new { Id = n.Id, CustomerCode = n.CustomerCode })
+                            .Where(n => n.CustomerName.Contains(q))
+                            .OrderBy(n => n.CustomerName)
+                            .Select(n => new { Id = n.Id, CustomerCode = n.CustomerCode, CustomerName = n.CustomerName })
                             .ToListAsync();
       return Json(rows, JsonRequestBehavior.AllowGet);
     }
