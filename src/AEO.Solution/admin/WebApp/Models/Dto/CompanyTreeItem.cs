@@ -53,4 +53,10 @@ namespace WebApp.Models
     public IEnumerable<CompanyComboTreeItem> children { get; set; }
   }
 
+  public class CompanyComboItem {
+    public int id { get; set; }
+    public string text { get; set; }
+    public int level { get; set; }
+    public string includes { get; set; }
+    }
 }

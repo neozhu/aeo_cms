@@ -612,6 +612,7 @@
     <Compile Include="Models\CustomerContact.cs" />
     <Compile Include="Models\Dto\CategoryTreeItem.cs" />
     <Compile Include="Models\Dto\CompanyTreeItem.cs" />
+    <Compile Include="Models\Dto\CreateAeoQuestionTestDto.cs" />
     <Compile Include="Models\Dto\CreateProductViewModel.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
@@ -2701,6 +2702,8 @@
     <Content Include="Scripts\plugin\plupload\js\plupload.full.min.js" />
     <Content Include="Scripts\plugin\plupload\js\plupload.min.js" />
     <Content Include="Scripts\plugin\plupload\license.txt" />
+    <Content Include="Scripts\plugin\progressbar\progressbar.js" />
+    <Content Include="Scripts\plugin\progressbar\progressbar.min.js" />
     <Content Include="Scripts\smartadmin.easyui.min.js" />
     <Content Include="Scripts\statistics\c3\c3.js" />
     <Content Include="Scripts\statistics\chartist\chartist.js" />
@@ -4049,6 +4052,7 @@
     <Content Include="Views\AeoAuthTests\EditForm.cshtml" />
     <Content Include="Views\AeoAuthTests\_AeoQuestionEditForm.cshtml" />
     <Content Include="Views\AeoAuthTests\_aeoquestiondatagridjsview.cshtml" />
+    <Content Include="Scripts\plugin\progressbar\progressbar.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />

@@ -1,0 +1,615 @@
+﻿@model WebApp.Models.AeoQuestion
+<script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $aeoquestiondg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 AeoQuestion datagrid
+   var $aeoquestiondg = $('#aeoquestion_datagrid');
+   //当前行记录
+   var aeoquestion = {};
+   //datagrid CRUD method
+    var aeoquestion_editIndex = undefined;
+    //取消编辑恢复状态
+    function aeoquestion_rejectChanges() {
+		$aeoquestiondg.datagrid('rejectChanges');
+		aeoquestion_editIndex = undefined;
+    }
+    //重新加载数据
+    function aeoquestion_reloadData() {
+			$aeoquestiondg.datagrid('unselectAll');
+            $aeoquestiondg.datagrid('uncheckAll');
+	        $aeoquestiondg.datagrid('reload');
+	}
+    //关闭编辑状态
+	function aeoquestion_endEditing() {
+			if (aeoquestion_editIndex === undefined) {
+                return true; 
+            }
+			if ($aeoquestiondg.datagrid('validateRow', aeoquestion_editIndex)) {
+				$aeoquestiondg.datagrid('endEdit', aeoquestion_editIndex);
+				aeoquestion_editIndex = undefined;
+                return true;
+			} else {
+				const invalidinput = $('input.validatebox-invalid',$aeoquestiondg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+				return false;
+			}
+		}
+    //单击列开启编辑功能
+	function aeoquestion_onClickCell(index, field) {
+			const _operates = ['_operate1', 'ck'];
+             $('button[name*=\'aeoquestiondeleterowbutton\']').prop('disabled', false);
+			if (!SUBEDITINLINE || $.inArray(field, _operates) >= 0) {
+				return false;
+			}
+			if (aeoquestion_editIndex !== index) {
+				if (aeoquestion_endEditing()) {
+					$aeoquestiondg.datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    //aeoquestion_editIndex = index;
+					var ed = $aeoquestiondg.datagrid('getEditor', { index: index, field: field });
+					if (ed) {
+						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+					}
+				} else {
+					$aeoquestiondg.datagrid('selectRow', aeoquestion_editIndex);
+				}
+			}
+		}
+    //双击弹出编辑当前行对话框
+    function aeoquestion_onDblClickRow(index, row) {
+        if (!SUBEDITINLINE) {
+            open_aeoquestiondlg(index, row, 'Modified');
+        }
+    }
+    //订阅对话框新增返回事件
+    $(document).on('aeoquestion_form.add', (e, index,item) => {
+        $aeoquestiondg.datagrid("insertRow",
+            {
+                index: 0,
+                row: item
+            });
+        $("button[name*='aeoquestion_cancelchangesbutton']").prop('disabled', false);
+        $("button[name*='aeoquestion_savechangesbutton']").prop('disabled', false);
+    });
+    //订阅对话框修改返回事件
+    $(document).on('aeoquestion_form.edit', (e,index, item) => {
+        $aeoquestiondg.datagrid('updateRow', {
+            index: index,
+            row: item
+        });
+        $("button[name*='aeoquestion_cancelchangesbutton']").prop('disabled', false);
+        $("button[name*='aeoquestion_savechangesbutton']").prop('disabled', false);
+    });
+    //新增记录
+    function aeoquestion_appendItem() {
+       const $aeoauthtestform = $('#aeoauthtest_form');
+       if ($aeoauthtestform.form('enableValidation').form('validate')) {
+          const aeoauthtest = $aeoauthtestform.serializeJSON();
+       const item = {
+          
+          AeoAuthTestId:aeoauthtest.Id
+        };
+      if (!SUBEDITINLINE) {
+        open_aeoquestiondlg(0, item, 'Added');
+      } else {
+			if (aeoquestion_endEditing()) {
+				//对必填字段进行默认值初始化
+				$aeoquestiondg.datagrid('insertRow', 
+                               { index: 0,
+                                  row: item 
+                               });
+				aeoquestion_editIndex = 0;
+				$aeoquestiondg.datagrid('selectRow', aeoquestion_editIndex)
+						.datagrid('beginEdit', aeoquestion_editIndex);
+			}
+        }
+        }
+	 }
+    //删除编辑的行
+	function aeoquestion_removeItem() {
+		if (aeoquestion_editIndex !== undefined) {  
+            const delindex = aeoquestion_editIndex;
+			$aeoquestiondg.datagrid('cancelEdit', delindex)
+					           .datagrid('deleteRow', delindex);
+            $("button[name*='aeoquestion_cancelchangesbutton']").prop('disabled', false);
+            $("button[name*='aeoquestion_savechangesbutton']").prop('disabled', false);
+        } else {
+           const rows = $aeoquestiondg.datagrid('getChecked');
+           rows.slice().reverse().forEach(row => {
+                const rowindex = $aeoquestiondg.datagrid('getRowIndex', row);
+                $aeoquestiondg.datagrid('deleteRow', rowindex);
+                $("button[name*='aeoquestion_cancelchangesbutton']").prop('disabled', false);
+                $("button[name*='aeoquestion_savechangesbutton']").prop('disabled', false);
+            });
+        }
+	}
+    //删除选中的行
+    function aeoquestion_deleteChecked() {
+            const rows = $aeoquestiondg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/AeoQuestions/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $aeoquestiondg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });  
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+  //获取修改的行
+  function aeoquestion_getChanges() {
+    if (aeoquestion_endEditing()) {
+      if ($aeoquestiondg.datagrid('getChanges').length > 0) {
+        const inserted = $aeoquestiondg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const deleted = $aeoquestiondg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3;
+          return item;
+        });
+        const updated = $aeoquestiondg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2;
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        return { success: true, changed };
+      } else {
+        return { success: true, changed:undefined};
+      }
+    } else {
+      return { success: false,changed:undefined };
+    }
+  }
+  //提交修改的数据
+  //function aeoquestion_acceptChanges() {
+  //  $aeoquestiondg.datagrid('acceptChanges');
+  //}
+  //提交保存后台数据库
+  async function aeoquestion_acceptChanges() {
+			if (aeoquestion_endEditing()) {
+				if ($aeoquestiondg.datagrid('getChanges').length > 0) {
+					const inserted = $aeoquestiondg.datagrid('getChanges', 'inserted').map(item => {
+                       item.TrackingState = 1;
+                       return item;
+                    });
+					const deleted = $aeoquestiondg.datagrid('getChanges', 'deleted').map(item => {
+                       item.TrackingState = 3;
+                       return item;
+                    });
+					const updated = $aeoquestiondg.datagrid('getChanges', 'updated').map(item => {
+                       item.TrackingState = 2;
+                       return item;
+                    });
+					//过滤已删除的重复项
+                    const changed = inserted.concat(updated.filter(item => {
+                           return !deleted.includes(item);
+                         })).concat(deleted);
+                   //console.table(changed);
+				  if (MODELSTATE === 'Added') {
+                    return { success:true, changed };
+                  } else {
+                    const response = await $.post('/AeoQuestions/AcceptChanges', {aeoquestions:changed});
+                    response.changed = undefined;
+    				if (response.success) {
+							toastr.success('保存明细成功'); 
+							$aeoquestiondg.datagrid('acceptChanges');
+							aeoquestion_reloadData()
+                            return { success:true}; 
+				    } else {
+                           $.messager.alert('错误', response.err ,'error');
+                           return { success:false, err:response.err };
+                    }
+                   }
+				} else {
+                  return { success: true, changed: undefined};
+                }
+			} else {
+               return { success: false };
+            }
+      }
+
+
+$(() => {
+    $aeoquestiondg.datagrid({
+            fit: false,
+            height: 300,
+            rownumbers: true,
+            striped: true,
+            idField: 'Id',
+            sortName: 'Id',
+            sortOrder: 'asc',
+            remoteFilter: true,
+            singleSelect: true,
+            checkOnSelect: false,
+		    selectOnCheck: false,
+            method: 'get',
+            pageList: [10, 20, 50, 100,1000],
+            pagination: true,
+            clientPaging:false,
+            pagination: true,
+            onDblClickRow: aeoquestion_onDblClickRow,
+            onClickCell: aeoquestion_onClickCell,
+            onBeforeLoad: function () {
+
+            },
+            onLoadSuccess: function (data) {
+              aeoquestion_editIndex = undefined;
+              $("button[name*='aeoquestion_deleterowbutton']").prop('disabled', true);
+              $("button[name*='aeoquestion_cancelchangesbutton']").prop('disabled', true);
+              $("button[name*='aeoquestion_savechangesbutton']").prop('disabled', true);
+            },
+            onCheck: function () {
+                $("button[name*='aeoquestion_deleterowbutton']").prop('disabled', false);
+            },
+            onUncheck: function () {
+               const checked = $(this).datagrid('getChecked').length > 0;
+               $("button[name*='aeoquestion_deleterowbutton']").prop('disabled', !checked);
+            },
+           onCheckAll: function (rows) {
+              if (rows.length > 0) {
+                 $("button[name*='aeoquestion_deleterowbutton']").prop('disabled', false);
+              }
+           },
+           onUncheckAll: function () {
+              $("button[name*='aeoquestion_deleterowbutton']").prop('disabled', true);           
+           },
+            onSelect: function(index,row) {
+              aeoquestion = row;
+            },
+            onBeforeEdit: function (index, row) {
+                 aeoquestion_editIndex = index;
+                 row.editing = true;
+                 $("button[name*='aeoquestion_deleterowbutton']").prop('disabled', false);
+                 $("button[name*='aeoquestion_cancelchangesbutton']").prop('disabled', false);
+                 $("button[name*='aeoquestion_savechangesbutton']").prop('disabled', false);
+                 $(this).datagrid('refreshRow', index);
+             },
+            onBeginEdit: function (index, row) {
+               //const editors = $(this).datagrid('getEditors', index);
+  
+            },
+            onEndEdit: function (index, row) {
+
+             },
+             onAfterEdit: function (index, row) {
+                   row.editing = false;
+                   aeoquestion_editIndex = undefined;
+                   $(this).datagrid('refreshRow', index);
+             },
+             onCancelEdit: function (index, row) {
+                aeoquestion_editIndex = undefined;
+                row.editing = false;
+                $("button[name*='aeoquestion_deleterowbutton']").prop('disabled', true);
+              $("button[name*='aeoquestion_cancelchangesbutton']").prop('disabled', true);
+              $("button[name*='aeoquestion_savechangesbutton']").prop('disabled', true);
+                $(this).datagrid('refreshRow', index);
+            },
+            columns: [[
+            { field: 'ck', checkbox: true },
+		     
+			{    /*模板名*/
+                 field:'Tpl', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Tpl)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Tpl',
+                                 prompt:'@Html.DescriptionFor(model => model.Tpl)',
+                                 required:true, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*AEO认证类别*/
+                 field:'AuthType', 
+                 title:'  @Html.DisplayNameFor(model => model.AuthType)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_AuthType',
+                                 prompt:'@Html.DescriptionFor(model => model.AuthType)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*类别*/
+                 field:'Category', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Category)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Category',
+                                 prompt:'@Html.DescriptionFor(model => model.Category)',
+                                 required:true, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*说明*/
+                 field:'Description', 
+                 title:'  @Html.DisplayNameFor(model => model.Description)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Description',
+                                 prompt:'@Html.DescriptionFor(model => model.Description)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*代码*/
+                 field:'Code', 
+                 title:'  @Html.DisplayNameFor(model => model.Code)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Code',
+                                 prompt:'@Html.DescriptionFor(model => model.Code)',
+                                 required:false, 
+                                 validType: 'length[0,12]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*项目*/
+                 field:'Title', 
+                 title:'  @Html.DisplayNameFor(model => model.Title)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Title',
+                                 prompt:'@Html.DescriptionFor(model => model.Title)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*简称*/
+                 field:'Short', 
+                 title:'  @Html.DisplayNameFor(model => model.Short)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Short',
+                                 prompt:'@Html.DescriptionFor(model => model.Short)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*标准说明*/
+                 field:'StdDescription', 
+                 title:'  @Html.DisplayNameFor(model => model.StdDescription)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_StdDescription',
+                                 prompt:'@Html.DescriptionFor(model => model.StdDescription)',
+                                 required:false, 
+                                 validType: 'length[0,256]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*注意*/
+                 field:'Notes', 
+                 title:'  @Html.DisplayNameFor(model => model.Notes)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Notes',
+                                 prompt:'@Html.DescriptionFor(model => model.Notes)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+           {     /*分数*/
+                 field:'StdScore', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.StdScore)', 
+                 width:100, 
+                 align:'right',
+                 editor:{
+                        type:'numberbox',
+                        options:{ 
+                                  id:'editor_StdScore',
+                                  prompt:'@Html.DescriptionFor(model => model.StdScore)',
+                                  required:true,
+                                  validType:'integer',
+                                  
+                                 } 
+                        },
+                sortable:true,
+                resizable:true,
+                hidden:false,
+                formatter:intformatter
+			},
+           {     /*测试分数*/
+                 field:'Score', 
+                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Score)', 
+                 width:100, 
+                 align:'right',
+                 editor:{
+                        type:'numberbox',
+                        options:{ 
+                                  id:'editor_Score',
+                                  prompt:'@Html.DescriptionFor(model => model.Score)',
+                                  required:true,
+                                  validType:'integer',
+                                  
+                                 } 
+                        },
+                sortable:true,
+                resizable:true,
+                hidden:false,
+                formatter:intformatter
+			},
+			{    /*评分说明*/
+                 field:'ScoreDescription', 
+                 title:'  @Html.DisplayNameFor(model => model.ScoreDescription)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_ScoreDescription',
+                                 prompt:'@Html.DescriptionFor(model => model.ScoreDescription)',
+                                 required:false, 
+                                 validType: 'length[0,256]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*备注*/
+                 field:'Remark', 
+                 title:'  @Html.DisplayNameFor(model => model.Remark)', 
+                 width:200,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Remark',
+                                 prompt:'@Html.DescriptionFor(model => model.Remark)',
+                                 required:false, 
+                                 validType: 'length[0,128]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{    /*测试人*/
+                 field:'Tester', 
+                 title:'  @Html.DisplayNameFor(model => model.Tester)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_Tester',
+                                 prompt:'@Html.DescriptionFor(model => model.Tester)',
+                                 required:false, 
+                                 validType: 'length[0,28]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+			{   /*测试时间*/
+                field:'TestDateTime', 
+                title:'  @Html.DisplayNameFor(model => model.TestDateTime)', 
+                width:140, 
+                align:'right', 
+                hidden:false,
+                editor:{
+                      type:'datetimebox',
+                      options:{
+                           id:'editor_TestDateTime',
+                           prompt:'@Html.DescriptionFor(model => model.TestDateTime)',
+                           required:false
+                           }  
+                      },
+                sortable:true, 
+                resizable:true, 
+                formatter:datetimeformatter 
+			} ,
+			{    /*测试编号*/
+                 field:'TestNo', 
+                 title:'  @Html.DisplayNameFor(model => model.TestNo)', 
+                 width:120,
+                 editor:{
+                          type:'textbox',
+                          options:{ 
+                                 id:'editor_TestNo',
+                                 prompt:'@Html.DescriptionFor(model => model.TestNo)',
+                                 required:false, 
+                                 validType: 'length[0,20]' 
+                                 }  
+                       },
+                 sortable:true,
+                 hidden:false,
+                 resizable:true 
+			},
+            ]]
+            })
+            .datagrid('enableFilter',[
+				{    /*分数*/
+					  field: 'StdScore',
+					  type: 'numberbox',
+					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+				  },
+				{    /*测试分数*/
+					  field: 'Score',
+					  type: 'numberbox',
+					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
+				  },
+				{     /*测试时间*/
+					  field: 'TestDateTime',
+					  type: 'dateRange',
+					  options: {
+					  }
+				  },
+		   ]);
+  });
+      
+</script>
+
+
+ 

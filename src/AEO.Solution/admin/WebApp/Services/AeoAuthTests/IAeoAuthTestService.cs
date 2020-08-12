@@ -10,6 +10,8 @@ using WebApp.Models;
 using WebApp.Repositories;
 using System.Data;
 using System.IO;
+using WebApp.Models.Dto;
+
 namespace WebApp.Services
 {
 /// <summary>
@@ -29,5 +31,6 @@ namespace WebApp.Services
 		Task ImportDataTableAsync(DataTable datatable,string username="");
 		Task<Stream> ExportExcelAsync( string filterRules = "",string sort = "Id", string order = "asc");
 	    Task Delete(int[] id);
-    }
+    Task CreateTest(CreateAeoQuestionTestDto aeoAuthTest);
+  }
 }

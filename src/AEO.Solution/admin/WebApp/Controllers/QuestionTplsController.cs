@@ -87,6 +87,13 @@ namespace WebApp.Controllers
       return Json(pagelist, JsonRequestBehavior.AllowGet);
     }
     //easyui datagrid post acceptChanges 
+    [HttpGet]
+    public async Task<JsonResult> GetTpl(string authtype) {
+      var result = await this.questionTplService.Queryable()
+        .Where(x => x.AuthType == authtype).ToListAsync();
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
+
     [HttpPost]
     public async Task<JsonResult> AcceptChanges(QuestionTpl[] questiontpls)
     {

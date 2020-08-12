@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using WebApp.Models;
+using WebApp.Models.Dto;
 
 namespace WebApp
 {
@@ -17,6 +18,8 @@ namespace WebApp
       CreateMap<CreateProductViewModel, Product>();
       CreateMap<Attachment, ProductPricture>();
       CreateMap<Company, CompanyTreeItem>();
+      CreateMap<CreateAeoQuestionTestDto, AeoAuthTest>();
+      CreateMap<QuestionTpl, AeoQuestion>();
     }
   }
    

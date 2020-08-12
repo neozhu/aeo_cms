@@ -119,6 +119,252 @@ accounttypeeditor: {
         }
   }  
 });
+//-------题目类别---------//
+var authcategoryfiltersource = [{ value: '', text: 'All'}];
+var authcategorydatasource = [];
+authcategoryfiltersource.push({ value: '信息系统控制',text:'信息系统控制'  });
+authcategorydatasource.push({ value: '信息系统控制',text:'信息系统控制'  });
+authcategoryfiltersource.push({ value: '内部审计控制',text:'内部审计控制'  });
+authcategorydatasource.push({ value: '内部审计控制',text:'内部审计控制'  });
+authcategoryfiltersource.push({ value: '组织机构控制',text:'组织机构控制'  });
+authcategorydatasource.push({ value: '组织机构控制',text:'组织机构控制'  });
+authcategoryfiltersource.push({ value: '财务状况标准',text:'财务状况标准'  });
+authcategorydatasource.push({ value: '财务状况标准',text:'财务状况标准'  });
+authcategoryfiltersource.push({ value: '贸易安全标准',text:'贸易安全标准'  });
+authcategorydatasource.push({ value: '贸易安全标准',text:'贸易安全标准'  });
+authcategoryfiltersource.push({ value: '进出口业务控制',text:'进出口业务控制'  });
+authcategorydatasource.push({ value: '进出口业务控制',text:'进出口业务控制'  });
+authcategoryfiltersource.push({ value: '进出口业务规范',text:'进出口业务规范'  });
+authcategorydatasource.push({ value: '进出口业务规范',text:'进出口业务规范'  });
+authcategoryfiltersource.push({ value: '遵守法律法规',text:'遵守法律法规'  });
+authcategorydatasource.push({ value: '遵守法律法规',text:'遵守法律法规'  });
+//for datagrid authcategory field  formatter
+function authcategoryformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = authcategorydatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = authcategorydatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   authcategory  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+authcategoryfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: authcategoryfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   authcategory   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+authcategoryeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: authcategorydatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------AEO认证类别---------//
+var authtypefiltersource = [{ value: '', text: 'All'}];
+var authtypedatasource = [];
+authtypefiltersource.push({ value: '一般认证',text:'一般认证'  });
+authtypedatasource.push({ value: '一般认证',text:'一般认证'  });
+authtypefiltersource.push({ value: '高级认证',text:'高级认证'  });
+authtypedatasource.push({ value: '高级认证',text:'高级认证'  });
+//for datagrid authtype field  formatter
+function authtypeformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = authtypedatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = authtypedatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   authtype  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+authtypefilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: authtypefiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   authtype   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+authtypeeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: authtypedatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
 //-------客户等级---------//
 var clevelfiltersource = [{ value: '', text: 'All'}];
 var cleveldatasource = [];

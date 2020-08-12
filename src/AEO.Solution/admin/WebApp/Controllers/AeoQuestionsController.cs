@@ -54,6 +54,13 @@ namespace WebApp.Controllers
     [Route("Index", Name = "测试题目", Order = 1)]
     public ActionResult Index() => this.View();
 
+    [HttpGet]
+    public async Task<JsonResult> GetQuestions(int testId)
+    {
+      var result = await this.aeoQuestionService.Queryable()
+        .Where(x => x.AeoAuthTestId== testId).ToListAsync();
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
     //Get :AeoQuestions/GetData
     //For Index View datagrid datasource url
 

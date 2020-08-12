@@ -255,3 +255,16 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_company_required.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_changecompanylength.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_changecompanylength1.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_aeotest.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_changeaeotest.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.mdchtest.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_chtest1.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.AeoAuthTest.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.AeoQuestion.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.QuestionTpl.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.AeoAuthTest.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.AeoAuthTest.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.AeoQuestion.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.AeoQuestion.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.QuestionTpl.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.QuestionTpl.zh-TW.resources
