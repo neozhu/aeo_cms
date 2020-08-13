@@ -14,6 +14,7 @@
     .modal {
       z-index: 12050;
     }
+
     .modal-backdrop {
       z-index: 12040;
     }
@@ -101,22 +102,24 @@
         </div>
         <div class="modal-body">
           <form id="stage_form" class="needs-validation padding-10">
+            <input type="hidden" name="BusinessOpportunityId" value="" />
+
             <div class="row h-100 align-items-center">
               <label class="col-md-3  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span>商机阶段</label>
               <div class="col-md-9 mb-1 pl-1">
-                <select id="select_stage" required class="form-control form-control-sm"></select>
+                <select id="select_stage" name="Stage" required class="form-control form-control-sm"></select>
               </div>
               <label class="col-md-3  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span>成功率</label>
               <div class="col-md-9 mb-1 pl-1">
-                <input type="text" required class="form-control form-control-sm" />
+                <input type="text" name="Success" required class="form-control form-control-sm" />
               </div>
               <label class="col-md-3  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span>确认时间</label>
               <div class="col-md-9 mb-1 pl-1">
-                <input type="date" required class="form-control form-control-sm" />
+                <input type="date" name="ConfirmDate" required class="form-control form-control-sm" />
               </div>
               <label class="col-md-3  pt-1 pl-0 pr-0 form-label text-right">备注</label>
               <div class="col-md-9 mb-1 pl-1">
-                <textarea  class="form-control form-control-sm"   rows="4"  ></textarea>
+                <textarea name="Remark" class="form-control form-control-sm" rows="4"></textarea>
               </div>
             </div>
           </form>
@@ -143,24 +146,9 @@
   <script src="@Fingerprint.Tag("/Scripts/plugin/jquery.serializejson/jquery.serializejson.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/FileSaver.min.js")"></script>
   <script src="@Fingerprint.Tag("/Scripts/plugin/filesaver/jquery.fileDownload.js")"></script>
+  <script src="~/Scripts/plugin/progressbar/progressbar.min.js"></script>
   <script type="text/javascript">
-    //添加select
-    stagedatasource.map(item => {
-      $('#select_stage')
-        .append($("<option></option>")
-          .attr("value", item.text)
-          .text(item.text)); 
-
-    })
-    $('button[name="submitaddstagebutton"]').on('click', function () {
-      const form = document.getElementById('stage_form');
-      const validate = form.reportValidity();
-      if (validate == false) {
-        form.classList.add("was-validated")
-        return;
-      }
-
-    });
+   
     //绑定按钮事件
     $('button[name="searchbutton"]').on('click', reloadData);
     $('button[name="appendbutton"]').on('click', appendData);

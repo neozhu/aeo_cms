@@ -29,5 +29,7 @@ namespace WebApp.Services
 		Task ImportDataTableAsync(DataTable datatable,string username="");
 		Task<Stream> ExportExcelAsync( string filterRules = "",string sort = "Id", string order = "asc");
 	    Task Delete(int[] id);
-    }
+    Task AddStage(OpportunityStage stage);
+    Task DeleteStage(int id);
+  }
 }

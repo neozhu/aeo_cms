@@ -54,9 +54,35 @@ namespace WebApp.Controllers
         [Route("Index", Name = "商机管理", Order = 1)]
 		public ActionResult Index() => this.View();
 
-		//Get :BusinessOpportunities/GetData
-		//For Index View datagrid datasource url
-        
+    //删除阶段
+    public async Task<JsonResult> DeleteStage(int id) {
+      try
+      {
+        await this.businessOpportunityService.DeleteStage(id);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true, result }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
+    //新增当前阶段
+    public async Task<JsonResult> AddStage(OpportunityStage stage) {
+      try
+      {
+        await this.businessOpportunityService.AddStage(stage);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true, result }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+
+    }
+
+
 		[HttpGet]
         //[OutputCache(Duration = 10, VaryByParam = "*")]
 		 public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")

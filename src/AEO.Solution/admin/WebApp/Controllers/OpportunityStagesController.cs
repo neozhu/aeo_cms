@@ -54,6 +54,15 @@ namespace WebApp.Controllers
         [Route("Index", Name = "商机进展记录", Order = 1)]
 		public ActionResult Index() => this.View();
 
+    //获取数据
+    public async Task<JsonResult> GetStages(int businessopportunityid)
+    {
+      var result = await this.opportunityStageService.Queryable()
+        .Where(x => x.BusinessOpportunityId == businessopportunityid)
+        .ToListAsync();
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
+
 		//Get :OpportunityStages/GetData
 		//For Index View datagrid datasource url
         
