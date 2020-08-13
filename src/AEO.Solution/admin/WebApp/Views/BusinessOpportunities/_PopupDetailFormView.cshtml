@@ -455,7 +455,6 @@
   function deletestage(id) {
     const url = '/BusinessOpportunities/DeleteStage?id=' + id;
     const res = $.get(url);
-    console.log(this);
     $(`#stage_tr_${id}`).remove();
   }
   //加载阶段
