@@ -645,29 +645,40 @@ StageDate: null,
                       options: {
                       }
                   },
-           {   /*所属客户*/
+               {   /*所属客户*/
                  field: 'CustomerId',
-                 type:'combobox',
-                 options:{
-                                panelHeight:'auto',
-                                valueField:'Id',
-                                textField:'CustomerName',
-                                method:'get',
-                   url:'/Customers/GetComboData',
-                                onChange: value => {
-                                if (value === '' || value === null) {
-                                    $dg.datagrid('removeFilterRule', 'CustomerId');
-                                } else {
-                                    $dg.datagrid('addFilterRule', {
-                                        field: 'CustomerId',
-                                        op: 'equal',
-                                        value: value
-                                });
-                            }
-                            $dg.datagrid('doFilter');
-                        }
-                    }
-           },
+                 type: 'combogrid',
+                 options: {
+                   idField: 'Id',
+                   textField: 'CustomerName',
+                   panelHeight: 'auto',
+                   panelWidth: 490,
+                   editable: true,
+                   method: 'get',
+                   mode: 'remote',
+                   fitColumns: true,
+                   pagination: true,
+                   clientPaging: false,
+                   pageList: [10, 20, 50, 100, 500],
+                   url: '/Customers/GetComboGridData',
+                   columns: [[
+                     { field: 'CustomerCode', title: '客户编码', width: 90 },
+                     { field: 'CustomerName', title: '客户名称', width: 150 }
+                   ]],
+                   onChange: item => {
+                     if (item == null) {
+                       $dg.datagrid('removeFilterRule', 'CustomerId');
+                     } else {
+                       $dg.datagrid('addFilterRule', {
+                         field: 'CustomerId',
+                         op: 'equal',
+                         value: item
+                       });
+                     }
+                     $dg.datagrid('doFilter');
+                   }
+                 }
+               },
            ])
            .datagrid('load', '/BusinessOpportunities/GetData');
 

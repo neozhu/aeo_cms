@@ -135,14 +135,6 @@ namespace WebApp.Controllers
                                        .Select(n => new
                                        {
 
-                                         CustomerAttentionProducts = n.CustomerAttentionProducts,
-                                         CustomerBanks = n.CustomerBanks,
-                                         CustomerContacts = n.CustomerContacts,
-                                         CustomerFiles = n.CustomerFiles,
-                                         CustomerFollows = n.CustomerFollows,
-                                         CustomerSales = n.CustomerSales,
-                                         CustomerShares = n.CustomerShares,
-                                         CustomerWarehouses = n.CustomerWarehouses,
                                          Id = n.Id,
                                          CustomerCode = n.CustomerCode,
                                          BaseName = n.BaseName,

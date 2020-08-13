@@ -554,20 +554,20 @@ CustomerName: null,
               fitColumns: true,
               pagination: true,
               clientPaging: false,
-              pageList: [10, 20, 50, 100, 500, 2000],
+              pageList: [10, 20, 50, 100, 500],
               url: '/Customers/GetComboGridData',
               columns: [[
                 { field: 'CustomerCode', title: '客户编码', width: 90 },
                 { field: 'CustomerName', title: '客户名称', width: 150 }
               ]],
-              onSelect: item => {
+              onChange: item => {
                 if (item == null) {
                   $dg.datagrid('removeFilterRule', 'CustomerId');
                 } else {
                   $dg.datagrid('addFilterRule', {
                     field: 'CustomerId',
                     op: 'equal',
-                    value: item.Id
+                    value: item
                   });
                 }
                 $dg.datagrid('doFilter');

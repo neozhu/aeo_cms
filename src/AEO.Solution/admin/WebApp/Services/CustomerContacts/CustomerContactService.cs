@@ -185,6 +185,7 @@ namespace WebApp.Services
       var items = await this.Queryable().Where(x => id.Contains(x.Id)).ToListAsync();
       foreach (var item in items)
       {
+        this.actionLogService.Log(item.CustomerId, item.CustomerCode, "编辑", "删除联系人信息:" + item.Name, Auth.GetFullName());
         this.Delete(item);
       }
 
