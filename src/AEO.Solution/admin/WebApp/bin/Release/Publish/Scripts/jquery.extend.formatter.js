@@ -119,6 +119,254 @@ accounttypeeditor: {
         }
   }  
 });
+//-------活动状态---------//
+var actstatusfiltersource = [{ value: '', text: 'All'}];
+var actstatusdatasource = [];
+actstatusfiltersource.push({ value: '取消',text:'取消'  });
+actstatusdatasource.push({ value: '取消',text:'取消'  });
+actstatusfiltersource.push({ value: '完成',text:'完成'  });
+actstatusdatasource.push({ value: '完成',text:'完成'  });
+actstatusfiltersource.push({ value: '计划',text:'计划'  });
+actstatusdatasource.push({ value: '计划',text:'计划'  });
+actstatusfiltersource.push({ value: '进行中',text:'进行中'  });
+actstatusdatasource.push({ value: '进行中',text:'进行中'  });
+//for datagrid actstatus field  formatter
+function actstatusformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = actstatusdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = actstatusdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   actstatus  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+actstatusfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: actstatusfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   actstatus   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+actstatuseditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: actstatusdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------活动类型---------//
+var acttypefiltersource = [{ value: '', text: 'All'}];
+var acttypedatasource = [];
+acttypefiltersource.push({ value: '促销活动',text:'促销活动'  });
+acttypedatasource.push({ value: '促销活动',text:'促销活动'  });
+acttypefiltersource.push({ value: '其他',text:'其他'  });
+acttypedatasource.push({ value: '其他',text:'其他'  });
+acttypefiltersource.push({ value: '合作伙伴',text:'合作伙伴'  });
+acttypedatasource.push({ value: '合作伙伴',text:'合作伙伴'  });
+acttypefiltersource.push({ value: '培训会',text:'培训会'  });
+acttypedatasource.push({ value: '培训会',text:'培训会'  });
+acttypefiltersource.push({ value: '展览',text:'展览'  });
+acttypedatasource.push({ value: '展览',text:'展览'  });
+acttypefiltersource.push({ value: '广告/简讯',text:'广告/简讯'  });
+acttypedatasource.push({ value: '广告/简讯',text:'广告/简讯'  });
+acttypefiltersource.push({ value: '研讨会/活动',text:'研讨会/活动'  });
+acttypedatasource.push({ value: '研讨会/活动',text:'研讨会/活动'  });
+//for datagrid acttype field  formatter
+function acttypeformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = acttypedatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = acttypedatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   acttype  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+acttypefilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: acttypefiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   acttype   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+acttypeeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: acttypedatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
 //-------题目类别---------//
 var authcategoryfiltersource = [{ value: '', text: 'All'}];
 var authcategorydatasource = [];
@@ -968,6 +1216,264 @@ followeditor: {
          panelHeight: 'auto',
          editable: false,
          data: followdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------跟进状态---------//
+var followstatusfiltersource = [{ value: '', text: 'All'}];
+var followstatusdatasource = [];
+followstatusfiltersource.push({ value: '下单意向',text:'下单意向'  });
+followstatusdatasource.push({ value: '下单意向',text:'下单意向'  });
+followstatusfiltersource.push({ value: '初次接触',text:'初次接触'  });
+followstatusdatasource.push({ value: '初次接触',text:'初次接触'  });
+followstatusfiltersource.push({ value: '售后服务',text:'售后服务'  });
+followstatusdatasource.push({ value: '售后服务',text:'售后服务'  });
+followstatusfiltersource.push({ value: '客户投诉',text:'客户投诉'  });
+followstatusdatasource.push({ value: '客户投诉',text:'客户投诉'  });
+followstatusfiltersource.push({ value: '正式报价',text:'正式报价'  });
+followstatusdatasource.push({ value: '正式报价',text:'正式报价'  });
+followstatusfiltersource.push({ value: '签约成交',text:'签约成交'  });
+followstatusdatasource.push({ value: '签约成交',text:'签约成交'  });
+followstatusfiltersource.push({ value: '邮件沟通',text:'邮件沟通'  });
+followstatusdatasource.push({ value: '邮件沟通',text:'邮件沟通'  });
+followstatusfiltersource.push({ value: '首次报价',text:'首次报价'  });
+followstatusdatasource.push({ value: '首次报价',text:'首次报价'  });
+//for datagrid followstatus field  formatter
+function followstatusformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = followstatusdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = followstatusdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   followstatus  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+followstatusfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: followstatusfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   followstatus   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+followstatuseditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: followstatusdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------跟进方式---------//
+var followtypefiltersource = [{ value: '', text: 'All'}];
+var followtypedatasource = [];
+followtypefiltersource.push({ value: 'QQ',text:'QQ'  });
+followtypedatasource.push({ value: 'QQ',text:'QQ'  });
+followtypefiltersource.push({ value: 'Skype',text:'Skype'  });
+followtypedatasource.push({ value: 'Skype',text:'Skype'  });
+followtypefiltersource.push({ value: 'WhatsApp',text:'WhatsApp'  });
+followtypedatasource.push({ value: 'WhatsApp',text:'WhatsApp'  });
+followtypefiltersource.push({ value: '微信',text:'微信'  });
+followtypedatasource.push({ value: '微信',text:'微信'  });
+followtypefiltersource.push({ value: '拜访',text:'拜访'  });
+followtypedatasource.push({ value: '拜访',text:'拜访'  });
+followtypefiltersource.push({ value: '电话',text:'电话'  });
+followtypedatasource.push({ value: '电话',text:'电话'  });
+followtypefiltersource.push({ value: '短信',text:'短信'  });
+followtypedatasource.push({ value: '短信',text:'短信'  });
+followtypefiltersource.push({ value: '邮件',text:'邮件'  });
+followtypedatasource.push({ value: '邮件',text:'邮件'  });
+//for datagrid followtype field  formatter
+function followtypeformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = followtypedatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = followtypedatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   followtype  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+followtypefilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: followtypefiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   followtype   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+followtypeeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: followtypedatasource,
          multiple: false,
          valueField: 'value',
          textField: 'text'

@@ -84,51 +84,28 @@
         });
     });
     //新增记录
-    function customerfollow_appendItem() {
-       const $customerform = $('#customer_form');
-       if ($customerform.form('enableValidation').form('validate')) {
-          const customer = $customerform.serializeJSON();
-       const item = {
-          FollowDate: moment().format('YYYY-MM-DD HH:mm:ss'), 
-CustomerId: customer.Id, 
-CustomerCode: 'customer.CustomerCode', 
-CustomerName: 'customer.CustomerName', 
+  function customerfollow_appendItem() {
+    const $customerform = $('#customer_form');
+    if ($customerform.form('enableValidation').form('validate')) {
+      const customer = $customerform.serializeJSON();
+      const item = {
+        ContactName:null,
+        Owner:$.getusername(),
+        FollowDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        CustomerId: customer.Id,
+        CustomerCode: customer.CustomerCode,
+        CustomerName: customer.CustomerName,
 
-          CustomerId:customer.Id
-        };
-      if (!SUBEDITINLINE) {
-        open_customerfollowdlg(0, item, 'Added');
-      } else {
-			if (customerfollow_endEditing()) {
-				//对必填字段进行默认值初始化
-				$customerfollowdg.datagrid('insertRow', 
-                               { index: 0,
-                                  row: item 
-                               });
-				customerfollow_editIndex = 0;
-				$customerfollowdg.datagrid('selectRow', customerfollow_editIndex)
-						.datagrid('beginEdit', customerfollow_editIndex);
-			}
-        }
-        }
-	 }
+        CustomerId: customer.Id
+      };
+
+      open_customerfollowdlg(0, item, 'Added');
+
+    }
+  }
     //删除编辑的行
 	function customerfollow_removeItem() {
-		if (customerfollow_editIndex !== undefined) {  
-            const delindex = orderdetail_editIndex;
-			$customerfollowdg.datagrid('cancelEdit', delindex)
-					           .datagrid('deleteRow', delindex);
-            $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', false);
-            $("button[name*='customerfollow_savechangesbutton']").prop('disabled', false);
-        } else {
-           const rows = $customerfollowdg.datagrid('getChecked');
-           rows.slice().reverse().forEach(row => {
-                const rowindex = $customerfollowdg.datagrid('getRowIndex', row);
-                $customerfollowdg.datagrid('deleteRow', rowindex);
-                $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', false);
-                $("button[name*='customerfollow_savechangesbutton']").prop('disabled', false);
-            });
-        }
+    customerfollow_deleteChecked()
 	}
     //删除选中的行
     function customerfollow_deleteChecked() {
@@ -230,263 +207,210 @@ CustomerName: 'customer.CustomerName',
       }
 
 
-$(() => {
+  $(() => {
     $customerfollowdg.datagrid({
-            fit: false,
-            height: 300,
-            rownumbers: true,
-            striped: true,
-            idField: 'Id',
-            sortName: 'Id',
-            sortOrder: 'asc',
-            remoteFilter: true,
-            singleSelect: true,
-            checkOnSelect: false,
-		    selectOnCheck: false,
-            method: 'get',
-            pageList: [10, 20, 50, 100,1000],
-            pagination: true,
-            clientPaging:false,
-            pagination: true,
-            onDblClickRow: customerfollow_onDblClickRow,
-            onClickCell: customerfollow_onClickCell,
-            onBeforeLoad: function () {
+      fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      onBeforeLoad: function () {
 
-            },
-            onLoadSuccess: function (data) {
-              customerfollow_editIndex = undefined;
-              $("button[name*='customerfollow_deleterowbutton']").prop('disabled', true);
-              $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', true);
-              $("button[name*='customerfollow_savechangesbutton']").prop('disabled', true);
-            },
-            onCheck: function () {
-                $("button[name*='customerfollow_deleterowbutton']").prop('disabled', false);
-            },
-            onUncheck: function () {
-               const checked = $(this).datagrid('getChecked').length > 0;
-               $("button[name*='customerfollow_deleterowbutton']").prop('disabled', !checked);
-            },
-           onCheckAll: function (rows) {
-              if (rows.length > 0) {
-                 $("button[name*='customerfollow_deleterowbutton']").prop('disabled', false);
-              }
-           },
-           onUncheckAll: function () {
-              $("button[name*='customerfollow_deleterowbutton']").prop('disabled', true);           
-           },
-            onSelect: function(index,row) {
-              customerfollow = row;
-            },
-            onBeforeEdit: function (index, row) {
-                 customerfollow_editIndex = index;
-                 row.editing = true;
-                 $("button[name*='customerfollow_deleterowbutton']").prop('disabled', false);
-                 $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', false);
-                 $("button[name*='customerfollow_savechangesbutton']").prop('disabled', false);
-                 $(this).datagrid('refreshRow', index);
-             },
-            onBeginEdit: function (index, row) {
-               //const editors = $(this).datagrid('getEditors', index);
-  
-            },
-            onEndEdit: function (index, row) {
+      },
+      onLoadSuccess: function (data) {
+        customerfollow_editIndex = undefined;
+        $("button[name*='customerfollow_deleterowbutton']").prop('disabled', true);
+        $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', true);
+        $("button[name*='customerfollow_savechangesbutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='customerfollow_deleterowbutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='customerfollow_deleterowbutton']").prop('disabled', !checked);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='customerfollow_deleterowbutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='customerfollow_deleterowbutton']").prop('disabled', true);
+      },
+      onSelect: function (index, row) {
+        customerfollow = row;
+      },
+      onBeforeEdit: function (index, row) {
+        customerfollow_editIndex = index;
+        row.editing = true;
+        $("button[name*='customerfollow_deleterowbutton']").prop('disabled', false);
+        $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', false);
+        $("button[name*='customerfollow_savechangesbutton']").prop('disabled', false);
+        $(this).datagrid('refreshRow', index);
+      },
+      onBeginEdit: function (index, row) {
+        //const editors = $(this).datagrid('getEditors', index);
 
-             },
-             onAfterEdit: function (index, row) {
-                   row.editing = false;
-                   customerfollow_editIndex = undefined;
-                   $(this).datagrid('refreshRow', index);
-             },
-             onCancelEdit: function (index, row) {
-                customerfollow_editIndex = undefined;
-                row.editing = false;
-                $("button[name*='customerfollow_deleterowbutton']").prop('disabled', true);
-              $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', true);
-              $("button[name*='customerfollow_savechangesbutton']").prop('disabled', true);
-                $(this).datagrid('refreshRow', index);
-            },
-            columns: [[
-            { field: 'ck', checkbox: true },
-		     
-			{    /*客户联系人*/
-                 field:'ContactName', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.ContactName)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_ContactName',
-                                 prompt:'@Html.DescriptionFor(model => model.ContactName)',
-                                 required:true, 
-                                 validType: 'length[0,80]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*跟进方式*/
-                 field:'FollowType', 
-                 title:'  @Html.DisplayNameFor(model => model.FollowType)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_FollowType',
-                                 prompt:'@Html.DescriptionFor(model => model.FollowType)',
-                                 required:false, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-            {    /*跟进状态*/
-                 field:'Status',
-                 title:'  @Html.DisplayNameFor(model => model.Status)', 
-                 width:100,
-                 align:'right',
-                 hidden:false,
-			     editor:{ 
-                       /*需要在键值对中维护status枚举值并生成JavaScript才能使用*/
-                       type:'statuseditor',
-					   options:{
-                                id:'editor_Status',
-						     	prompt:'@Html.DescriptionFor(model => model.Status)' ,
-								required:false
-                                } 
-					   },
-			     formatter: statusformatter
-			},
-			{    /*跟进人*/
-                 field:'Owner', 
-                 title:'  @Html.DisplayNameFor(model => model.Owner)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Owner',
-                                 prompt:'@Html.DescriptionFor(model => model.Owner)',
-                                 required:false, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-            {   /*跟进时间*/
-                field:'FollowDate', 
-                title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FollowDate)', 
-                width:100, 
-                align:'right', 
-                hidden:false,
-                editor:{
-                      type:'datebox',
-                      options:{
-                           id:'editor_FollowDate',
-                           prompt:'@Html.DescriptionFor(model => model.FollowDate)',
-                           required:true
-                           }  
-                      },
-                sortable:true, 
-                resizable:true, 
-                formatter:dateformatter 
-			} ,
-			{    /*跟进内容*/
-                 field:'Content', 
-                 title:'  @Html.DisplayNameFor(model => model.Content)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Content',
-                                 prompt:'@Html.DescriptionFor(model => model.Content)',
-                                 required:false, 
-                                 validType: 'length[0,512]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{   /*设置提醒时间*/
-                field:'ReminderTime', 
-                title:'  @Html.DisplayNameFor(model => model.ReminderTime)', 
-                width:140, 
-                align:'right', 
-                hidden:false,
-                editor:{
-                      type:'datetimebox',
-                      options:{
-                           id:'editor_ReminderTime',
-                           prompt:'@Html.DescriptionFor(model => model.ReminderTime)',
-                           required:false
-                           }  
-                      },
-                sortable:true, 
-                resizable:true, 
-                formatter:datetimeformatter 
-			} ,
-			{    /*提醒内容*/
-                 field:'ReminderContent', 
-                 title:'  @Html.DisplayNameFor(model => model.ReminderContent)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_ReminderContent',
-                                 prompt:'@Html.DescriptionFor(model => model.ReminderContent)',
-                                 required:false, 
-                                 validType: 'length[0,512]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*提醒人员*/
-                 field:'ReminderTo', 
-                 title:'  @Html.DisplayNameFor(model => model.ReminderTo)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_ReminderTo',
-                                 prompt:'@Html.DescriptionFor(model => model.ReminderTo)',
-                                 required:false, 
-                                 validType: 'length[0,128]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			}
-            ]]
-            })
-            .datagrid('enableFilter',[
-                /*需要在键值队维护好status枚举值*/
-				{    /*跟进状态*/
-					  field: 'Status',
-					  type: 'statusfilter',
-					  options: {
-					
-						       }
-				 },
-				{     /*跟进时间*/
-					  field: 'FollowDate',
-					  type: 'dateRange',
-					  options: {
-					  }
-				  },
-				{     /*设置提醒时间*/
-					  field: 'ReminderTime',
-					  type: 'dateRange',
-					  options: {
-					  }
-				  },
-		   ]);
+      },
+      onEndEdit: function (index, row) {
+
+      },
+      onAfterEdit: function (index, row) {
+        row.editing = false;
+        customerfollow_editIndex = undefined;
+        $(this).datagrid('refreshRow', index);
+      },
+      onCancelEdit: function (index, row) {
+        customerfollow_editIndex = undefined;
+        row.editing = false;
+        $("button[name*='customerfollow_deleterowbutton']").prop('disabled', true);
+        $("button[name*='customerfollow_cancelchangesbutton']").prop('disabled', true);
+        $("button[name*='customerfollow_savechangesbutton']").prop('disabled', true);
+        $(this).datagrid('refreshRow', index);
+      },
+      columns: [[
+        { field: 'ck', checkbox: true },
+
+        {    /*客户联系人*/
+          field: 'ContactName',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.ContactName)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_ContactName',
+              prompt: '@Html.DescriptionFor(model => model.ContactName)',
+              required: true,
+              validType: 'length[0,80]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*跟进方式*/
+          field: 'FollowType',
+          title: '  @Html.DisplayNameFor(model => model.FollowType)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_FollowType',
+              prompt: '@Html.DescriptionFor(model => model.FollowType)',
+              required: false,
+              validType: 'length[0,20]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*跟进状态*/
+          field: 'Status',
+          title: '  @Html.DisplayNameFor(model => model.Status)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          editor: {
+            /*需要在键值对中维护status枚举值并生成JavaScript才能使用*/
+            type: 'statuseditor',
+            options: {
+              id: 'editor_Status',
+              prompt: '@Html.DescriptionFor(model => model.Status)',
+              required: false
+            }
+          },
+          formatter: statusformatter
+        },
+        {    /*跟进人*/
+          field: 'Owner',
+          title: '  @Html.DisplayNameFor(model => model.Owner)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Owner',
+              prompt: '@Html.DescriptionFor(model => model.Owner)',
+              required: false,
+              validType: 'length[0,20]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {   /*跟进时间*/
+          field: 'FollowDate',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FollowDate)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: {
+              id: 'editor_FollowDate',
+              prompt: '@Html.DescriptionFor(model => model.FollowDate)',
+              required: true
+            }
+          },
+          sortable: true,
+          resizable: true,
+          formatter: dateformatter
+        },
+        {    /*跟进内容*/
+          field: 'Content',
+          title: '  @Html.DisplayNameFor(model => model.Content)',
+          width: 200,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Content',
+              prompt: '@Html.DescriptionFor(model => model.Content)',
+              required: false,
+              validType: 'length[0,512]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        }
+       
+      ]]
+    })
+      .datagrid('enableFilter', [
+        /*需要在键值队维护好status枚举值*/
+        {    /*跟进状态*/
+          field: 'Status',
+          type: 'statusfilter',
+          options: {
+
+          }
+        },
+        {     /*跟进时间*/
+          field: 'FollowDate',
+          type: 'dateRange',
+          options: {
+          }
+        },
+        {     /*设置提醒时间*/
+          field: 'ReminderTime',
+          type: 'dateRange',
+          options: {
+          }
+        },
+      ]);
   });
       
 </script>

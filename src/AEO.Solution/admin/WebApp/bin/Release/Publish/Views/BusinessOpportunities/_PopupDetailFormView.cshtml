@@ -1,7 +1,7 @@
 ﻿﻿@model WebApp.Models.BusinessOpportunity
 <!-- 弹出编辑窗体表单 -->
 <div id="businessopportunitydetailwindow" class="easyui-window"
-     title="明细数据"
+     title="编辑商机"
      data-options="modal:true,
                     closed:true,
                     minimizable:false,
@@ -36,6 +36,7 @@
   <!-- toolbar -->
   <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
     <div class="d-flex justify-content-end pr-4">
+
       <div class="btn-group btn-group-sm mr-1">
         <button name="saveitembutton" class="btn btn-default">
           <i class="fal fa-save"></i> @Html.L("Save")
@@ -344,11 +345,45 @@
               </div>
 
 
-               
+
 
             </div>
           </fieldset>
         </form>
+
+        <div class="card" id="stage_card">
+          <div id="progressbarjs"></div>
+          <div class="card-body">
+            <div class="d-flex">
+              <h5 class="flex-grow-1 card-title">商机推进</h5>
+              <button id="addstagebutton" type="button" class="mb-2 btn btn-outline-primary btn-pills waves-effect waves-themed">新增</button>
+            </div>
+            <table id="stage_table" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>
+                    商机阶段
+                  </th>
+                  <th>
+                    成功率
+                  </th>
+                  <th>
+                    确认时间
+                  </th>
+                  <th>
+                    备注
+                  </th>
+                  <th width="60px">
+                    操作
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+               
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -363,6 +398,38 @@
     //绑定按钮事件
     $('button[name="saveitembutton"]').on('click', savebusinessopportunityitem);
     $('button[name="deleteitembutton"]').on('click', deletebusinessopportunityitem);
+    $('#addstagebutton').on('click', function () {
+      console.log($('#businessopportunity_form #Id').val())
+      $('#stage_form input[name="BusinessOpportunityId"]').val($('#businessopportunity_form #Id').val());
+      $('#add-stage-modal').modal('toggle');
+    });
+    //添加select
+    stagedatasource.map(item => {
+      $('#select_stage')
+        .append($("<option></option>")
+          .attr("value", item.text)
+          .text(item.text));
+
+    })
+  });
+  
+  //新增商机阶段
+  $('button[name="submitaddstagebutton"]').on('click', function () {
+    const form = document.getElementById('stage_form');
+    const validate = form.reportValidity();
+    if (validate == false) {
+      form.classList.add("was-validated")
+      return;
+    }
+    const opsstage = $('#stage_form').serializeJSON();
+    const url = '/BusinessOpportunities/AddStage';
+    $.post(url, { stage: opsstage }).done(res => {
+
+      $('#add-stage-modal').modal('toggle');
+      loadstages(opsstage.BusinessOpportunityId)
+      reloadData();
+    })
+
   });
   //判断新增编辑状态
   var MODELSTATE = 'Added';
@@ -372,14 +439,56 @@
     //判断是否显示功能按钮
     if (MODELSTATE === 'Added') {
       $('#deleteitem-btn-group').hide();
+      $('#stage_card').hide();
     } else {
       $('#deleteitem-btn-group').show();
+      $('#stage_card').show();
+      loadstages(data.Id)
     }
     initbusinessopportunitydetailview();
     businessopportunityid = (data.Id || 0);
     $('#businessopportunitydetailwindow').window('open');
     $('#businessopportunity_form').form('reset');
     $('#businessopportunity_form').form('load', data);
+  }
+  //删除阶段
+  function deletestage(id) {
+    const url = '/BusinessOpportunities/DeleteStage?id=' + id;
+    const res = $.get(url);
+    $(`#stage_tr_${id}`).remove();
+  }
+  //加载阶段
+  async function loadstages(id) {
+    $('#stage_table > tbody').empty();
+    var bar = new ProgressBar.Line('#progressbarjs', {
+      strokeWidth: 1,
+      easing: 'easeInOut',
+      duration: 1400,
+      color: '#51aef6',
+      trailColor: '#f6f6f6',
+      trailWidth: 1,
+      svgStyle: { width: '100%', height: '100%' }
+    });
+    bar.animate(1.0);
+    const url = '/OpportunityStages/GetStages?businessopportunityid=' + id;
+    const result = await $.get(url);
+    result.map(item => {
+      const tr = `<tr id="stage_tr_${item.Id}">
+                  <td>${item.Stage}</td>
+                  <td>${item.Success}</td>
+                  <td>${moment(item.ConfirmDate).format('YYYY-MM-DD')}</td>
+                  <td>${item.Remark||''}</td>
+                  <td style="text-align:center">
+                    <a href="javascript:deletestage(${item.Id});" class="btn btn-danger btn-sm btn-icon waves-effect waves-themed">
+                       <i class="fal fa-times"></i>
+                     </a>
+                  </td>
+                </tr>`;
+      $('#stage_table > tbody').append(tr);
+    });
+
+
+    bar.destroy();
   }
   //删除当前记录
   function deletebusinessopportunityitem() {
@@ -445,36 +554,36 @@
   function initbusinessopportunitydetailview() {
     //回车光标移动到下个输入控件
     //如果是枚举类型需要把numberbox改成combobox
-    //预计成交金额
-    $('#Amount').numberbox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //日期类型 发现日期
-    $('#OpDate').datebox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //日期类型 预计签单日期
-    $('#PrDate').datebox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //日期类型 更新时间
-    $('#StageDate').datebox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //所属客户默认外键使用combobox,也可以使用combogrid
-    $('#CustomerId').combobox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
+    ////预计成交金额
+    //$('#Amount').numberbox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////日期类型 发现日期
+    //$('#OpDate').datebox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////日期类型 预计签单日期
+    //$('#PrDate').datebox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////日期类型 更新时间
+    //$('#StageDate').datebox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////所属客户默认外键使用combobox,也可以使用combogrid
+    //$('#CustomerId').combobox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
   }
 </script>
 

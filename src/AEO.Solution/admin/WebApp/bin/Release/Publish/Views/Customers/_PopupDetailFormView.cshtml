@@ -60,7 +60,7 @@
       </div>
 
       <div class="btn-group btn-group-sm mr-1" id="follow-btn-group">
-        <button name="addfollowbutton" class="btn btn-info">
+        <button name="customerfollow_appenditembutton" class="btn btn-info">
           <i class="fal fa-code-merge"></i> 添加跟进记录
         </button>
       </div>
@@ -93,7 +93,13 @@
                href="#tab-customer"
                role="tab">客户信息</a>
           </li>
-
+          <li class="nav-item">
+            <a class="nav-link "
+               data-toggle="tab"
+               data-model="customerfollow"
+               href="#tab-customerfollow"
+               role="tab">客户动态</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link "
                data-toggle="tab"
@@ -162,6 +168,7 @@
                              },
                              onLoadSuccess:function(data){
                                hook = false;
+                               $(this).form('disableValidation');
                                $('button[name*=\'saveitembutton\']').prop('disabled', true);
                              }">
                 @Html.AntiForgeryToken()
@@ -626,68 +633,68 @@
                     </div>
 
                     @*客户状态
-           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
-           <div class="col-md-4 mb-1 pl-1">
-             <input id="@Html.IdFor(model => model.Status)"
-                    name="@Html.NameFor(model => model.Status)"
-                    value="@Html.ValueFor(model => model.Status)"
-                    tabindex="27"
-                    class="easyui-textbox"
-                    style="width:100%"
-                    type="text"
-                    data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
-        required:false,
-                        validType: 'length[0,10]'
-                        " />
-           </div>
+                 <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
+                 <div class="col-md-4 mb-1 pl-1">
+                   <input id="@Html.IdFor(model => model.Status)"
+                          name="@Html.NameFor(model => model.Status)"
+                          value="@Html.ValueFor(model => model.Status)"
+                          tabindex="27"
+                          class="easyui-textbox"
+                          style="width:100%"
+                          type="text"
+                          data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
+              required:false,
+                              validType: 'length[0,10]'
+                              " />
+                 </div>
 
 
-           标志
-           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Flag)</label>
-           <div class="col-md-4 mb-1 pl-1">
-             <div class="custom-control custom-checkbox pt-1">
-               <input id="@Html.IdFor(model => model.Flag)"
-                      name="@Html.NameFor(model => model.Flag)"
-                      value="true" @(Model.Flag ? "checked=\"checked\"" : "")
-                      data-unchecked-value="false"
-                      tabindex="28"
-                      class="custom-control-input"
-                      type="checkbox" />
-               <label class="custom-control-label" for="@Html.NameFor(model => model.Flag)"> @Html.DisplayNameFor(model => model.Flag)</label>
-             </div>
-           </div>
+                 标志
+                 <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Flag)</label>
+                 <div class="col-md-4 mb-1 pl-1">
+                   <div class="custom-control custom-checkbox pt-1">
+                     <input id="@Html.IdFor(model => model.Flag)"
+                            name="@Html.NameFor(model => model.Flag)"
+                            value="true" @(Model.Flag ? "checked=\"checked\"" : "")
+                            data-unchecked-value="false"
+                            tabindex="28"
+                            class="custom-control-input"
+                            type="checkbox" />
+                     <label class="custom-control-label" for="@Html.NameFor(model => model.Flag)"> @Html.DisplayNameFor(model => model.Flag)</label>
+                   </div>
+                 </div>
 
-           客户图片
-           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Logo)</label>
-           <div class="col-md-4 mb-1 pl-1">
-             <input id="@Html.IdFor(model => model.Logo)"
-                    name="@Html.NameFor(model => model.Logo)"
-                    value="@Html.ValueFor(model => model.Logo)"
-                    tabindex="29"
-                    class="easyui-textbox"
-                    style="width:100%"
-                    type="text"
-                    data-options="prompt:'@Html.DescriptionFor(model => model.Logo)',
-        required:false,
-                        validType: 'length[0,50]'
-                        " />
-           </div>
+                 客户图片
+                 <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Logo)</label>
+                 <div class="col-md-4 mb-1 pl-1">
+                   <input id="@Html.IdFor(model => model.Logo)"
+                          name="@Html.NameFor(model => model.Logo)"
+                          value="@Html.ValueFor(model => model.Logo)"
+                          tabindex="29"
+                          class="easyui-textbox"
+                          style="width:100%"
+                          type="text"
+                          data-options="prompt:'@Html.DescriptionFor(model => model.Logo)',
+              required:false,
+                              validType: 'length[0,50]'
+                              " />
+                 </div>
 
 
-           最近联系时间
-           <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LastContactDate)</label>
-           <div class="col-md-4 mb-1 pl-1">
-             <input id="@Html.IdFor(model => model.LastContactDate)"
-                    name="@Html.NameFor(model => model.LastContactDate)"
-                    value="@Html.ValueFor(model => model.LastContactDate)"
-                    tabindex="30"
-                    class="easyui-datebox"
-                    style="width:100%"
-                    type="text"
-                    data-options="prompt:'@Html.DescriptionFor(model => model.LastContactDate)',
-        required:false,
-        formatter:dateformatter" />
-           </div>*@
+                 最近联系时间
+                 <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LastContactDate)</label>
+                 <div class="col-md-4 mb-1 pl-1">
+                   <input id="@Html.IdFor(model => model.LastContactDate)"
+                          name="@Html.NameFor(model => model.LastContactDate)"
+                          value="@Html.ValueFor(model => model.LastContactDate)"
+                          tabindex="30"
+                          class="easyui-datebox"
+                          style="width:100%"
+                          type="text"
+                          data-options="prompt:'@Html.DescriptionFor(model => model.LastContactDate)',
+              required:false,
+              formatter:dateformatter" />
+                 </div>*@
 
                   </div>
                 </fieldset>
@@ -695,6 +702,33 @@
 
             </div>
 
+          </div>
+          <div class="tab-pane fade show "
+               id="tab-customerfollow"
+               data-model="customerfollow"
+               role="tabpanel"
+               aria-labelledby="tab-customerfollow">
+
+            <div class="d-flex justify-content-start flex-wrap p-2">
+              <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
+                <button name="customerfollow_searchbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed"
+                        onclick="customerfollow_reloadData()">
+                  查询
+                </button>
+                <button name="customerfollow_deleterowbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed">
+                  删除
+                </button>
+              </div>
+
+            </div>
+            <div class="table-responsive">
+              <table class="m-0" id="customerfollow_datagrid">
+              </table>
+            </div>
           </div>
           <div class="tab-pane fade show"
                id="tab-customerattentionproduct"
@@ -832,14 +866,12 @@
               <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
                 <button name="customerfile_searchbutton"
                         type="button"
-                        class="btn btn-default waves-effect waves-themed"
-                        >
+                        class="btn btn-default waves-effect waves-themed">
                   查询
                 </button>
                 <button name="productfile_addbutton"
                         type="button"
-                        class="btn btn-default waves-effect waves-themed"
-                         >
+                        class="btn btn-default waves-effect waves-themed">
                   上传文件
                 </button>
                 <button name="customerfile_deleterowbutton"
@@ -847,7 +879,7 @@
                         class="btn btn-default waves-effect waves-themed">
                   删除
                 </button>
-                
+
               </div>
 
             </div>

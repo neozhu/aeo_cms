@@ -58,7 +58,10 @@ namespace WebApp.Controllers
         .Where(x => x.CustomerName.Contains(q))
         .Select(x => new { x.Id, x.CustomerCode, x.CustomerName, x.ContactName })
         .ToListAsync();
-      return Json(result, JsonRequestBehavior.AllowGet);
+      //return Json(result, JsonRequestBehavior.AllowGet);
+      var json = Json(result, JsonRequestBehavior.AllowGet);
+      json.MaxJsonLength = int.MaxValue;
+      return json;
     }
     //Get :Customers/GetData
     //For Index View datagrid datasource url
@@ -119,6 +122,66 @@ namespace WebApp.Controllers
       var pagelist = new { total = totalCount, rows = pagerows };
       return Json(pagelist, JsonRequestBehavior.AllowGet);
     }
+
+    [HttpGet]
+    //[OutputCache(Duration = 10, VaryByParam = "*")]
+    public async Task<JsonResult> GetComboGridData(string q="",int page = 1, int rows = 10, string sort = "Id", string order = "asc")
+    {
+     
+      var pagerows = ( await this.customerService
+                           .Query(x=>x.CustomerCode.Contains(q) || x.CustomerName.Contains(q))
+                          .OrderBy(n => n.OrderBy(sort, order))
+                         .SelectPageAsync(page, rows, out var totalCount) )
+                                       .Select(n => new
+                                       {
+
+                                         CustomerAttentionProducts = n.CustomerAttentionProducts,
+                                         CustomerBanks = n.CustomerBanks,
+                                         CustomerContacts = n.CustomerContacts,
+                                         CustomerFiles = n.CustomerFiles,
+                                         CustomerFollows = n.CustomerFollows,
+                                         CustomerSales = n.CustomerSales,
+                                         CustomerShares = n.CustomerShares,
+                                         CustomerWarehouses = n.CustomerWarehouses,
+                                         Id = n.Id,
+                                         CustomerCode = n.CustomerCode,
+                                         BaseName = n.BaseName,
+                                         CustomerName = n.CustomerName,
+                                         CustomerType = n.CustomerType,
+                                         Country = n.Country,
+                                         Level = n.Level,
+                                         Source = n.Source,
+                                         Telephone = n.Telephone,
+                                         Fax = n.Fax,
+                                         Owner = n.Owner,
+                                         WebSite = n.WebSite,
+                                         Industry = n.Industry,
+                                         BusinessScope = n.BusinessScope,
+                                         Address = n.Address,
+                                         Remark = n.Remark,
+                                         Payment = n.Payment,
+                                         TradeCode = n.TradeCode,
+                                         MasterCustom = n.MasterCustom,
+                                         CreditCode = n.CreditCode,
+                                         ContactName = n.ContactName,
+                                         Appellation = n.Appellation,
+                                         Sex = n.Sex,
+                                         Job = n.Job,
+                                         Wx = n.Wx,
+                                         PhoneNumber = n.PhoneNumber,
+                                         Email = n.Email,
+                                         ContactRemark = n.ContactRemark,
+                                         Status = n.Status,
+                                         Flag = n.Flag,
+                                         Logo = n.Logo,
+                                         LastContactDate = n.LastContactDate?.ToString("yyyy-MM-dd HH:mm:ss")
+                                       }).ToList();
+      var pagelist = new { total = totalCount, rows = pagerows };
+      return Json(pagelist, JsonRequestBehavior.AllowGet);
+    }
+    //easyui datagrid post acceptChanges 
+
+
     //easyui datagrid post acceptChanges 
     [HttpPost]
     public async Task<JsonResult> AcceptChanges(Customer[] customers)

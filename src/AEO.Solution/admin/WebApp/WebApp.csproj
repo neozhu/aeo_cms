@@ -450,6 +450,7 @@
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
+    <Compile Include="Controllers\MarketActsController.cs" />
     <Compile Include="Controllers\MenuItemsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\OpportunityStagesController.cs" />
@@ -607,6 +608,10 @@
     <Compile Include="Migrations\202008120944559_md_addstagesuccess.designer.cs">
       <DependentUpon>202008120944559_md_addstagesuccess.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008130321296_md_MarketActs.cs" />
+    <Compile Include="Migrations\202008130321296_md_MarketActs.designer.cs">
+      <DependentUpon>202008130321296_md_MarketActs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -633,6 +638,7 @@
     <Compile Include="Models\Metadata\BusinessOpportunityMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
+    <Compile Include="Models\Metadata\MarketActMetadata.cs" />
     <Compile Include="Models\Metadata\OpportunityStageMetadata.cs" />
     <Compile Include="Models\Metadata\ProductFileMetadata.cs" />
     <Compile Include="Models\Metadata\ProductMetadata.cs" />
@@ -686,6 +692,7 @@
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
     <Compile Include="Models\resource\Log.Designer.cs" />
+    <Compile Include="Models\resource\MarketAct.Designer.cs" />
     <Compile Include="Models\resource\Notification.Designer.cs" />
     <Compile Include="Models\resource\OpportunityStage.Designer.cs" />
     <Compile Include="Models\resource\Product.Designer.cs" />
@@ -736,6 +743,8 @@
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
     <Compile Include="Repositories\Logs\LogQuery.cs" />
     <Compile Include="Repositories\Logs\LogRepository.cs" />
+    <Compile Include="Repositories\MarketActs\MarketActQuery.cs" />
+    <Compile Include="Repositories\MarketActs\MarketActRepository.cs" />
     <Compile Include="Repositories\Notifications\NotificationQuery.cs" />
     <Compile Include="Repositories\Notifications\NotificationRepository.cs" />
     <Compile Include="Repositories\OpportunityStages\OpportunityStageQuery.cs" />
@@ -805,6 +814,8 @@
     <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
     <Compile Include="Services\Logs\LogService.cs" />
+    <Compile Include="Services\MarketActs\IMarketActService.cs" />
+    <Compile Include="Services\MarketActs\MarketActService.cs" />
     <Compile Include="Services\Notifications\INotificationService.cs" />
     <Compile Include="Services\Notifications\NotificationService.cs" />
     <Compile Include="Services\OpportunityStages\IOpportunityStageService.cs" />
@@ -4091,6 +4102,13 @@
     <Content Include="Views\BusinessOpportunities\Details.cshtml" />
     <Content Include="Views\BusinessOpportunities\Edit.cshtml" />
     <Content Include="Views\BusinessOpportunities\EditForm.cshtml" />
+    <Content Include="Views\MarketActs\_DisplayForm.cshtml" />
+    <Content Include="Views\MarketActs\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\MarketActs\Index.cshtml" />
+    <Content Include="Views\MarketActs\Create.cshtml" />
+    <Content Include="Views\MarketActs\Details.cshtml" />
+    <Content Include="Views\MarketActs\Edit.cshtml" />
+    <Content Include="Views\MarketActs\EditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4275,6 +4293,9 @@
     <EmbeddedResource Include="Migrations\202008120944559_md_addstagesuccess.resx">
       <DependentUpon>202008120944559_md_addstagesuccess.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008130321296_md_MarketActs.resx">
+      <DependentUpon>202008130321296_md_MarketActs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4299,6 +4320,9 @@
     <EmbeddedResource Include="Models\resource\Log.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Log.resx" />
     <EmbeddedResource Include="Models\resource\Log.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\MarketAct.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\MarketAct.resx" />
+    <EmbeddedResource Include="Models\resource\MarketAct.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Notification.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Notification.resx" />
     <EmbeddedResource Include="Models\resource\Notification.zh-TW.resx" />

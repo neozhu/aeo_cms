@@ -82,6 +82,8 @@ namespace WebApp.Models
     //商机管理
     public DbSet<OpportunityStage> OpportunityStages { get; set; }
     public DbSet<BusinessOpportunity> BusinessOpportunities { get; set; }
+    //市场活动
+    public DbSet<MarketAct> MarketActs { get; set; }
 
     #endregion
 

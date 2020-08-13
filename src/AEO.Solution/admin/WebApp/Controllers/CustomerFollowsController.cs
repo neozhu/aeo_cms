@@ -182,7 +182,7 @@ namespace WebApp.Controllers
 		//POST: CustomerFollows/Create
 		//To protect from overposting attacks, please enable the specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Create(CustomerFollow customerFollow)
 		{
             if (ModelState.IsValid)
@@ -233,7 +233,7 @@ namespace WebApp.Controllers
 		//POST: CustomerFollows/Edit/:id
 		//To protect from overposting attacks, please enable the specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Edit(CustomerFollow customerFollow)
 		{
 			if (ModelState.IsValid)

@@ -129,6 +129,9 @@ namespace WebApp
       container.RegisterType<IOpportunityStageService, OpportunityStageService>();
       container.RegisterType<IRepositoryAsync<BusinessOpportunity>, Repository<BusinessOpportunity>>();
       container.RegisterType<IBusinessOpportunityService, BusinessOpportunityService>();
+      container.RegisterType<IRepositoryAsync<MarketAct>, Repository<MarketAct>>();
+      container.RegisterType<IMarketActService, MarketActService>();
+
       //AEO自测
       container.RegisterType<IRepositoryAsync<QuestionTpl>, Repository<QuestionTpl>>();
       container.RegisterType<IQuestionTplService, QuestionTplService>();

@@ -718,7 +718,7 @@
 .l-btn-disabled:hover {
   opacity: 0.5;
   cursor: default;
-  background: #fafafa;
+  background: #f3f3f3;
   color: #404040;
   background-repeat: repeat-x;
 }
@@ -749,6 +749,7 @@
 .textbox {
   position: relative;
   border: 1px solid #e5e5e5;
+  color:#495057;
   background-color: #fff;
   vertical-align: middle;
   display: inline-block;
@@ -866,7 +867,7 @@
 }
 
 .textbox-disabled .textbox-addon {
-  background-color: #fafafa;
+  background-color: #f3f3f3;
 }
 
 .textbox-label {
@@ -899,8 +900,8 @@
 
 .textbox-disabled,
 .textbox-label-disabled {
-  opacity: 0.6;
-  filter: alpha(opacity=60);
+  opacity: 0.9;
+  filter: alpha(opacity=90);
 }
 
   .textbox-disabled .textbox-text {
@@ -944,24 +945,24 @@
 
 
 .textbox-focused {
-  border-color: #63baff;
-  -moz-box-shadow: 0 0 5px 0 #89cbff;
-  -webkit-box-shadow: 0 0 5px 0 #89cbff;
-  box-shadow: 0 0 5px 0 #89cbff;
+  border-color: #1dc9b7;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(29, 201, 183, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(29, 201, 183, 0.25);
 }
 
 .textbox-invalid,
 .validatebox-invalid {
-  border-color: #ff7506;
-  color: #ff5252;
-  caret-color: #ff5252;
+  border-color: #fd3995;
+  color: #fd3995;
+  
 }
 
   .textbox-invalid.textbox-focused {
-    border-color: #ff7506;
-    -moz-box-shadow: 0 0 5px 0 #ff5252;
-    -webkit-box-shadow: 0 0 5px 0 #ff5252;
-    box-shadow: 0 0 5px 0 #ff5252;
+    border-color: #fd3995;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(253, 57, 149, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(253, 57, 149, 0.25);
+
+ 
   }
 
 
@@ -971,7 +972,7 @@
 }
 
 .textbox-disabled .textbox-text, .textbox-readonly .textbox-text {
-  background: #fafafa;
+  background: #f3f3f3;
 }
 
 .easyui-passwordbox + .textbox .textbox-addon .textbox-icon {
@@ -1325,7 +1326,7 @@
 
 .layout-mask {
   position: absolute;
-  background: #fafafa;
+  background: #f3f3f3;
   filter: alpha(opacity=10);
   opacity: 0.10;
   z-index: 4;
@@ -2190,7 +2191,7 @@
 
 .datagrid-toolbar,
 .datagrid-pager {
-  background: #fafafa;
+  background: #f3f3f3;
 }
 
 .datagrid-header,

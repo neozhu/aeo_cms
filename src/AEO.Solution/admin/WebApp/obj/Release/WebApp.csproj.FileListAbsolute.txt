@@ -275,3 +275,8 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resour
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.BusinessOpportunity.zh-TW.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.OpportunityStage.en-US.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.OpportunityStage.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_addstagesuccess.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_MarketActs.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.MarketAct.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.MarketAct.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.MarketAct.zh-TW.resources

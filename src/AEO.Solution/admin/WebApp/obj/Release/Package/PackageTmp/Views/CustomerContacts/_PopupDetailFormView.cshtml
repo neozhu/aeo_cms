@@ -1,7 +1,7 @@
 ﻿﻿@model WebApp.Models.CustomerContact
 <!-- 弹出编辑窗体表单 -->
 <div id="customercontactdetailwindow" class="easyui-window"
-     title="明细数据"
+     title="编辑联系人"
      data-options="modal:true,
                     closed:true,
                     minimizable:false,
@@ -32,7 +32,7 @@
                     },
                     onMaximize:function(){
                     }
-                    " style="width:800px;height:450px;display:none">
+                    " style="width:700px;height:310px;display:none">
   <!-- toolbar -->
   <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
     <div class="d-flex flex-row-reverse pr-4">
@@ -79,15 +79,26 @@
                        name="@Html.NameFor(model => model.CustomerId)"
                        value="@Html.ValueFor(model => model.CustomerId)"
                        tabindex="12" required
-                       class="easyui-combobox"
+                       class="easyui-combogrid"
                        style="width:100%"
                        data-options="prompt:'@Html.DescriptionFor(model => model.CustomerId)' ,
 						              required:true ,
-						              valueField: 'Id',
+						              idField: 'Id',
 						              textField:  'CustomerName' ,
                           panelHeight:'auto',
-                          editable:false,
-						              url: '/CustomerContacts/GetCustomers' ,
+                          panelWidth:450,
+                          editable:true,
+                          method:'get',
+                          mode: 'remote',
+                          fitColumns:true,
+                          pagination: true,
+                           clientPaging:false,
+                          pageList: [10, 20, 50, 100, 500,2000],
+						              url: '/Customers/GetComboGridData' ,
+                          columns:[[
+                           {field:'CustomerCode',title:'客户编码',width:90},
+                           {field:'CustomerName',title:'客户名称',width:150}
+                          ]],
 						              onSelect: function(item){
 						                  $('#customercontact_form #CustomerCode').val(item.CustomerCode);
                               $('#customercontact_form #CustomerName').val(item.CustomerName);
