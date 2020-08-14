@@ -40,23 +40,13 @@ namespace WebApp.Models
     [MaxLength(100)]
     public string FileId { get; set; }
 
-    [Display(Name = "关联单号", Description = "关联单号")]
-    [MaxLength(100)]
-    public string RefKey { get; set; }
 
    
     [Display(Name = "系统版本号", Description = "系统版本号")]
     public int Ver { get; set; }
-    [Display(Name = "询价单号", Description = "询价单号")]
-    [MaxLength(20)]
-    [Required]
-    public string InquiryNo { get; set; }
-    [Display(Name = "任务单号", Description = "任务单号")]
-    [MaxLength(20)]
-    //[Required]
-    public string TaskNo { get; set; }
+
     [Display(Name = "询价单", Description = "询价单")]
-    public int InquiryId { get; set; }
+    public int? InquiryId { get; set; }
     [Display(Name = "询价单", Description = "询价单")]
     [ForeignKey("InquiryId")]
     public Inquiry Inquiry { get; set; }

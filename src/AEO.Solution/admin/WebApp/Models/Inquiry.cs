@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using Repository.Pattern.Ef6;
@@ -40,6 +41,11 @@ namespace WebApp.Models
     [MaxLength(256)]
     public string Demande { get; set; }
     #region 基本信息
+    [Display(Name = "客户", Description = "客户")]
+    public int CustomerId { get; set; }
+    [Display(Name = "客户", Description = "客户")]
+    [ForeignKey("CustomerId")]
+    public Customer Customer { get; set; }
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
     [Required]
@@ -57,7 +63,8 @@ namespace WebApp.Models
     [DefaultValue(null)]
     public string Cur { get; set; }
     [Display(Name = "汇率", Description = "汇率")]
-    public decimal ExchangeRate { get; set; }
+    [DefaultValue(null)]
+    public decimal? ExchangeRate { get; set; }
     [Display(Name = "联系人", Description = "联系人")]
     [MaxLength(80)]
     [Required]
@@ -79,18 +86,31 @@ namespace WebApp.Models
     [Display(Name = "创建人", Description = "创建人")]
     [DefaultValue(false)]
     public bool Check1 { get; set; }
+    [Display(Name = "创建人", Description = "创建人")]
+    [MaxLength(20)]
+    [DefaultValue("user")]
+    public string Creator { get; set; }
     [Display(Name = "执行人", Description = "执行人")]
-    [DefaultValue(false)]
+    [MaxLength(20)]
+    [DefaultValue(null)]
+    public string Executor { get; set; }
+    [Display(Name = "执行人", Description = "执行人")]
     public bool Check2 { get; set; }
     [Display(Name = "责任人", Description = "责任人")]
     [DefaultValue(false)]
     public bool Check3 { get; set; }
-    #endregion
-    [Display(Name = "所属公司代码", Description = "所属公司代码")]
+    [Display(Name = "责任人", Description = "责任人")]
     [MaxLength(20)]
-    [Required]
-    public string CompanyCode { get; set; }
-    [Display(Name = "所属公司名称", Description = "所属公司名称")]
+    [DefaultValue(null)]
+    public string Owner { get; set; }
+    #endregion
+    [Display(Name = "公司", Description = "公司")]
+    public int CompanyId { get; set; }
+    [Display(Name = "公司", Description = "公司")]
+    [ForeignKey("CompanyId")]
+    public Company Company { get; set; }
+
+    [Display(Name = "公司名称", Description = "公司名称")]
     [MaxLength(128)]
     public string CompanyName { get; set; }
     [Display(Name = "系统版本号", Description = "系统版本号")]

@@ -129,23 +129,23 @@
     <Reference Include="Microsoft.Data.Edm, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.8.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Memory.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Memory.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.6\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.7\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Options.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Options.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.3.1.6\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -378,14 +378,14 @@
       <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="Z.EntityFramework.Extensions, Version=4.0.87.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.EntityFramework.Extensions.4.0.87\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Extensions, Version=4.0.89.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.EntityFramework.Extensions.4.0.89\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.12.29.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.EntityFramework.Plus.EF6.1.12.29\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.12.30.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.EntityFramework.Plus.EF6.1.12.30\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="Z.Expressions.Eval, Version=4.0.11.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.Expressions.Eval.4.0.11\lib\net45\Z.Expressions.Eval.dll</HintPath>
+    <Reference Include="Z.Expressions.Eval, Version=4.0.12.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.Expressions.Eval.4.0.12\lib\net45\Z.Expressions.Eval.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -447,6 +447,8 @@
     <Compile Include="Controllers\FileManagerController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InquiryTaskProductsController.cs" />
+    <Compile Include="Controllers\InquiryTasksController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
@@ -612,6 +614,10 @@
     <Compile Include="Migrations\202008130321296_md_MarketActs.designer.cs">
       <DependentUpon>202008130321296_md_MarketActs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008140632468_md_InquiryTasks.cs" />
+    <Compile Include="Migrations\202008140632468_md_InquiryTasks.designer.cs">
+      <DependentUpon>202008140632468_md_InquiryTasks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -638,6 +644,8 @@
     <Compile Include="Models\Metadata\BusinessOpportunityMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
+    <Compile Include="Models\Metadata\InquiryTaskMetadata.cs" />
+    <Compile Include="Models\Metadata\InquiryTaskProductMetadata.cs" />
     <Compile Include="Models\Metadata\MarketActMetadata.cs" />
     <Compile Include="Models\Metadata\OpportunityStageMetadata.cs" />
     <Compile Include="Models\Metadata\ProductFileMetadata.cs" />
@@ -691,6 +699,8 @@
     <Compile Include="Models\resource\BusinessOpportunity.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
+    <Compile Include="Models\resource\InquiryTask.Designer.cs" />
+    <Compile Include="Models\resource\InquiryTaskProduct.Designer.cs" />
     <Compile Include="Models\resource\Log.Designer.cs" />
     <Compile Include="Models\resource\MarketAct.Designer.cs" />
     <Compile Include="Models\resource\Notification.Designer.cs" />
@@ -741,6 +751,10 @@
     <Compile Include="Repositories\Customers\CustomerRepository.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseQuery.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
+    <Compile Include="Repositories\InquiryTaskProducts\InquiryTaskProductQuery.cs" />
+    <Compile Include="Repositories\InquiryTaskProducts\InquiryTaskProductRepository.cs" />
+    <Compile Include="Repositories\InquiryTasks\InquiryTaskQuery.cs" />
+    <Compile Include="Repositories\InquiryTasks\InquiryTaskRepository.cs" />
     <Compile Include="Repositories\Logs\LogQuery.cs" />
     <Compile Include="Repositories\Logs\LogRepository.cs" />
     <Compile Include="Repositories\MarketActs\MarketActQuery.cs" />
@@ -812,6 +826,10 @@
     <Compile Include="Services\Customers\ICustomerService.cs" />
     <Compile Include="Services\CustomerWarehouses\CustomerWarehouseService.cs" />
     <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
+    <Compile Include="Services\InquiryTaskProducts\IInquiryTaskProductService.cs" />
+    <Compile Include="Services\InquiryTaskProducts\InquiryTaskProductService.cs" />
+    <Compile Include="Services\InquiryTasks\IInquiryTaskService.cs" />
+    <Compile Include="Services\InquiryTasks\InquiryTaskService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
     <Compile Include="Services\Logs\LogService.cs" />
     <Compile Include="Services\MarketActs\IMarketActService.cs" />
@@ -2739,7 +2757,6 @@
     <Content Include="Scripts\plugin\plupload\license.txt" />
     <Content Include="Scripts\plugin\progressbar\progressbar.js" />
     <Content Include="Scripts\plugin\progressbar\progressbar.min.js" />
-    <Content Include="Scripts\smartadmin.easyui.min.js" />
     <Content Include="Scripts\statistics\c3\c3.js" />
     <Content Include="Scripts\statistics\chartist\chartist.js" />
     <Content Include="Scripts\statistics\chartjs\chartjs.bundle.js" />
@@ -4109,6 +4126,22 @@
     <Content Include="Views\MarketActs\Details.cshtml" />
     <Content Include="Views\MarketActs\Edit.cshtml" />
     <Content Include="Views\MarketActs\EditForm.cshtml" />
+    <Content Include="Views\InquiryTaskProducts\_DisplayForm.cshtml" />
+    <Content Include="Views\InquiryTaskProducts\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\InquiryTaskProducts\Index.cshtml" />
+    <Content Include="Views\InquiryTaskProducts\Create.cshtml" />
+    <Content Include="Views\InquiryTaskProducts\Details.cshtml" />
+    <Content Include="Views\InquiryTaskProducts\Edit.cshtml" />
+    <Content Include="Views\InquiryTaskProducts\EditForm.cshtml" />
+    <Content Include="Views\InquiryTasks\_DisplayForm.cshtml" />
+    <Content Include="Views\InquiryTasks\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\InquiryTasks\Index.cshtml" />
+    <Content Include="Views\InquiryTasks\Create.cshtml" />
+    <Content Include="Views\InquiryTasks\Details.cshtml" />
+    <Content Include="Views\InquiryTasks\Edit.cshtml" />
+    <Content Include="Views\InquiryTasks\EditForm.cshtml" />
+    <Content Include="Views\InquiryTasks\_InquiryTaskProductEditForm.cshtml" />
+    <Content Include="Views\InquiryTasks\_inquirytaskproductdatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4296,6 +4329,9 @@
     <EmbeddedResource Include="Migrations\202008130321296_md_MarketActs.resx">
       <DependentUpon>202008130321296_md_MarketActs.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008140632468_md_InquiryTasks.resx">
+      <DependentUpon>202008140632468_md_InquiryTasks.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4317,6 +4353,12 @@
     <EmbeddedResource Include="Models\resource\Company.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Company.resx" />
     <EmbeddedResource Include="Models\resource\Company.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryTask.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryTask.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryTask.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryTaskProduct.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryTaskProduct.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryTaskProduct.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Log.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Log.resx" />
     <EmbeddedResource Include="Models\resource\Log.zh-TW.resx" />

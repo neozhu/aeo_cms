@@ -42,5 +42,12 @@ namespace WebApp
       var result =await _db.Ado.GetIntAsync("exec [dbo].[SP_NextVal]  @prefix", new { prefix = prefix });
       return prefix + Convert.ToInt32(result).ToString("000");
     }
+    //获取询价任务编号
+    public static async Task<string> GetINTaskNo()
+    {
+      var prefix = "INT"+ DateTime.Now.ToString("yyyy");
+      var result = await _db.Ado.GetIntAsync("exec [dbo].[SP_NextVal]  @prefix", new { prefix = prefix });
+      return prefix + Convert.ToInt32(result).ToString("0000");
+    }
   }
 }

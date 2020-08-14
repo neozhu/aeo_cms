@@ -21,8 +21,6 @@ namespace WebApp.Models
     [Display(Name = "目录", Description = "目录")]
     [MaxLength(20)]
     public string Folder { get; set; }
-    
-  
     [Display(Name = "保存路径", Description = "保存路径")]
     public string FilePath { get; set; }
     [Display(Name = "相对路径", Description = "相对路径")]
@@ -40,16 +38,8 @@ namespace WebApp.Models
     [MaxLength(100)]
     public string FileId { get; set; }
 
-    [Display(Name = "关联单号", Description = "关联单号")]
-    [MaxLength(100)]
-    public string RefKey { get; set; }
-    [Display(Name = "任务单号", Description = "任务单号")]
-    [MaxLength(20)]
-    //[Required]
-    public string TaskNo { get; set; }
-
     [Display(Name = "询价任务", Description = "询价任务")]
-    public int InquiryTaskId { get; set; }
+    public int? InquiryTaskId { get; set; }
     [Display(Name = "询价任务", Description = "询价任务")]
     [ForeignKey("InquiryTaskId")]
     public InquiryTask InquiryTask { get; set; }

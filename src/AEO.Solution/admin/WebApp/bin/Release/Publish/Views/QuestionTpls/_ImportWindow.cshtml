@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="fileupload" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+﻿<div class="modal fade" id="fileupload-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,6 +8,7 @@
         </button>
       </div>
       <div class="modal-body p-0">
+        <div class="loader"><i class="fal fa-spinner-third  fa-spin-4x fs-xxl"></i></div>
         <input type="file" multiple="multiple" name="uploadfiles" id="uploadfiles">
       </div>
     </div>
@@ -17,7 +18,7 @@
   let uploadmodel = '@ViewData.Eval("model")';
   //打开Excel上传窗口
   function importExcel() {
-    $('#fileupload').modal('toggle');
+    $('#fileupload-modal').modal('toggle');
   }
   //下载Excel导入模板
   function downloadTemplate() {
@@ -33,6 +34,7 @@
       });
   }
   document.addEventListener("DOMContentLoaded", function () {
+    console.log($('#fileupload-modal .modal-body'))
     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/Scripts/plugin/jquery.fileuploader/jquery.fileuploader.min.css'));
     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/Scripts/plugin/jquery.fileuploader/jquery.fileuploader-theme-dragdrop.css'));
     $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/Scripts/plugin/jquery.fileuploader/font/font-fileuploader.css'));
@@ -70,37 +72,44 @@
           start: true,
           synchron: false,
           beforeSend: function (item) {
+            $('#fileupload-modal .modal-body').addClass('enable-loader')
             item.upload.data.model = '@ViewData.Eval("model")';
             item.upload.data.ver = '2.0';
             item.upload.data.autosave = '@ViewData.Eval("autosave")';
           },
           onSuccess: function (result, item) {
-            // if success
             if (result.success && result.filename) {
               //item.name = result.filename;
+              $('#fileupload-modal .modal-body').removeClass('enable-loader')
               item.html.find('.column-title > div:first-child').text(item.name).attr('title', result.filename);
-              $('#fileupload').modal('toggle');
-              $.messager.alert('导入完成', '导入完成！<br> 耗时：' + result.elapsedTime, 'info');
-              @ViewData.Eval("callback")
-
+              $('#fileupload-modal').modal('toggle');
+              $.messager.alert('导入完成', '导入完成！<br> 耗时：' + result.elapsedTime, 'info', function () {
+                @ViewData.Eval("callback")
+              });
+              item.html.find('.fileuploader-action-remove').addClass('fileuploader-action-success');
+              setTimeout(function () {
+                item.html.find('.progress-bar2').fadeOut(400);
+              }, 400);
             } else {
+              var progressBar = item.html.find('.progress-bar2');
+
+              if (progressBar.length) {
+                progressBar.find('span').html(0 + "%");
+                progressBar.find('.fileuploader-progressbar .bar').width(0 + "%");
+                item.html.find('.progress-bar2').fadeOut(400);
+              }
               item.html.find('.column-title > div:first-child').text(item.name).attr('title', result.filename);
               item.html.removeClass('upload-successful').addClass('upload-failed');
-              // go out from success function by calling onError function
-              // in this case we have a animation there
-              // you can also response in PHP with 404
-              //alert(result.message);
-              $.messager.alert('导入失败', result.message, 'error');
+              item.upload.status != 'cancelled' && item.html.find('.fileuploader-action-retry').length == 0 ? item.html.find('.column-actions').prepend(
+                '<a class="fileuploader-action fileuploader-action-retry" title="Retry"><i></i></a>'
+              ) : null;
+              $.messager.alert('导入失败', result.message, 'error', function () {
+                $('#fileupload-modal .modal-body').removeClass('enable-loader')
+              });
               //return this.onError ? this.onError(item) : null;
 
             }
 
-
-
-            item.html.find('.fileuploader-action-remove').addClass('fileuploader-action-success');
-            setTimeout(function () {
-              item.html.find('.progress-bar2').fadeOut(400);
-            }, 400);
           },
           onError: function (item) {
             var progressBar = item.html.find('.progress-bar2');
@@ -112,7 +121,10 @@
             item.upload.status != 'cancelled' && item.html.find('.fileuploader-action-retry').length == 0 ? item.html.find('.column-actions').prepend(
               '<a class="fileuploader-action fileuploader-action-retry" title="Retry"><i></i></a>'
             ) : null;
-            $.messager.alert('错误', '服务器异常,请联系系统管理员', 'error');
+
+            $.messager.alert('错误', '服务器异常,请联系系统管理员', 'error', function () {
+              $('#fileupload-modal .modal-body').removeClass('enable-loader')
+            });
           },
           onProgress: function (data, item) {
             var progressBar = item.html.find('.progress-bar2');

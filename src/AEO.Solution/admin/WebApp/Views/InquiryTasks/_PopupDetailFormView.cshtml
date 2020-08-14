@@ -1,0 +1,588 @@
+﻿﻿@model WebApp.Models.InquiryTask
+<!-- 弹出编辑窗体表单 -->
+<div id="inquirytaskdetailwindow" class="easyui-window"
+     title="编辑询价任务"
+     data-options="modal:true,
+                    closed:true,
+                    minimizable:false,
+                    collapsible:false,
+                    maximized:false,
+                    iconCls:'fal fa-window',
+                    onBeforeClose:function(){
+                      var that = $(this);
+                      if(inquirytaskhasmodified()){
+                        $.messager.confirm('确认','你确定要放弃保存修改的记录?',function(r){
+                        if (r){
+                          var opts = that.panel('options');
+                          var onBeforeClose = opts.onBeforeClose;
+                          opts.onBeforeClose = function(){};
+                          that.panel('close');
+                          opts.onBeforeClose = onBeforeClose;
+                          hook = false;
+                        }
+                        });
+                        return false;
+                      }
+                    },
+                    onOpen:function(){
+                       $(this).window('vcenter');
+                       $(this).window('hcenter');
+                    },
+                    onRestore:function(){
+                      $inquirytaskproductdg.datagrid('resize');
+                    },
+                    onMaximize:function(){
+                      $inquirytaskproductdg.datagrid('resize');
+                    }
+                    " style="width:800px;height:450px;display:none">
+  <!-- toolbar -->
+  <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
+    <div class="d-flex justify-content-end pr-4">
+      <div class="btn-group btn-group-sm mr-1">
+        <button name="saveitembutton" class="btn btn-default">
+          <i class="fal fa-save"></i> @Html.L("Save")
+        </button>
+      </div>
+      <div class="btn-group btn-group-sm mr-1" id="deleteitem-btn-group">
+        <button name="deleteitembutton" class="btn btn-danger">
+          <i class="fal fa-trash-alt"></i> @Html.L("Delete")
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- panel container form  -->
+  <div class="panel-container show">
+    <div class="container">
+      <div class="panel-content">
+        <form id="inquirytask_form"
+              class="easyui-form form-horizontal padding-10"
+              method="post"
+              data-options="novalidate:true,
+                            onChange: function(target){
+                              hook = true;
+                              $('button[name*=\'saveitembutton\']').prop('disabled', false);
+                             },
+                             onLoadSuccess:function(data){
+                               hook = false;
+                               $('button[name*=\'saveitembutton\']').prop('disabled', true);
+                             }">
+          @Html.AntiForgeryToken()
+          <!--Primary Key-->
+          @Html.HiddenFor(model => model.Id)
+          @Html.HiddenFor(model => model.CustomerCode)
+          @Html.HiddenFor(model => model.CustomerName)
+          @Html.HiddenFor(model => model.CompanyName)
+          <fieldset class="form-group">
+            <div class="row h-100 align-items-center">
+
+              <!--任务单号-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.TaskNo)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.TaskNo)"
+                       name="@Html.NameFor(model => model.TaskNo)"
+                       value="@Html.ValueFor(model => model.TaskNo)"
+                       tabindex="0" required
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.TaskNo)',
+								 required:true,
+                                 validType: 'length[0,20]'
+                                 " />
+              </div>
+
+              <!--状态-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Status)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Status)"
+                       name="@Html.NameFor(model => model.Status)"
+                       value="@Html.ValueFor(model => model.Status)"
+                       tabindex="1" required
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
+								 required:true,readonly:true,
+                                 validType: 'length[0,20]'
+                                 " />
+              </div>
+
+
+              <!--业务员-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Salesman)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Salesman)"
+                       name="@Html.NameFor(model => model.Salesman)"
+                       value="@Html.ValueFor(model => model.Salesman)"
+                       tabindex="2" required
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Salesman)',
+								 required:true,
+                                 validType: 'length[0,20]'
+                                 " />
+              </div>
+
+              <!--公司-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CompanyId)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.CompanyId)"
+                       name="@Html.NameFor(model => model.CompanyId)"
+                       value="@Html.ValueFor(model => model.CompanyId)"
+                       tabindex="3" required
+                       class="easyui-combobox"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.CompanyId)' ,
+						required:true ,
+						valueField: 'Id',
+						textField:  'Name' ,
+                        panelHeight:'auto',
+                        editable:false,
+						url: '/InquiryTasks/GetCompanies' ,
+						onSelect: function(item){
+						  //console.log(item);
+				        }">
+              </div>
+
+
+
+
+              <!--客户-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerId)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.CustomerId)"
+                       name="@Html.NameFor(model => model.CustomerId)"
+                       value="@Html.ValueFor(model => model.CustomerId)"
+                       tabindex="5" required
+                       class="easyui-combobox"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.CustomerId)' ,
+						required:true ,
+						valueField: 'Id',
+						textField:  'CustomerCode' ,
+                        panelHeight:'auto',
+                        editable:false,
+						url: '/InquiryTasks/GetCustomers' ,
+						onSelect: function(item){
+						  //console.log(item);
+				        }">
+              </div>
+
+              <!--国家地区-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Country)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Country)"
+                       name="@Html.NameFor(model => model.Country)"
+                       value="@Html.ValueFor(model => model.Country)"
+                       tabindex="8"
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Country)',
+								 required:false,
+                                 validType: 'length[0,50]'
+                                 " />
+              </div>
+
+              <!--币种-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Cur)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Cur)"
+                       name="@Html.NameFor(model => model.Cur)"
+                       value="@Html.ValueFor(model => model.Cur)"
+                       tabindex="9"
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Cur)',
+								 required:false,
+                                 validType: 'length[0,20]'
+                                 " />
+              </div>
+
+
+
+              <!--联系人-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ContactName)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.ContactName)"
+                       name="@Html.NameFor(model => model.ContactName)"
+                       value="@Html.ValueFor(model => model.ContactName)"
+                       tabindex="11" required
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.ContactName)',
+								 required:true,
+                                 validType: 'length[0,80]'
+                                 " />
+              </div>
+
+
+              <!--联系方式-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ContactInfo)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.ContactInfo)"
+                       name="@Html.NameFor(model => model.ContactInfo)"
+                       value="@Html.ValueFor(model => model.ContactInfo)"
+                       tabindex="12"
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.ContactInfo)',
+								 required:false,
+                                 validType: 'length[0,128]'
+                                 " />
+              </div>
+
+              <!--开始日期-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.BeginDate)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.BeginDate)"
+                       name="@Html.NameFor(model => model.BeginDate)"
+                       value="@Html.ValueFor(model => model.BeginDate)"
+                       tabindex="13" required
+                       class="easyui-datebox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.BeginDate)',
+								 required:true,
+								 formatter:dateformatter" />
+              </div>
+
+
+              <!--结束日期-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Enddate)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Enddate)"
+                       name="@Html.NameFor(model => model.Enddate)"
+                       value="@Html.ValueFor(model => model.Enddate)"
+                       tabindex="14" required
+                       class="easyui-datebox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Enddate)',
+								 required:true,
+								 formatter:dateformatter" />
+              </div>
+
+              <!--紧急程度-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Urgency)</label>
+              <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Urgency)"
+                       name="@Html.NameFor(model => model.Urgency)"
+                       value="@Html.ValueFor(model => model.Urgency)"
+                       tabindex="15"
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Urgency)',
+								 required:false,
+                                 validType: 'length[0,20]'
+                                 " />
+              </div>
+
+
+              <!--询价要求-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Demande)</label>
+              <div class="col-md-10 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Demande)"
+                       name="@Html.NameFor(model => model.Demande)"
+                       value="@Html.ValueFor(model => model.Demande)"
+                       tabindex="16"
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Demande)',
+								 required:false,multiline:true,
+                                 validType: 'length[0,512]'
+                                 " />
+              </div>
+
+              <!--到期提醒-->
+              <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.PreRemind)</label>
+              <div class="col-md-10 mb-1 pl-1">
+                <div class="d-flex">
+                  <input id="@Html.IdFor(model => model.PreRemind)"
+                         name="@Html.NameFor(model => model.PreRemind)"
+                         value="@Html.ValueFor(model => model.PreRemind)"
+                         tabindex="17"
+                         class="easyui-numberbox"
+                         style="width:80px"
+                         type="text"
+                         data-options="prompt:'@Html.DescriptionFor(model => model.PreRemind)',
+								 required:true,formatter:intformatter,
+                                 parser:parsernumber,
+                                 " />
+                  <label class="form-label  pt-1 pl-2 pr-2"> 天 </label>
+                  <div class="mr-1 pl-1">
+                    <div class="custom-control custom-checkbox pt-1 ">
+                      <input id="@Html.IdFor(model => model.Check1)"
+                             name="@Html.NameFor(model => model.Check1)"
+                             value="true"
+                             data-unchecked-value="false"
+                             tabindex="18"
+                             class="custom-control-input"
+                             type="checkbox" />
+                      <label class="custom-control-label" for="@Html.NameFor(model => model.Check1)"> @Html.DisplayNameFor(model => model.Check1)</label>
+                    </div>
+                  </div>
+                  <div class="mr-1 pl-1">
+                    <div class="custom-control custom-checkbox pt-1 ">
+                      <input id="@Html.IdFor(model => model.Check2)"
+                             name="@Html.NameFor(model => model.Check2)"
+                             value="true"
+                             data-unchecked-value="false"
+                             tabindex="18"
+                             class="custom-control-input"
+                             type="checkbox" />
+                      <label class="custom-control-label" for="@Html.NameFor(model => model.Check2)"> @Html.DisplayNameFor(model => model.Check2)</label>
+                    </div>
+                  </div>
+                  <div class="mr-1 pl-1">
+                    <div class="custom-control custom-checkbox pt-1 ">
+                      <input id="@Html.IdFor(model => model.Check3)"
+                             name="@Html.NameFor(model => model.Check3)"
+                             value="true"
+                             data-unchecked-value="false"
+                             tabindex="18"
+                             class="custom-control-input"
+                             type="checkbox" />
+                      <label class="custom-control-label" for="@Html.NameFor(model => model.Check3)"> @Html.DisplayNameFor(model => model.Check3)</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+ 
+
+
+
+            </div>
+          </fieldset>
+        </form>
+        <ul class="nav nav-tabs nav-tabs-clean" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active"
+               data-toggle="tab"
+               data-model="inquirytaskproduct"
+               href="#tab-inquirytaskproduct"
+               role="tab">inquirytaskproduct</a>
+          </li>
+        </ul>
+        <div class="tab-content p-0">
+          <div class="tab-pane fade show active"
+               id="tab-inquirytaskproduct"
+               data-model="inquirytaskproduct"
+               role="tabpanel"
+               aria-labelledby="tab-inquirytaskproduct">
+
+            <div class="d-flex justify-content-start flex-wrap p-2">
+              <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
+                <button name="inquirytaskproduct_searchbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed"
+                        onclick="inquirytaskproduct_reloadData()">
+                  查询
+                </button>
+                <button name="inquirytaskproduct_appenditembutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed">
+                  新增
+                </button>
+                <button name="inquirytaskproduct_deleterowbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed">
+                  删除
+                </button>
+                <button name="inquirytaskproduct_cancelchangesbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed">
+                  取消
+                </button>
+                <button name="inquirytaskproduct_savechangesbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed">
+                  保存
+                </button>
+              </div>
+
+            </div>
+            <div class="table-responsive">
+              <table class="m-0" id="inquirytaskproduct_datagrid">
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 弹出窗体form表单 -->
+<!-- 弹出编辑对话框 -->
+<!-- inquirytaskproduct datagrid  javascript block -->
+@Html.Partial("_InquiryTaskProductEditForm", new WebApp.Models.InquiryTaskProduct())
+
+<!--begin popup detailview javascript block -->
+<script type="text/javascript">
+  //当初始的 HTML 文档被完全加载和解析完成之后
+  document.addEventListener('DOMContentLoaded', function () {
+    //绑定按钮事件
+    $('button[name="saveitembutton"]').on('click', saveinquirytaskitem);
+    $('button[name="deleteitembutton"]').on('click', deleteinquirytaskitem);
+    $('button[name="inquirytaskproduct_searchbutton"]').on('click', inquirytaskproduct_reloadData);
+    $('button[name="inquirytaskproduct_appenditembutton"]').on('click', inquirytaskproduct_appendItem);
+    $('button[name="inquirytaskproduct_deleterowbutton"]').on('click', inquirytaskproduct_removeItem);
+    $('button[name="inquirytaskproduct_cancelchangesbutton"]').on('click', inquirytaskproduct_rejectChanges);
+    $('button[name="inquirytaskproduct_savechangesbutton"]').on('click', inquirytaskproduct_acceptChanges);
+    $('a[data-toggle="tab"]').on('shown.bs.tab', (e) => {
+      const model = $(e.target).data('model');
+      $(`#${model}dg`).datagrid('resize');
+    })
+  });
+  //判断新增编辑状态
+  var MODELSTATE = 'Added';
+  var inquirytaskid = null;
+  function openinquirytaskdetailwindow(data, state) {
+    MODELSTATE = state;
+    //判断是否显示功能按钮
+    if (MODELSTATE === 'Added') {
+      $('#deleteitem-btn-group').hide();
+    } else {
+      $('#deleteitem-btn-group').show();
+    }
+    initinquirytaskdetailview();
+    inquirytaskid = (data.Id || 0);
+    $('#inquirytaskdetailwindow').window('open');
+    $('#inquirytask_form').form('reset');
+    $('#inquirytask_form').form('load', data);
+    var url = '/InquiryTaskProducts/GetDataByInquiryTaskId?inquirytaskid=' + inquirytaskid;
+    $inquirytaskproductdg.datagrid('load', url);
+    $inquirytaskproductdg.datagrid('resize');
+  }
+  //删除当前记录
+  function deleteinquirytaskitem() {
+    $.messager.confirm('确认', '你确定要删除该记录?', result => {
+      if (result) {
+        const url = `/InquiryTasks/Delete/${inquirytaskid}`;
+        $.get(url).done(res => {
+          if (res.success) {
+            toastr.success("删除成功");
+            $('#inquirytaskdetailwindow').window('close');
+            reloadData();
+          } else {
+            $.messager.alert('错误', res.err, 'error');
+          }
+        });
+      }
+    });
+  }
+  //async 保存数据
+  async function saveinquirytaskitem() {
+    const $inquirytaskform = $('#inquirytask_form');
+    if ($inquirytaskform.form('enableValidation').form('validate')) {
+      let inquirytask = $inquirytaskform.serializeJSON();
+      //获取明细表数据
+
+      const inquirytaskproduct_result = await inquirytaskproduct_acceptChanges();
+      if (!inquirytaskproduct_result.success) {
+        return false;
+      } else {
+        inquirytask.InquiryTaskProducts = inquirytaskproduct_result.changed;
+      }
+
+      let url = '/InquiryTasks/Edit';
+      //判断是新增或是修改方法
+      if (MODELSTATE === 'Added') {
+        url = '/InquiryTasks/Create';
+      }
+      var token = $('input[name="__RequestVerificationToken"]', $inquirytaskform).val();
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          __RequestVerificationToken: token,
+          inquirytask: inquirytask
+        },
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+      })
+        .done(response => {
+          if (response.success) {
+            hook = false;
+            $inquirytaskform.form('disableValidation');
+            $('#inquirytaskdetailwindow').window("close");
+            toastr.success("保存成功");
+            reloadData();
+          } else {
+            $.messager.alert("错误", response.err, "error");
+          }
+        })
+        .fail((jqXHR, textStatus, errorThrown) => {
+          $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+        });
+    }
+  }
+  //判断是否有没有保存的记录
+  function inquirytaskhasmodified() {
+    if (!hook) {
+      if (!inquirytaskproduct_endEditing()) {
+        return true;
+      }
+      const inquirytaskproducts = $inquirytaskproductdg.datagrid("getChanges");
+      if (MODELSTATE == 'Modified' && inquirytaskproducts.length > 0) {
+        return true;
+      }
+      return false;
+    } else {
+      return hook;
+    }
+
+  }
+
+
+  function initinquirytaskdetailview() {
+    ////回车光标移动到下个输入控件
+    ////如果是枚举类型需要把numberbox改成combobox
+    ////汇率
+    //$('#ExchangeRate').numberbox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////如果是枚举类型需要把numberbox改成combobox
+    ////到期提醒
+    //$('#PreRemind').numberbox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////日期类型 开始日期
+    //$('#BeginDate').datebox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////日期类型 结束日期
+    //$('#Enddate').datebox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////公司默认外键使用combobox,也可以使用combogrid
+    //$('#CompanyId').combobox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+    ////客户默认外键使用combobox,也可以使用combogrid
+    //$('#CustomerId').combobox('textbox').bind('keydown', function (e) {
+    //  if (e.keyCode == 13) {
+    //    $(e.target).emulateTab();
+    //  }
+    //});
+  }
+</script>
+

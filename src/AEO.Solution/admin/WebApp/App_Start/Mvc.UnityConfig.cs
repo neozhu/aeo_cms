@@ -131,7 +131,12 @@ namespace WebApp
       container.RegisterType<IBusinessOpportunityService, BusinessOpportunityService>();
       container.RegisterType<IRepositoryAsync<MarketAct>, Repository<MarketAct>>();
       container.RegisterType<IMarketActService, MarketActService>();
-
+      //出口管理
+      //询价任务单
+      container.RegisterType<IRepositoryAsync<InquiryTaskProduct>, Repository<InquiryTaskProduct>>();
+      container.RegisterType<IInquiryTaskProductService, InquiryTaskProductService>();
+      container.RegisterType<IRepositoryAsync<InquiryTask>, Repository<InquiryTask>>();
+      container.RegisterType<IInquiryTaskService, InquiryTaskService>();
       //AEO自测
       container.RegisterType<IRepositoryAsync<QuestionTpl>, Repository<QuestionTpl>>();
       container.RegisterType<IQuestionTplService, QuestionTplService>();

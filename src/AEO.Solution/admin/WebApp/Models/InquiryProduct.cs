@@ -74,7 +74,7 @@ namespace WebApp.Models
     public bool Recommended { get; set; }
 
     [Display(Name = "产品图片", Description = "产品备注")]
-    public string Logo { get; set; }
+    public string SamplePic { get; set; }
     [Display(Name = "询价单号", Description = "询价单号")]
     [MaxLength(20)]
     [Required]

@@ -86,7 +86,10 @@ namespace WebApp.Models
     public DbSet<MarketAct> MarketActs { get; set; }
 
     #endregion
-
+    #region 询价任务
+    public DbSet<InquiryTask> InquiryTasks { get; set; }
+    public DbSet<InquiryTaskProduct> InquiryTaskProducts { get; set; }
+    #endregion
     #region AEO自测
     public DbSet<QuestionTpl> QuestionTpls { get; set; }
     public DbSet<AeoAuthTest> AeoAuthTests { get; set; }

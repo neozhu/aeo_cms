@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -13,13 +14,14 @@ namespace WebApp.Models
   {
 
     [Display(Name = "产品编号", Description = "产品编号(自动生成,可手工修改)")]
-    [MaxLength(50)]
+    [MaxLength(128)]
+    [Required]
     public string ProductNo { get; set; }
     [Display(Name = "中文品名", Description = "中文品名")]
     [MaxLength(200)]
     public string ProductName { get; set; }
     [Display(Name = "产品类别", Description = "产品类别")]
-    [MaxLength(50)]
+    [MaxLength(128)]
     public string CategoryName { get; set; }
     [Display(Name = "英文品名", Description = "英文品名")]
     [MaxLength(200)]
@@ -32,10 +34,18 @@ namespace WebApp.Models
     [MaxLength(128)]
     public string ThirdProductNo { get; set; }
     [Display(Name = "询价数量", Description = "询价数量")]
+    [Required]
     public decimal Qty { get; set; }
     [Display(Name = "单位", Description = "单位")]
     [MaxLength(10)]
     public string Unit { get; set; }
+
+    [Display(Name = "价格类型", Description = "价格类型")]
+    [MaxLength(30)]
+    public string PriceType { get; set; }
+    [Display(Name = "报价金额", Description = "报价金额")]
+    [DefaultValue(null)]
+    public decimal? Price { get; set; }
     [Display(Name = "执行人", Description = "执行人")]
     [MaxLength(20)]
     public string Executor { get; set; }
@@ -45,13 +55,13 @@ namespace WebApp.Models
     [Display(Name = "供应商名称", Description = "供应商名称")]
     [MaxLength(128)]
     public string SupplierName { get; set; }
-
-    [Display(Name = "产品图片", Description = "产品备注")]
-    public string Logo { get; set; }
+    [Display(Name = "图片", Description = "图片")]
+    [MaxLength(256)]
+    public string SamplePic { get; set; }
 
     [Display(Name = "任务单号", Description = "任务单号")]
     [MaxLength(20)]
-    [Required]
+    //[Required]
     public string TaskNo { get; set; }
     [Display(Name = "询价任务", Description = "询价任务")]
     public int InquiryTaskId { get; set; }
