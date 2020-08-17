@@ -38,11 +38,25 @@ The statement has been terminated.");
                 {
                   var table = mc.Groups["table"].Value;
                   var index = mc.Groups["index"].Value;
-                  message = $"有关联的数据存在,不允许删除该记录.在表:{table}上有约束:{index}";
+                  message = $"有关联的数据存在,不允许删除该记录.表名:{table},约束:{index}";
                 }
                 else
                 {
-                  message = $"有关联的明细数据存在,不允许删除该记录";
+                  //The INSERT statement conflicted with the FOREIGN KEY constraint 'FK_dbo.InquiryTaskProducts_dbo.InquiryTasks_InquiryTaskId'. The conflict occurred in database 'aeodb', table 'dbo.InquiryTasks', column 'Id'.
+                  //The statement has been terminated.
+                                    var regx = new Regex(@"The INSERT statement conflicted with the FOREIGN KEY constraint '(?<index>[\s\S]*?)'. The conflict occurred in database '(?<db>[\s\S]*?)', table '(?<table>[\s\S]*?)', column '(?<column>[\s\S]*?)'.
+The statement has been terminated.");
+                  var mcx = regx.Match(str);
+                  if (mcx.Success)
+                  {
+                    var table = mcx.Groups["table"].Value;
+                    var index = mcx.Groups["index"].Value;
+                    message = $"新增的数据外键不能为空或不存在.表名:{table},约束:{index}";
+                  }
+                  else
+                  {
+                    message = $"有关联的明细数据存在,不允许删除该记录";
+                  }
                 }
                 break;
               case 2601:  // Duplicated key row error

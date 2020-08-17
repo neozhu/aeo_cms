@@ -213,16 +213,19 @@ namespace WebApp.Services
       {
         item.ProductNo = KeyGenerator.GetProductKey();
       }
-      foreach (var fileid  in product.Pictures)
+      if (product.Pictures != null)
       {
-        var att =await this.attachmentService.Queryable()
-          .Where(x => x.FileId == fileid).FirstOrDefaultAsync();
-        if (att != null)
+        foreach (var fileid in product.Pictures)
         {
-          var picture = this.mapper.Map<ProductPricture>(att);
-          picture.Product = item;
-          picture.ProductId = item.Id;
-          item.ProductPrictures.Add(picture);
+          var att = await this.attachmentService.Queryable()
+            .Where(x => x.FileId == fileid).FirstOrDefaultAsync();
+          if (att != null)
+          {
+            var picture = this.mapper.Map<ProductPricture>(att);
+            picture.Product = item;
+            picture.ProductId = item.Id;
+            item.ProductPrictures.Add(picture);
+          }
         }
       }
       this.Insert(item);

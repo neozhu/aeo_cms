@@ -3692,6 +3692,125 @@ uniteditor: {
         }
   }  
 });
+//-------紧急程度---------//
+var urgencyfiltersource = [{ value: '', text: 'All'}];
+var urgencydatasource = [];
+urgencyfiltersource.push({ value: '正常',text:'正常'  });
+urgencydatasource.push({ value: '正常',text:'正常'  });
+urgencyfiltersource.push({ value: '紧急',text:'紧急'  });
+urgencydatasource.push({ value: '紧急',text:'紧急'  });
+urgencyfiltersource.push({ value: '非常紧急',text:'非常紧急'  });
+urgencydatasource.push({ value: '非常紧急',text:'非常紧急'  });
+//for datagrid urgency field  formatter
+function urgencyformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = urgencydatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = urgencydatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   urgency  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+urgencyfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: urgencyfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   urgency   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+urgencyeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: urgencydatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
 //-------仓库类型---------//
 var whtypefiltersource = [{ value: '', text: 'All'}];
 var whtypedatasource = [];

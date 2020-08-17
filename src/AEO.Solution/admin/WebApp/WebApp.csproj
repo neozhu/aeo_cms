@@ -618,6 +618,10 @@
     <Compile Include="Migrations\202008140632468_md_InquiryTasks.designer.cs">
       <DependentUpon>202008140632468_md_InquiryTasks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008140820376_md_InquiryTask1.cs" />
+    <Compile Include="Migrations\202008140820376_md_InquiryTask1.designer.cs">
+      <DependentUpon>202008140820376_md_InquiryTask1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -4142,6 +4146,7 @@
     <Content Include="Views\InquiryTasks\EditForm.cshtml" />
     <Content Include="Views\InquiryTasks\_InquiryTaskProductEditForm.cshtml" />
     <Content Include="Views\InquiryTasks\_inquirytaskproductdatagridjsview.cshtml" />
+    <Content Include="Views\InquiryTasks\_SelectProductWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4331,6 +4336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008140632468_md_InquiryTasks.resx">
       <DependentUpon>202008140632468_md_InquiryTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008140820376_md_InquiryTask1.resx">
+      <DependentUpon>202008140820376_md_InquiryTask1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />

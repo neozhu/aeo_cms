@@ -280,3 +280,11 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.MarketAct.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.MarketAct.en-US.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.MarketAct.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_InquiryTasks.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Migrations.md_InquiryTask1.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.InquiryTask.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.InquiryTaskProduct.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.InquiryTask.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.InquiryTask.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.InquiryTaskProduct.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Release\WebApp.Models.resource.InquiryTaskProduct.zh-TW.resources

@@ -15,7 +15,7 @@ namespace WebApp.Models
 
     [Display(Name = "任务单号",Description = "任务单号")]
     [MaxLength(20)]
-    [Required]
+    //[Required]
     public string TaskNo { get; set; }
     [Display(Name = "状态", Description = "状态")]
     [MaxLength(20)]
