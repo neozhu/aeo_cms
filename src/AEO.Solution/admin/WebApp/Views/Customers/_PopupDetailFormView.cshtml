@@ -229,7 +229,7 @@
                     </div>
 
                     <!--客户类型-->
-                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.CustomerType)</label>
+                    <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerType)</label>
                     <div class="col-md-4 mb-1 pl-1">
                       <input id="@Html.IdFor(model => model.CustomerType)"
                              name="@Html.NameFor(model => model.CustomerType)"
@@ -239,7 +239,7 @@
                              style="width:100%"
                              type="text"
                              data-options="prompt:'@Html.DescriptionFor(model => model.CustomerType)',
-								 required:false,data:ctypedatasource,panelHeight:'auto',
+								 required:true,data:ctypedatasource,panelHeight:'auto',
                                  validType: 'length[0,20]'
                                  " />
                     </div>

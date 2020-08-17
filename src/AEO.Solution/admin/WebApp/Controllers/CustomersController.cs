@@ -55,7 +55,29 @@ namespace WebApp.Controllers
     [HttpGet]
     public async Task<JsonResult> GetComboData(string q = "") {
       var result =await this.customerService.Queryable()
-        .Where(x => x.CustomerName.Contains(q))
+        .Where(x => x.CustomerName.Contains(q) )
+        .Select(x => new { x.Id, x.CustomerCode, x.CustomerName, x.ContactName })
+        .ToListAsync();
+      //return Json(result, JsonRequestBehavior.AllowGet);
+      var json = Json(result, JsonRequestBehavior.AllowGet);
+      json.MaxJsonLength = int.MaxValue;
+      return json;
+    }
+    public async Task<JsonResult> GetCustomerComboData(string q = "")
+    {
+      var result = await this.customerService.Queryable()
+        .Where(x => x.CustomerName.Contains(q) && x.CustomerType.Contains("客户"))
+        .Select(x => new { x.Id, x.CustomerCode, x.CustomerName, x.ContactName })
+        .ToListAsync();
+      //return Json(result, JsonRequestBehavior.AllowGet);
+      var json = Json(result, JsonRequestBehavior.AllowGet);
+      json.MaxJsonLength = int.MaxValue;
+      return json;
+    }
+    public async Task<JsonResult> GetSupplierComboData(string q = "")
+    {
+      var result = await this.customerService.Queryable()
+        .Where(x => x.CustomerName.Contains(q) && x.CustomerType.Contains("供应商"))
         .Select(x => new { x.Id, x.CustomerCode, x.CustomerName, x.ContactName })
         .ToListAsync();
       //return Json(result, JsonRequestBehavior.AllowGet);
@@ -172,8 +194,102 @@ namespace WebApp.Controllers
       return Json(pagelist, JsonRequestBehavior.AllowGet);
     }
     //easyui datagrid post acceptChanges 
+    public async Task<JsonResult> GetCustomerComboGridData(string q = "", int page = 1, int rows = 10, string sort = "Id", string order = "asc")
+    {
 
+      var pagerows = ( await this.customerService
+                           .Query(x =>x.CustomerType.Contains("客户") && (
+                           x.CustomerCode.Contains(q) || x.CustomerName.Contains(q)
+                           ))
+                          .OrderBy(n => n.OrderBy(sort, order))
+                         .SelectPageAsync(page, rows, out var totalCount) )
+                                       .Select(n => new
+                                       {
 
+                                         Id = n.Id,
+                                         CustomerCode = n.CustomerCode,
+                                         BaseName = n.BaseName,
+                                         CustomerName = n.CustomerName,
+                                         CustomerType = n.CustomerType,
+                                         Country = n.Country,
+                                         Level = n.Level,
+                                         Source = n.Source,
+                                         Telephone = n.Telephone,
+                                         Fax = n.Fax,
+                                         Owner = n.Owner,
+                                         WebSite = n.WebSite,
+                                         Industry = n.Industry,
+                                         BusinessScope = n.BusinessScope,
+                                         Address = n.Address,
+                                         Remark = n.Remark,
+                                         Payment = n.Payment,
+                                         TradeCode = n.TradeCode,
+                                         MasterCustom = n.MasterCustom,
+                                         CreditCode = n.CreditCode,
+                                         ContactName = n.ContactName,
+                                         Appellation = n.Appellation,
+                                         Sex = n.Sex,
+                                         Job = n.Job,
+                                         Wx = n.Wx,
+                                         PhoneNumber = n.PhoneNumber,
+                                         Email = n.Email,
+                                         ContactRemark = n.ContactRemark,
+                                         Status = n.Status,
+                                         Flag = n.Flag,
+                                         Logo = n.Logo,
+                                         LastContactDate = n.LastContactDate?.ToString("yyyy-MM-dd HH:mm:ss")
+                                       }).ToList();
+      var pagelist = new { total = totalCount, rows = pagerows };
+      return Json(pagelist, JsonRequestBehavior.AllowGet);
+    }
+    public async Task<JsonResult> GetSupplierComboGridData(string q = "", int page = 1, int rows = 10, string sort = "Id", string order = "asc")
+    {
+
+      var pagerows = ( await this.customerService
+                           .Query(x => x.CustomerType.Contains("供应商") && (
+                           x.CustomerCode.Contains(q) || x.CustomerName.Contains(q)
+                           ))
+                          .OrderBy(n => n.OrderBy(sort, order))
+                         .SelectPageAsync(page, rows, out var totalCount) )
+                                       .Select(n => new
+                                       {
+
+                                         Id = n.Id,
+                                         CustomerCode = n.CustomerCode,
+                                         BaseName = n.BaseName,
+                                         CustomerName = n.CustomerName,
+                                         CustomerType = n.CustomerType,
+                                         Country = n.Country,
+                                         Level = n.Level,
+                                         Source = n.Source,
+                                         Telephone = n.Telephone,
+                                         Fax = n.Fax,
+                                         Owner = n.Owner,
+                                         WebSite = n.WebSite,
+                                         Industry = n.Industry,
+                                         BusinessScope = n.BusinessScope,
+                                         Address = n.Address,
+                                         Remark = n.Remark,
+                                         Payment = n.Payment,
+                                         TradeCode = n.TradeCode,
+                                         MasterCustom = n.MasterCustom,
+                                         CreditCode = n.CreditCode,
+                                         ContactName = n.ContactName,
+                                         Appellation = n.Appellation,
+                                         Sex = n.Sex,
+                                         Job = n.Job,
+                                         Wx = n.Wx,
+                                         PhoneNumber = n.PhoneNumber,
+                                         Email = n.Email,
+                                         ContactRemark = n.ContactRemark,
+                                         Status = n.Status,
+                                         Flag = n.Flag,
+                                         Logo = n.Logo,
+                                         LastContactDate = n.LastContactDate?.ToString("yyyy-MM-dd HH:mm:ss")
+                                       }).ToList();
+      var pagelist = new { total = totalCount, rows = pagerows };
+      return Json(pagelist, JsonRequestBehavior.AllowGet);
+    }
     //easyui datagrid post acceptChanges 
     [HttpPost]
     public async Task<JsonResult> AcceptChanges(Customer[] customers)

@@ -8,7 +8,7 @@
                 cache: false,
                 resizable:true,
                 width:820,
-                height:300,
+                height:320,
                 onOpen:function(){
                    $('#inquirytaskproduct_form').form('disableValidation');
                 },
@@ -35,7 +35,6 @@
               @Html.HiddenFor(model => model.PriceType)
               @Html.HiddenFor(model => model.ThirdProductNo)
               @Html.HiddenFor(model => model.Price)
-              @Html.HiddenFor(model => model.SupplierCode)
               @Html.HiddenFor(model => model.SupplierName)
               @Html.HiddenFor(model => model.SamplePic)
               @Html.HiddenFor(model => model.TaskNo)
@@ -125,8 +124,52 @@
      						 required:false " />
               </div>
 
-
-
+              <!--客户料号-->
+              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ThirdProductNo)"> @Html.DisplayNameFor(model => model.ThirdProductNo) </label>
+              <div class="col-md-4 mb-1">
+                <input id="@Html.IdFor(model => model.ThirdProductNo)"
+                       name="@Html.NameFor(model => model.ThirdProductNo)"
+                       value="@Html.ValueFor(model => model.ThirdProductNo)"
+                       tabindex="6"
+                       class="easyui-textbox"
+                       type="text"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DisplayNameFor(model => model.ThirdProductNo)',
+     						 required:false,validType:'length[0,128]' " />
+              </div>
+              <!--客户料号-->
+              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.SupplierCode)"> @Html.DisplayNameFor(model => model.SupplierCode) </label>
+              <div class="col-md-4 mb-1">
+                <input id="@Html.IdFor(model => model.SupplierCode)"
+                       name="@Html.NameFor(model => model.SupplierCode)"
+                       value="@Html.ValueFor(model => model.SupplierCode)"
+                       tabindex="6"
+                       class="easyui-combogrid"
+                       type="text"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DisplayNameFor(model => model.SupplierCode)',
+     						          idField: 'CustomerCode',
+						              textField:  'CustomerName' ,
+                          panelHeight:'auto',
+                          panelWidth:490,
+                          editable:true,
+                          method:'get',
+                          mode: 'remote',
+                          fitColumns:true,
+                          pagination: true,
+                           clientPaging:false,
+                          pageList: [10, 20, 50, 100, 500],
+						              url: '/Customers/GetSupplierComboGridData' ,
+                          columns:[[
+                           {field:'CustomerCode',title:'客户编码',width:90},
+                           {field:'CustomerName',title:'客户名称',width:150}
+                          ]],
+						              onClickRow: function(index,item){
+                              console.log(item)
+						                  $('#inquirytaskproduct_form #SupplierName').val(item.CustomerName);
+                              
+                       } " />
+              </div>
               <!--询价数量-->
               <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Qty)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Qty) </label>
               <div class="col-md-4 mb-1">
