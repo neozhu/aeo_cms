@@ -14,6 +14,7 @@ using Service.Pattern;
 using System.Text.RegularExpressions;
 using WebApp.Models;
 using WebApp.Repositories;
+using System.Web;
 
 namespace WebApp.Services
 {
@@ -192,5 +193,25 @@ namespace WebApp.Services
             }
 
         }
+
+    public string UploadPicture(int id, HttpPostedFileBase file, string folder, string relpath)
+    {
+      var filename = file.FileName;
+      if (!Directory.Exists(folder))
+      {
+        Directory.CreateDirectory(folder);
+      }
+      var filepath = Path.Combine(folder, filename);
+      file.SaveAs(filepath);
+
+      if (id > 0)
+      {
+        var item = this.Find(id);
+        item.SamplePic = relpath + filename;
+        this.Update(item);
+      }
+
+      return relpath + filename;
     }
+  }
 }

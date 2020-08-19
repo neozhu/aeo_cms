@@ -53,11 +53,32 @@ namespace WebApp.Controllers
         //[OutputCache(Duration = 60, VaryByParam = "none")]
         [Route("Index", Name = "询价单产品信息", Order = 1)]
 		public ActionResult Index() => this.View();
+    //上传图片
+    [HttpPost]
+    public async Task<JsonResult> UploadPicture()
+    {
 
-		//Get :InquiryProducts/GetData
-		//For Index View datagrid datasource url
-        
-		[HttpGet]
+      try
+      {
+        var id = Convert.ToInt32(this.Request.Form["id"] ?? "0");
+        var file = this.Request.Files[0];
+        var dt = DateTime.Now.ToString("yyyyMMdd");
+        var folder = this.Server.MapPath("~/UploadFiles/InquiryProductsFiles/" + dt);
+        var relpath = "/UploadFiles/InquiryProductsFiles/" + dt + "/";
+        var path = this.inquiryProductService.UploadPicture(id, file, folder, relpath);
+        await this.unitOfWork.SaveChangesAsync();
+        return Json(new { path }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        throw e;
+      }
+
+    }
+    //Get :InquiryProducts/GetData
+    //For Index View datagrid datasource url
+
+    [HttpGet]
         //[OutputCache(Duration = 10, VaryByParam = "*")]
 		 public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
 		{

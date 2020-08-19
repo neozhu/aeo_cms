@@ -66,3 +66,4 @@ The statement has been terminated.
 2020-08-17 14:39:24.6771|FATAL|WebApp.MvcApplication|The controller for path '/Scrips/holder.js/160x160' was not found or does not implement IController.
 2020-08-17 14:47:41.1691|FATAL|WebApp.MvcApplication|A public action method 'holder.js' was not found on controller 'WebApp.Controllers.InquiryTasksController'.
 2020-08-17 14:49:04.1737|FATAL|WebApp.MvcApplication|The controller for path '/Scripts/holder.js/160x160' was not found or does not implement IController.
+2020-08-19 16:48:28.9755|FATAL|WebApp.MvcApplication|????????????

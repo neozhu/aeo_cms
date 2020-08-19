@@ -35,6 +35,12 @@
                 <button name="searchbutton" class="btn btn-default"> <span class="fal fa-search mr-1"></span> @Html.L("Refresh") </button>
               </div>
               <div class="btn-group btn-group-sm">
+                <button name="sumbitbutton" class="btn btn-info"> <span class="fal fa-check-square mr-1"></span> 提交 </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="createinqbutton" class="btn btn-primary"> <span class="fal fa-calendar-alt mr-1"></span> 生成询价单 </button>
+              </div>
+              <div class="btn-group btn-group-sm">
                 <button name="appendbutton" class="btn btn-default"> <span class="fal fa-plus mr-1"></span> @Html.L("Add") </button>
               </div>
               <div class="btn-group btn-group-sm">
@@ -94,11 +100,14 @@
   <script src="~/Scripts/holder.js"></script>
   <script type="text/javascript">
     //绑定按钮事件
+    
+    $('button[name="createinqbutton"]').on('click', createinquiry);
+    $('button[name="sumbitbutton"]').on('click', takeeffect);
     $('button[name="searchbutton"]').on('click', reloadData);
     $('button[name="appendbutton"]').on('click', appendData);
     $('button[name="deleterowbutton"]').on('click', deleteRow);
     $('button[name="savechangesbutton"]').on('click', acceptChanges);
-  $('button[name="cancelchangesbutton"]').on('click', rejectChanges);
+    $('button[name="cancelchangesbutton"]').on('click', rejectChanges);
     $('button[name="exportexcelbutton"]').on('click', exportExcel);
     $('button[name="importexcelbutton"]').on('click', () => {
       importExcel('InquiryTask')
@@ -109,7 +118,32 @@
     //全屏事件
     document.addEventListener('panel.onfullscreen', () => {
          $dg.datagrid('resize');
-     });
+    });
+    //生成询价单
+    function createinquiry() {
+      var id = $dg.datagrid('getChecked').filter(item => item.Status == '生效').map(item => item.Id);
+      if (id.length > 0) {
+        $.post('/InquiryTasks/CreateInquiry', { id: id }).done(res => {
+
+          reloadData();
+        });
+      } else {
+        $.messager.alert('提示', '请选择[生效]状态的记录')
+      }
+    }
+    //提交状态-草拟-生效
+    function takeeffect() {
+      var id = $dg.datagrid('getChecked').filter(item => item.Status == '草拟').map(item => item.Id);
+      if (id.length > 0) {
+        $.post('/InquiryTasks/TakeEffect', { id: id }).done(res => {
+
+          reloadData();
+        });
+      } else {
+        $.messager.alert('提示','请选择[草拟]状态的记录')
+      }
+
+    }
       //是否强制从后台取值
       const REQUIRBACKEND = false;
       //是否开启行内编辑
@@ -176,6 +210,7 @@
         Salesman: $.getusername(),
         Country: '中国',
         Cur: null,
+        Urgency:'正常',
         ExchangeRate: null,
         BeginDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         Enddate: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -526,7 +561,7 @@
         /*需要在键值队维护好status枚举值*/
         {  /*状态*/
           field: 'Status',
-          type: 'statusfilter',
+          type: 'intstatusfilter',
           options: {
 
           }

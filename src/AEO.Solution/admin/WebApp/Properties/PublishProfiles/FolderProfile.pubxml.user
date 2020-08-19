@@ -12,10 +12,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/12/2020 15:39:06</publishTime>
     </File>
     <File Include="App_Data/aeodb.mdf">
-      <publishTime>08/17/2020 16:27:17</publishTime>
+      <publishTime>08/19/2020 17:16:50</publishTime>
     </File>
     <File Include="App_Data/aeodb_log.ldf">
-      <publishTime>08/17/2020 17:20:44</publishTime>
+      <publishTime>08/19/2020 17:16:50</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/10/2013 16:29:20</publishTime>
@@ -45,7 +45,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2020 18:55:04</publishTime>
     </File>
     <File Include="bin/en-US/WebApp.resources.dll">
-      <publishTime>08/17/2020 16:56:25</publishTime>
+      <publishTime>08/19/2020 17:16:59</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/16/2020 20:38:42</publishTime>
@@ -339,10 +339,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/05/2016 13:11:52</publishTime>
     </File>
     <File Include="bin/WebApp.dll">
-      <publishTime>08/17/2020 16:56:25</publishTime>
+      <publishTime>08/19/2020 17:16:59</publishTime>
     </File>
     <File Include="bin/WebApp.pdb">
-      <publishTime>08/17/2020 16:56:25</publishTime>
+      <publishTime>08/19/2020 17:16:59</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -366,7 +366,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/24/2020 15:02:46</publishTime>
     </File>
     <File Include="bin/zh-TW/WebApp.resources.dll">
-      <publishTime>08/17/2020 16:56:25</publishTime>
+      <publishTime>08/19/2020 17:16:59</publishTime>
     </File>
     <File Include="bin/zh/Hangfire.Core.resources.dll">
       <publishTime>07/24/2020 15:02:46</publishTime>
@@ -5580,7 +5580,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2020 15:51:34</publishTime>
     </File>
     <File Include="Scripts/jquery.extend.formatter.js">
-      <publishTime>08/14/2020 16:55:29</publishTime>
+      <publishTime>08/19/2020 09:42:00</publishTime>
     </File>
     <File Include="Scripts/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
       <publishTime>05/22/2020 14:02:00</publishTime>
@@ -9677,6 +9677,114 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Home/Index.cshtml">
       <publishTime>07/30/2020 10:21:25</publishTime>
     </File>
+    <File Include="Views/Inquiries/Create.cshtml">
+      <publishTime>08/19/2020 11:03:59</publishTime>
+    </File>
+    <File Include="Views/Inquiries/Details.cshtml">
+      <publishTime>08/19/2020 11:03:59</publishTime>
+    </File>
+    <File Include="Views/Inquiries/Edit.cshtml">
+      <publishTime>08/19/2020 11:04:00</publishTime>
+    </File>
+    <File Include="Views/Inquiries/EditForm.cshtml">
+      <publishTime>08/19/2020 11:04:00</publishTime>
+    </File>
+    <File Include="Views/Inquiries/Index.cshtml">
+      <publishTime>08/19/2020 16:46:36</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_DisplayForm.cshtml">
+      <publishTime>08/19/2020 11:03:57</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_inquiryfiledatagridjsview.cshtml">
+      <publishTime>08/19/2020 15:31:14</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_InquiryFileEditForm.cshtml">
+      <publishTime>08/19/2020 11:04:01</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_inquiryproductdatagridjsview.cshtml">
+      <publishTime>08/19/2020 16:28:39</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_InquiryProductEditForm.cshtml">
+      <publishTime>08/19/2020 16:59:45</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_inquiryrefdatagridjsview.cshtml">
+      <publishTime>08/19/2020 13:14:08</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_InquiryRefEditForm.cshtml">
+      <publishTime>08/19/2020 11:04:03</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_PluploadModal.cshtml">
+      <publishTime>08/19/2020 15:23:32</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_PopupDetailFormView.cshtml">
+      <publishTime>08/19/2020 17:09:59</publishTime>
+    </File>
+    <File Include="Views/Inquiries/_SelectProductWindow.cshtml">
+      <publishTime>08/19/2020 15:55:43</publishTime>
+    </File>
+    <File Include="Views/InquiryFiles/Create.cshtml">
+      <publishTime>08/19/2020 10:59:14</publishTime>
+    </File>
+    <File Include="Views/InquiryFiles/Details.cshtml">
+      <publishTime>08/19/2020 10:59:15</publishTime>
+    </File>
+    <File Include="Views/InquiryFiles/Edit.cshtml">
+      <publishTime>08/19/2020 10:59:15</publishTime>
+    </File>
+    <File Include="Views/InquiryFiles/EditForm.cshtml">
+      <publishTime>08/19/2020 10:59:16</publishTime>
+    </File>
+    <File Include="Views/InquiryFiles/Index.cshtml">
+      <publishTime>08/19/2020 10:59:13</publishTime>
+    </File>
+    <File Include="Views/InquiryFiles/_DisplayForm.cshtml">
+      <publishTime>08/19/2020 10:59:12</publishTime>
+    </File>
+    <File Include="Views/InquiryFiles/_PopupDetailFormView.cshtml">
+      <publishTime>08/19/2020 10:59:13</publishTime>
+    </File>
+    <File Include="Views/InquiryProducts/Create.cshtml">
+      <publishTime>08/19/2020 10:56:25</publishTime>
+    </File>
+    <File Include="Views/InquiryProducts/Details.cshtml">
+      <publishTime>08/19/2020 10:56:26</publishTime>
+    </File>
+    <File Include="Views/InquiryProducts/Edit.cshtml">
+      <publishTime>08/19/2020 10:56:26</publishTime>
+    </File>
+    <File Include="Views/InquiryProducts/EditForm.cshtml">
+      <publishTime>08/19/2020 10:56:27</publishTime>
+    </File>
+    <File Include="Views/InquiryProducts/Index.cshtml">
+      <publishTime>08/19/2020 10:56:24</publishTime>
+    </File>
+    <File Include="Views/InquiryProducts/_DisplayForm.cshtml">
+      <publishTime>08/19/2020 10:56:23</publishTime>
+    </File>
+    <File Include="Views/InquiryProducts/_PopupDetailFormView.cshtml">
+      <publishTime>08/19/2020 10:56:23</publishTime>
+    </File>
+    <File Include="Views/InquiryRefs/Create.cshtml">
+      <publishTime>08/19/2020 10:57:53</publishTime>
+    </File>
+    <File Include="Views/InquiryRefs/Details.cshtml">
+      <publishTime>08/19/2020 10:57:53</publishTime>
+    </File>
+    <File Include="Views/InquiryRefs/Edit.cshtml">
+      <publishTime>08/19/2020 10:57:54</publishTime>
+    </File>
+    <File Include="Views/InquiryRefs/EditForm.cshtml">
+      <publishTime>08/19/2020 10:57:54</publishTime>
+    </File>
+    <File Include="Views/InquiryRefs/Index.cshtml">
+      <publishTime>08/19/2020 10:57:52</publishTime>
+    </File>
+    <File Include="Views/InquiryRefs/_DisplayForm.cshtml">
+      <publishTime>08/19/2020 10:57:51</publishTime>
+    </File>
+    <File Include="Views/InquiryRefs/_PopupDetailFormView.cshtml">
+      <publishTime>08/19/2020 10:57:52</publishTime>
+    </File>
     <File Include="Views/InquiryTaskProducts/Create.cshtml">
       <publishTime>08/14/2020 14:39:58</publishTime>
     </File>
@@ -9711,7 +9819,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/14/2020 14:42:52</publishTime>
     </File>
     <File Include="Views/InquiryTasks/Index.cshtml">
-      <publishTime>08/17/2020 16:55:53</publishTime>
+      <publishTime>08/19/2020 10:14:37</publishTime>
     </File>
     <File Include="Views/InquiryTasks/_DisplayForm.cshtml">
       <publishTime>08/14/2020 14:42:49</publishTime>
@@ -9723,7 +9831,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/17/2020 17:09:22</publishTime>
     </File>
     <File Include="Views/InquiryTasks/_PopupDetailFormView.cshtml">
-      <publishTime>08/17/2020 16:56:09</publishTime>
+      <publishTime>08/19/2020 09:27:33</publishTime>
     </File>
     <File Include="Views/InquiryTasks/_SelectProductWindow.cshtml">
       <publishTime>08/17/2020 14:27:03</publishTime>

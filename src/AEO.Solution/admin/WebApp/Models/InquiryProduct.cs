@@ -77,7 +77,7 @@ namespace WebApp.Models
     public string SamplePic { get; set; }
     [Display(Name = "询价单号", Description = "询价单号")]
     [MaxLength(20)]
-    [Required]
+    //[Required]
     public string InquiryNo { get; set; }
     [Display(Name = "任务单号", Description = "任务单号")]
     [MaxLength(20)]

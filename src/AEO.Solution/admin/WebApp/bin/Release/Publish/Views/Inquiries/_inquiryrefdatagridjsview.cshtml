@@ -1,0 +1,138 @@
+﻿@model WebApp.Models.InquiryRef
+<script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $inquiryrefdg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 InquiryRef datagrid
+   var $inquiryrefdg = $('#inquiryref_datagrid');
+   //当前行记录
+   var inquiryref = {};
+ 
+    //重新加载数据
+    function inquiryref_reloadData() {
+			      $inquiryrefdg.datagrid('unselectAll');
+            $inquiryrefdg.datagrid('uncheckAll');
+	        $inquiryrefdg.datagrid('reload');
+	}
+   
+
+
+  $(() => {
+    $inquiryrefdg.datagrid({
+      fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      columns: [[
+
+        {    /*任务单号*/
+          field: 'TaskNo',
+          title: '  @Html.DisplayNameFor(model => model.TaskNo)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*状态*/
+          field: 'Status',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Status)',
+          width: 100,
+          align: 'right',
+          formatter: statusformatter
+        },
+        {   /*询价日期*/
+          field: 'BeginDate',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.BeginDate)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: {
+              id: 'editor_BeginDate',
+              prompt: '@Html.DescriptionFor(model => model.BeginDate)',
+              required: true
+            }
+          },
+          sortable: true,
+          resizable: true,
+          formatter: dateformatter
+        },
+        {    /*业务员*/
+          field: 'Salesman',
+          title: '  @Html.DisplayNameFor(model => model.Salesman)',
+          width: 120,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Salesman',
+              prompt: '@Html.DescriptionFor(model => model.Salesman)',
+              required: false,
+              validType: 'length[0,20]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*部门*/
+          field: 'Dept',
+          title: '  @Html.DisplayNameFor(model => model.Dept)',
+          width: 160,
+          editor: {
+            type: 'textbox',
+            options: {
+              id: 'editor_Dept',
+              prompt: '@Html.DescriptionFor(model => model.Dept)',
+              required: false,
+              validType: 'length[0,80]'
+            }
+          },
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {     /*系统版本号*/
+          field: 'Ver',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Ver)',
+          width: 100,
+          align: 'right',
+          editor: {
+            type: 'numberbox',
+            options: {
+              id: 'editor_Ver',
+              prompt: '@Html.DescriptionFor(model => model.Ver)',
+              required: true,
+              validType: 'integer',
+
+            }
+          },
+          sortable: true,
+          resizable: true,
+          hidden: false,
+          formatter: intformatter
+        },
+      ]]
+    });
+       
+  });
+      
+</script>
+
+
+ 
