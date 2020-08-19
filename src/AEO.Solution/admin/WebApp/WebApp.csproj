@@ -447,6 +447,10 @@
     <Compile Include="Controllers\FileManagerController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InquiriesController.cs" />
+    <Compile Include="Controllers\InquiryFilesController.cs" />
+    <Compile Include="Controllers\InquiryProductsController.cs" />
+    <Compile Include="Controllers\InquiryRefsController.cs" />
     <Compile Include="Controllers\InquiryTaskProductsController.cs" />
     <Compile Include="Controllers\InquiryTasksController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
@@ -622,6 +626,10 @@
     <Compile Include="Migrations\202008140820376_md_InquiryTask1.designer.cs">
       <DependentUpon>202008140820376_md_InquiryTask1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008190237152_md_Inquiry.cs" />
+    <Compile Include="Migrations\202008190237152_md_Inquiry.designer.cs">
+      <DependentUpon>202008190237152_md_Inquiry.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -648,6 +656,10 @@
     <Compile Include="Models\Metadata\BusinessOpportunityMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
+    <Compile Include="Models\Metadata\InquiryFileMetadata.cs" />
+    <Compile Include="Models\Metadata\InquiryMetadata.cs" />
+    <Compile Include="Models\Metadata\InquiryProductMetadata.cs" />
+    <Compile Include="Models\Metadata\InquiryRefMetadata.cs" />
     <Compile Include="Models\Metadata\InquiryTaskMetadata.cs" />
     <Compile Include="Models\Metadata\InquiryTaskProductMetadata.cs" />
     <Compile Include="Models\Metadata\MarketActMetadata.cs" />
@@ -703,6 +715,10 @@
     <Compile Include="Models\resource\BusinessOpportunity.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
+    <Compile Include="Models\resource\Inquiry.Designer.cs" />
+    <Compile Include="Models\resource\InquiryFile.Designer.cs" />
+    <Compile Include="Models\resource\InquiryProduct.Designer.cs" />
+    <Compile Include="Models\resource\InquiryRef.Designer.cs" />
     <Compile Include="Models\resource\InquiryTask.Designer.cs" />
     <Compile Include="Models\resource\InquiryTaskProduct.Designer.cs" />
     <Compile Include="Models\resource\Log.Designer.cs" />
@@ -755,6 +771,14 @@
     <Compile Include="Repositories\Customers\CustomerRepository.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseQuery.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
+    <Compile Include="Repositories\Inquiries\InquiryQuery.cs" />
+    <Compile Include="Repositories\Inquiries\InquiryRepository.cs" />
+    <Compile Include="Repositories\InquiryFiles\InquiryFileQuery.cs" />
+    <Compile Include="Repositories\InquiryFiles\InquiryFileRepository.cs" />
+    <Compile Include="Repositories\InquiryProducts\InquiryProductQuery.cs" />
+    <Compile Include="Repositories\InquiryProducts\InquiryProductRepository.cs" />
+    <Compile Include="Repositories\InquiryRefs\InquiryRefQuery.cs" />
+    <Compile Include="Repositories\InquiryRefs\InquiryRefRepository.cs" />
     <Compile Include="Repositories\InquiryTaskProducts\InquiryTaskProductQuery.cs" />
     <Compile Include="Repositories\InquiryTaskProducts\InquiryTaskProductRepository.cs" />
     <Compile Include="Repositories\InquiryTasks\InquiryTaskQuery.cs" />
@@ -830,6 +854,14 @@
     <Compile Include="Services\Customers\ICustomerService.cs" />
     <Compile Include="Services\CustomerWarehouses\CustomerWarehouseService.cs" />
     <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
+    <Compile Include="Services\Inquiries\IInquiryService.cs" />
+    <Compile Include="Services\Inquiries\InquiryService.cs" />
+    <Compile Include="Services\InquiryFiles\IInquiryFileService.cs" />
+    <Compile Include="Services\InquiryFiles\InquiryFileService.cs" />
+    <Compile Include="Services\InquiryProducts\IInquiryProductService.cs" />
+    <Compile Include="Services\InquiryProducts\InquiryProductService.cs" />
+    <Compile Include="Services\InquiryRefs\IInquiryRefService.cs" />
+    <Compile Include="Services\InquiryRefs\InquiryRefService.cs" />
     <Compile Include="Services\InquiryTaskProducts\IInquiryTaskProductService.cs" />
     <Compile Include="Services\InquiryTaskProducts\InquiryTaskProductService.cs" />
     <Compile Include="Services\InquiryTasks\IInquiryTaskService.cs" />
@@ -4147,6 +4179,40 @@
     <Content Include="Views\InquiryTasks\_InquiryTaskProductEditForm.cshtml" />
     <Content Include="Views\InquiryTasks\_inquirytaskproductdatagridjsview.cshtml" />
     <Content Include="Views\InquiryTasks\_SelectProductWindow.cshtml" />
+    <Content Include="Views\InquiryProducts\_DisplayForm.cshtml" />
+    <Content Include="Views\InquiryProducts\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\InquiryProducts\Index.cshtml" />
+    <Content Include="Views\InquiryProducts\Create.cshtml" />
+    <Content Include="Views\InquiryProducts\Details.cshtml" />
+    <Content Include="Views\InquiryProducts\Edit.cshtml" />
+    <Content Include="Views\InquiryProducts\EditForm.cshtml" />
+    <Content Include="Views\InquiryRefs\_DisplayForm.cshtml" />
+    <Content Include="Views\InquiryRefs\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\InquiryRefs\Index.cshtml" />
+    <Content Include="Views\InquiryRefs\Create.cshtml" />
+    <Content Include="Views\InquiryRefs\Details.cshtml" />
+    <Content Include="Views\InquiryRefs\Edit.cshtml" />
+    <Content Include="Views\InquiryRefs\EditForm.cshtml" />
+    <Content Include="Views\InquiryFiles\_DisplayForm.cshtml" />
+    <Content Include="Views\InquiryFiles\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\InquiryFiles\Index.cshtml" />
+    <Content Include="Views\InquiryFiles\Create.cshtml" />
+    <Content Include="Views\InquiryFiles\Details.cshtml" />
+    <Content Include="Views\InquiryFiles\Edit.cshtml" />
+    <Content Include="Views\InquiryFiles\EditForm.cshtml" />
+    <Content Include="Views\Inquiries\_DisplayForm.cshtml" />
+    <Content Include="Views\Inquiries\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Inquiries\Index.cshtml" />
+    <Content Include="Views\Inquiries\Create.cshtml" />
+    <Content Include="Views\Inquiries\Details.cshtml" />
+    <Content Include="Views\Inquiries\Edit.cshtml" />
+    <Content Include="Views\Inquiries\EditForm.cshtml" />
+    <Content Include="Views\Inquiries\_InquiryFileEditForm.cshtml" />
+    <Content Include="Views\Inquiries\_inquiryfiledatagridjsview.cshtml" />
+    <Content Include="Views\Inquiries\_InquiryProductEditForm.cshtml" />
+    <Content Include="Views\Inquiries\_inquiryproductdatagridjsview.cshtml" />
+    <Content Include="Views\Inquiries\_InquiryRefEditForm.cshtml" />
+    <Content Include="Views\Inquiries\_inquiryrefdatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4340,6 +4406,9 @@
     <EmbeddedResource Include="Migrations\202008140820376_md_InquiryTask1.resx">
       <DependentUpon>202008140820376_md_InquiryTask1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008190237152_md_Inquiry.resx">
+      <DependentUpon>202008190237152_md_Inquiry.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4361,6 +4430,18 @@
     <EmbeddedResource Include="Models\resource\Company.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Company.resx" />
     <EmbeddedResource Include="Models\resource\Company.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\Inquiry.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\Inquiry.resx" />
+    <EmbeddedResource Include="Models\resource\Inquiry.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryFile.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryFile.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryFile.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryProduct.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryProduct.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryProduct.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryRef.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryRef.resx" />
+    <EmbeddedResource Include="Models\resource\InquiryRef.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\InquiryTask.en-US.resx" />
     <EmbeddedResource Include="Models\resource\InquiryTask.resx" />
     <EmbeddedResource Include="Models\resource\InquiryTask.zh-TW.resx" />

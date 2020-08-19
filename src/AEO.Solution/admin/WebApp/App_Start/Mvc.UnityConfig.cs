@@ -137,6 +137,14 @@ namespace WebApp
       container.RegisterType<IInquiryTaskProductService, InquiryTaskProductService>();
       container.RegisterType<IRepositoryAsync<InquiryTask>, Repository<InquiryTask>>();
       container.RegisterType<IInquiryTaskService, InquiryTaskService>();
+      container.RegisterType<IRepositoryAsync<InquiryFile>, Repository<InquiryFile>>();
+      container.RegisterType<IInquiryFileService, InquiryFileService>();
+      container.RegisterType<IRepositoryAsync<InquiryProduct>, Repository<InquiryProduct>>();
+      container.RegisterType<IInquiryProductService, InquiryProductService>();
+      container.RegisterType<IRepositoryAsync<InquiryRef>, Repository<InquiryRef>>();
+      container.RegisterType<IInquiryRefService, InquiryRefService>();
+      container.RegisterType<IRepositoryAsync<Inquiry>, Repository<Inquiry>>();
+      container.RegisterType<IInquiryService, InquiryService>();
       //AEO自测
       container.RegisterType<IRepositoryAsync<QuestionTpl>, Repository<QuestionTpl>>();
       container.RegisterType<IQuestionTplService, QuestionTplService>();

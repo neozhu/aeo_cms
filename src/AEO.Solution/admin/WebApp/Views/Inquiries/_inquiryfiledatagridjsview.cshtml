@@ -1,0 +1,155 @@
+﻿@model WebApp.Models.InquiryFile
+<script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $inquiryfiledg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 InquiryFile datagrid
+   var $inquiryfiledg = $('#inquiryfile_datagrid');
+   //当前行记录
+   var inquiryfile = {};
+   //datagrid CRUD method
+    var inquiryfile_editIndex = undefined;
+     
+    //重新加载数据
+    function inquiryfile_reloadData() {
+			$inquiryfiledg.datagrid('unselectAll');
+            $inquiryfiledg.datagrid('uncheckAll');
+	        $inquiryfiledg.datagrid('reload');
+	}
+ 
+    //新增记录
+    function inquiryfile_appendItem() {
+       const $inquiryform = $('#inquiry_form');
+       if ($inquiryform.form('enableValidation').form('validate')) {
+          const inquiry = $inquiryform.serializeJSON();
+       const item = {
+          
+          InquiryId:inquiry.Id
+        };
+      if (!SUBEDITINLINE) {
+        open_inquiryfiledlg(0, item, 'Added');
+      } else {
+			if (inquiryfile_endEditing()) {
+				//对必填字段进行默认值初始化
+				$inquiryfiledg.datagrid('insertRow', 
+                               { index: 0,
+                                  row: item 
+                               });
+				inquiryfile_editIndex = 0;
+				$inquiryfiledg.datagrid('selectRow', inquiryfile_editIndex)
+						.datagrid('beginEdit', inquiryfile_editIndex);
+			}
+        }
+        }
+	 }
+    //删除编辑的行
+	function inquiryfile_removeItem() {
+    inquiryfile_deleteChecked()
+	}
+    //删除选中的行
+    function inquiryfile_deleteChecked() {
+            const rows = $inquiryfiledg.datagrid('getChecked');
+            if (rows.length > 0) {
+                var id = rows.filter(item=>item.Id!=null).map(item => {
+                    return item.Id;
+                });
+                $.messager.confirm('确认', `你确定要删除这 <span class='badge bg-color-red'>${id.length}</span> 行记录?`,result => {
+                    if (result) {
+                        $.post('/InquiryFiles/DeleteChecked', { id: id })
+                         .done(response => {
+                            if (response.success) {
+                                $inquiryfiledg.datagrid('reload');
+                            } else {
+                                $.messager.alert('错误', response.err,'error');
+                            }
+                         });
+                    }
+                });  
+            } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+            }
+      }
+   
+  //提交修改的数据
+  //function inquiryfile_acceptChanges() {
+  //  $inquiryfiledg.datagrid('acceptChanges');
+  //}
+   
+
+$(() => {
+  $inquiryfiledg.datagrid({
+    fit: false,
+    height: 300,
+    rownumbers: true,
+    striped: true,
+    idField: 'Id',
+    sortName: 'Id',
+    sortOrder: 'asc',
+    remoteFilter: true,
+    singleSelect: true,
+    checkOnSelect: false,
+    selectOnCheck: false,
+    method: 'get',
+    pageList: [10, 20, 50, 100, 1000],
+    pagination: true,
+    clientPaging: false,
+    pagination: true,
+    columns: [[
+      { field: 'ck', checkbox: true },
+
+      {    /*文件名*/
+        field: 'FileName',
+        title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FileName)',
+        width: 160,
+        sortable: true,
+        hidden: false,
+        resizable: true
+      },
+      {    /*大小*/
+        field: 'Size',
+        title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Size)',
+        width: 100,
+        align: 'right',
+        hidden: false,
+        sortable: true,
+        resizable: true,
+        formatter: numberformatter
+      },
+      {    /*目录*/
+        field: 'Folder',
+        title: '  @Html.DisplayNameFor(model => model.Folder)',
+        width: 120,
+        sortable: true,
+        hidden: false,
+        resizable: true
+      },
+      {    /*上传用户*/
+        field: 'Owner',
+        title: '  @Html.DisplayNameFor(model => model.Owner)',
+        width: 120,
+        sortable: true,
+        hidden: false,
+        resizable: true
+      },
+      {   /*上传时间*/
+        field: 'Upload',
+        title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Upload)',
+        width: 100,
+        align: 'right',
+        hidden: false,
+        sortable: true,
+        resizable: true,
+        formatter: dateformatter
+      }
+    ]]
+  });
+            
+  });
+      
+</script>
+
+
+ 

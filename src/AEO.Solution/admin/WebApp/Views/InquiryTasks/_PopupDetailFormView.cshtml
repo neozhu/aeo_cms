@@ -517,6 +517,10 @@
       let url = '/InquiryTasks/Edit';
       //判断是新增或是修改方法
       if (MODELSTATE === 'Added') {
+        if (inquirytask.InquiryTaskProducts==null || inquirytask.InquiryTaskProducts.length < 0) {
+          $.messager.alert('提示', '没有产品信息');
+          return;
+        }
         url = '/InquiryTasks/Create';
       }
       var token = $('input[name="__RequestVerificationToken"]', $inquirytaskform).val();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using Repository.Pattern.Ef6;
@@ -31,12 +32,17 @@ namespace WebApp.Models
 
     [Display(Name = "业务员", Description = "业务员")]
     [MaxLength(20)]
-    [Required]
+    //[Required]
     public string Salesman { get; set; }
     [Display(Name = "部门", Description = "部门")]
     [MaxLength(80)]
     public string Dept { get; set; }
     [Display(Name = "系统版本号", Description = "系统版本号")]
     public int Ver { get; set; }
+    [Display(Name = "询价单", Description = "询价单")]
+    public int InquiryId { get; set; }
+    [ForeignKey("InquiryId")]
+    [Display(Name = "询价单", Description = "询价单")]
+    public Inquiry Inquiry { get; set; }
   }
 }

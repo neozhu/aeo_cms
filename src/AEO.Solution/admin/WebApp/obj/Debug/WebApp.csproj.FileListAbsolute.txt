@@ -498,3 +498,16 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryTask.en-US.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryTask.zh-TW.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_InquiryTask1.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_Inquiry.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryProduct.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryProduct.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryProduct.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryRef.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryRef.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryRef.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryFile.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryFile.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.InquiryFile.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Inquiry.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Inquiry.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Inquiry.zh-TW.resources

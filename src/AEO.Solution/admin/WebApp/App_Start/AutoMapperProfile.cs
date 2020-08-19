@@ -20,6 +20,8 @@ namespace WebApp
       CreateMap<Company, CompanyTreeItem>();
       CreateMap<CreateAeoQuestionTestDto, AeoAuthTest>();
       CreateMap<QuestionTpl, AeoQuestion>();
+      CreateMap<InquiryTask, Inquiry>();
+      CreateMap<InquiryTaskProduct, InquiryProduct>();
     }
   }
    

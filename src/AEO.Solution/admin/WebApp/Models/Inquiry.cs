@@ -15,10 +15,11 @@ namespace WebApp.Models
 
     [Display(Name = "询价单号", Description = "询价单号")]
     [MaxLength(20)]
-    [Required]
+    [Index(IsUnique =true)]
+    //[Required]
     public string InquiryNo { get; set; }
     [Display(Name = "任务单号",Description = "任务单号")]
-    [MaxLength(20)]
+    [MaxLength(256)]
     //[Required]
     public string TaskNo { get; set; }
     [Display(Name = "状态", Description = "状态")]
@@ -115,5 +116,15 @@ namespace WebApp.Models
     public string CompanyName { get; set; }
     [Display(Name = "系统版本号", Description = "系统版本号")]
     public int Ver { get; set; }
+    public Inquiry()
+    {
+      this.Inquiryfiles = new HashSet<InquiryFile>();
+      this.Inquiryproducts = new HashSet<InquiryProduct>();
+      this.Inquiryrefs = new HashSet<InquiryRef>();
+    }
+    public virtual ICollection<InquiryRef> Inquiryrefs { get; set; }
+    public virtual ICollection<InquiryProduct> Inquiryproducts { get; set; }
+    public virtual ICollection<InquiryFile>  Inquiryfiles { get; set; }
+
   }
 }

@@ -52,6 +52,20 @@ namespace WebApp.Controllers
     [Route("Index", Name = "询价任务", Order = 1)]
     public ActionResult Index() => this.View();
 
+    [HttpPost]
+    public async Task<JsonResult> TakeEffect(int[] id) {
+
+      try
+      {
+        await this.inquiryTaskService.TakeEffect(id);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true, result }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
     //Get :InquiryTasks/GetData
     //For Index View datagrid datasource url
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -89,6 +90,11 @@ namespace WebApp.Models
     #region 询价任务
     public DbSet<InquiryTask> InquiryTasks { get; set; }
     public DbSet<InquiryTaskProduct> InquiryTaskProducts { get; set; }
+
+    public DbSet<Inquiry> Inquiries { get; set; }
+    public DbSet<InquiryRef> InquiryRefs { get; set; }
+    public DbSet<InquiryProduct> InquiryProducts { get; set; }
+    public DbSet<InquiryFile> InquiryFiles { get; set; }
     #endregion
     #region AEO自测
     public DbSet<QuestionTpl> QuestionTpls { get; set; }
