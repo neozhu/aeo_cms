@@ -303,5 +303,40 @@ namespace WebApp.Services
       this.Insert(order);
       return order;
     }
+
+    public async Task<(bool success, string msg)> VaildateApprove(int[] id)
+    {
+      var heads =await this.Queryable().Where(x => id.Contains(x.Id))
+       .Include(x => x.Inquiryproducts).ToListAsync();
+      var msg = "";
+      foreach (var head in heads)
+      {
+        if (head.FeedbackDate == null)
+        {
+          msg += ( msg.IndexOf(head.InquiryNo) < 0 ) ? $"{head.InquiryNo}:反馈日期为空 " : "反馈日期为空 ";
+        }
+        foreach (var body in head.Inquiryproducts)
+        {
+          if (string.IsNullOrEmpty(body.SupplierCode))
+          {
+            msg += ( msg.IndexOf(head.InquiryNo) < 0 ) ? $"{head.InquiryNo}供应商为空 " : "供应商为空 ";
+          }
+          if (body.Qty == 0)
+          {
+            msg += (msg.IndexOf(head.InquiryNo) < 0 )?$"{head.InquiryNo}询价数量必须大于0 " :"询价数量必须大于0 ";
+          }
+          if (body.Price ==null || body.Price.Value==0)
+          {
+            msg += ( msg.IndexOf(head.InquiryNo) < 0 ) ? $"{head.InquiryNo}询价单价必须大于0 " : "询价单价必须大于0 ";
+          }
+          if (string.IsNullOrEmpty(body.PriceType)  )
+          {
+            msg += ( msg.IndexOf(head.InquiryNo) < 0 ) ? $"{head.InquiryNo}询价价格类型为空 " : "询价价格类型为空 ";
+          }
+        }
+      }
+
+      return (string.IsNullOrEmpty(msg), msg);
+    }
   }
 }

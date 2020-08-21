@@ -77,6 +77,12 @@ namespace WebApp.Controllers
 
       
     }
+    //验证是否可以提交审批
+    [HttpPost]
+    public async Task<JsonResult> VaildateApprove(int[] id) {
+      var result =await this.inquiryService.VaildateApprove(id);
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
     //Get :Inquiries/GetData
     //For Index View datagrid datasource url
 
