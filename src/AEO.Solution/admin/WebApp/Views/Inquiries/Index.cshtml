@@ -44,7 +44,7 @@
                 </div>
               </div>
 
-      
+
               <div class="btn-group btn-group-sm">
                 <button name="deleterowbutton" disabled class="btn btn-default"> <span class="fal fa-trash-alt mr-1"></span> @Html.L("Delete") </button>
               </div>
@@ -109,6 +109,9 @@
     $('button[name="savechangesbutton"]').on('click', acceptChanges);
     $('button[name="cancelchangesbutton"]').on('click', rejectChanges);
     $('button[name="exportexcelbutton"]').on('click', exportExcel);
+    $('button[name="createfromtask"]').on('click', () => {
+      openselecttaskproductwindow()
+    });
     $('button[name="importexcelbutton"]').on('click', () => {
       importExcel('Inquiry')
     });
@@ -761,6 +764,8 @@
 
   @Html.Partial("_PluploadModal")
   @Html.Partial("_SelectProductWindow")
+  @Html.Partial("_SelectTaskDetailsWindow")
+  
   <!--end popup detailview javascript block -->
 }
 

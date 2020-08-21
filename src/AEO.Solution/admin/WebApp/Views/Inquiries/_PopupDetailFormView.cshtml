@@ -416,6 +416,11 @@
                         class="btn btn-default waves-effect waves-themed">
                   添加产品
                 </button>
+                <button name="inquiryproduct_copyitembutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed">
+                  复制新增
+                </button>
                 <button name="inquiryproduct_deleterowbutton"
                         type="button"
                         class="btn btn-default waves-effect waves-themed">
@@ -491,6 +496,7 @@
   
     $('button[name="inquiryproduct_searchbutton"]').on('click', inquiryproduct_reloadData);
     $('button[name="inquiryproduct_appenditembutton"]').on('click', inquiryproduct_appendItem);
+    $('button[name="inquiryproduct_copyitembutton"]').on('click', inquiryproduct_copyItem);
     $('button[name="inquiryproduct_deleterowbutton"]').on('click', inquiryproduct_removeItem);
     $('button[name="inquiryproduct_cancelchangesbutton"]').on('click', inquiryproduct_rejectChanges);
     $('button[name="inquiryproduct_savechangesbutton"]').on('click', inquiryproduct_acceptChanges);
@@ -511,9 +517,11 @@
     if (MODELSTATE === 'Added') {
       $('#deleteitem-btn-group').hide();
       $('button[name="inquiryfile_appenditembutton"]').attr('disabled', 'disabled');
+      $('button[name="inquiryproduct_copyitembutton"]').attr('disabled', 'disabled');
     } else {
       $('#deleteitem-btn-group').show();
       $('button[name="inquiryfile_appenditembutton"]').removeAttr('disabled');
+      $('button[name="inquiryproduct_copyitembutton"]').removeAttr('disabled');
     }
     initinquirydetailview();
     inquiryid = (data.Id || 0);
@@ -602,9 +610,6 @@
   //判断是否有没有保存的记录
   function inquiryhasmodified() {
     if (!hook) {
-      if (!inquiryproduct_endEditing()) {
-        return true;
-      }
       const inquiryproducts = $inquiryproductdg.datagrid("getChanges");
       if (MODELSTATE == 'Modified' && inquiryproducts.length > 0) {
         return true;

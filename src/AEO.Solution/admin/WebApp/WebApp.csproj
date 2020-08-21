@@ -4219,6 +4219,7 @@
     <Content Include="Views\Inquiries\_inquiryrefdatagridjsview.cshtml" />
     <Content Include="Views\Inquiries\_PluploadModal.cshtml" />
     <Content Include="Views\Inquiries\_SelectProductWindow.cshtml" />
+    <Content Include="Views\Inquiries\_SelectTaskDetailsWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />

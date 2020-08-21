@@ -1,0 +1,181 @@
+﻿@model WebApp.Models.InquiryTaskProduct
+<div id="selecttaskproductwindow" class="easyui-dialog"
+     title="选择询价产品信息" style="width:720px;height:602px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                buttons: [{
+                    text:'确认',
+                    handler:function() {
+                         select_taskproduct();
+                    }
+                },{
+                    text:'取消',
+                    handler:function() {
+                        $('#selecttaskproductwindow').dialog('close');
+                    }
+                }]
+            ">
+  <div class="panel-container show">
+    <div class="panel-content p-0">
+      <div class="table-responsive">
+        <table id="inquirytaskproducts_datagrid">
+        </table>
+      </div>
+      </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+  function select_taskproduct() {
+    const list = $taskproductdg.datagrid('getChecked');
+    const distinc1 = [...new Set(list.map(item => item.CompanyId))];
+    const distinc2 = [...new Set(list.map(item => item.CustomerId))];
+    if (list.length > 0 && distinc1.length == 1 && distinc2.length == 1) {
+      var id = list.map(item =>  item.Id );
+      $.post('/Inquiries/CreateInquiryFromTaskProduct', { id: id }).done(res => {
+        if (res.success == true) {
+          $.messager.alert('提示', `生成询价单号:${res.item.InquiryNo}`, 'info', function () {
+            openinquirydetailwindow(res.item, 'Modified');
+            reloadData();
+          });
+        } else {
+
+        }
+       
+      });
+      $('#selecttaskproductwindow').dialog('close');
+    } else {
+      $.messager.alert('提示', '请先选择相同的客户+公司的产品');
+    }
+  }
+  function openselecttaskproductwindow() {
+    $('#selecttaskproductwindow').dialog('open');
+    $taskproductdg.datagrid('load', '/InquiryTaskProducts/GetData');
+    $taskproductdg.datagrid('unselectAll')
+    $taskproductdg.datagrid('uncheckAll')
+  }
+  var $taskproductdg = $('#inquirytaskproducts_datagrid');
+  $(() => {
+    //定义datagrid结构
+    $taskproductdg.datagrid({
+      //fit: false,
+      height: 490,
+      rownumbers: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'desc',
+      remoteFilter: true,
+      singleSelect: true,
+      method: 'get',
+      pagination: true,
+      clientPaging: false,
+      striped: true,
+      pageList: [10, 20, 50, 100, 500, 2000],
+      filterRules: [],
+      frozenColumns: [[
+        /*开启CheckBox选择功能*/
+        { field: 'ck', checkbox: true }
+      ]],
+      columns: [[
+        {    /*任务单号*/
+          field: 'TaskNo',
+          title: '@Html.DisplayNameFor(model => model.TaskNo)',
+          width: 120,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*客户名称*/
+          field: 'CustomerName',
+          title: '客户',
+          width: 120,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*产品编号(自动生成,可手工修改)*/
+          field: 'ProductNo',
+          title: '@Html.DisplayNameFor(model => model.ProductNo)',
+          width: 260,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*中文品名*/
+          field: 'ProductName',
+          title: '@Html.DisplayNameFor(model => model.ProductName)',
+          width: 260,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*产品类别*/
+          field: 'CategoryName',
+          title: '@Html.DisplayNameFor(model => model.CategoryName)',
+          width: 260,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*中文描述*/
+          field: 'CnDescription',
+          title: '@Html.DisplayNameFor(model => model.CnDescription)',
+          width: 200,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*询价数量*/
+          field: 'Qty',
+          title: '@Html.DisplayNameFor(model => model.Qty)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'numberbox',
+            options: {
+              id: 'editor_Qty',
+              prompt: '@Html.DescriptionFor(model => model.Qty)',
+              required: true,
+              precision: 2,
+
+            }
+          },
+          formatter: numberformatter,
+          sortable: true,
+          resizable: true
+        },
+        {    /*单位*/
+          field: 'Unit',
+          title: '@Html.DisplayNameFor(model => model.Unit)',
+          width: 120,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*执行人*/
+          field: 'Executor',
+          title: '@Html.DisplayNameFor(model => model.Executor)',
+          width: 120,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+
+
+      ]]
+    }).datagrid('enableFilter', [
+    ]);
+      
+
+  });
+</script>
+

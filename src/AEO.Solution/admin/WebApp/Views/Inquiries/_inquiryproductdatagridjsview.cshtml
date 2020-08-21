@@ -19,49 +19,11 @@
     }
     //重新加载数据
     function inquiryproduct_reloadData() {
-			$inquiryproductdg.datagrid('unselectAll');
+			    $inquiryproductdg.datagrid('unselectAll');
             $inquiryproductdg.datagrid('uncheckAll');
 	        $inquiryproductdg.datagrid('reload');
 	}
-    //关闭编辑状态
-	function inquiryproduct_endEditing() {
-			if (inquiryproduct_editIndex === undefined) {
-                return true; 
-            }
-			if ($inquiryproductdg.datagrid('validateRow', inquiryproduct_editIndex)) {
-				$inquiryproductdg.datagrid('endEdit', inquiryproduct_editIndex);
-				inquiryproduct_editIndex = undefined;
-                return true;
-			} else {
-				const invalidinput = $('input.validatebox-invalid',$inquiryproductdg.datagrid('getPanel'));
-                const fieldnames = invalidinput.map((index, item) => {
-                  return $(item).attr('placeholder') || $(item).attr('id');
-                });
-                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
-				return false;
-			}
-		}
-    //单击列开启编辑功能
-	function inquiryproduct_onClickCell(index, field) {
-			const _operates = ['_operate1', 'ck'];
-             $('button[name*=\'inquiryproductdeleterowbutton\']').prop('disabled', false);
-			if (!SUBEDITINLINE || $.inArray(field, _operates) >= 0) {
-				return false;
-			}
-			if (inquiryproduct_editIndex !== index) {
-				if (inquiryproduct_endEditing()) {
-					$inquiryproductdg.datagrid('selectRow', index)
-							.datagrid('beginEdit', index);
-                    //inquiryproduct_editIndex = index;
-					var ed = $inquiryproductdg.datagrid('getEditor', { index: index, field: field });
-					if (ed) {
-						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-					}
-				} else {
-					$inquiryproductdg.datagrid('selectRow', inquiryproduct_editIndex);
-				}
-			}
-		}
+
     //双击弹出编辑当前行对话框
     function inquiryproduct_onDblClickRow(index, row) {
             open_inquiryproductdlg(index, row, 'Modified');
@@ -85,6 +47,40 @@
         $("button[name*='inquiryproduct_cancelchangesbutton']").prop('disabled', false);
         $("button[name*='inquiryproduct_savechangesbutton']").prop('disabled', false);
     });
+  //复制新增
+  function inquiryproduct_copyItem() {
+    var items = $inquiryproductdg.datagrid('getChecked');
+    if (items.length > 0) {
+      items.map(item => {
+         var product = {
+          InquiryId: $('#inquiry_form #Id').val(),
+          InquiryNo: $('#inquiry_form #InquiryNo').textbox('getValue'),
+          ProductNo: item.ProductNo,
+          ProductName: item.ProductName,
+          CategoryName: item.CategoryName,
+          Qty:item.Qty,
+          ProductEnName: item.ProductEnName,
+          CnDescription: item.CnDescription,
+          EnDescription: item.EnDescription,
+          Unit: item.Unit,
+          SamplePic: item.SamplePic,
+          Executor: $.getusername(),
+          TaskNo:item.TaskNo,
+        };
+        $inquiryproductdg.datagrid("insertRow",
+          {
+            index: 0,
+            row: product
+          });
+      });
+      $("button[name*='saveitembutton']").prop('disabled', false);
+      $("button[name*='_deleterowbutton']").prop('disabled', false);
+      $("button[name*='_cancelchangesbutton']").prop('disabled', false);
+      $("button[name*='_savechangesbutton']").prop('disabled', false);
+    } else {
+      $.messager.alert('提示', '请选择需要复制的记录');
+    }
+  }
     //新增记录
     function inquiryproduct_appendItem() {
       const $inquiryform = $('#inquiry_form');
@@ -98,7 +94,7 @@
         };
         $('#selectproductwindow').dialog('open')
       }
-  
+
 	 }
     //删除编辑的行
 	function inquiryproduct_removeItem() {
@@ -122,38 +118,35 @@
                             }
                          });
                     }
-                });  
+                });
             } else {
                 $.messager.alert('提示', '请先选择要删除的记录!','question');
             }
       }
   //获取修改的行
   function inquiryproduct_getChanges() {
-    if (inquiryproduct_endEditing()) {
-      if ($inquiryproductdg.datagrid('getChanges').length > 0) {
-        const inserted = $inquiryproductdg.datagrid('getChanges', 'inserted').map(item => {
-          item.TrackingState = 1;
-          return item;
-        });
-        const deleted = $inquiryproductdg.datagrid('getChanges', 'deleted').map(item => {
-          item.TrackingState = 3;
-          return item;
-        });
-        const updated = $inquiryproductdg.datagrid('getChanges', 'updated').map(item => {
-          item.TrackingState = 2;
-          return item;
-        });
-        //过滤已删除的重复项
-        const changed = inserted.concat(updated.filter(item => {
-          return !deleted.includes(item);
-        })).concat(deleted);
-        return { success: true, changed };
-      } else {
-        return { success: true, changed:undefined};
-      }
+    if ($inquiryproductdg.datagrid('getChanges').length > 0) {
+      const inserted = $inquiryproductdg.datagrid('getChanges', 'inserted').map(item => {
+        item.TrackingState = 1;
+        return item;
+      });
+      const deleted = $inquiryproductdg.datagrid('getChanges', 'deleted').map(item => {
+        item.TrackingState = 3;
+        return item;
+      });
+      const updated = $inquiryproductdg.datagrid('getChanges', 'updated').map(item => {
+        item.TrackingState = 2;
+        return item;
+      });
+      //过滤已删除的重复项
+      const changed = inserted.concat(updated.filter(item => {
+        return !deleted.includes(item);
+      })).concat(deleted);
+      return { success: true, changed };
     } else {
-      return { success: false,changed:undefined };
+      return { success: true, changed: undefined };
     }
+
   }
   //提交修改的数据
   //function inquiryproduct_acceptChanges() {
@@ -161,47 +154,44 @@
   //}
   //提交保存后台数据库
   async function inquiryproduct_acceptChanges() {
-			if (inquiryproduct_endEditing()) {
-				if ($inquiryproductdg.datagrid('getChanges').length > 0) {
-					const inserted = $inquiryproductdg.datagrid('getChanges', 'inserted').map(item => {
-                       item.TrackingState = 1;
-                       return item;
-                    });
-					const deleted = $inquiryproductdg.datagrid('getChanges', 'deleted').map(item => {
-                       item.TrackingState = 3;
-                       return item;
-                    });
-					const updated = $inquiryproductdg.datagrid('getChanges', 'updated').map(item => {
-                       item.TrackingState = 2;
-                       return item;
-                    });
-					//过滤已删除的重复项
-                    const changed = inserted.concat(updated.filter(item => {
-                           return !deleted.includes(item);
-                         })).concat(deleted);
-                   //console.table(changed);
-				  if (MODELSTATE === 'Added') {
-                    return { success:true, changed };
-                  } else {
-                    const response = await $.post('/InquiryProducts/AcceptChanges', {inquiryproducts:changed});
-                    response.changed = undefined;
-    				if (response.success) {
-							toastr.success('保存明细成功'); 
-							$inquiryproductdg.datagrid('acceptChanges');
-							inquiryproduct_reloadData()
-                            return { success:true}; 
-				    } else {
-                           $.messager.alert('错误', response.err ,'error');
-                           return { success:false, err:response.err };
-                    }
-                   }
-				} else {
-                  return { success: true, changed: undefined};
-                }
-			} else {
-               return { success: false };
-            }
+    if ($inquiryproductdg.datagrid('getChanges').length > 0) {
+      const inserted = $inquiryproductdg.datagrid('getChanges', 'inserted').map(item => {
+        item.TrackingState = 1;
+        return item;
+      });
+      const deleted = $inquiryproductdg.datagrid('getChanges', 'deleted').map(item => {
+        item.TrackingState = 3;
+        return item;
+      });
+      const updated = $inquiryproductdg.datagrid('getChanges', 'updated').map(item => {
+        item.TrackingState = 2;
+        return item;
+      });
+      //过滤已删除的重复项
+      const changed = inserted.concat(updated.filter(item => {
+        return !deleted.includes(item);
+      })).concat(deleted);
+      //console.table(changed);
+      if (MODELSTATE === 'Added') {
+        return { success: true, changed };
+      } else {
+        const response = await $.post('/InquiryProducts/AcceptChanges', { inquiryproducts: changed });
+        response.changed = undefined;
+        if (response.success) {
+          toastr.success('保存明细成功');
+          $inquiryproductdg.datagrid('acceptChanges');
+          inquiryproduct_reloadData()
+          return { success: true };
+        } else {
+          $.messager.alert('错误', response.err, 'error');
+          return { success: false, err: response.err };
+        }
       }
+    } else {
+      return { success: true, changed: undefined };
+    }
+
+  }
 
 
   $(() => {
@@ -212,7 +202,7 @@
       striped: true,
       idField: 'Id',
       sortName: 'Id',
-      sortOrder: 'asc',
+      sortOrder: 'desc',
       remoteFilter: true,
       singleSelect: true,
       checkOnSelect: false,
@@ -297,22 +287,6 @@
           hidden: false,
           resizable: true
         },
-        {    /*产品类别*/
-          field: 'CategoryName',
-          title: '@Html.DisplayNameFor(model => model.CategoryName)',
-          width: 160,
-          sortable: true,
-          hidden: false,
-          resizable: true
-        },
-        {    /*客户货号*/
-          field: 'ThirdProductNo',
-          title: '@Html.DisplayNameFor(model => model.ThirdProductNo)',
-          width: 130,
-          sortable: true,
-          hidden: false,
-          resizable: true
-        },
         {    /*询价数量*/
           field: 'Qty',
           title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Qty)',
@@ -322,6 +296,32 @@
           sortable: true,
           resizable: true,
           formatter: numberformatter
+        },
+        {    /*报价金额*/
+          field: 'Price',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Price)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          sortable: true,
+          resizable: true,
+          formatter: numberformatter
+        },
+        {    /*币种*/
+          field: 'Cur',
+          title: '  @Html.DisplayNameFor(model => model.Cur)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+         {    /*价格类型*/
+          field: 'PriceType',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.PriceType)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
         },
         {    /*单位*/
           field: 'Unit',
@@ -335,6 +335,22 @@
           field: 'Executor',
           title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Executor)',
           width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*产品类别*/
+          field: 'CategoryName',
+          title: '@Html.DisplayNameFor(model => model.CategoryName)',
+          width: 160,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*客户货号*/
+          field: 'ThirdProductNo',
+          title: '@Html.DisplayNameFor(model => model.ThirdProductNo)',
+          width: 130,
           sortable: true,
           hidden: false,
           resizable: true
@@ -355,32 +371,7 @@
           hidden: false,
           resizable: true
         },
-        {    /*价格类型*/
-          field: 'PriceType',
-          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.PriceType)',
-          width: 120,
-          sortable: true,
-          hidden: false,
-          resizable: true
-        },
-        {    /*报价金额*/
-          field: 'Price',
-          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Price)',
-          width: 100,
-          align: 'right',
-          hidden: false,
-          sortable: true,
-          resizable: true,
-          formatter: numberformatter
-        },
-        {    /*币种*/
-          field: 'Cur',
-          title: '  @Html.DisplayNameFor(model => model.Cur)',
-          width: 120,
-          sortable: true,
-          hidden: false,
-          resizable: true
-        },
+
         {    /*最小订单量*/
           field: 'MinQty',
           title: '@Html.DisplayNameFor(model => model.MinQty)',
@@ -419,14 +410,7 @@
           sortable: true,
           resizable: true
         },
-        {    /*产品备注*/
-          field: 'SamplePic',
-          title: '@Html.DisplayNameFor(model => model.SamplePic)',
-          width: 160,
-          sortable: true,
-          hidden: false,
-          resizable: true
-        },
+
 
 
 
@@ -465,7 +449,7 @@
         },
       ]);
   });
-      
+
 </script>
 
 

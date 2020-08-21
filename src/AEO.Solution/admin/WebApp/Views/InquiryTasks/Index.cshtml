@@ -121,14 +121,21 @@
     });
     //生成询价单
     function createinquiry() {
-      var id = $dg.datagrid('getChecked').filter(item => item.Status == '生效').map(item => item.Id);
-      if (id.length > 0) {
-        $.post('/InquiryTasks/CreateInquiry', { id: id }).done(res => {
-
+      const items = $dg.datagrid('getChecked').filter(item => item.Status == '生效');
+      const distinc1 = [...new Set(items.map(item => item.CompanyId))];
+      const distinc2 = [...new Set(items.map(item => item.CustomerId))];
+      const id = items.map(item => item.Id);
+      if (id.length > 0 && distinc1.length == 1 && distinc2.length == 1) {
+        $.post('/Inquiries/CreateInquiryFromTask', { id: id }).done(res => {
+          if (res.success == true) {
+            $.messager.alert('提示', `生成运单号:${res.inquiryno}`,'info', function () {
+              window.location.href = "/Inquiries/Index";
+            });
+          }
           reloadData();
         });
       } else {
-        $.messager.alert('提示', '请选择[生效]状态的记录')
+        $.messager.alert('提示', '请选择[生效]状态并且所属公司+客户必须相同的记录')
       }
     }
     //提交状态-草拟-生效

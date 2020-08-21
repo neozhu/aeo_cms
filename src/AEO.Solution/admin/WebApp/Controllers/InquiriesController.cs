@@ -53,7 +53,30 @@ namespace WebApp.Controllers
     //[OutputCache(Duration = 60, VaryByParam = "none")]
     [Route("Index", Name = "询价单", Order = 1)]
     public ActionResult Index() => this.View();
+    //生成询价单
+    [HttpPost]
+    public async Task<JsonResult> CreateInquiryFromTask(int[] id) {
+      try
+      {
+        var inquiryno = await this.inquiryService.CreateFromTask(id);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true, inquiryno }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
+    //根据明细生成询价单
+    [HttpPost]
+    public async Task<JsonResult> CreateInquiryFromTaskProduct(int[] id) {
+  
+        var item = await this.inquiryService.CreateFromTaskProduct(id);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return new JsonNetResult() { Data =new { success = true, item } };
 
+      
+    }
     //Get :Inquiries/GetData
     //For Index View datagrid datasource url
 

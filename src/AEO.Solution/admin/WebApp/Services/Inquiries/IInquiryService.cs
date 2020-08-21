@@ -12,26 +12,29 @@ using System.Data;
 using System.IO;
 namespace WebApp.Services
 {
-/// <summary>
-/// File: IInquiryService.cs
-/// Purpose: Service interfaces. Services expose a service interface
-/// to which all inbound messages are sent. You can think of a service interface
-/// as a façade that exposes the business logic implemented in the application
-/// Created Date: 2020/8/19 11:03:55
-/// Author: neo.zhu
-/// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
-/// Copyright (c) 2012-2018 All Rights Reserved
-/// </summary>
-    public interface IInquiryService:IService<Inquiry>
-    {
-         Task<IEnumerable<Inquiry>> GetByCustomerIdAsync(int  customerid);
-         Task<IEnumerable<Inquiry>> GetByCompanyIdAsync(int  companyid);
-         Task<IEnumerable<InquiryFile>>   GetInquiryfilesByInquiryIdAsync (int inquiryid);
-         Task<IEnumerable<InquiryProduct>>   GetInquiryproductsByInquiryIdAsync (int inquiryid);
-         Task<IEnumerable<InquiryRef>>   GetInquiryrefsByInquiryIdAsync (int inquiryid);
- 
-		Task ImportDataTableAsync(DataTable datatable,string username="");
-		Task<Stream> ExportExcelAsync( string filterRules = "",string sort = "Id", string order = "asc");
-	    Task Delete(int[] id);
-    }
+  /// <summary>
+  /// File: IInquiryService.cs
+  /// Purpose: Service interfaces. Services expose a service interface
+  /// to which all inbound messages are sent. You can think of a service interface
+  /// as a façade that exposes the business logic implemented in the application
+  /// Created Date: 2020/8/19 11:03:55
+  /// Author: neo.zhu
+  /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
+  /// Copyright (c) 2012-2018 All Rights Reserved
+  /// </summary>
+  public interface IInquiryService : IService<Inquiry>
+  {
+    Task<IEnumerable<Inquiry>> GetByCustomerIdAsync(int customerid);
+    Task<IEnumerable<Inquiry>> GetByCompanyIdAsync(int companyid);
+    Task<IEnumerable<InquiryFile>> GetInquiryfilesByInquiryIdAsync(int inquiryid);
+    Task<IEnumerable<InquiryProduct>> GetInquiryproductsByInquiryIdAsync(int inquiryid);
+    Task<IEnumerable<InquiryRef>> GetInquiryrefsByInquiryIdAsync(int inquiryid);
+
+    Task ImportDataTableAsync(DataTable datatable, string username = "");
+    Task<Stream> ExportExcelAsync(string filterRules = "", string sort = "Id", string order = "asc");
+    Task Delete(int[] id);
+
+    Task<string> CreateFromTask(int[] taskId);
+    Task<Inquiry> CreateFromTaskProduct(int[] taskproductId);
+  }
 }

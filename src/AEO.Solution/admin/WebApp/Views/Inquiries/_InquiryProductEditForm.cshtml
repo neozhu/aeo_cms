@@ -163,6 +163,7 @@
 						              onClickRow: function(index,item){
                               console.log(item)
 						                  $('#inquiryproduct_form #SupplierName').val(item.CustomerName);
+                             
 
                        } " />
               </div>
@@ -234,11 +235,11 @@
                        name="@Html.NameFor(model => model.PriceType)"
                        value="@Html.ValueFor(model => model.PriceType)"
                        tabindex="14"
-                       class="easyui-textbox"
+                       class="easyui-combobox"
                        type="text"
                        style="width:100%"
                        data-options="prompt:'@Html.DisplayNameFor(model => model.PriceType)',
-     						 required:true ,validType:'length[0,30]'" />
+     						 required:true ,validType:'length[0,30]',data:pricetypedatasource,panelHeight:'auto'" />
               </div>
 
               <!--报价金额-->
@@ -260,17 +261,17 @@
               </div>
 
               <!--币种-->
-              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Cur)"> @Html.DisplayNameFor(model => model.Cur) </label>
+              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Cur)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Cur) </label>
               <div class="col-md-4 mb-1">
                 <input id="@Html.IdFor(model => model.Cur)"
                        name="@Html.NameFor(model => model.Cur)"
                        value="@Html.ValueFor(model => model.Cur)"
                        tabindex="16"
-                       class="easyui-textbox"
+                       class="easyui-combobox"
                        type="text"
                        style="width:100%"
                        data-options="prompt:'@Html.DisplayNameFor(model => model.Cur)',
-     						 required:false ,validType:'length[0,20]'" />
+     						 required:true ,validType:'length[0,20]',data:curdatasource,panelHeight:'auto'" />
               </div>
 
               <!--最小订单量-->
