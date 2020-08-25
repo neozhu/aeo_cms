@@ -512,3 +512,8 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Inquiry.en-US.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Inquiry.zh-TW.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_Inquiry1.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_approvehistory.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.ApproveHistory.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.ApproveHistory.en-US.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.ApproveHistory.zh-TW.resources
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_approvehistory_key.resources

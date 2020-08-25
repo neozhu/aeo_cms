@@ -116,6 +116,28 @@ namespace WebApp.Models
     public string CompanyName { get; set; }
     [Display(Name = "系统版本号", Description = "系统版本号")]
     public int Ver { get; set; }
+
+    #region 审批信息
+    [Display(Name = "发起人", Description = "发起人")]
+    [MaxLength(32)]
+    [DefaultValue("user")]
+    public string Initiator { get; set; }
+    [Display(Name = "提交时间", Description = "提交时间")]
+    [DefaultValue(null)]
+    public DateTime? SubmitDate { get; set; }
+
+    [Display(Name = "待审人", Description = "待审人")]
+    [MaxLength(32)]
+    public string ToAuditor { get; set; }
+
+    [Display(Name = "审批人", Description = "审批人")]
+    [MaxLength(32)]
+    public string Approver { get; set; }
+    [Display(Name = "审批时间", Description = "审批时间")]
+    [DefaultValue(null)]
+    public DateTime? ApprovedDate { get; set; }
+
+    #endregion
     public Inquiry()
     {
       this.Inquiryfiles = new HashSet<InquiryFile>();

@@ -10,6 +10,19 @@
   <link href="@Fingerprint.Tag("/Content/css/notifications/toastr/toastr.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Scripts/easyui/themes/insdep/easyui.css")" rel="stylesheet" />
   <link href="@Fingerprint.Tag("/Content/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css")" rel="stylesheet" />
+  <style>
+    .ui-grouplabel {
+      font-family: 微软雅黑;
+      font-size: 12px;
+      font-weight: bold;
+      height: 16px;
+      line-height: 15px;
+      color: rgb(61, 82, 102);
+      margin-bottom: 6px;
+      padding: 0px 10px;
+      border-left: 4px solid rgb(75, 134, 252);
+    }
+  </style>
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
@@ -45,8 +58,16 @@
               </div>
               <div class="btn-group btn-group-sm">
                 <button name="approvebutton" disabled class="btn btn-primary"> <span class="fal fa-ballot-check mr-1"></span> 提交审批 </button>
+                <button name="approvedropbutton" type="button" disabled class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                  <button name="undobutton" class="dropdown-item js-waves-on"><span class="fal fa-undo-alt"></span> 撤销待审 </button>
+                </div>
               </div>
-
+              <div class="btn-group btn-group-sm">
+                <button name="todoapprovebutton" disabled class="btn btn-info"> <span class="fal fa-file-signature mr-1"></span> 审批 </button>
+              </div>
               <div class="btn-group btn-group-sm">
                 <button name="deleterowbutton" disabled class="btn btn-default"> <span class="fal fa-trash-alt mr-1"></span> @Html.L("Delete") </button>
               </div>
@@ -114,6 +135,12 @@
     $('button[name="approvebutton"]').on('click', () => {
       openapprove();
     });
+    $('button[name="undobutton"]').on('click', () => {
+      undoapprove();
+    });
+    $('button[name="todoapprovebutton"]').on('click', () => {
+      opentodoapprove();
+    });
     $('button[name="createfromtask"]').on('click', () => {
       openselecttaskproductwindow()
     });
@@ -129,20 +156,47 @@
     });
     //提交审批
     function openapprove() {
-      const items = $dg.datagrid('getChecked').filter(item => item.Status == '草拟');
+      const items = $dg.datagrid('getChecked').filter(item => item.Status == '草拟' || item.Status=='驳回');
       if (items.length > 0) {
         const id = items.map(x => x.Id);
         const url = '/Inquiries/VaildateApprove'
         $.post(url, { id: id }).done(res => {
           console.log(res);
           if (res.Item1 == true) {
-
+            open_approvedlg(items[0],id);
           } else {
             $.messager.alert('提示', res.Item2);
           }
         });
       } else {
-        $.messager.alert('提示','请选择草拟状态的记录');
+        $.messager.alert('提示','请选择草拟或驳回状态的记录');
+      }
+    }
+    //撤销审批
+    function undoapprove() {
+
+      const items = $dg.datagrid('getChecked').filter(item => item.Status == '待审');
+      if (items.length > 0) {
+        const id = items.map(x => x.Id);
+        const url = '/Inquiries/UndoApprove'
+        $.post(url, { id: id }).done(res => {
+          toastr.info('撤销待审!');
+          reloadData();
+        });
+      } else {
+        $.messager.alert('提示', '请选择待审状态的记录');
+      }
+    }
+
+    //打开审批
+    function opentodoapprove() {
+
+      const items = $dg.datagrid('getChecked').filter(item => item.Status == '待审');
+      if (items.length > 0) {
+        const id = items.map(x => x.Id);
+        open_todoapprovedlg(items[0], id);
+      } else {
+        $.messager.alert('提示', '请选择待审状态的记录');
       }
     }
       //是否强制从后台取值
@@ -286,27 +340,32 @@
         editIndex = undefined;
         $("button[name*='deleterowbutton']").prop('disabled', true);
         $("button[name*='approvebutton']").prop('disabled', true);
+        $("button[name*='approvedropbutton']").prop('disabled', true);
         $("button[name*='savechangesbutton']").prop('disabled', true);
         $("button[name*='cancelchangesbutton']").prop('disabled', true);
       },
       onCheck: function () {
         $("button[name*='deleterowbutton']").prop('disabled', false);
         $("button[name*='approvebutton']").prop('disabled', false);
+        $("button[name*='approvedropbutton']").prop('disabled', false);
       },
       onUncheck: function () {
         const checked = $(this).datagrid('getChecked').length > 0;
         $("button[name*='deleterowbutton']").prop('disabled', !checked);
         $("button[name*='approvebutton']").prop('disabled', !checked);
+        $("button[name*='approvedropbutton']").prop('disabled', !checked);
       },
       onCheckAll: function (rows) {
         if (rows.length > 0) {
           $("button[name*='deleterowbutton']").prop('disabled', false);
           $("button[name*='approvebutton']").prop('disabled', false);
+          $("button[name*='approvedropbutton']").prop('disabled', false);
         }
       },
       onUncheckAll: function () {
         $("button[name*='deleterowbutton']").prop('disabled', true);
         $("button[name*='approvebutton']").prop('disabled', true);
+        $("button[name*='approvedropbutton']").prop('disabled', true);
       },
       onSelect: function (index, row) {
         inquiry = row;
@@ -544,7 +603,8 @@
   @Html.Partial("_PluploadModal")
   @Html.Partial("_SelectProductWindow")
   @Html.Partial("_SelectTaskDetailsWindow")
-  
+  @Html.Partial("_SubmitApproveForm")
+  @Html.Partial("_TodoApproveForm")
   <!--end popup detailview javascript block -->
 }
 

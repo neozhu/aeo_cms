@@ -33,6 +33,7 @@ namespace WebApp.Services
   /// </summary>
   public class InquiryService : Service<Inquiry>, IInquiryService
   {
+    private readonly IApproveHistoryService approveHistoryService;
     private readonly IRepositoryAsync<Inquiry> repository;
     private readonly IDataTableImportMappingService mappingservice;
     private readonly IInquiryTaskService inquiryTaskService;
@@ -41,6 +42,7 @@ namespace WebApp.Services
     private readonly IMapper mapper;
     public InquiryService(
       IMapper mapper,
+      IApproveHistoryService approveHistoryService,
       IRepositoryAsync<Inquiry> repository,
       IDataTableImportMappingService mappingservice,
       IInquiryTaskService inquiryTaskService,
@@ -49,6 +51,7 @@ namespace WebApp.Services
       )
         : base(repository)
     {
+      this.approveHistoryService = approveHistoryService;
       this.mapper = mapper;
       this.repository = repository;
       this.mappingservice = mappingservice;
@@ -233,33 +236,33 @@ namespace WebApp.Services
 
     public async Task<string> CreateFromTask(int[] taskId)
     {
-      var tasks =await this.inquiryTaskService.Queryable().Where(x => taskId.Contains(x.Id))
+      var tasks = await this.inquiryTaskService.Queryable().Where(x => taskId.Contains(x.Id))
        .Include(x => x.InquiryTaskProducts)
        .ToListAsync();
 
-      var order= this.mapper.Map<Inquiry>(tasks.First());
-      order.InquiryNo =await KeyGenerator.GetRFQNo();
+      var order = this.mapper.Map<Inquiry>(tasks.First());
+      order.InquiryNo = await KeyGenerator.GetRFQNo();
       order.Status = "草拟";
       foreach (var task in tasks)
       {
-        foreach(var detail in task.InquiryTaskProducts)
+        foreach (var detail in task.InquiryTaskProducts)
         {
           var product = this.mapper.Map<InquiryProduct>(detail);
           product.InquiryId = order.Id;
           product.InquiryNo = order.InquiryNo;
           order.Inquiryproducts.Add(product);
         }
-        var refitem= new Models.InquiryRef()
+        var refitem = new Models.InquiryRef()
         {
-            BeginDate=task.BeginDate,
-             Dept="",
-              InquiryId=order.Id,
-               InquiryNo=order.InquiryNo,
-                Salesman=order.Salesman,
-                 Status=task.Status,
-                  TaskNo=task.TaskNo,
-                   Ver=order.Ver,
-                
+          BeginDate = task.BeginDate,
+          Dept = "",
+          InquiryId = order.Id,
+          InquiryNo = order.InquiryNo,
+          Salesman = order.Salesman,
+          Status = task.Status,
+          TaskNo = task.TaskNo,
+          Ver = order.Ver,
+
         };
         order.Inquiryrefs.Add(refitem);
       }
@@ -269,9 +272,9 @@ namespace WebApp.Services
 
     public async Task<Inquiry> CreateFromTaskProduct(int[] taskproductId)
     {
-      var details =await this.inquiryTaskProductService.Queryable()
+      var details = await this.inquiryTaskProductService.Queryable()
         .Where(x => taskproductId.Contains(x.Id))
-        .Include(x=>x.InquiryTask)
+        .Include(x => x.InquiryTask)
         .ToListAsync();
       var order = this.mapper.Map<Inquiry>(details.First().InquiryTask);
       order.InquiryNo = await KeyGenerator.GetRFQNo();
@@ -306,7 +309,7 @@ namespace WebApp.Services
 
     public async Task<(bool success, string msg)> VaildateApprove(int[] id)
     {
-      var heads =await this.Queryable().Where(x => id.Contains(x.Id))
+      var heads = await this.Queryable().Where(x => id.Contains(x.Id))
        .Include(x => x.Inquiryproducts).ToListAsync();
       var msg = "";
       foreach (var head in heads)
@@ -323,13 +326,13 @@ namespace WebApp.Services
           }
           if (body.Qty == 0)
           {
-            msg += (msg.IndexOf(head.InquiryNo) < 0 )?$"{head.InquiryNo}询价数量必须大于0 " :"询价数量必须大于0 ";
+            msg += ( msg.IndexOf(head.InquiryNo) < 0 ) ? $"{head.InquiryNo}询价数量必须大于0 " : "询价数量必须大于0 ";
           }
-          if (body.Price ==null || body.Price.Value==0)
+          if (body.Price == null || body.Price.Value == 0)
           {
             msg += ( msg.IndexOf(head.InquiryNo) < 0 ) ? $"{head.InquiryNo}询价单价必须大于0 " : "询价单价必须大于0 ";
           }
-          if (string.IsNullOrEmpty(body.PriceType)  )
+          if (string.IsNullOrEmpty(body.PriceType))
           {
             msg += ( msg.IndexOf(head.InquiryNo) < 0 ) ? $"{head.InquiryNo}询价价格类型为空 " : "询价价格类型为空 ";
           }
@@ -337,6 +340,88 @@ namespace WebApp.Services
       }
 
       return (string.IsNullOrEmpty(msg), msg);
+    }
+
+    public async Task SubmitApprove(int[] id, string to, string comment, string givenName)
+    {
+      var orders = await this.Queryable().Where(x => id.Contains(x.Id)).ToListAsync();
+      var tousers = to.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+      foreach (var order in orders)
+      {
+        order.Initiator = givenName;
+        order.SubmitDate = DateTime.Now;
+        order.ToAuditor = to;
+        order.Status = "待审";
+        foreach (var user in tousers)
+        {
+          var app = new ApproveHistory()
+          {
+            RefId = order.Id,
+            RefKey = order.InquiryNo,
+            Comment = comment,
+            Initiator = givenName,
+            Status = "待审",
+            SubmitDate = DateTime.Now,
+            ToAuditor = user
+          };
+          this.approveHistoryService.Insert(app);
+          
+        }
+        this.Update(order);
+      }
+    }
+
+    public async Task UndoApprove(int[] id)
+    {
+      var orders = await this.Queryable().Where(x => id.Contains(x.Id)).ToListAsync();
+      foreach (var order in orders)
+      {
+        order.Initiator = null;
+        order.SubmitDate = null;
+        order.ToAuditor = null;
+        order.Status = "草拟";
+        var apps =await this.approveHistoryService.Queryable().Where(x => x.RefId == order.Id).ToListAsync();
+        foreach (var app in apps)
+        {
+           
+          this.approveHistoryService.Delete(app);
+          
+        }
+        this.Update(order);
+      }
+    }
+
+    public async Task TodoApprove(int[] id, string status, string result,string approver)
+    {
+      var orders = await this.Queryable().Where(x => id.Contains(x.Id)).ToListAsync();
+      foreach (var order in orders)
+      {
+        order.Status = status;
+        order.ApprovedDate = DateTime.Now;
+        order.Approver = approver;
+        var apps = await this.approveHistoryService.Queryable()
+          .Where(x => x.RefId == order.Id &&
+          x.ToAuditor==approver
+         ).ToListAsync();
+        foreach (var app in apps)
+        {
+          app.Status = status;
+          app.Approver = approver;
+          app.ApprovedDate = order.ApprovedDate;
+          app.Result = result;
+          this.approveHistoryService.Update(app);
+        }
+        //删除其它
+        var notapps = await this.approveHistoryService.Queryable()
+         .Where(x => x.RefId == order.Id &&
+         x.ToAuditor != approver
+        ).ToListAsync();
+        foreach (var app in notapps)
+        {
+          this.approveHistoryService.Delete(app);
+        }
+        this.Update(order);
+      }
     }
   }
 }

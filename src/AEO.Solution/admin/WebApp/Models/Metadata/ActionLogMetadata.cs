@@ -24,7 +24,7 @@ namespace WebApp.Models
         [Display(Name = "RefId",Description ="关联ID",Prompt = "关联ID",ResourceType = typeof(resource.ActionLog))]
         public int RefId { get; set; }
 
-        [Display(Name = "RekKey",Description ="关联单号",Prompt = "关联单号",ResourceType = typeof(resource.ActionLog))]
+        [Display(Name = "RefKey",Description ="关联单号",Prompt = "关联单号",ResourceType = typeof(resource.ActionLog))]
         [MaxLength(128)]
         public string RekKey { get; set; }
 

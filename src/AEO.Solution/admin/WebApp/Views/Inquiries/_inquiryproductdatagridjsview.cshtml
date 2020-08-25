@@ -282,7 +282,15 @@
         {    /*中文品名*/
           field: 'ProductName',
           title: '@Html.DisplayNameFor(model => model.ProductName)',
-          width: 200,
+          width: 160,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*厂商货号*/
+          field: 'SupplierProductNo',
+          title: '@Html.DisplayNameFor(model => model.SupplierProductNo)',
+          width: 160,
           sortable: true,
           hidden: false,
           resizable: true
@@ -363,14 +371,7 @@
           hidden: false,
           resizable: true
         },
-        {    /*厂商货号*/
-          field: 'SupplierProductNo',
-          title: '@Html.DisplayNameFor(model => model.SupplierProductNo)',
-          width: 200,
-          sortable: true,
-          hidden: false,
-          resizable: true
-        },
+
 
         {    /*最小订单量*/
           field: 'MinQty',

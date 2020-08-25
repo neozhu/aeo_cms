@@ -426,6 +426,7 @@
     <Compile Include="Controllers\ActionLogsController.cs" />
     <Compile Include="Controllers\AeoAuthTestsController.cs" />
     <Compile Include="Controllers\AeoQuestionsController.cs" />
+    <Compile Include="Controllers\ApproveHistoriesController.cs" />
     <Compile Include="Controllers\AttachmentsController.cs" />
     <Compile Include="Controllers\BusinessOpportunitiesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
@@ -634,8 +635,17 @@
     <Compile Include="Migrations\202008190910173_md_Inquiry1.designer.cs">
       <DependentUpon>202008190910173_md_Inquiry1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008250216039_md_approvehistory.cs" />
+    <Compile Include="Migrations\202008250216039_md_approvehistory.designer.cs">
+      <DependentUpon>202008250216039_md_approvehistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008250254018_md_approvehistory_key.cs" />
+    <Compile Include="Migrations\202008250254018_md_approvehistory_key.designer.cs">
+      <DependentUpon>202008250254018_md_approvehistory_key.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
+    <Compile Include="Models\ApproveHistory.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BusinessChanceStage.cs" />
     <Compile Include="Models\BusinessOpportunity.cs" />
@@ -657,6 +667,7 @@
     <Compile Include="Models\Metadata\ActionLogMetadata.cs" />
     <Compile Include="Models\Metadata\AeoAuthTestMetadata.cs" />
     <Compile Include="Models\Metadata\AeoQuestionMetadata.cs" />
+    <Compile Include="Models\Metadata\ApproveHistoryMetadata.cs" />
     <Compile Include="Models\Metadata\BusinessOpportunityMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
@@ -715,6 +726,7 @@
     <Compile Include="Models\resource\ActionLog.Designer.cs" />
     <Compile Include="Models\resource\AeoAuthTest.Designer.cs" />
     <Compile Include="Models\resource\AeoQuestion.Designer.cs" />
+    <Compile Include="Models\resource\ApproveHistory.Designer.cs" />
     <Compile Include="Models\resource\Attachment.Designer.cs" />
     <Compile Include="Models\resource\BusinessOpportunity.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
@@ -747,6 +759,8 @@
     <Compile Include="Repositories\AeoAuthTests\AeoAuthTestRepository.cs" />
     <Compile Include="Repositories\AeoQuestions\AeoQuestionQuery.cs" />
     <Compile Include="Repositories\AeoQuestions\AeoQuestionRepository.cs" />
+    <Compile Include="Repositories\ApproveHistories\ApproveHistoryQuery.cs" />
+    <Compile Include="Repositories\ApproveHistories\ApproveHistoryRepository.cs" />
     <Compile Include="Repositories\Attachments\AttachmentQuery.cs" />
     <Compile Include="Repositories\Attachments\AttachmentRepository.cs" />
     <Compile Include="Repositories\BusinessOpportunities\BusinessOpportunityQuery.cs" />
@@ -830,6 +844,8 @@
     <Compile Include="Services\AeoAuthTests\IAeoAuthTestService.cs" />
     <Compile Include="Services\AeoQuestions\AeoQuestionService.cs" />
     <Compile Include="Services\AeoQuestions\IAeoQuestionService.cs" />
+    <Compile Include="Services\ApproveHistories\ApproveHistoryService.cs" />
+    <Compile Include="Services\ApproveHistories\IApproveHistoryService.cs" />
     <Compile Include="Services\Attachments\AttachmentService.cs" />
     <Compile Include="Services\Attachments\IAttachmentService.cs" />
     <Compile Include="Services\BusinessOpportunities\BusinessOpportunityService.cs" />
@@ -4220,6 +4236,15 @@
     <Content Include="Views\Inquiries\_PluploadModal.cshtml" />
     <Content Include="Views\Inquiries\_SelectProductWindow.cshtml" />
     <Content Include="Views\Inquiries\_SelectTaskDetailsWindow.cshtml" />
+    <Content Include="Views\ApproveHistories\_DisplayForm.cshtml" />
+    <Content Include="Views\ApproveHistories\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\ApproveHistories\Index.cshtml" />
+    <Content Include="Views\ApproveHistories\Create.cshtml" />
+    <Content Include="Views\ApproveHistories\Details.cshtml" />
+    <Content Include="Views\ApproveHistories\Edit.cshtml" />
+    <Content Include="Views\ApproveHistories\EditForm.cshtml" />
+    <Content Include="Views\Inquiries\_SubmitApproveForm.cshtml" />
+    <Content Include="Views\Inquiries\_TodoApproveForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4419,6 +4444,12 @@
     <EmbeddedResource Include="Migrations\202008190910173_md_Inquiry1.resx">
       <DependentUpon>202008190910173_md_Inquiry1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008250216039_md_approvehistory.resx">
+      <DependentUpon>202008250216039_md_approvehistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008250254018_md_approvehistory_key.resx">
+      <DependentUpon>202008250254018_md_approvehistory_key.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4428,6 +4459,9 @@
     <EmbeddedResource Include="Models\resource\AeoQuestion.en-US.resx" />
     <EmbeddedResource Include="Models\resource\AeoQuestion.resx" />
     <EmbeddedResource Include="Models\resource\AeoQuestion.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\ApproveHistory.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\ApproveHistory.resx" />
+    <EmbeddedResource Include="Models\resource\ApproveHistory.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.resx" />
     <EmbeddedResource Include="Models\resource\Attachment.zh-TW.resx" />

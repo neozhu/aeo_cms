@@ -96,6 +96,11 @@ namespace WebApp.Models
     public DbSet<InquiryProduct> InquiryProducts { get; set; }
     public DbSet<InquiryFile> InquiryFiles { get; set; }
     #endregion
+    #region 审批历史
+
+    public DbSet<ApproveHistory> ApproveHistories { get; set; }
+
+    #endregion
     #region AEO自测
     public DbSet<QuestionTpl> QuestionTpls { get; set; }
     public DbSet<AeoAuthTest> AeoAuthTests { get; set; }

@@ -152,7 +152,9 @@ namespace WebApp
       container.RegisterType<IAeoQuestionService, AeoQuestionService>();
       container.RegisterType<IRepositoryAsync<AeoAuthTest>, Repository<AeoAuthTest>>();
       container.RegisterType<IAeoAuthTestService, AeoAuthTestService>();
-      ///    
+      ///
+      container.RegisterType<IRepositoryAsync<ApproveHistory>, Repository<ApproveHistory>>();
+      container.RegisterType<IApproveHistoryService, ApproveHistoryService>();
       //container.RegisterType<IRepositoryAsync<ReceiptManage>, Repository<ReceiptManage>>();
       //container.RegisterType<IReceiptManageService, ReceiptManageService>();
       //container.RegisterType<IRepositoryAsync<ReceiptManageBankFL>, Repository<ReceiptManageBankFL>>();

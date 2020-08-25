@@ -70,3 +70,28 @@ The statement has been terminated.
 2020-08-20 09:47:36.9640|FATAL|WebApp.MvcApplication|A public action method 'CreateInquiry' was not found on controller 'WebApp.Controllers.InquiryTasksController'.
 2020-08-21 09:35:21.9270|FATAL|WebApp.MvcApplication|A public action method 'CreateInquiry' was not found on controller 'WebApp.Controllers.InquiryTasksController'.
 2020-08-21 14:30:25.0670|FATAL|WebApp.MvcApplication|??????“WebApp.Models.Inquiry”????????????
+2020-08-25 11:24:53.9565|FATAL|WebApp.MvcApplication|The partial view 'SubmitApproveForm' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Inquiries/SubmitApproveForm.aspx
+~/Views/Inquiries/SubmitApproveForm.ascx
+~/Views/Shared/SubmitApproveForm.aspx
+~/Views/Shared/SubmitApproveForm.ascx
+~/Views/Inquiries/SubmitApproveForm.cshtml
+~/Views/Inquiries/SubmitApproveForm.vbhtml
+~/Views/Shared/SubmitApproveForm.cshtml
+~/Views/Shared/SubmitApproveForm.vbhtml
+2020-08-25 11:34:04.8501|FATAL|WebApp.MvcApplication|d:\github\aeo_cms\src\AEO.Solution\admin\WebApp\Views\Inquiries\_SubmitApproveForm.cshtml(37): error CS1061: 'WebApp.Models.ApproveHistory' does not contain a definition for 'Size' and no extension method 'Size' accepting a first argument of type 'WebApp.Models.ApproveHistory' could be found (are you missing a using directive or an assembly reference?)
+2020-08-25 11:34:11.9559|FATAL|WebApp.MvcApplication|d:\github\aeo_cms\src\AEO.Solution\admin\WebApp\Views\Inquiries\_SubmitApproveForm.cshtml(37): error CS1061: 'WebApp.Models.ApproveHistory' does not contain a definition for 'Size' and no extension method 'Size' accepting a first argument of type 'WebApp.Models.ApproveHistory' could be found (are you missing a using directive or an assembly reference?)
+2020-08-25 13:54:43.5793|FATAL|WebApp.MvcApplication|A public action method 'UndoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 13:54:45.1238|FATAL|WebApp.MvcApplication|A public action method 'UndoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:46:27.5535|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:46:34.4708|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:46:35.4667|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:46:35.6851|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:46:35.8120|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:46:36.0134|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:46:36.1475|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:48:15.0857|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:54:27.5576|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:54:32.9024|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:54:49.1564|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-25 15:54:59.6666|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.

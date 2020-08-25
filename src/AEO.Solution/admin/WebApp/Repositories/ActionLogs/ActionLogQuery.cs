@@ -84,7 +84,7 @@ namespace WebApp.Repositories
                 break;
             }
           }
-          if (rule.field == "RekKey" && !string.IsNullOrEmpty(rule.value))
+          if (rule.field == "RefKey" && !string.IsNullOrEmpty(rule.value))
           {
             And(x => x.RekKey.Contains(rule.value));
           }
@@ -244,7 +244,7 @@ namespace WebApp.Repositories
                 break;
             }
           }
-          if (rule.field == "RekKey" && !string.IsNullOrEmpty(rule.value))
+          if (rule.field == "RefKey" && !string.IsNullOrEmpty(rule.value))
           {
             And(x => x.RekKey.Contains(rule.value));
           }

@@ -49,7 +49,7 @@
     }
     public static string RekKey {
             get {
-                return ResourceManager.GetString("RekKey", resourceCulture);
+                return ResourceManager.GetString("RefKey", resourceCulture);
             }
     }
     public static string ActionDateTime {

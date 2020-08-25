@@ -83,6 +83,50 @@ namespace WebApp.Controllers
       var result =await this.inquiryService.VaildateApprove(id);
       return Json(result, JsonRequestBehavior.AllowGet);
     }
+    //提交审批
+    [HttpPost]
+    public async Task<JsonResult> SubmitApprove(int[] id, string to, string comment) {
+      try
+      {
+        await this.inquiryService.SubmitApprove(id,to,comment,(string)ViewBag.GivenName);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
+    //撤销审批
+    [HttpPost]
+    public async Task<JsonResult> UndoApprove(int[] id)
+    {
+      try
+      {
+        await this.inquiryService.UndoApprove(id);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
+    //审批
+    [HttpPost]
+    public async Task<JsonResult> TodoApprove(int[] id,string status,string result)
+    {
+      try
+      {
+        await this.inquiryService.TodoApprove(id,status,result, (string)ViewBag.GivenName);
+        await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
     //Get :Inquiries/GetData
     //For Index View datagrid datasource url
 

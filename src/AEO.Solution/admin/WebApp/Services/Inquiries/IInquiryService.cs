@@ -37,5 +37,8 @@ namespace WebApp.Services
     Task<string> CreateFromTask(int[] taskId);
     Task<Inquiry> CreateFromTaskProduct(int[] taskproductId);
     Task<(bool success,string msg)> VaildateApprove(int[] id);
+    Task SubmitApprove(int[] id, string to, string comment, string givenName);
+    Task UndoApprove(int[] id);
+    Task TodoApprove(int[] id, string status, string result,string approver);
   }
 }
