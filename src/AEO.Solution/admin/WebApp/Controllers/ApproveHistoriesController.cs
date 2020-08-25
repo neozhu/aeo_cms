@@ -84,8 +84,38 @@ namespace WebApp.Controllers
 			var pagelist = new { total = totalCount, rows = pagerows };
 			return Json(pagelist, JsonRequestBehavior.AllowGet);
 		}
-        //easyui datagrid post acceptChanges 
-		[HttpPost]
+    //easyui datagrid post acceptChanges 
+
+    [HttpGet]
+    //[OutputCache(Duration = 10, VaryByParam = "*")]
+    public async Task<JsonResult> GetDataByRefId(int refid,int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+    {
+      var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
+      var pagerows = ( await this.approveHistoryService
+                           .Query(new ApproveHistoryQuery().WithRefIdfilter(refid,filters))
+                         .OrderBy(n => n.OrderBy(sort, order))
+                         .SelectPageAsync(page, rows, out var totalCount) )
+                                       .Select(n => new {
+
+                                         Id = n.Id,
+                                         RefId = n.RefId,
+                                         RekKey = n.RefKey,
+                                         Status = n.Status,
+                                         Initiator = n.Initiator,
+                                         SubmitDate = n.SubmitDate?.ToString("yyyy-MM-dd HH:mm:ss"),
+                                         ToAuditor = n.ToAuditor,
+                                         Approver = n.Approver,
+                                         ApprovedDate = n.ApprovedDate?.ToString("yyyy-MM-dd HH:mm:ss"),
+                                         Result = n.Result,
+                                         Comment = n.Comment,
+                                         Remark = n.Remark
+                                       }).ToList();
+      var pagelist = new { total = totalCount, rows = pagerows };
+      return Json(pagelist, JsonRequestBehavior.AllowGet);
+    }
+    //easyui datagrid post acceptChanges 
+
+    [HttpPost]
 		public async Task<JsonResult> AcceptChanges(ApproveHistory[] approvehistories)
 		{
             try{

@@ -201,5 +201,135 @@ namespace WebApp.Repositories
            }
             return this;
         }
+    public ApproveHistoryQuery WithRefIdfilter(int refid,IEnumerable<filterRule> filters)
+    {
+      And(x => x.RefId == refid);
+      if (filters != null)
+      {
+        foreach (var rule in filters)
+        {
+           
+          
+          if (rule.field == "RefKey" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.RefKey.Contains(rule.value));
+          }
+          if (rule.field == "Status" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.Status.Contains(rule.value));
+          }
+          if (rule.field == "Initiator" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.Initiator.Contains(rule.value));
+          }
+          if (rule.field == "SubmitDate" && !string.IsNullOrEmpty(rule.value))
+          {
+            if (rule.op == "between")
+            {
+              var datearray = rule.value.Split(new char[] { '-' });
+              var start = Convert.ToDateTime(datearray[0]);
+              var end = Convert.ToDateTime(datearray[1]);
+
+              And(x => SqlFunctions.DateDiff("d", start, x.SubmitDate) >= 0);
+              And(x => SqlFunctions.DateDiff("d", end, x.SubmitDate) <= 0);
+            }
+          }
+          if (rule.field == "ToAuditor" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.ToAuditor.Contains(rule.value));
+          }
+          if (rule.field == "Approver" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.Approver.Contains(rule.value));
+          }
+          if (rule.field == "ApprovedDate" && !string.IsNullOrEmpty(rule.value))
+          {
+            if (rule.op == "between")
+            {
+              var datearray = rule.value.Split(new char[] { '-' });
+              var start = Convert.ToDateTime(datearray[0]);
+              var end = Convert.ToDateTime(datearray[1]);
+
+              And(x => SqlFunctions.DateDiff("d", start, x.ApprovedDate) >= 0);
+              And(x => SqlFunctions.DateDiff("d", end, x.ApprovedDate) <= 0);
+            }
+          }
+          if (rule.field == "Result" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.Result.Contains(rule.value));
+          }
+          if (rule.field == "Comment" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.Comment.Contains(rule.value));
+          }
+          if (rule.field == "Remark" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.Remark.Contains(rule.value));
+          }
+          if (rule.field == "CreatedDate" && !string.IsNullOrEmpty(rule.value))
+          {
+            if (rule.op == "between")
+            {
+              var datearray = rule.value.Split(new char[] { '-' });
+              var start = Convert.ToDateTime(datearray[0]);
+              var end = Convert.ToDateTime(datearray[1]);
+
+              And(x => SqlFunctions.DateDiff("d", start, x.CreatedDate) >= 0);
+              And(x => SqlFunctions.DateDiff("d", end, x.CreatedDate) <= 0);
+            }
+          }
+          if (rule.field == "CreatedBy" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.CreatedBy.Contains(rule.value));
+          }
+          if (rule.field == "LastModifiedDate" && !string.IsNullOrEmpty(rule.value))
+          {
+            if (rule.op == "between")
+            {
+              var datearray = rule.value.Split(new char[] { '-' });
+              var start = Convert.ToDateTime(datearray[0]);
+              var end = Convert.ToDateTime(datearray[1]);
+
+              And(x => SqlFunctions.DateDiff("d", start, x.LastModifiedDate) >= 0);
+              And(x => SqlFunctions.DateDiff("d", end, x.LastModifiedDate) <= 0);
+            }
+          }
+          if (rule.field == "LastModifiedBy" && !string.IsNullOrEmpty(rule.value))
+          {
+            And(x => x.LastModifiedBy.Contains(rule.value));
+          }
+          if (rule.field == "TenantId" && !string.IsNullOrEmpty(rule.value) && rule.value.IsInt())
+          {
+            var val = Convert.ToInt32(rule.value);
+            switch (rule.op)
+            {
+              case "equal":
+                And(x => x.TenantId == val);
+                break;
+              case "notequal":
+                And(x => x.TenantId != val);
+                break;
+              case "less":
+                And(x => x.TenantId < val);
+                break;
+              case "lessorequal":
+                And(x => x.TenantId <= val);
+                break;
+              case "greater":
+                And(x => x.TenantId > val);
+                break;
+              case "greaterorequal":
+                And(x => x.TenantId >= val);
+                break;
+              default:
+                And(x => x.TenantId == val);
+                break;
+            }
+          }
+
+        }
+      }
+      return this;
     }
+  }
 }

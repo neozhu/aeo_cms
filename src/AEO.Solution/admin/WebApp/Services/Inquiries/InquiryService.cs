@@ -380,12 +380,13 @@ namespace WebApp.Services
         order.SubmitDate = null;
         order.ToAuditor = null;
         order.Status = "草拟";
-        var apps =await this.approveHistoryService.Queryable().Where(x => x.RefId == order.Id).ToListAsync();
+        var apps =await this.approveHistoryService.Queryable()
+          .Where(x => x.RefId == order.Id &&
+           x.Status == "待审"
+          ).ToListAsync();
         foreach (var app in apps)
         {
-           
           this.approveHistoryService.Delete(app);
-          
         }
         this.Update(order);
       }
@@ -401,6 +402,7 @@ namespace WebApp.Services
         order.Approver = approver;
         var apps = await this.approveHistoryService.Queryable()
           .Where(x => x.RefId == order.Id &&
+           x.Status == "待审" &&
           x.ToAuditor==approver
          ).ToListAsync();
         foreach (var app in apps)
@@ -412,8 +414,10 @@ namespace WebApp.Services
           this.approveHistoryService.Update(app);
         }
         //删除其它
+
         var notapps = await this.approveHistoryService.Queryable()
          .Where(x => x.RefId == order.Id &&
+         x.Status=="待审" &&
          x.ToAuditor != approver
         ).ToListAsync();
         foreach (var app in notapps)

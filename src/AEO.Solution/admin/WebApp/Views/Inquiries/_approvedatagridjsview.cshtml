@@ -1,0 +1,129 @@
+﻿@model WebApp.Models.ApproveHistory
+<script type="text/javascript">
+  //全屏事件
+  document.addEventListener('panel.onfullscreen', () => {
+       $approvedg.datagrid('resize');
+   });
+    //是否开启行内编辑
+    var SUBEDITINLINE = true;
+   //初始化 approvehistory datagrid
+   var $approvedg = $('#approvehistory_datagrid');
+   //当前行记录
+   var approvehistory = {};
+   //datagrid CRUD method
+
+
+    //重新加载数据
+  function approvehistory_reloadData() {
+    $approvedg.datagrid('unselectAll');
+    $approvedg.datagrid('uncheckAll');
+    $approvedg.datagrid('reload');
+  }
+
+
+$(() => {
+  $approvedg.datagrid({
+    fit: false,
+    height: 300,
+    rownumbers: true,
+    striped: true,
+    idField: 'Id',
+    sortName: 'Id',
+    sortOrder: 'asc',
+    remoteFilter: true,
+    singleSelect: true,
+    checkOnSelect: false,
+    selectOnCheck: false,
+    method: 'get',
+    pageList: [10, 20, 50, 100, 1000],
+    pagination: true,
+    clientPaging: false,
+    pagination: true,
+    onLoadSuccess: function (data) {
+    },
+    columns: [[
+      {    /*状态*/
+                 field:'Status',
+                 title:'@Html.DisplayNameFor(model => model.Status)',
+                 width:80,
+                 align:'right',
+                 hidden:false,
+                 formatter: statusformatter
+            },
+            {    /*发起人*/
+                 field:'Initiator',
+                 title:'@Html.DisplayNameFor(model => model.Initiator)',
+                 width:100,
+                 hidden:false,
+                 sortable:true,
+                 resizable:true
+            },
+            {   /*提交时间*/
+                field:'SubmitDate',
+                title:'@Html.DisplayNameFor(model => model.SubmitDate)',
+                width:100,
+                align:'right',
+                hidden:false,
+                formatter:dateformatter,
+                sortable:true,
+                resizable:true
+            } ,
+            {    /*待审人*/
+                 field:'ToAuditor',
+                 title:'@Html.DisplayNameFor(model => model.ToAuditor)',
+                 width:100,
+                 hidden:false,
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*审批人*/
+                 field:'Approver',
+                 title:'@Html.DisplayNameFor(model => model.Approver)',
+                 width:120,
+                 hidden:false,
+                 sortable:true,
+                 resizable:true
+            },
+            {   /*审批时间*/
+                field:'ApprovedDate',
+                title:'@Html.DisplayNameFor(model => model.ApprovedDate)',
+                width:100,
+                align:'right',
+                hidden:false,
+                formatter:dateformatter,
+                sortable:true,
+                resizable:true
+            } ,
+            {    /*审批意见*/
+                 field:'Result',
+                 title:'@Html.DisplayNameFor(model => model.Result)',
+                 width:200,
+                 hidden:false,
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*审批说明*/
+                 field:'Comment',
+                 title:'@Html.DisplayNameFor(model => model.Comment)',
+                 width:200,
+                 hidden:false,
+                 sortable:true,
+                 resizable:true
+            },
+            {    /*审批备注*/
+                 field:'Remark',
+                 title:'@Html.DisplayNameFor(model => model.Remark)',
+                 width:200,
+                 hidden:false,
+                 sortable:true,
+                 resizable:true
+            }
+    ]]
+  });
+
+  });
+
+</script>
+
+
+ 

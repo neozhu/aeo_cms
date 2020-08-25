@@ -70,7 +70,7 @@
     selectedid = checkedid;
   }
   function confirm_todoapprovedlg(status) {
-    if (status == '生效') {
+    if (status == '生效' && $('#todoapprove_form #Result').textbox('getValue')=='') {
       $('#todoapprove_form #Result').textbox('setValue', '同意');
     } else {
       //$('#todoapprove_form #Result').textbox('setValue', '');

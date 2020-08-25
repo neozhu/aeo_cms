@@ -4245,6 +4245,7 @@
     <Content Include="Views\ApproveHistories\EditForm.cshtml" />
     <Content Include="Views\Inquiries\_SubmitApproveForm.cshtml" />
     <Content Include="Views\Inquiries\_TodoApproveForm.cshtml" />
+    <Content Include="Views\Inquiries\_approvedatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
