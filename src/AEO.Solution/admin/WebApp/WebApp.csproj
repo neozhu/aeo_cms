@@ -665,6 +665,10 @@
     <Compile Include="Migrations\202008260922189_md_Quotation.designer.cs">
       <DependentUpon>202008260922189_md_Quotation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008261036571_md_QuotationHistories.cs" />
+    <Compile Include="Migrations\202008261036571_md_QuotationHistories.designer.cs">
+      <DependentUpon>202008261036571_md_QuotationHistories.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\ApproveHistory.cs" />
@@ -4540,6 +4544,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008260922189_md_Quotation.resx">
       <DependentUpon>202008260922189_md_Quotation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261036571_md_QuotationHistories.resx">
+      <DependentUpon>202008261036571_md_QuotationHistories.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />

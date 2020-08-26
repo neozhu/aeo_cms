@@ -538,3 +538,4 @@ D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Quotation.en-US.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Models.resource.Quotation.zh-TW.resources
 D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.csprojAssemblyReference.cache
+D:\github\aeo_cms\src\AEO.Solution\admin\WebApp\obj\Debug\WebApp.Migrations.md_QuotationHistories.resources

@@ -108,6 +108,8 @@ namespace WebApp.Models
     public DbSet<QuotationProduct> QuotationProducts { get; set; }
     public DbSet<QuotationFile> QuotationFiles { get; set; }
 
+    public DbSet<QuotationHistory> QuotationHistories { get; set; }
+
     #endregion
     #region AEO自测
     public DbSet<QuestionTpl> QuestionTpls { get; set; }
