@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="HSCodeMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/8/26 11:32:52 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+   <data name="Id" xml:space="preserve">
+    <value>系统主键</value>
+   </data> 
+   <data name="hscode" xml:space="preserve">
+    <value>10位HS编码</value>
+   </data> 
+   <data name="cn_name" xml:space="preserve">
+    <value>商品名称</value>
+   </data> 
+   <data name="en_name" xml:space="preserve">
+    <value>商品英文名称</value>
+   </data> 
+   <data name="g_model" xml:space="preserve">
+    <value>申报要素</value>
+   </data> 
+   <data name="unit_code" xml:space="preserve">
+    <value>第一法定单位代码</value>
+   </data> 
+   <data name="unit_name" xml:space="preserve">
+    <value>第一法定单位名称</value>
+   </data> 
+   <data name="unit2_code" xml:space="preserve">
+    <value>第二法定单位代码</value>
+   </data> 
+   <data name="unit2_name" xml:space="preserve">
+    <value>第二法定单位名称</value>
+   </data> 
+   <data name="control_ma" xml:space="preserve">
+    <value>监管条件代码</value>
+   </data> 
+   <data name="ciq_ma" xml:space="preserve">
+    <value>检验检疫类别代码</value>
+   </data> 
+   <data name="im_low_rate" xml:space="preserve">
+    <value>进口最惠国税率</value>
+   </data> 
+   <data name="im_normal_rate" xml:space="preserve">
+    <value>进口普通税率</value>
+   </data> 
+   <data name="im_temp_rate" xml:space="preserve">
+    <value>进口暂定税率</value>
+   </data> 
+   <data name="im_tax_rate" xml:space="preserve">
+    <value>增值税税率</value>
+   </data> 
+   <data name="im_consume_rate" xml:space="preserve">
+    <value>进口消费税税率</value>
+   </data> 
+   <data name="ex_return_rate" xml:space="preserve">
+    <value>进口消费税税率</value>
+   </data> 
+   <data name="ex_normal_rate" xml:space="preserve">
+    <value>出口普通税率</value>
+   </data> 
+   <data name="ex_temp_rate" xml:space="preserve">
+    <value>出口暂定税率</value>
+   </data> 
+   <data name="ex_special_rate" xml:space="preserve">
+    <value>出口特殊税税率</value>
+   </data> 
+   <data name="ex_tax_rate" xml:space="preserve">
+    <value>出口增值税税率</value>
+   </data> 
+   <data name="remark" xml:space="preserve">
+    <value>商品备注</value>
+   </data> 
+</root>

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="QuotationMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/8/26 17:52:00 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+　　<data name="Id" xml:space="preserve">
+    <value>Id</value>
+   </data> 
+　　<data name="QpNo" xml:space="preserve">
+    <value>Qp No</value>
+   </data> 
+　　<data name="Salesman" xml:space="preserve">
+    <value>Salesman</value>
+   </data> 
+　　<data name="CompanyId" xml:space="preserve">
+    <value>Company Id</value>
+   </data> 
+　　<data name="CompanyCode" xml:space="preserve">
+    <value>Company Code</value>
+   </data> 
+　　<data name="CompanyName" xml:space="preserve">
+    <value>Company Name</value>
+   </data> 
+　　<data name="CustomerId" xml:space="preserve">
+    <value>Customer Id</value>
+   </data> 
+　　<data name="CustomerCode" xml:space="preserve">
+    <value>Customer Code</value>
+   </data> 
+　　<data name="CustomerName" xml:space="preserve">
+    <value>Customer Name</value>
+   </data> 
+　　<data name="Country" xml:space="preserve">
+    <value>Country</value>
+   </data> 
+　　<data name="ContactName" xml:space="preserve">
+    <value>Contact Name</value>
+   </data> 
+　　<data name="ContactInfo" xml:space="preserve">
+    <value>Contact Info</value>
+   </data> 
+　　<data name="QuoteDate" xml:space="preserve">
+    <value>Quote Date</value>
+   </data> 
+　　<data name="ExpiryDate" xml:space="preserve">
+    <value>Expiry Date</value>
+   </data> 
+　　<data name="LoadingPort" xml:space="preserve">
+    <value>Loading Port</value>
+   </data> 
+　　<data name="DischargePort" xml:space="preserve">
+    <value>Discharge Port</value>
+   </data> 
+　　<data name="Cur" xml:space="preserve">
+    <value>Cur</value>
+   </data> 
+　　<data name="ExchangeRate" xml:space="preserve">
+    <value>Exchange Rate</value>
+   </data> 
+　　<data name="PriceTerm" xml:space="preserve">
+    <value>Price Term</value>
+   </data> 
+　　<data name="PayMode" xml:space="preserve">
+    <value>Pay Mode</value>
+   </data> 
+　　<data name="GoodsAmount" xml:space="preserve">
+    <value>Goods Amount</value>
+   </data> 
+　　<data name="ChargeAmount" xml:space="preserve">
+    <value>Charge Amount</value>
+   </data> 
+　　<data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
+   </data> 
+　　<data name="FormName" xml:space="preserve">
+    <value>Form Name</value>
+   </data> 
+　　<data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+   </data> 
+　　<data name="InquiryNo" xml:space="preserve">
+    <value>Inquiry No</value>
+   </data> 
+　　<data name="TaskNo" xml:space="preserve">
+    <value>Task No</value>
+   </data> 
+　　<data name="Ver" xml:space="preserve">
+    <value>Ver</value>
+   </data> 
+　　<data name="Initiator" xml:space="preserve">
+    <value>Initiator</value>
+   </data> 
+　　<data name="SubmitDate" xml:space="preserve">
+    <value>Submit Date</value>
+   </data> 
+　　<data name="ToAuditor" xml:space="preserve">
+    <value>To Auditor</value>
+   </data> 
+　　<data name="Approver" xml:space="preserve">
+    <value>Approver</value>
+   </data> 
+　　<data name="ApprovedDate" xml:space="preserve">
+    <value>Approved Date</value>
+   </data> 
+</root>

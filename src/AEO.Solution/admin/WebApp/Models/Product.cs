@@ -32,8 +32,10 @@ namespace WebApp.Models
     [MaxLength(100)]
     public string Spec { get; set; }
     [Display(Name = "中文描述", Description = "中文描述")]
+    [MaxLength(256)]
     public string CnDescription { get; set; }
     [Display(Name = "英文描述", Description = "英文描述")]
+    [MaxLength(256)]
     public string EnDescription { get; set; }
     [Display(Name = "单位", Description = "单位")]
     [MaxLength(10)]

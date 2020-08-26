@@ -131,6 +131,9 @@ namespace WebApp
       container.RegisterType<IBusinessOpportunityService, BusinessOpportunityService>();
       container.RegisterType<IRepositoryAsync<MarketAct>, Repository<MarketAct>>();
       container.RegisterType<IMarketActService, MarketActService>();
+      //商品编码库
+      container.RegisterType<IRepositoryAsync<HSCode>, Repository<HSCode>>();
+      container.RegisterType<IHSCodeService, HSCodeService>();
       //出口管理
       //询价任务单
       container.RegisterType<IRepositoryAsync<InquiryTaskProduct>, Repository<InquiryTaskProduct>>();
@@ -145,6 +148,13 @@ namespace WebApp
       container.RegisterType<IInquiryRefService, InquiryRefService>();
       container.RegisterType<IRepositoryAsync<Inquiry>, Repository<Inquiry>>();
       container.RegisterType<IInquiryService, InquiryService>();
+      //报价单
+      container.RegisterType<IRepositoryAsync<QuotationFile>, Repository<QuotationFile>>();
+      container.RegisterType<IQuotationFileService, QuotationFileService>();
+      container.RegisterType<IRepositoryAsync<QuotationProduct>, Repository<QuotationProduct>>();
+      container.RegisterType<IQuotationProductService, QuotationProductService>();
+      container.RegisterType<IRepositoryAsync<Quotation>, Repository<Quotation>>();
+      container.RegisterType<IQuotationService, QuotationService>();
       //AEO自测
       container.RegisterType<IRepositoryAsync<QuestionTpl>, Repository<QuestionTpl>>();
       container.RegisterType<IQuestionTplService, QuestionTplService>();

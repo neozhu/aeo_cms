@@ -40,6 +40,7 @@ namespace WebApp.Models
     public DbSet<Attachment> Attachments { get; set; }
 
     public DbSet<ActionLog> ActionLogs { get; set; }
+    public DbSet<HSCode> HSCodes { get; set; }
     #region 产品库
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
@@ -99,6 +100,13 @@ namespace WebApp.Models
     #region 审批历史
 
     public DbSet<ApproveHistory> ApproveHistories { get; set; }
+
+    #endregion
+
+    #region 报价单
+    public DbSet<Quotation> Quotations { get; set; }
+    public DbSet<QuotationProduct> QuotationProducts { get; set; }
+    public DbSet<QuotationFile> QuotationFiles { get; set; }
 
     #endregion
     #region AEO自测

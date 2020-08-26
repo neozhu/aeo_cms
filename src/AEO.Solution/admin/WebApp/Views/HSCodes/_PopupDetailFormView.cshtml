@@ -1,0 +1,520 @@
+﻿﻿@model WebApp.Models.HSCode
+<!-- 弹出编辑窗体表单 -->
+ <div id="hscodedetailwindow" class="easyui-window" 
+      title="编辑海关商品编码库" 
+      data-options="modal:true,
+                    closed:true,
+                    minimizable:false,
+                    collapsible:false,
+                    maximized:false,
+                    iconCls:'fal fa-window',
+                    onBeforeClose:function(){
+                      var that = $(this);
+                      if(hscodehasmodified()){
+                        $.messager.confirm('确认','你确定要放弃保存修改的记录?',function(r){
+                        if (r){
+                          var opts = that.panel('options');
+                          var onBeforeClose = opts.onBeforeClose;
+                          opts.onBeforeClose = function(){};
+                          that.panel('close');
+                          opts.onBeforeClose = onBeforeClose;
+                          hook = false;
+                        }
+                        });
+                        return false;
+                      }
+                    },
+                    onOpen:function(){
+                       $(this).window('vcenter');
+                       $(this).window('hcenter');
+                    },
+                    onRestore:function(){
+                    },
+                    onMaximize:function(){
+                    }
+                    " style="width:800px;height:450px;display:none">
+  <!-- toolbar -->
+  <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
+  <div class="d-flex justify-content-end pr-4">
+        <div class="btn-group btn-group-sm mr-1">
+          <button name="saveitembutton"   class="btn btn-default">
+            <i class="fal fa-save"></i> @Html.L("Save")
+          </button>
+        </div>
+        <div class="btn-group btn-group-sm mr-1" id="deleteitem-btn-group">
+          <button  name="deleteitembutton" class="btn btn-danger">
+            <i class="fal fa-trash-alt"></i> @Html.L("Delete")
+          </button>
+        </div>
+    </div>
+  </div>
+ <!-- panel container form  -->
+ <div class="panel-container show">
+   <div class="container">
+    <div class="panel-content">
+           <form id="hscode_form" 
+              class="easyui-form form-horizontal padding-10" 
+              method="post" 
+              data-options="novalidate:true,
+                            onChange: function(target){
+                              hook = true;
+                              $('button[name*=\'saveitembutton\']').prop('disabled', false);
+                             },
+                             onLoadSuccess:function(data){
+                               hook = false;
+                               $('button[name*=\'saveitembutton\']').prop('disabled', true);
+                             }">
+  @Html.AntiForgeryToken()
+   <!--Primary Key-->
+  @Html.HiddenFor(model=>model.Id)
+   <fieldset class="form-group">
+   <div class="row h-100 align-items-center">
+
+   <!--10位HS编码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.hscode)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.hscode)" 
+				   name="@Html.NameFor(model => model.hscode)" 
+				   value="@Html.ValueFor(model => model.hscode)"
+				   tabindex="0" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.hscode)',
+								 required:true, 
+                                 validType: 'length[0,10]'
+                                 " />
+       </div>
+				   
+   <!--商品名称-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.cn_name)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.cn_name)" 
+				   name="@Html.NameFor(model => model.cn_name)" 
+				   value="@Html.ValueFor(model => model.cn_name)"
+				   tabindex="1" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.cn_name)',
+								 required:false, 
+                                 validType: 'length[0,512]'
+                                 " />
+       </div>
+				   
+
+   <!--商品英文名称-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.en_name)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.en_name)" 
+				   name="@Html.NameFor(model => model.en_name)" 
+				   value="@Html.ValueFor(model => model.en_name)"
+				   tabindex="2" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.en_name)',
+								 required:false, 
+                                 validType: 'length[0,256]'
+                                 " />
+       </div>
+				   
+   <!--申报要素-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.g_model)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.g_model)" 
+				   name="@Html.NameFor(model => model.g_model)" 
+				   value="@Html.ValueFor(model => model.g_model)"
+				   tabindex="3" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.g_model)',
+								 required:false, 
+                                 validType: 'length[0,256]'
+                                 " />
+       </div>
+				   
+
+   <!--第一法定单位代码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.unit_code)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.unit_code)" 
+				   name="@Html.NameFor(model => model.unit_code)" 
+				   value="@Html.ValueFor(model => model.unit_code)"
+				   tabindex="4" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.unit_code)',
+								 required:false, 
+                                 validType: 'length[0,3]'
+                                 " />
+       </div>
+				   
+   <!--第一法定单位名称-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.unit_name)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.unit_name)" 
+				   name="@Html.NameFor(model => model.unit_name)" 
+				   value="@Html.ValueFor(model => model.unit_name)"
+				   tabindex="5" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.unit_name)',
+								 required:false, 
+                                 validType: 'length[0,12]'
+                                 " />
+       </div>
+				   
+
+   <!--第二法定单位代码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.unit2_code)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.unit2_code)" 
+				   name="@Html.NameFor(model => model.unit2_code)" 
+				   value="@Html.ValueFor(model => model.unit2_code)"
+				   tabindex="6" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.unit2_code)',
+								 required:false, 
+                                 validType: 'length[0,3]'
+                                 " />
+       </div>
+				   
+   <!--第二法定单位名称-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.unit2_name)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.unit2_name)" 
+				   name="@Html.NameFor(model => model.unit2_name)" 
+				   value="@Html.ValueFor(model => model.unit2_name)"
+				   tabindex="7" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.unit2_name)',
+								 required:false, 
+                                 validType: 'length[0,12]'
+                                 " />
+       </div>
+				   
+
+   <!--监管条件代码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.control_ma)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.control_ma)" 
+				   name="@Html.NameFor(model => model.control_ma)" 
+				   value="@Html.ValueFor(model => model.control_ma)"
+				   tabindex="8" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.control_ma)',
+								 required:false, 
+                                 validType: 'length[0,256]'
+                                 " />
+       </div>
+				   
+   <!--检验检疫类别代码-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ciq_ma)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.ciq_ma)" 
+				   name="@Html.NameFor(model => model.ciq_ma)" 
+				   value="@Html.ValueFor(model => model.ciq_ma)"
+				   tabindex="9" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.ciq_ma)',
+								 required:false, 
+                                 validType: 'length[0,256]'
+                                 " />
+       </div>
+				   
+
+   <!--进口最惠国税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.im_low_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.im_low_rate)" 
+				   name="@Html.NameFor(model => model.im_low_rate)" 
+				   value="@Html.ValueFor(model => model.im_low_rate)"
+				   tabindex="10" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.im_low_rate)',
+								 required:true, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--进口普通税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.im_normal_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.im_normal_rate)" 
+				   name="@Html.NameFor(model => model.im_normal_rate)" 
+				   value="@Html.ValueFor(model => model.im_normal_rate)"
+				   tabindex="11" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.im_normal_rate)',
+								 required:true, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+
+   <!--进口暂定税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.im_temp_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.im_temp_rate)" 
+				   name="@Html.NameFor(model => model.im_temp_rate)" 
+				   value="@Html.ValueFor(model => model.im_temp_rate)"
+				   tabindex="12" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.im_temp_rate)',
+								 required:true, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--增值税税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.im_tax_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.im_tax_rate)" 
+				   name="@Html.NameFor(model => model.im_tax_rate)" 
+				   value="@Html.ValueFor(model => model.im_tax_rate)"
+				   tabindex="13" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.im_tax_rate)',
+								 required:true, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+
+   <!--进口消费税税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.im_consume_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.im_consume_rate)" 
+				   name="@Html.NameFor(model => model.im_consume_rate)" 
+				   value="@Html.ValueFor(model => model.im_consume_rate)"
+				   tabindex="14" required
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.im_consume_rate)',
+								 required:true, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--进口消费税税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ex_return_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.ex_return_rate)" 
+				   name="@Html.NameFor(model => model.ex_return_rate)" 
+				   value="@Html.ValueFor(model => model.ex_return_rate)"
+				   tabindex="15" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.ex_return_rate)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+
+   <!--出口普通税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ex_normal_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.ex_normal_rate)" 
+				   name="@Html.NameFor(model => model.ex_normal_rate)" 
+				   value="@Html.ValueFor(model => model.ex_normal_rate)"
+				   tabindex="16" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.ex_normal_rate)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--出口暂定税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ex_temp_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.ex_temp_rate)" 
+				   name="@Html.NameFor(model => model.ex_temp_rate)" 
+				   value="@Html.ValueFor(model => model.ex_temp_rate)"
+				   tabindex="17" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.ex_temp_rate)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+
+   <!--出口特殊税税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ex_special_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.ex_special_rate)" 
+				   name="@Html.NameFor(model => model.ex_special_rate)" 
+				   value="@Html.ValueFor(model => model.ex_special_rate)"
+				   tabindex="18" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.ex_special_rate)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+   <!--出口增值税税率-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ex_tax_rate)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.ex_tax_rate)" 
+				   name="@Html.NameFor(model => model.ex_tax_rate)" 
+				   value="@Html.ValueFor(model => model.ex_tax_rate)"
+				   tabindex="19" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.ex_tax_rate)',
+								 required:false, 
+                                 validType: 'length[0,50]'
+                                 " />
+       </div>
+				   
+
+   <!--商品备注-->
+        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.remark)</label>
+		<div class="col-md-4 mb-1 pl-1">  
+			<input id="@Html.IdFor(model => model.remark)" 
+				   name="@Html.NameFor(model => model.remark)" 
+				   value="@Html.ValueFor(model => model.remark)"
+				   tabindex="20" 
+				   class="easyui-textbox" 
+                   style="width:100%"
+				   type="text" 
+				   data-options="prompt:'@Html.DescriptionFor(model => model.remark)',
+								 required:false, 
+                                 validType: 'length[0,512]'
+                                 " />
+       </div>
+				   
+	    </div> 
+      </fieldset>
+   </form>
+    </div>
+    </div>
+    </div>
+</div>
+
+<!-- 弹出窗体form表单 -->
+<!-- 弹出编辑对话框 -->
+
+<!--begin popup detailview javascript block -->
+<script type="text/javascript">
+ //当初始的 HTML 文档被完全加载和解析完成之后
+ document.addEventListener('DOMContentLoaded', function () {
+     //绑定按钮事件
+    $('button[name="saveitembutton"]').on('click', savehscodeitem);
+    $('button[name="deleteitembutton"]').on('click', deletehscodeitem);
+  });
+    //判断新增编辑状态
+    var MODELSTATE = 'Added';
+    var hscodeid = null;
+    function openhscodedetailwindow(data,state) {
+         MODELSTATE = state;
+         //判断是否显示功能按钮
+        if (MODELSTATE === 'Added') {
+          $('#deleteitem-btn-group').hide();
+        } else {
+          $('#deleteitem-btn-group').show();
+        }
+        inithscodedetailview();
+         hscodeid = (data.Id || 0);
+         $('#hscodedetailwindow').window('open');
+         $('#hscode_form').form('reset');
+         $('#hscode_form').form('load', data);
+             }
+  //删除当前记录
+  function deletehscodeitem() {
+    $.messager.confirm('确认', '你确定要删除该记录?', result => {
+      if (result) {
+        const url = `/HSCodes/Delete/${hscodeid}`;
+        $.get(url).done(res => {
+          if (res.success) {
+            toastr.success("删除成功");
+            $('#hscodedetailwindow').window('close');
+            reloadData();
+          } else {
+            $.messager.alert('错误', res.err, 'error');
+          }
+        });
+      }
+    });
+  }
+    //async 保存数据
+    async function savehscodeitem() { 
+      const $hscodeform = $('#hscode_form');
+      if ($hscodeform.form('enableValidation').form('validate')) {
+            let hscode = $hscodeform.serializeJSON();
+            let url = '/HSCodes/Edit';
+            //判断是新增或是修改方法
+            if (MODELSTATE === 'Added') {
+                url = '/HSCodes/Create';
+            }
+            var token = $('input[name="__RequestVerificationToken"]', $hscodeform).val();
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        __RequestVerificationToken: token,
+                        hscode:hscode
+                    },
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+                })
+                .done(response => {
+                    if (response.success) {
+                        hook = false;
+                        $hscodeform.form('disableValidation');
+                        $('#hscodedetailwindow').window("close");
+                        toastr.success("保存成功"); 
+                        reloadData();
+                    } else {
+                        $.messager.alert("错误",   response.err, "error");
+                    }
+                    })
+                .fail((jqXHR, textStatus, errorThrown) => {
+                       $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+                    });
+        }
+    }
+     //判断是否有没有保存的记录
+     function hscodehasmodified() {
+            return hook;
+
+     }
+
+
+function inithscodedetailview() {
+//回车光标移动到下个输入控件
+}
+</script>
+

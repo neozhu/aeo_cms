@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="QuotationProductMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/8/26 17:40:53 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+　　<data name="Id" xml:space="preserve">
+    <value>Id</value>
+   </data> 
+　　<data name="ProductNo" xml:space="preserve">
+    <value>Product No</value>
+   </data> 
+　　<data name="ProductName" xml:space="preserve">
+    <value>Product Name</value>
+   </data> 
+　　<data name="CategoryName" xml:space="preserve">
+    <value>Category Name</value>
+   </data> 
+　　<data name="ProductEnName" xml:space="preserve">
+    <value>Product En Name</value>
+   </data> 
+　　<data name="CnDescription" xml:space="preserve">
+    <value>Cn Description</value>
+   </data> 
+　　<data name="EnDescription" xml:space="preserve">
+    <value>En Description</value>
+   </data> 
+　　<data name="HSCODE" xml:space="preserve">
+    <value>H S C O D E</value>
+   </data> 
+　　<data name="HSADDTAXRATE" xml:space="preserve">
+    <value>H S A D D T A X R A T E</value>
+   </data> 
+　　<data name="HSBACKTAXRATE" xml:space="preserve">
+    <value>H S B A C K T A X R A T E</value>
+   </data> 
+　　<data name="CUSTBASIC" xml:space="preserve">
+    <value>C U S T B A S I C</value>
+   </data> 
+　　<data name="GUIDEPRICE" xml:space="preserve">
+    <value>G U I D E P R I C E</value>
+   </data> 
+　　<data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+   </data> 
+　　<data name="ThirdProductNo" xml:space="preserve">
+    <value>Third Product No</value>
+   </data> 
+　　<data name="Qty" xml:space="preserve">
+    <value>Qty</value>
+   </data> 
+　　<data name="Unit" xml:space="preserve">
+    <value>Unit</value>
+   </data> 
+　　<data name="Price" xml:space="preserve">
+    <value>Price</value>
+   </data> 
+　　<data name="Cur" xml:space="preserve">
+    <value>Cur</value>
+   </data> 
+　　<data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+   </data> 
+　　<data name="USDAmount" xml:space="preserve">
+    <value>U S D Amount</value>
+   </data> 
+　　<data name="RMBAmount" xml:space="preserve">
+    <value>R M B Amount</value>
+   </data> 
+　　<data name="BrightcmsRate" xml:space="preserve">
+    <value>Brightcms Rate</value>
+   </data> 
+　　<data name="BrightcmsFcy" xml:space="preserve">
+    <value>Brightcms Fcy</value>
+   </data> 
+　　<data name="DarkcmsRate" xml:space="preserve">
+    <value>Darkcms Rate</value>
+   </data> 
+　　<data name="DarkcmsFcy" xml:space="preserve">
+    <value>Darkcms Fcy</value>
+   </data> 
+　　<data name="Executor" xml:space="preserve">
+    <value>Executor</value>
+   </data> 
+　　<data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+   </data> 
+　　<data name="QpNo" xml:space="preserve">
+    <value>Qp No</value>
+   </data> 
+　　<data name="QuotationId" xml:space="preserve">
+    <value>Quotation Id</value>
+   </data> 
+　　<data name="Ver" xml:space="preserve">
+    <value>Ver</value>
+   </data> 
+</root>

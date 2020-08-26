@@ -12,8 +12,7 @@ namespace WebApp.Models
   //报价单附件
   public partial class QuotationFile : Entity
   {
-    [Key]
-    public int Id { get; set; }
+   
     [Display(Name = "文件名", Description = "文件名")]
     [MaxLength(100)]
     [Required]
@@ -32,8 +31,10 @@ namespace WebApp.Models
     
     public string Ext { get; set; }
     [Display(Name = "保存路径", Description = "保存路径")]
+    [MaxLength(256)]
     public string FilePath { get; set; }
     [Display(Name = "相对路径", Description = "相对路径")]
+    [MaxLength(256)]
     public string RelativePath { get; set; }
     [Display(Name = "关联单号", Description = "关联单号")]
     [MaxLength(100)]
@@ -46,7 +47,7 @@ namespace WebApp.Models
 
     [Display(Name = "报价单号", Description = "报价单号")]
     [MaxLength(20)]
-    public string QuotationNo { get; set; }
+    public string QpNo { get; set; }
     [Display(Name = "报价单", Description = "报价单")]
     public int QuotationId { get; set; }
     [ForeignKey("QuotationId")]

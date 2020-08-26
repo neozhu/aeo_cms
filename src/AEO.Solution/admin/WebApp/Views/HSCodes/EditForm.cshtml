@@ -1,0 +1,153 @@
+﻿﻿@model WebApp.Models.HSCode
+  <div class="form-row">
+   @Html.HiddenFor(x=>x.Id)
+         <!--10位HS编码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label"> <span class="text-danger">*</span> @Html.DisplayNameFor(model => model.hscode)</label>
+			@Html.EditorFor(x => x.hscode, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.hscode) } })
+      
+         </div>
+
+        <!--商品名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.cn_name)</label>
+			@Html.EditorFor(x => x.cn_name, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.cn_name) } })
+      
+         </div>
+
+        <!--商品英文名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.en_name)</label>
+			@Html.EditorFor(x => x.en_name, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.en_name) } })
+      
+         </div>
+
+        <!--申报要素-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.g_model)</label>
+			@Html.EditorFor(x => x.g_model, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.g_model) } })
+      
+         </div>
+
+        <!--第一法定单位代码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.unit_code)</label>
+			@Html.EditorFor(x => x.unit_code, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.unit_code) } })
+      
+         </div>
+
+        <!--第一法定单位名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.unit_name)</label>
+			@Html.EditorFor(x => x.unit_name, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.unit_name) } })
+      
+         </div>
+
+        <!--第二法定单位代码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.unit2_code)</label>
+			@Html.EditorFor(x => x.unit2_code, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.unit2_code) } })
+      
+         </div>
+
+        <!--第二法定单位名称-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.unit2_name)</label>
+			@Html.EditorFor(x => x.unit2_name, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.unit2_name) } })
+      
+         </div>
+
+        <!--监管条件代码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.control_ma)</label>
+			@Html.EditorFor(x => x.control_ma, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.control_ma) } })
+      
+         </div>
+
+        <!--检验检疫类别代码-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ciq_ma)</label>
+			@Html.EditorFor(x => x.ciq_ma, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ciq_ma) } })
+      
+         </div>
+
+        <!--进口最惠国税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.im_low_rate)</label>
+			@Html.EditorFor(x => x.im_low_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.im_low_rate) } })
+      
+         </div>
+
+        <!--进口普通税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.im_normal_rate)</label>
+			@Html.EditorFor(x => x.im_normal_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.im_normal_rate) } })
+      
+         </div>
+
+        <!--进口暂定税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.im_temp_rate)</label>
+			@Html.EditorFor(x => x.im_temp_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.im_temp_rate) } })
+      
+         </div>
+
+        <!--增值税税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.im_tax_rate)</label>
+			@Html.EditorFor(x => x.im_tax_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.im_tax_rate) } })
+      
+         </div>
+
+        <!--进口消费税税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.im_consume_rate)</label>
+			@Html.EditorFor(x => x.im_consume_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.im_consume_rate) } })
+      
+         </div>
+
+        <!--进口消费税税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ex_return_rate)</label>
+			@Html.EditorFor(x => x.ex_return_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ex_return_rate) } })
+      
+         </div>
+
+        <!--出口普通税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ex_normal_rate)</label>
+			@Html.EditorFor(x => x.ex_normal_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ex_normal_rate) } })
+      
+         </div>
+
+        <!--出口暂定税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ex_temp_rate)</label>
+			@Html.EditorFor(x => x.ex_temp_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ex_temp_rate) } })
+      
+         </div>
+
+        <!--出口特殊税税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ex_special_rate)</label>
+			@Html.EditorFor(x => x.ex_special_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ex_special_rate) } })
+      
+         </div>
+
+        <!--出口增值税税率-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.ex_tax_rate)</label>
+			@Html.EditorFor(x => x.ex_tax_rate, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ex_tax_rate) } })
+      
+         </div>
+
+        <!--商品备注-->
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label">  @Html.DisplayNameFor(model => model.remark)</label>
+			@Html.EditorFor(x => x.remark, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.remark) } })
+      
+         </div>
+
+	    
+</div>
+

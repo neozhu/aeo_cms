@@ -143,14 +143,13 @@ namespace WebApp
       {
         var fieldname = PropertyInfos[i].Name;
         var fieldtype = PropertyInfos[i].PropertyType;
-        if (colopts.Where(n=> n.FieldName==fieldname && n.IgnoredColumn==false).Any())
+        if (colopts.Where(n => n.FieldName == fieldname && n.IgnoredColumn).Any())
         {
-          continue;
+          var displayname = colopts.Where(x => x.FieldName == fieldname).FirstOrDefault()?.SourceFieldName;
+          var cell = headerRow.CreateCell(col++);
+          cell.SetCellValue(displayname ?? fieldname);
+          cell.CellStyle = headstyle;
         }
-        var displayname = colopts.Where(x=>  x.FieldName==fieldname).FirstOrDefault()?.SourceFieldName;
-        var cell = headerRow.CreateCell(col++);
-        cell.SetCellValue(displayname?? fieldname);
-        cell.CellStyle = headstyle;
 
       }
       for (var i = 0; i < list.Count; i++)
@@ -167,63 +166,66 @@ namespace WebApp
         {
           var fieldname = PropertyInfos[l].Name;
           var fieldtype = PropertyInfos[l].PropertyType;
-          if (colopts.Where(n => n.FieldName == fieldname && n.IgnoredColumn == false).Any())
+          if (colopts.Where(n => n.FieldName == fieldname && n.IgnoredColumn).Any())
           {
-            continue;
-          }
 
-          if (fieldtype == typeof(decimal) || fieldtype == typeof(Nullable<decimal>))
-          {
-            var format = workbook.CreateDataFormat();
-            style.DataFormat = format.GetFormat("#,##0.00");
-          }
-          else if (fieldtype == typeof(int) || fieldtype == typeof(Nullable<int>))
-          {
-            var format = workbook.CreateDataFormat();
-            style.DataFormat = format.GetFormat("#,##0");
-          }
-          else if (fieldtype == typeof(DateTime) || fieldtype == typeof(Nullable<DateTime>))
-          {
-            if (fieldname.IndexOf("time", StringComparison.OrdinalIgnoreCase) > -1)
+
+
+            if (fieldtype == typeof(decimal) || fieldtype == typeof(Nullable<decimal>))
             {
               var format = workbook.CreateDataFormat();
-              style.DataFormat = format.GetFormat("yyyy-MM-dd HH:mm");
+              style.DataFormat = format.GetFormat("#,##0.00");
+            }
+            else if (fieldtype == typeof(int) || fieldtype == typeof(Nullable<int>))
+            {
+              var format = workbook.CreateDataFormat();
+              style.DataFormat = format.GetFormat("#,##0");
+            }
+            else if (fieldtype == typeof(DateTime) || fieldtype == typeof(Nullable<DateTime>))
+            {
+              if (fieldname.IndexOf("time", StringComparison.OrdinalIgnoreCase) > -1)
+              {
+                var format = workbook.CreateDataFormat();
+                style.DataFormat = format.GetFormat("yyyy-MM-dd HH:mm");
+              }
+              else
+              {
+                var format = workbook.CreateDataFormat();
+                style.DataFormat = format.GetFormat("yyyy-MM-dd");
+              }
+            }
+
+            var cell = row.CreateCell(col++);
+            var val = item.GetType().GetProperty(fieldname).GetValue(item, null);
+            if (fieldtype == typeof(decimal) || fieldtype == typeof(Nullable<decimal>))
+            {
+              if (val != null)
+              {
+                cell.SetCellValue(Convert.ToDouble(val));
+              }
+            }
+            else if (fieldtype == typeof(int) || fieldtype == typeof(Nullable<int>))
+            {
+              if (val != null)
+              {
+                cell.SetCellValue(Convert.ToInt32(val));
+              }
+            }
+            else if (fieldtype == typeof(DateTime) || fieldtype == typeof(Nullable<DateTime>))
+            {
+              if (val != null)
+              {
+                cell.SetCellValue(Convert.ToDateTime(val));
+              }
             }
             else
             {
-              var format = workbook.CreateDataFormat();
-              style.DataFormat = format.GetFormat("yyyy-MM-dd");
+              cell.SetCellValue(val?.ToString());
             }
+            cell.CellStyle = style;
+            //sheet.AutoSizeColumn(col);
           }
-
-          var cell = row.CreateCell(col++);
-          var val = item.GetType().GetProperty(fieldname).GetValue(item, null);
-          if (fieldtype == typeof(decimal) || fieldtype == typeof(Nullable<decimal>))
-          {
-            if (val != null)
-            {
-              cell.SetCellValue(Convert.ToDouble(val));
-            }
-          } else if (fieldtype == typeof(int) || fieldtype == typeof(Nullable<int>))
-          {
-            if (val != null)
-            {
-              cell.SetCellValue(Convert.ToInt32(val));
-            }
-          }
-          else if (fieldtype == typeof(DateTime) || fieldtype == typeof(Nullable<DateTime>))
-          {
-            if (val != null)
-            {
-              cell.SetCellValue(Convert.ToDateTime(val));
-            }
-          }
-          else
-          {
-            cell.SetCellValue(val?.ToString());
-          }
-          cell.CellStyle = style;
-          sheet.AutoSizeColumn(col);
+        
         }
       }
 

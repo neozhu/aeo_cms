@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="HSCodeMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/8/26 11:32:53 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+　　<data name="Id" xml:space="preserve">
+    <value>Id</value>
+   </data> 
+　　<data name="hscode" xml:space="preserve">
+    <value>hscode</value>
+   </data> 
+　　<data name="cn_name" xml:space="preserve">
+    <value>cn_name</value>
+   </data> 
+　　<data name="en_name" xml:space="preserve">
+    <value>en_name</value>
+   </data> 
+　　<data name="g_model" xml:space="preserve">
+    <value>g_model</value>
+   </data> 
+　　<data name="unit_code" xml:space="preserve">
+    <value>unit_code</value>
+   </data> 
+　　<data name="unit_name" xml:space="preserve">
+    <value>unit_name</value>
+   </data> 
+　　<data name="unit2_code" xml:space="preserve">
+    <value>unit2_code</value>
+   </data> 
+　　<data name="unit2_name" xml:space="preserve">
+    <value>unit2_name</value>
+   </data> 
+　　<data name="control_ma" xml:space="preserve">
+    <value>control_ma</value>
+   </data> 
+　　<data name="ciq_ma" xml:space="preserve">
+    <value>ciq_ma</value>
+   </data> 
+　　<data name="im_low_rate" xml:space="preserve">
+    <value>im_low_rate</value>
+   </data> 
+　　<data name="im_normal_rate" xml:space="preserve">
+    <value>im_normal_rate</value>
+   </data> 
+　　<data name="im_temp_rate" xml:space="preserve">
+    <value>im_temp_rate</value>
+   </data> 
+　　<data name="im_tax_rate" xml:space="preserve">
+    <value>im_tax_rate</value>
+   </data> 
+　　<data name="im_consume_rate" xml:space="preserve">
+    <value>im_consume_rate</value>
+   </data> 
+　　<data name="ex_return_rate" xml:space="preserve">
+    <value>ex_return_rate</value>
+   </data> 
+　　<data name="ex_normal_rate" xml:space="preserve">
+    <value>ex_normal_rate</value>
+   </data> 
+　　<data name="ex_temp_rate" xml:space="preserve">
+    <value>ex_temp_rate</value>
+   </data> 
+　　<data name="ex_special_rate" xml:space="preserve">
+    <value>ex_special_rate</value>
+   </data> 
+　　<data name="ex_tax_rate" xml:space="preserve">
+    <value>ex_tax_rate</value>
+   </data> 
+　　<data name="remark" xml:space="preserve">
+    <value>remark</value>
+   </data> 
+</root>

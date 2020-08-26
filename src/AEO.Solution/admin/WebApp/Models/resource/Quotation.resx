@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+// <copyright file="QuotationMetadata.cs" company="neozhu/MVC5-Scaffolder">
+// Copyright (c) 2020 All Rights Reserved
+// </copyright>
+// <author>neo.zhu</author>
+// <date>2020/8/26 17:52:00 </date>
+// <summary>Class representing a Metadata entity </summary>
+  -->
+<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+   <data name="Id" xml:space="preserve">
+    <value>系统主键</value>
+   </data> 
+   <data name="QpNo" xml:space="preserve">
+    <value>报价单号</value>
+   </data> 
+   <data name="Salesman" xml:space="preserve">
+    <value>业务员</value>
+   </data> 
+   <data name="CompanyId" xml:space="preserve">
+    <value>公司</value>
+   </data> 
+   <data name="CompanyCode" xml:space="preserve">
+    <value>公司代码</value>
+   </data> 
+   <data name="CompanyName" xml:space="preserve">
+    <value>公司名称</value>
+   </data> 
+   <data name="CustomerId" xml:space="preserve">
+    <value>客户</value>
+   </data> 
+   <data name="CustomerCode" xml:space="preserve">
+    <value>客户编号</value>
+   </data> 
+   <data name="CustomerName" xml:space="preserve">
+    <value>客户名称</value>
+   </data> 
+   <data name="Country" xml:space="preserve">
+    <value>国家地区</value>
+   </data> 
+   <data name="ContactName" xml:space="preserve">
+    <value>联系人</value>
+   </data> 
+   <data name="ContactInfo" xml:space="preserve">
+    <value>联系方式</value>
+   </data> 
+   <data name="QuoteDate" xml:space="preserve">
+    <value>报价日期</value>
+   </data> 
+   <data name="ExpiryDate" xml:space="preserve">
+    <value>有效日期</value>
+   </data> 
+   <data name="LoadingPort" xml:space="preserve">
+    <value>装货港</value>
+   </data> 
+   <data name="DischargePort" xml:space="preserve">
+    <value>卸货港</value>
+   </data> 
+   <data name="Cur" xml:space="preserve">
+    <value>币种</value>
+   </data> 
+   <data name="ExchangeRate" xml:space="preserve">
+    <value>汇率</value>
+   </data> 
+   <data name="PriceTerm" xml:space="preserve">
+    <value>价格条款</value>
+   </data> 
+   <data name="PayMode" xml:space="preserve">
+    <value>付款条件</value>
+   </data> 
+   <data name="GoodsAmount" xml:space="preserve">
+    <value>货值金额</value>
+   </data> 
+   <data name="ChargeAmount" xml:space="preserve">
+    <value>附加费</value>
+   </data> 
+   <data name="TotalAmount" xml:space="preserve">
+    <value>总费用</value>
+   </data> 
+   <data name="FormName" xml:space="preserve">
+    <value>报价单格式</value>
+   </data> 
+   <data name="Remark" xml:space="preserve">
+    <value>备注</value>
+   </data> 
+   <data name="InquiryNo" xml:space="preserve">
+    <value>询价单号</value>
+   </data> 
+   <data name="TaskNo" xml:space="preserve">
+    <value>任务单号</value>
+   </data> 
+   <data name="Ver" xml:space="preserve">
+    <value>系统版本号</value>
+   </data> 
+   <data name="Initiator" xml:space="preserve">
+    <value>发起人</value>
+   </data> 
+   <data name="SubmitDate" xml:space="preserve">
+    <value>提交时间</value>
+   </data> 
+   <data name="ToAuditor" xml:space="preserve">
+    <value>待审人</value>
+   </data> 
+   <data name="Approver" xml:space="preserve">
+    <value>审批人</value>
+   </data> 
+   <data name="ApprovedDate" xml:space="preserve">
+    <value>审批时间</value>
+   </data> 
+</root>

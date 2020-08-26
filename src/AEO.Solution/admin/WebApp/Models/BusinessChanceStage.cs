@@ -12,8 +12,7 @@ namespace WebApp.Models
   //商机阶段
   public partial class BusinessChanceStage : Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "商机阶段", Description = "商机阶段")]
     [MaxLength(20)]
     public string Stage { get; set; }

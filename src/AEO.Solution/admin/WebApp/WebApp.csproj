@@ -89,6 +89,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
@@ -448,6 +454,7 @@
     <Compile Include="Controllers\FileManagerController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HSCodesController.cs" />
     <Compile Include="Controllers\InquiriesController.cs" />
     <Compile Include="Controllers\InquiryFilesController.cs" />
     <Compile Include="Controllers\InquiryProductsController.cs" />
@@ -468,6 +475,9 @@
     <Compile Include="Controllers\ProductSalesHistoricalPricesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\QuestionTplsController.cs" />
+    <Compile Include="Controllers\QuotationFilesController.cs" />
+    <Compile Include="Controllers\QuotationProductsController.cs" />
+    <Compile Include="Controllers\QuotationsController.cs" />
     <Compile Include="Controllers\RoleManageController.cs" />
     <Compile Include="Controllers\RoleMenusController.cs" />
     <Compile Include="Controllers\TenantsController.cs" />
@@ -643,6 +653,18 @@
     <Compile Include="Migrations\202008250254018_md_approvehistory_key.designer.cs">
       <DependentUpon>202008250254018_md_approvehistory_key.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008260330189_md_hscodes.cs" />
+    <Compile Include="Migrations\202008260330189_md_hscodes.designer.cs">
+      <DependentUpon>202008260330189_md_hscodes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008260537015_md_hscodes1.cs" />
+    <Compile Include="Migrations\202008260537015_md_hscodes1.designer.cs">
+      <DependentUpon>202008260537015_md_hscodes1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008260922189_md_Quotation.cs" />
+    <Compile Include="Migrations\202008260922189_md_Quotation.designer.cs">
+      <DependentUpon>202008260922189_md_Quotation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\ApproveHistory.cs" />
@@ -662,6 +684,7 @@
     <Compile Include="Models\Dto\CompanyTreeItem.cs" />
     <Compile Include="Models\Dto\CreateAeoQuestionTestDto.cs" />
     <Compile Include="Models\Dto\CreateProductViewModel.cs" />
+    <Compile Include="Models\HSCode.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
     <Compile Include="Models\Metadata\ActionLogMetadata.cs" />
@@ -671,6 +694,7 @@
     <Compile Include="Models\Metadata\BusinessOpportunityMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
+    <Compile Include="Models\Metadata\HSCodeMetadata.cs" />
     <Compile Include="Models\Metadata\InquiryFileMetadata.cs" />
     <Compile Include="Models\Metadata\InquiryMetadata.cs" />
     <Compile Include="Models\Metadata\InquiryProductMetadata.cs" />
@@ -686,6 +710,9 @@
     <Compile Include="Models\Metadata\ProductPurchaseHistoricalPriceMetadata.cs" />
     <Compile Include="Models\Metadata\ProductSalesHistoricalPriceMetadata.cs" />
     <Compile Include="Models\Metadata\QuestionTplMetadata.cs" />
+    <Compile Include="Models\Metadata\QuotationFileMetadata.cs" />
+    <Compile Include="Models\Metadata\QuotationMetadata.cs" />
+    <Compile Include="Models\Metadata\QuotationProductMetadata.cs" />
     <Compile Include="Models\OpportunityStage.cs" />
     <Compile Include="Models\ProductRefCustomerTrade.cs" />
     <Compile Include="Models\ProductRefCustomerPicture.cs" />
@@ -696,6 +723,7 @@
     <Compile Include="Models\AeoQuestion.cs" />
     <Compile Include="Models\QuestionTpl.cs" />
     <Compile Include="Models\QuotationFile.cs" />
+    <Compile Include="Models\QuotationHistory.cs" />
     <Compile Include="Models\QuotationProduct.cs" />
     <Compile Include="Models\InquiryRef.cs" />
     <Compile Include="Models\InquiryTaskFile.cs" />
@@ -731,6 +759,7 @@
     <Compile Include="Models\resource\BusinessOpportunity.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
+    <Compile Include="Models\resource\HSCode.Designer.cs" />
     <Compile Include="Models\resource\Inquiry.Designer.cs" />
     <Compile Include="Models\resource\InquiryFile.Designer.cs" />
     <Compile Include="Models\resource\InquiryProduct.Designer.cs" />
@@ -748,6 +777,9 @@
     <Compile Include="Models\resource\ProductPurchaseHistoricalPrice.Designer.cs" />
     <Compile Include="Models\resource\ProductSalesHistoricalPrice.Designer.cs" />
     <Compile Include="Models\resource\QuestionTpl.Designer.cs" />
+    <Compile Include="Models\resource\Quotation.Designer.cs" />
+    <Compile Include="Models\resource\QuotationFile.Designer.cs" />
+    <Compile Include="Models\resource\QuotationProduct.Designer.cs" />
     <Compile Include="Models\ViewModel\ErrorViewModel.cs" />
     <Compile Include="Models\ViewModel\logtotal.cs" />
     <Compile Include="Models\ViewModel\NavigationModel.cs" />
@@ -789,6 +821,8 @@
     <Compile Include="Repositories\Customers\CustomerRepository.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseQuery.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
+    <Compile Include="Repositories\HSCodes\HSCodeQuery.cs" />
+    <Compile Include="Repositories\HSCodes\HSCodeRepository.cs" />
     <Compile Include="Repositories\Inquiries\InquiryQuery.cs" />
     <Compile Include="Repositories\Inquiries\InquiryRepository.cs" />
     <Compile Include="Repositories\InquiryFiles\InquiryFileQuery.cs" />
@@ -823,6 +857,12 @@
     <Compile Include="Repositories\Products\ProductRepository.cs" />
     <Compile Include="Repositories\QuestionTpls\QuestionTplQuery.cs" />
     <Compile Include="Repositories\QuestionTpls\QuestionTplRepository.cs" />
+    <Compile Include="Repositories\QuotationFiles\QuotationFileQuery.cs" />
+    <Compile Include="Repositories\QuotationFiles\QuotationFileRepository.cs" />
+    <Compile Include="Repositories\QuotationProducts\QuotationProductQuery.cs" />
+    <Compile Include="Repositories\QuotationProducts\QuotationProductRepository.cs" />
+    <Compile Include="Repositories\Quotations\QuotationQuery.cs" />
+    <Compile Include="Repositories\Quotations\QuotationRepository.cs" />
     <Compile Include="resource\Global.zh-TW.Designer.cs">
       <DependentUpon>Global.zh-TW.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -874,6 +914,8 @@
     <Compile Include="Services\Customers\ICustomerService.cs" />
     <Compile Include="Services\CustomerWarehouses\CustomerWarehouseService.cs" />
     <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
+    <Compile Include="Services\HSCodes\HSCodeService.cs" />
+    <Compile Include="Services\HSCodes\IHSCodeService.cs" />
     <Compile Include="Services\Inquiries\IInquiryService.cs" />
     <Compile Include="Services\Inquiries\InquiryService.cs" />
     <Compile Include="Services\InquiryFiles\IInquiryFileService.cs" />
@@ -908,6 +950,12 @@
     <Compile Include="Services\Products\ProductService.cs" />
     <Compile Include="Services\QuestionTpls\IQuestionTplService.cs" />
     <Compile Include="Services\QuestionTpls\QuestionTplService.cs" />
+    <Compile Include="Services\QuotationFiles\IQuotationFileService.cs" />
+    <Compile Include="Services\QuotationFiles\QuotationFileService.cs" />
+    <Compile Include="Services\QuotationProducts\IQuotationProductService.cs" />
+    <Compile Include="Services\QuotationProducts\QuotationProductService.cs" />
+    <Compile Include="Services\Quotations\IQuotationService.cs" />
+    <Compile Include="Services\Quotations\QuotationService.cs" />
     <Compile Include="SmartHubs\ChatHub.cs" />
     <Compile Include="App_Start\CustomModelBinders.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -4246,6 +4294,39 @@
     <Content Include="Views\Inquiries\_SubmitApproveForm.cshtml" />
     <Content Include="Views\Inquiries\_TodoApproveForm.cshtml" />
     <Content Include="Views\Inquiries\_approvedatagridjsview.cshtml" />
+    <Content Include="Views\HSCodes\_DisplayForm.cshtml" />
+    <Content Include="Views\HSCodes\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\HSCodes\Index.cshtml" />
+    <Content Include="Views\HSCodes\Create.cshtml" />
+    <Content Include="Views\HSCodes\Details.cshtml" />
+    <Content Include="Views\HSCodes\Edit.cshtml" />
+    <Content Include="Views\HSCodes\EditForm.cshtml" />
+    <Content Include="Views\HSCodes\_ImportWindow.cshtml" />
+    <Content Include="Views\QuotationFiles\_DisplayForm.cshtml" />
+    <Content Include="Views\QuotationFiles\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\QuotationFiles\Index.cshtml" />
+    <Content Include="Views\QuotationFiles\Create.cshtml" />
+    <Content Include="Views\QuotationFiles\Details.cshtml" />
+    <Content Include="Views\QuotationFiles\Edit.cshtml" />
+    <Content Include="Views\QuotationFiles\EditForm.cshtml" />
+    <Content Include="Views\QuotationProducts\_DisplayForm.cshtml" />
+    <Content Include="Views\QuotationProducts\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\QuotationProducts\Index.cshtml" />
+    <Content Include="Views\QuotationProducts\Create.cshtml" />
+    <Content Include="Views\QuotationProducts\Details.cshtml" />
+    <Content Include="Views\QuotationProducts\Edit.cshtml" />
+    <Content Include="Views\QuotationProducts\EditForm.cshtml" />
+    <Content Include="Views\Quotations\_DisplayForm.cshtml" />
+    <Content Include="Views\Quotations\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\Quotations\Index.cshtml" />
+    <Content Include="Views\Quotations\Create.cshtml" />
+    <Content Include="Views\Quotations\Details.cshtml" />
+    <Content Include="Views\Quotations\Edit.cshtml" />
+    <Content Include="Views\Quotations\EditForm.cshtml" />
+    <Content Include="Views\Quotations\_QuotationFileEditForm.cshtml" />
+    <Content Include="Views\Quotations\_quotationfiledatagridjsview.cshtml" />
+    <Content Include="Views\Quotations\_QuotationProductEditForm.cshtml" />
+    <Content Include="Views\Quotations\_quotationproductdatagridjsview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4451,6 +4532,15 @@
     <EmbeddedResource Include="Migrations\202008250254018_md_approvehistory_key.resx">
       <DependentUpon>202008250254018_md_approvehistory_key.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260330189_md_hscodes.resx">
+      <DependentUpon>202008260330189_md_hscodes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260537015_md_hscodes1.resx">
+      <DependentUpon>202008260537015_md_hscodes1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260922189_md_Quotation.resx">
+      <DependentUpon>202008260922189_md_Quotation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4475,6 +4565,9 @@
     <EmbeddedResource Include="Models\resource\Company.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Company.resx" />
     <EmbeddedResource Include="Models\resource\Company.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\HSCode.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\HSCode.resx" />
+    <EmbeddedResource Include="Models\resource\HSCode.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\Inquiry.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Inquiry.resx" />
     <EmbeddedResource Include="Models\resource\Inquiry.zh-TW.resx" />
@@ -4526,6 +4619,15 @@
     <EmbeddedResource Include="Models\resource\QuestionTpl.en-US.resx" />
     <EmbeddedResource Include="Models\resource\QuestionTpl.resx" />
     <EmbeddedResource Include="Models\resource\QuestionTpl.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\Quotation.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\Quotation.resx" />
+    <EmbeddedResource Include="Models\resource\Quotation.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationFile.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationFile.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationFile.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationProduct.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationProduct.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationProduct.zh-TW.resx" />
     <EmbeddedResource Include="resource\Global.zh-TW.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.zh-TW.Designer.cs</LastGenOutput>

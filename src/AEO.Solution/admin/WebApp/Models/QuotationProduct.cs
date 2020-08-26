@@ -8,11 +8,10 @@ namespace WebApp.Models
   //报价单产品明细
   public partial class QuotationProduct : Entity
   {
-    [Key]
-    public int Id { get; set; }
+   
     #region 商品信息
-    [Display(Name = "产品编号", Description = "产品编号(自动生成,可手工修改)")]
-    [MaxLength(50)]
+    [Display(Name = "产品编号", Description = "产品编号")]
+    [MaxLength(128)]
     public string ProductNo { get; set; }
     [Display(Name = "中文品名", Description = "中文品名")]
     [MaxLength(200)]
@@ -24,8 +23,10 @@ namespace WebApp.Models
     [MaxLength(200)]
     public string ProductEnName { get; set; }
     [Display(Name = "中文描述", Description = "中文描述")]
+    [MaxLength(256)]
     public string CnDescription { get; set; }
     [Display(Name = "英文描述", Description = "英文描述")]
+    [MaxLength(256)]
     public string EnDescription { get; set; }
 
     #region 贸易信息
@@ -42,6 +43,7 @@ namespace WebApp.Models
     public decimal? GUIDEPRICE { get; set; }
     #endregion
     [Display(Name = "备注", Description = "备注")]
+    [MaxLength(256)]
     public string Remark { get; set; }
     #endregion
 
@@ -88,12 +90,13 @@ namespace WebApp.Models
     
 
     [Display(Name = "产品图片", Description = "产品图片")]
+    [MaxLength(256)]
     public string Logo { get; set; }
 
     [Display(Name = "报价单号", Description = "报价单号")]
     [MaxLength(20)]
     [Required]
-    public string QuotationNo { get; set; }
+    public string QpNo { get; set; }
 
 
     [Display(Name = "报价单", Description = "报价单")]
