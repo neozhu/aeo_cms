@@ -17,7 +17,7 @@ namespace WebApp.Models
         {
             SubMenus = new HashSet<MenuItem>();
         }
-        public int Id { get; set; }
+
     [Display(Name = "Title", Description = "Title")]
     [MaxLength(50)]
         [Required]

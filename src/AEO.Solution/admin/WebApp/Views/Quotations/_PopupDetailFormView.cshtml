@@ -6,7 +6,7 @@
                     closed:true,
                     minimizable:false,
                     collapsible:false,
-                    maximized:false,
+                    maximized:true,
                     iconCls:'fal fa-window',
                     onBeforeClose:function(){
                       var that = $(this);
@@ -56,10 +56,42 @@
  <div class="panel-container show">
    <div class="container">
     <div class="panel-content">
-           <form id="quotation_form" 
-              class="easyui-form form-horizontal padding-10" 
-              method="post" 
-              data-options="novalidate:true,
+           
+      <ul class="nav nav-tabs nav-tabs-clean" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active"
+             data-toggle="tab"
+             data-model="quotation"
+             href="#tab-quotation"
+             role="tab">报价单</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link "
+             data-toggle="tab"
+             data-model="quotationproduct"
+             href="#tab-quotationproduct"
+             role="tab">产品信息</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             data-toggle="tab"
+             data-model="quotationfile"
+             href="#tab-quotationfile"
+             role="tab">附件信息</a>
+        </li>
+
+      </ul>
+ <div class="tab-content p-0">
+   <div class="tab-pane fade show active"
+        id="tab-quotation"
+        data-model="quotation"
+        role="tabpanel"
+        aria-labelledby="tab-quotation">
+     <div class="d-flex justify-content-start flex-wrap p-2">
+       <form id="quotation_form"
+             class="easyui-form form-horizontal padding-10"
+             method="post"
+             data-options="novalidate:true,
                             onChange: function(target){
                               hook = true;
                               $('button[name*=\'saveitembutton\']').prop('disabled', false);
@@ -68,670 +100,674 @@
                                hook = false;
                                $('button[name*=\'saveitembutton\']').prop('disabled', true);
                              }">
-  @Html.AntiForgeryToken()
-   <!--Primary Key-->
-  @Html.HiddenFor(model=>model.Id)
-   <fieldset class="form-group">
-   <div class="row h-100 align-items-center">
+         @Html.AntiForgeryToken()
+         <!--Primary Key-->
+         @Html.HiddenFor(model => model.Id)
+         @Html.HiddenFor(model => model.CompanyCode)
+         @Html.HiddenFor(model => model.CompanyName)
+         @Html.HiddenFor(model => model.CustomerCode)
+         @Html.HiddenFor(model => model.CustomerName)
+         <fieldset class="form-group">
+           <div class="row h-100 align-items-center">
 
-   <!--报价单号-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.QpNo)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.QpNo)" 
-				   name="@Html.NameFor(model => model.QpNo)" 
-				   value="@Html.ValueFor(model => model.QpNo)"
-				   tabindex="0" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.QpNo)',
-								 required:false, 
+             <!--报价单号-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.QpNo)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.QpNo)"
+                      name="@Html.NameFor(model => model.QpNo)"
+                      value="@Html.ValueFor(model => model.QpNo)"
+                      tabindex="0"
+                      class="easyui-textbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.QpNo)',
+								 required:false,
                                  validType: 'length[0,20]'
                                  " />
-       </div>
-				   
-   <!--业务员-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Salesman)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.Salesman)" 
-				   name="@Html.NameFor(model => model.Salesman)" 
-				   value="@Html.ValueFor(model => model.Salesman)"
-				   tabindex="1" required
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.Salesman)',
-								 required:true, 
+             </div>
+             <!--报价单格式-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.FormName)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.FormName)"
+                      name="@Html.NameFor(model => model.FormName)"
+                      value="@Html.ValueFor(model => model.FormName)"
+                      tabindex="22"
+                      class="easyui-combobox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.FormName)',
+								 required:false,data:qformdatasource,panelHeight:'auto',
                                  validType: 'length[0,20]'
                                  " />
-       </div>
-				   
+             </div>
+             <!--状态-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Status)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.Status)"
+                      name="@Html.NameFor(model => model.Status)"
+                      value="@Html.ValueFor(model => model.Status)"
+                      tabindex="22"
+                      class="easyui-textbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.Status)',
+								 required:false,readonly:true,
+                                 validType: 'length[0,20]'
+                                 " />
+             </div>
+             <!--业务员-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Salesman)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.Salesman)"
+                      name="@Html.NameFor(model => model.Salesman)"
+                      value="@Html.ValueFor(model => model.Salesman)"
+                      tabindex="1" required
+                      class="easyui-textbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.Salesman)',
+								 required:true,
+                                 validType: 'length[0,20]'
+                                 " />
+             </div>
 
-    <!--公司-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CompanyId)</label>
-		<div class="col-md-4 mb-1 pl-1">   	
-            <input id="@Html.IdFor(model => model.CompanyId)"
-			       name="@Html.NameFor(model => model.CompanyId)"
-				   value="@Html.ValueFor(model => model.CompanyId)"
-                   tabindex="2" required
-              	   class="easyui-combobox"      
-                   style="width:100%"
-                   data-options="prompt:'@Html.DescriptionFor(model => model.CompanyId)' ,
-						required:true ,
-						valueField: 'Id',
-						textField:  'Name' ,
+
+             <!--公司-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CompanyId)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.CompanyId)"
+                      name="@Html.NameFor(model => model.CompanyId)"
+                      value="@Html.ValueFor(model => model.CompanyId)"
+                      tabindex="2" required
+                      class="easyui-combobox"
+                      style="width:100%"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.CompanyId)' ,
+						            required:true ,
+						            valueField: 'Id',
+						            textField:  'Name' ,
                         panelHeight:'auto',
                         editable:false,
-						url: '/Quotations/GetCompanies' ,
-						onSelect: function(item){
-						  //console.log(item);
+						            url: '/Companies/GetComboData' ,
+						            onSelect: function(item){
+						              $('#quotation_form #CompanyCode').val(item.Code)
+                          $('#quotation_form #CompanyName').val(item.Name)
 				        }">
-       </div>
-	   
-   <!--公司代码-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CompanyCode)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.CompanyCode)" 
-				   name="@Html.NameFor(model => model.CompanyCode)" 
-				   value="@Html.ValueFor(model => model.CompanyCode)"
-				   tabindex="3" required
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.CompanyCode)',
-								 required:true, 
-                                 validType: 'length[0,20]'
-                                 " />
-       </div>
-				   
+             </div>
 
-   <!--公司名称-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.CompanyName)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.CompanyName)" 
-				   name="@Html.NameFor(model => model.CompanyName)" 
-				   value="@Html.ValueFor(model => model.CompanyName)"
-				   tabindex="4" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.CompanyName)',
-								 required:false, 
-                                 validType: 'length[0,128]'
-                                 " />
-       </div>
-				   
-    <!--客户-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerId)</label>
-		<div class="col-md-4 mb-1 pl-1">   	
-            <input id="@Html.IdFor(model => model.CustomerId)"
-			       name="@Html.NameFor(model => model.CustomerId)"
-				   value="@Html.ValueFor(model => model.CustomerId)"
-                   tabindex="5" required
-              	   class="easyui-combobox"      
-                   style="width:100%"
-                   data-options="prompt:'@Html.DescriptionFor(model => model.CustomerId)' ,
-						required:true ,
-						valueField: 'Id',
-						textField:  'CustomerCode' ,
-                        panelHeight:'auto',
-                        editable:false,
-						url: '/Quotations/GetCustomers' ,
-						onSelect: function(item){
-						  //console.log(item);
-				        }">
-       </div>
-	   
 
-   <!--客户编号-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerCode)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.CustomerCode)" 
-				   name="@Html.NameFor(model => model.CustomerCode)" 
-				   value="@Html.ValueFor(model => model.CustomerCode)"
-				   tabindex="6" required
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.CustomerCode)',
-								 required:true, 
-                                 validType: 'length[0,20]'
-                                 " />
-       </div>
-				   
-   <!--客户名称-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerName)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.CustomerName)" 
-				   name="@Html.NameFor(model => model.CustomerName)" 
-				   value="@Html.ValueFor(model => model.CustomerName)"
-				   tabindex="7" required
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.CustomerName)',
-								 required:true, 
-                                 validType: 'length[0,80]'
-                                 " />
-       </div>
-				   
 
-   <!--国家地区-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Country)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.Country)" 
-				   name="@Html.NameFor(model => model.Country)" 
-				   value="@Html.ValueFor(model => model.Country)"
-				   tabindex="8" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.Country)',
-								 required:false, 
+             <!--客户-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.CustomerId)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.CustomerId)"
+                      name="@Html.NameFor(model => model.CustomerId)"
+                      value="@Html.ValueFor(model => model.CustomerId)"
+                      tabindex="5" required
+                      class="easyui-combogrid"
+                      style="width:100%"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.CustomerId)' ,
+						              required:true ,
+						              idField: 'Id',
+						              textField:  'CustomerName' ,
+                          panelHeight:'auto',
+                          panelWidth:490,
+                          editable:true,
+                          method:'get',
+                          mode: 'remote',
+                          fitColumns:true,
+                          pagination: true,
+                           clientPaging:false,
+                          pageList: [10, 20, 50, 100, 500],
+						              url: '/Customers/GetCustomerComboGridData' ,
+                          columns:[[
+                           {field:'CustomerCode',title:'客户编码',width:90},
+                           {field:'CustomerName',title:'客户名称',width:150}
+                          ]],
+						              onClickRow: function(index,item){
+         						                  $('#quotation_form #CustomerCode').val(item.CustomerCode);
+                              $('#quotation_form #CustomerName').val(item.CustomerName);
+                              $('#quotation_form #Country').textbox('setValue',item.Country);
+                              $('#quotation_form #ContactName').combobox('reload','/CustomerContacts/GetComboData?customerId=' + item.Id);
+                              $('#quotation_form #ContactName').combobox('setValue',item.ContactName)
+                              $('#quotation_form #ContactInfo').textbox('setValue',item.Telephone)
+                       }">
+             </div>
+
+
+
+
+
+             <!--国家地区-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Country)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.Country)"
+                      name="@Html.NameFor(model => model.Country)"
+                      value="@Html.ValueFor(model => model.Country)"
+                      tabindex="8"
+                      class="easyui-textbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.Country)',
+								 required:false,
                                  validType: 'length[0,50]'
                                  " />
-       </div>
-				   
-   <!--联系人-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ContactName)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.ContactName)" 
-				   name="@Html.NameFor(model => model.ContactName)" 
-				   value="@Html.ValueFor(model => model.ContactName)"
-				   tabindex="9" required
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.ContactName)',
-								 required:true, 
-                                 validType: 'length[0,80]'
+             </div>
+             <!--币种-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Cur)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <div class="row">
+                 <div class="col-md-6">
+                   <input id="@Html.IdFor(model => model.Cur)"
+                          name="@Html.NameFor(model => model.Cur)"
+                          value="@Html.ValueFor(model => model.Cur)"
+                          tabindex="15"
+                          class="easyui-combobox"
+                          style="width:100%"
+                          type="text"
+                          data-options="prompt:'@Html.DescriptionFor(model => model.Cur)',
+								 required:false,data:curdatasource,panelHeight:'auto',
+                                 validType: 'length[0,20]'
                                  " />
-       </div>
-				   
+                  </div>
+                   <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ExchangeRate)</label>
+                   <div class="col-md-4 mb-1 pl-1">
+                     <input id="@Html.IdFor(model => model.ExchangeRate)"
+                            name="@Html.NameFor(model => model.ExchangeRate)"
+                            value="@Html.ValueFor(model => model.ExchangeRate)"
+                            tabindex="16"
+                            class="easyui-numberbox"
+                            style="width:100%"
+                            type="text"
+                            data-options="prompt:'@Html.DescriptionFor(model => model.ExchangeRate)',
+								 required:true,readonly:true,formatter:numberformatter,
+                                 parser:parsernumber,precision:2,
 
-   <!--联系方式-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ContactInfo)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.ContactInfo)" 
-				   name="@Html.NameFor(model => model.ContactInfo)" 
-				   value="@Html.ValueFor(model => model.ContactInfo)"
-				   tabindex="10" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.ContactInfo)',
-								 required:false, 
+                                 " />
+
+                   </div>
+                 </div>
+               </div>
+        
+
+
+             <!--汇率-->
+             
+             <!--联系人-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ContactName)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.ContactName)"
+                      name="@Html.NameFor(model => model.ContactName)"
+                      value="@Html.ValueFor(model => model.ContactName)"
+                      tabindex="9" required
+                      class="easyui-combobox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.ContactName)',
+								 required:true,panelHeight:'auto',valueField:'Name',textField:'Name',
+                                 validType: 'length[0,80]',
+                     onSelect:function(item){
+                                    $('#quotation_form #ContactInfo').textbox('setValue',item.PhoneNumber||item.Email)
+                                 }
+                                 " />
+             </div>
+
+
+             <!--联系方式-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ContactInfo)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.ContactInfo)"
+                      name="@Html.NameFor(model => model.ContactInfo)"
+                      value="@Html.ValueFor(model => model.ContactInfo)"
+                      tabindex="10"
+                      class="easyui-textbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.ContactInfo)',
+								 required:false,
                                  validType: 'length[0,128]'
                                  " />
-       </div>
-				   
-   <!--报价日期-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.QuoteDate)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-                <input id="@Html.IdFor(model => model.QuoteDate)" 
-			       name="@Html.NameFor(model => model.QuoteDate)"
-                   value="@Html.ValueFor(model => model.QuoteDate)"
-           		   tabindex="11"  
-				   class="easyui-datebox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.QuoteDate)',
+             </div>
+
+             <!--报价日期-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.QuoteDate)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.QuoteDate)"
+                      name="@Html.NameFor(model => model.QuoteDate)"
+                      value="@Html.ValueFor(model => model.QuoteDate)"
+                      tabindex="11"
+                      class="easyui-datebox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.QuoteDate)',
 								 required:false,
 								 formatter:dateformatter" />
-     </div>
-				   
+             </div>
 
-   <!--有效日期-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ExpiryDate)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-                <input id="@Html.IdFor(model => model.ExpiryDate)" 
-			       name="@Html.NameFor(model => model.ExpiryDate)"
-                   value="@Html.ValueFor(model => model.ExpiryDate)"
-           		   tabindex="12"  
-				   class="easyui-datebox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.ExpiryDate)',
+
+             <!--有效日期-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ExpiryDate)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.ExpiryDate)"
+                      name="@Html.NameFor(model => model.ExpiryDate)"
+                      value="@Html.ValueFor(model => model.ExpiryDate)"
+                      tabindex="12"
+                      class="easyui-datebox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.ExpiryDate)',
 								 required:false,
 								 formatter:dateformatter" />
-     </div>
-				   
-   <!--装货港-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LoadingPort)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.LoadingPort)" 
-				   name="@Html.NameFor(model => model.LoadingPort)" 
-				   value="@Html.ValueFor(model => model.LoadingPort)"
-				   tabindex="13" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.LoadingPort)',
-								 required:false, 
-                                 validType: 'length[0,128]'
-                                 " />
-       </div>
-				   
+             </div>
 
-   <!--卸货港-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.DischargePort)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.DischargePort)" 
-				   name="@Html.NameFor(model => model.DischargePort)" 
-				   value="@Html.ValueFor(model => model.DischargePort)"
-				   tabindex="14" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.DischargePort)',
-								 required:false, 
-                                 validType: 'length[0,128]'
+             <!--装货港-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.LoadingPort)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.LoadingPort)"
+                      name="@Html.NameFor(model => model.LoadingPort)"
+                      value="@Html.ValueFor(model => model.LoadingPort)"
+                      tabindex="13"
+                      class="easyui-combogrid"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.LoadingPort)',
+								          required:false ,
+						              idField: 'code',
+						              textField:  'cn_name' ,
+                          panelHeight:'auto',
+                          panelWidth:490,
+                          editable:true,
+                          method:'get',
+                          mode: 'remote',
+                          fitColumns:true,
+                          pagination: true,
+                           clientPaging:false,
+                          pageList: [10, 20, 50, 100, 500],
+						              url: '/GPorts/GetComboGridData' ,
+                          columns:[[
+                           {field:'code',title:'代码',width:80},
+                           {field:'cn_name',title:'名称(中文)',width:150},
+                           {field:'en_name',title:'名称(英文)',width:150}
+                          ]],
                                  " />
-       </div>
-				   
-   <!--币种-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Cur)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.Cur)" 
-				   name="@Html.NameFor(model => model.Cur)" 
-				   value="@Html.ValueFor(model => model.Cur)"
-				   tabindex="15" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.Cur)',
-								 required:false, 
+             </div>
+
+
+             <!--卸货港-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.DischargePort)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.DischargePort)"
+                      name="@Html.NameFor(model => model.DischargePort)"
+                      value="@Html.ValueFor(model => model.DischargePort)"
+                      tabindex="14"
+                      class="easyui-combogrid"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.DischargePort)',
+								          required:false ,
+						              idField: 'code',
+						              textField:  'cn_name' ,
+                          panelHeight:'auto',
+                          panelWidth:490,
+                          editable:true,
+                          method:'get',
+                          mode: 'remote',
+                          fitColumns:true,
+                          pagination: true,
+                           clientPaging:false,
+                          pageList: [10, 20, 50, 100, 500],
+						              url: '/GPorts/GetComboGridData' ,
+                          columns:[[
+                           {field:'code',title:'代码',width:80},
+                           {field:'cn_name',title:'名称(中文)',width:150},
+                           {field:'en_name',title:'名称(英文)',width:150}
+                          ]],
+                                 " />
+             </div>
+
+
+
+             <!--价格条款-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.PriceTerm)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.PriceTerm)"
+                      name="@Html.NameFor(model => model.PriceTerm)"
+                      value="@Html.ValueFor(model => model.PriceTerm)"
+                      tabindex="17"
+                      class="easyui-combobox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.PriceTerm)',
+								 required:false,data:pricetermdatasource,panelHeight:'auto',
                                  validType: 'length[0,20]'
                                  " />
-       </div>
-				   
+             </div>
 
-   <!--汇率-->
-       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ExchangeRate)</label>
-	   <div class="col-md-4 mb-1 pl-1">  
-             <input id="@Html.IdFor(model => model.ExchangeRate)"
-				   name="@Html.NameFor(model => model.ExchangeRate)" 
-				   value="@Html.ValueFor(model => model.ExchangeRate)"
-				   tabindex="16" 
-				   class="easyui-numberbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.ExchangeRate)',
-								 required:true,formatter:numberformatter,
-                                 parser:parsernumber,precision:2,
-                                 
-                                 "  />
 
-        </div>
-				   
-   <!--价格条款-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.PriceTerm)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.PriceTerm)" 
-				   name="@Html.NameFor(model => model.PriceTerm)" 
-				   value="@Html.ValueFor(model => model.PriceTerm)"
-				   tabindex="17" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.PriceTerm)',
-								 required:false, 
-                                 validType: 'length[0,20]'
-                                 " />
-       </div>
-				   
-
-   <!--付款条件-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.PayMode)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.PayMode)" 
-				   name="@Html.NameFor(model => model.PayMode)" 
-				   value="@Html.ValueFor(model => model.PayMode)"
-				   tabindex="18" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.PayMode)',
-								 required:false, 
+             <!--付款条件-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.PayMode)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.PayMode)"
+                      name="@Html.NameFor(model => model.PayMode)"
+                      value="@Html.ValueFor(model => model.PayMode)"
+                      tabindex="18"
+                      class="easyui-combobox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.PayMode)',
+								 required:false,data:paymodedatasource,panelHeight:'auto',
                                  validType: 'length[0,128]'
                                  " />
-       </div>
-				   
-   <!--货值金额-->
-       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.GoodsAmount)</label>
-	   <div class="col-md-4 mb-1 pl-1">  
-             <input id="@Html.IdFor(model => model.GoodsAmount)"
-				   name="@Html.NameFor(model => model.GoodsAmount)" 
-				   value="@Html.ValueFor(model => model.GoodsAmount)"
-				   tabindex="19" 
-				   class="easyui-numberbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.GoodsAmount)',
-								 required:true,formatter:numberformatter,
+             </div>
+
+             <!--货值金额-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.GoodsAmount)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.GoodsAmount)"
+                      name="@Html.NameFor(model => model.GoodsAmount)"
+                      value="@Html.ValueFor(model => model.GoodsAmount)"
+                      tabindex="19"
+                      class="easyui-numberbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.GoodsAmount)',
+								 required:true,formatter:numberformatter,readonly:true,
                                  parser:parsernumber,precision:2,
-                                 
-                                 "  />
 
-        </div>
-				   
-
-   <!--附加费-->
-       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ChargeAmount)</label>
-	   <div class="col-md-4 mb-1 pl-1">  
-             <input id="@Html.IdFor(model => model.ChargeAmount)"
-				   name="@Html.NameFor(model => model.ChargeAmount)" 
-				   value="@Html.ValueFor(model => model.ChargeAmount)"
-				   tabindex="20" 
-				   class="easyui-numberbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.ChargeAmount)',
-								 required:true,formatter:numberformatter,
-                                 parser:parsernumber,precision:2,
-                                 
-                                 "  />
-
-        </div>
-				   
-   <!--总费用-->
-       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.TotalAmount)</label>
-	   <div class="col-md-4 mb-1 pl-1">  
-             <input id="@Html.IdFor(model => model.TotalAmount)"
-				   name="@Html.NameFor(model => model.TotalAmount)" 
-				   value="@Html.ValueFor(model => model.TotalAmount)"
-				   tabindex="21" 
-				   class="easyui-numberbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.TotalAmount)',
-								 required:true,formatter:numberformatter,
-                                 parser:parsernumber,precision:2,
-                                 
-                                 "  />
-
-        </div>
-				   
-
-   <!--报价单格式-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.FormName)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.FormName)" 
-				   name="@Html.NameFor(model => model.FormName)" 
-				   value="@Html.ValueFor(model => model.FormName)"
-				   tabindex="22" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.FormName)',
-								 required:false, 
-                                 validType: 'length[0,20]'
                                  " />
-       </div>
-				   
-   <!--备注-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Remark)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.Remark)" 
-				   name="@Html.NameFor(model => model.Remark)" 
-				   value="@Html.ValueFor(model => model.Remark)"
-				   tabindex="23" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.Remark)',
-								 required:false, 
+
+             </div>
+
+
+             <!--附加费-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ChargeAmount)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.ChargeAmount)"
+                      name="@Html.NameFor(model => model.ChargeAmount)"
+                      value="@Html.ValueFor(model => model.ChargeAmount)"
+                      tabindex="20"
+                      class="easyui-numberbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.ChargeAmount)',
+								 required:true,formatter:numberformatter,readonly:true,
+                                 parser:parsernumber,precision:2,
+
+                                 " />
+
+             </div>
+
+             <!--总费用-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.TotalAmount)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.TotalAmount)"
+                      name="@Html.NameFor(model => model.TotalAmount)"
+                      value="@Html.ValueFor(model => model.TotalAmount)"
+                      tabindex="21"
+                      class="easyui-numberbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.TotalAmount)',
+								 required:true,formatter:numberformatter,readonly:true,
+                                 parser:parsernumber,precision:2,
+
+                                 " />
+
+             </div>
+
+
+
+
+             <!--备注-->
+             <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Remark)</label>
+             <div class="col-md-4 mb-1 pl-1">
+               <input id="@Html.IdFor(model => model.Remark)"
+                      name="@Html.NameFor(model => model.Remark)"
+                      value="@Html.ValueFor(model => model.Remark)"
+                      tabindex="23"
+                      class="easyui-textbox"
+                      style="width:100%"
+                      type="text"
+                      data-options="prompt:'@Html.DescriptionFor(model => model.Remark)',
+								 required:false,
                                  validType: 'length[0,256]'
                                  " />
-       </div>
-				   
+             </div>
+             <div style="display:none">
 
-   <!--询价单号-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.InquiryNo)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.InquiryNo)" 
-				   name="@Html.NameFor(model => model.InquiryNo)" 
-				   value="@Html.ValueFor(model => model.InquiryNo)"
-				   tabindex="24" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.InquiryNo)',
-								 required:false, 
+               <!--询价单号-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.InquiryNo)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.InquiryNo)"
+                        name="@Html.NameFor(model => model.InquiryNo)"
+                        value="@Html.ValueFor(model => model.InquiryNo)"
+                        tabindex="24"
+                        class="easyui-textbox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.InquiryNo)',
+								 required:false,
                                  validType: 'length[0,20]'
                                  " />
-       </div>
-				   
-   <!--任务单号-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.TaskNo)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.TaskNo)" 
-				   name="@Html.NameFor(model => model.TaskNo)" 
-				   value="@Html.ValueFor(model => model.TaskNo)"
-				   tabindex="25" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.TaskNo)',
-								 required:false, 
+               </div>
+
+               <!--任务单号-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.TaskNo)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.TaskNo)"
+                        name="@Html.NameFor(model => model.TaskNo)"
+                        value="@Html.ValueFor(model => model.TaskNo)"
+                        tabindex="25"
+                        class="easyui-textbox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.TaskNo)',
+								 required:false,
                                  validType: 'length[0,20]'
                                  " />
-       </div>
-				   
+               </div>
 
-   <!--系统版本号-->
-       <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Ver)</label>
-	   <div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.Ver)"
-				   name="@Html.NameFor(model => model.Ver)" 
-				   value="@Html.ValueFor(model => model.Ver)"
-				   tabindex="26" 
-				   class="easyui-numberbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.Ver)',
+
+               <!--系统版本号-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Ver)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.Ver)"
+                        name="@Html.NameFor(model => model.Ver)"
+                        value="@Html.ValueFor(model => model.Ver)"
+                        tabindex="26"
+                        class="easyui-numberbox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.Ver)',
 								 required:true,formatter:intformatter,
                                  parser:parsernumber,
                                  " />
-      </div>
-				   
-   <!--发起人-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Initiator)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.Initiator)" 
-				   name="@Html.NameFor(model => model.Initiator)" 
-				   value="@Html.ValueFor(model => model.Initiator)"
-				   tabindex="27" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.Initiator)',
-								 required:false, 
+               </div>
+
+               <!--发起人-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Initiator)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.Initiator)"
+                        name="@Html.NameFor(model => model.Initiator)"
+                        value="@Html.ValueFor(model => model.Initiator)"
+                        tabindex="27"
+                        class="easyui-textbox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.Initiator)',
+								 required:false,
                                  validType: 'length[0,32]'
                                  " />
-       </div>
-				   
+               </div>
 
-   <!--提交时间-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.SubmitDate)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-                <input id="@Html.IdFor(model => model.SubmitDate)" 
-			       name="@Html.NameFor(model => model.SubmitDate)"
-                   value="@Html.ValueFor(model => model.SubmitDate)"
-           		   tabindex="28"  
-				   class="easyui-datebox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.SubmitDate)',
+
+               <!--提交时间-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.SubmitDate)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.SubmitDate)"
+                        name="@Html.NameFor(model => model.SubmitDate)"
+                        value="@Html.ValueFor(model => model.SubmitDate)"
+                        tabindex="28"
+                        class="easyui-datebox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.SubmitDate)',
 								 required:false,
 								 formatter:dateformatter" />
-     </div>
-				   
-   <!--待审人-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ToAuditor)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.ToAuditor)" 
-				   name="@Html.NameFor(model => model.ToAuditor)" 
-				   value="@Html.ValueFor(model => model.ToAuditor)"
-				   tabindex="29" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.ToAuditor)',
-								 required:false, 
-                                 validType: 'length[0,32]'
-                                 " />
-       </div>
-				   
+               </div>
 
-   <!--审批人-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Approver)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-			<input id="@Html.IdFor(model => model.Approver)" 
-				   name="@Html.NameFor(model => model.Approver)" 
-				   value="@Html.ValueFor(model => model.Approver)"
-				   tabindex="30" 
-				   class="easyui-textbox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.Approver)',
-								 required:false, 
+               <!--待审人-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ToAuditor)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.ToAuditor)"
+                        name="@Html.NameFor(model => model.ToAuditor)"
+                        value="@Html.ValueFor(model => model.ToAuditor)"
+                        tabindex="29"
+                        class="easyui-textbox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.ToAuditor)',
+								 required:false,
                                  validType: 'length[0,32]'
                                  " />
-       </div>
-				   
-   <!--审批时间-->
-        <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ApprovedDate)</label>
-		<div class="col-md-4 mb-1 pl-1">  
-                <input id="@Html.IdFor(model => model.ApprovedDate)" 
-			       name="@Html.NameFor(model => model.ApprovedDate)"
-                   value="@Html.ValueFor(model => model.ApprovedDate)"
-           		   tabindex="31"  
-				   class="easyui-datebox" 
-                   style="width:100%"
-				   type="text" 
-				   data-options="prompt:'@Html.DescriptionFor(model => model.ApprovedDate)',
+               </div>
+
+
+               <!--审批人-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.Approver)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.Approver)"
+                        name="@Html.NameFor(model => model.Approver)"
+                        value="@Html.ValueFor(model => model.Approver)"
+                        tabindex="30"
+                        class="easyui-textbox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.Approver)',
+								 required:false,
+                                 validType: 'length[0,32]'
+                                 " />
+               </div>
+
+               <!--审批时间-->
+               <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"> @Html.DisplayNameFor(model => model.ApprovedDate)</label>
+               <div class="col-md-4 mb-1 pl-1">
+                 <input id="@Html.IdFor(model => model.ApprovedDate)"
+                        name="@Html.NameFor(model => model.ApprovedDate)"
+                        value="@Html.ValueFor(model => model.ApprovedDate)"
+                        tabindex="31"
+                        class="easyui-datebox"
+                        style="width:100%"
+                        type="text"
+                        data-options="prompt:'@Html.DescriptionFor(model => model.ApprovedDate)',
 								 required:false,
 								 formatter:dateformatter" />
-     </div>
-				   
-	    </div> 
-      </fieldset>
-   </form>
- <ul class="nav nav-tabs nav-tabs-clean" role="tablist">
-     <li class="nav-item">
-         <a class="nav-link active"
-            data-toggle="tab"
-            data-model="quotationfile"
-            href="#tab-quotationfile"
-            role="tab">quotationfile</a>
-     </li>
-     <li class="nav-item">
-         <a class="nav-link "
-            data-toggle="tab"
-            data-model="quotationproduct"
-            href="#tab-quotationproduct"
-            role="tab">quotationproduct</a>
-     </li>
-  </ul>
-  <div class="tab-content p-0">
-   <div class="tab-pane fade show active"
-              id="tab-quotationfile"
-              data-model="quotationfile"
-              role="tabpanel"
-              aria-labelledby="tab-quotationfile">
-
-           <div class="d-flex justify-content-start flex-wrap p-2">
-             <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
-               <button 
-               name="quotationfile_searchbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               onclick="quotationfile_reloadData()"
-               >
-               查询
-               </button>
-               <button 
-                name="quotationfile_appenditembutton"
-                type="button" 
-                class="btn btn-default waves-effect waves-themed"
-               >
-               新增
-               </button>
-               <button 
-               name="quotationfile_deleterowbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               >
-               删除
-               </button>
-               <button 
-               name="quotationfile_cancelchangesbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               >取消</button>
-               <button 
-               name="quotationfile_savechangesbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               >保存</button>
+               </div>
              </div>
-
            </div>
-           <div class="table-responsive">
-           <table class="m-0" id="quotationfile_datagrid">
-           </table>
-           </div>
+         </fieldset>
+         <fieldset>
+           <legend>加收费用</legend>
+           <div class="btn-group btn-group-sm mb-1 float-right" role="group" aria-label="操作明细按钮">
+             <button name="appendchargesbutton"
+                     type="button"
+                     class="btn btn-info waves-effect waves-themed"
+                     onclick="append_charges()">
+               新增
+             </button>
+            </div>
+             <div class="table-responsive">
+               <table id="quotationcharges_datagrid">
+               </table>
+             </div>
+         </fieldset>
+       </form>
      </div>
+   </div>
+   <div class="tab-pane fade show"
+        id="tab-quotationfile"
+        data-model="quotationfile"
+        role="tabpanel"
+        aria-labelledby="tab-quotationfile">
+
+     <div class="d-flex justify-content-start flex-wrap p-2">
+       <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
+         <button name="quotationfile_searchbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed"
+                 onclick="quotationfile_reloadData()">
+           查询
+         </button>
+         <button name="quotationfile_appenditembutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           新增
+         </button>
+         <button name="quotationfile_deleterowbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           删除
+         </button>
+         <button name="quotationfile_cancelchangesbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           取消
+         </button>
+         <button name="quotationfile_savechangesbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           保存
+         </button>
+       </div>
+
+     </div>
+     <div class="table-responsive">
+       <table class="m-0" id="quotationfile_datagrid">
+       </table>
+     </div>
+   </div>
    <div class="tab-pane fade show "
-              id="tab-quotationproduct"
-              data-model="quotationproduct"
-              role="tabpanel"
-              aria-labelledby="tab-quotationproduct">
+        id="tab-quotationproduct"
+        data-model="quotationproduct"
+        role="tabpanel"
+        aria-labelledby="tab-quotationproduct">
 
-           <div class="d-flex justify-content-start flex-wrap p-2">
-             <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
-               <button 
-               name="quotationproduct_searchbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               onclick="quotationproduct_reloadData()"
-               >
-               查询
-               </button>
-               <button 
-                name="quotationproduct_appenditembutton"
-                type="button" 
-                class="btn btn-default waves-effect waves-themed"
-               >
-               新增
-               </button>
-               <button 
-               name="quotationproduct_deleterowbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               >
-               删除
-               </button>
-               <button 
-               name="quotationproduct_cancelchangesbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               >取消</button>
-               <button 
-               name="quotationproduct_savechangesbutton"
-               type="button" 
-               class="btn btn-default waves-effect waves-themed"
-               >保存</button>
-             </div>
+     <div class="d-flex justify-content-start flex-wrap p-2">
+       <div class="btn-group btn-group-sm mr-2" role="group" aria-label="操作明细按钮">
+         <button name="quotationproduct_searchbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed"
+                 onclick="quotationproduct_reloadData()">
+           查询
+         </button>
+         <button name="quotationproduct_appenditembutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           添加产品
+         </button>
+         <button name="quotationproduct_deleterowbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           删除
+         </button>
+         <button name="quotationproduct_cancelchangesbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           取消
+         </button>
+         <button name="quotationproduct_savechangesbutton"
+                 type="button"
+                 class="btn btn-default waves-effect waves-themed">
+           保存
+         </button>
+       </div>
 
-           </div>
-           <div class="table-responsive">
-           <table class="m-0" id="quotationproduct_datagrid">
-           </table>
-           </div>
      </div>
-  </div>
+     <div class="table-responsive">
+       <table class="m-0" id="quotationproduct_datagrid">
+       </table>
+     </div>
+   </div>
+ </div>
     </div>
     </div>
     </div>
@@ -757,38 +793,43 @@
  $('button[name="quotationfile_cancelchangesbutton"]').on('click', quotationfile_rejectChanges);
  $('button[name="quotationfile_savechangesbutton"]').on('click', quotationfile_acceptChanges);
  $('button[name="quotationproduct_searchbutton"]').on('click', quotationproduct_reloadData);
- $('button[name="quotationproduct_appenditembutton"]').on('click', quotationproduct_appendItem);
+   $('button[name="quotationproduct_appenditembutton"]').on('click', function () {
+     open_selectproduct()
+   });
  $('button[name="quotationproduct_deleterowbutton"]').on('click', quotationproduct_removeItem);
  $('button[name="quotationproduct_cancelchangesbutton"]').on('click', quotationproduct_rejectChanges);
  $('button[name="quotationproduct_savechangesbutton"]').on('click', quotationproduct_acceptChanges);
  $('a[data-toggle="tab"]').on('shown.bs.tab', (e)=> {
     const model = $(e.target).data('model');
-    $(`#${model}dg`).datagrid('resize');
+   $(`#${model}_datagrid`).datagrid('resize');
  })
   });
     //判断新增编辑状态
     var MODELSTATE = 'Added';
     var quotationid = null;
-    function openquotationdetailwindow(data,state) {
-         MODELSTATE = state;
-         //判断是否显示功能按钮
-        if (MODELSTATE === 'Added') {
-          $('#deleteitem-btn-group').hide();
-        } else {
-          $('#deleteitem-btn-group').show();
-        }
-        initquotationdetailview();
-         quotationid = (data.Id || 0);
-         $('#quotationdetailwindow').window('open');
-         $('#quotation_form').form('reset');
-         $('#quotation_form').form('load', data);
-                   var url='/QuotationFiles/GetDataByQuotationId?quotationid=' +  quotationid;
-          $quotationfiledg.datagrid('load',url);
-          $quotationfiledg.datagrid('resize');
-                   var url='/QuotationProducts/GetDataByQuotationId?quotationid=' +  quotationid;
-          $quotationproductdg.datagrid('load',url);
-          $quotationproductdg.datagrid('resize');
-             }
+  function openquotationdetailwindow(data, state) {
+    MODELSTATE = state;
+    //判断是否显示功能按钮
+    if (MODELSTATE === 'Added') {
+      $('#deleteitem-btn-group').hide();
+    } else {
+      $('#deleteitem-btn-group').show();
+    }
+    initquotationdetailview();
+    quotationid = (data.Id || 0);
+    $('#quotationdetailwindow').window('open');
+    $('#quotation_form').form('reset');
+    $('#quotation_form').form('load', data);
+    var url = '/QuotationFiles/GetDataByQuotationId?quotationid=' + quotationid;
+    $quotationfiledg.datagrid('load', url);
+    $quotationfiledg.datagrid('resize');
+    url = '/QuotationProducts/GetDataByQuotationId?quotationid=' + quotationid;
+    $quotationproductdg.datagrid('load', url);
+    $quotationproductdg.datagrid('resize');
+    url = '/QuotationCharges/GetDataByQuotationId?quotationid=' + quotationid;
+    $chargedg.datagrid('load', url);
+    $chargedg.datagrid('resize');
+  }
   //删除当前记录
   function deletequotationitem() {
     $.messager.confirm('确认', '你确定要删除该记录?', result => {
@@ -830,9 +871,12 @@
                       
             let url = '/Quotations/Edit';
             //判断是新增或是修改方法
-            if (MODELSTATE === 'Added') {
-                url = '/Quotations/Create';
-            }
+        if (MODELSTATE === 'Added') {
+          url = '/Quotations/Create';
+          quotation.QuotationCharges = charges_getChanges();
+        } else {
+          charges_acceptChanges();
+        }
             var token = $('input[name="__RequestVerificationToken"]', $quotationform).val();
             $.ajax({
                     type: "POST",
@@ -889,75 +933,230 @@ function initquotationdetailview() {
 //回车光标移动到下个输入控件
     //如果是枚举类型需要把numberbox改成combobox
     //汇率
-	$('#ExchangeRate').numberbox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //如果是枚举类型需要把numberbox改成combobox
-    //货值金额
-	$('#GoodsAmount').numberbox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //如果是枚举类型需要把numberbox改成combobox
-    //附加费
-	$('#ChargeAmount').numberbox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //如果是枚举类型需要把numberbox改成combobox
-    //总费用
-	$('#TotalAmount').numberbox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //如果是枚举类型需要把numberbox改成combobox
-    //系统版本号
-	$('#Ver').numberbox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //日期类型 报价日期
-	$('#QuoteDate').datebox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //日期类型 有效日期
-	$('#ExpiryDate').datebox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //日期类型 提交时间
-	$('#SubmitDate').datebox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //日期类型 审批时间
-	$('#ApprovedDate').datebox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //公司默认外键使用combobox,也可以使用combogrid
-	$('#CompanyId').combobox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
-    //客户默认外键使用combobox,也可以使用combogrid
-	$('#CustomerId').combobox('textbox').bind('keydown', function (e) {
-      if (e.keyCode == 13) {
-        $(e.target).emulateTab();
-      }
-    });
+	 
 }
+</script>
+<script>
+  var $chargedg = $('#quotationcharges_datagrid');
+  var charges_editIndex = undefined;
+  function append_charges() {
+    quotationcharge = {
+      QuotationId: $('#quotation_form #Id').val()
+    };
+    if (charges_endEditing()) {
+      //对必填字段进行默认值初始化
+      $chargedg.datagrid('insertRow',
+        {
+          index: 0,
+          row: quotationcharge
+        });
+      charges_editIndex = 0;
+      $chargedg.datagrid('selectRow', charges_editIndex)
+        .datagrid('beginEdit', charges_editIndex);
+
+    }
+  }
+  function charges_endEditing() {
+    if (charges_editIndex === undefined) {
+      return true;
+    }
+    if ($chargedg.datagrid('validateRow', charges_editIndex)) {
+      $chargedg.datagrid('endEdit', charges_editIndex);
+      return true;
+    } else {
+      const invalidinput = $('input.validatebox-invalid', $chargedg.datagrid('getPanel'));
+      const fieldnames = invalidinput.map((index, item) => {
+        return $(item).attr('placeholder') || $(item).attr('id');
+      });
+      $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+      return false;
+    }
+  }
+  function charges_deleteRows(id, index) {
+    if (index == charges_editIndex) {
+      $chargedg.datagrid('cancelEdit', index)
+        .datagrid('deleteRow', index);
+      charges_editIndex = undefined;
+    } else {
+      $chargedg.datagrid('deleteRow', index);
+    }
+    $('button[name*="saveitembutton"]').prop('disabled', false);
+  }
+  function charges_onClickCell(index,field) {
+    if (charges_editIndex !== index) {
+      if (charges_endEditing()) {
+        $chargedg.datagrid('selectRow', index)
+          .datagrid('beginEdit', index);
+        charges_editIndex = index;
+
+      } else {
+        $chargedg.datagrid('selectRow', charges_editIndex);
+      }
+    } else {
+      $chargedg.datagrid('selectRow', index)
+        .datagrid('beginEdit', index);
+    }
+  }
+  function totalamount() {
+    const data = $chargedg.datagrid('getRows');
+    let total = 0;
+    data.map(item => {
+      total += parseFloat(item.Amount);
+    })
+    console.log(total);
+    const goodsamount = parseFloat( $('#quotation_form #GoodsAmount').numberbox('getValue'));
+    $('#quotation_form #ChargeAmount').numberbox('setValue', total)
+    $('#quotation_form #TotalAmount').numberbox('setValue', total + goodsamount)
+  }
+
+  function charges_getChanges() {
+    if (charges_endEditing()) {
+      const inserted = $chargedg.datagrid('getChanges', 'inserted').map(item => {
+        item.TrackingState = 1;
+        return item;
+      });
+      return inserted;
+    }
+  }
+  function charges_acceptChanges() {
+    if (charges_endEditing()) {
+      if ($chargedg.datagrid('getChanges').length > 0) {
+        const inserted = $chargedg.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const updated = $chargedg.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2
+          return item;
+        });
+        const deleted = $chargedg.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3
+          return item;
+        });
+        //过滤已删除的重复项
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        //console.table(changed);
+        $.post('/QuotationCharges/AcceptChanges', { quotationcharges: changed })
+          .done(response => {
+            //console.log(response);
+            if (response.success) {
+             
+            } else {
+              $.messager.alert('错误', response.err, 'error');
+            }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+            $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          });
+      }
+    }
+  }
+  $chargedg.datagrid({
+    //fit: false,
+    //height: window.innerHeight - 385,
+    rownumbers: true,
+    checkOnSelect: false,
+    selectOnCheck: false,
+    idField: 'Id',
+    sortName: 'Id',
+    sortOrder: 'desc',
+    remoteFilter: true,
+    singleSelect: true,
+    onClickCell: charges_onClickCell,
+    method: 'get',
+    pagination: true,
+    clientPaging: false,
+    striped: true,
+    pageSize:20,
+    pageList: [20, 50, 100, 500, 2000],
+    onBeginEdit: function (index, row) {
+      //const editors = $(this).datagrid('getEditors', index);
+      const editor = $(this).datagrid('getEditor', { index: index, field: 'Amount' });
+       
+      $(editor.target).numberbox('textbox').bind('change', function (e) {
+        var amount = parseFloat($(e.target).val());
+        row.Amount = amount;
+        totalamount();
+      });
+    
+
+    },
+    onBeforeEdit: function (index, row) {
+      console.log('onBeforeEdit')
+    },
+    columns: [[
+
+      {    /*费用名称(中文)*/
+        field: 'Name',
+        title: '费用名称(中文)',
+        width: 260,
+        hidden: false,
+        editor: {
+          type: 'textbox',
+          options: {
+            id: 'editor_Name',
+            prompt: '费用名称(中文)费用名称(中文)',
+            required: true,
+            validType: 'length[0,128]'
+          }
+        },
+        sortable: true,
+        resizable: true
+      },
+      {    /*费用名称(英文)*/
+        field: 'EName',
+        title: '费用名称(英文)',
+        width: 260,
+        hidden: false,
+        editor: {
+          type: 'textbox',
+          options: {
+            id: 'editor_EName',
+            prompt: '费用名称(英文)',
+            required: false,
+            validType: 'length[0,128]'
+          }
+        },
+        sortable: true,
+        resizable: true
+      },
+      {    /*金额*/
+        field: 'Amount',
+        title: '金额金额',
+        width: 100,
+        align: 'right',
+        hidden: false,
+        editor: {
+          type: 'numberbox',
+          options: {
+            id: 'editor_Amount',
+            prompt: '金额金额',
+            required: true,
+            precision: 2,
+          }
+        },
+        formatter: numberformatter,
+        sortable: true,
+        resizable: true
+      },
+      {
+        field: 'action',
+        title: '@Html.L("Command")',
+        align: 'center',
+        width: 85,
+        sortable: false,
+        resizable: true,
+        formatter: function showdetailsformatter(value, row, index) {
+            return `<div class="btn-group">\
+                      <button name="cmdbutton" onclick="charges_deleteRows(['${row.Id}'],${index})" class="btn btn-danger btn-sm btn-icon waves-effect waves-themed" data-toggle="tooltip" data-placement="right" title="@Html.L("Delete")" ><i class="fal fa-times"></i> </button>\
+                    </div>`;
+
+        }
+      }
+    ]]
+  })
+
 </script>
 

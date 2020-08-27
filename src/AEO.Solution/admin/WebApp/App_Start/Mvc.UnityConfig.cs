@@ -134,6 +134,9 @@ namespace WebApp
       //商品编码库
       container.RegisterType<IRepositoryAsync<HSCode>, Repository<HSCode>>();
       container.RegisterType<IHSCodeService, HSCodeService>();
+      //口岸代码库
+      container.RegisterType<IRepositoryAsync<GPort>, Repository<GPort>>();
+      container.RegisterType<IGPortService, GPortService>();
       //出口管理
       //询价任务单
       container.RegisterType<IRepositoryAsync<InquiryTaskProduct>, Repository<InquiryTaskProduct>>();
@@ -155,6 +158,8 @@ namespace WebApp
       container.RegisterType<IQuotationProductService, QuotationProductService>();
       container.RegisterType<IRepositoryAsync<Quotation>, Repository<Quotation>>();
       container.RegisterType<IQuotationService, QuotationService>();
+      container.RegisterType<IRepositoryAsync<QuotationCharge>, Repository<QuotationCharge>>();
+      container.RegisterType<IQuotationChargeService, QuotationChargeService>();
       //AEO自测
       container.RegisterType<IRepositoryAsync<QuestionTpl>, Repository<QuestionTpl>>();
       container.RegisterType<IQuestionTplService, QuestionTplService>();

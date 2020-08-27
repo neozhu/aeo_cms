@@ -56,5 +56,12 @@ namespace WebApp
       var result = await _db.Ado.GetIntAsync("exec [dbo].[SP_NextVal]  @prefix", new { prefix = prefix });
       return prefix + Convert.ToInt32(result).ToString("0000");
     }
+    //获取报价单编号
+    public static async Task<string> GetQPNo()
+    {
+      var prefix = "QP" + DateTime.Now.ToString("yyyy");
+      var result = await _db.Ado.GetIntAsync("exec [dbo].[SP_NextVal]  @prefix", new { prefix = prefix });
+      return prefix + Convert.ToInt32(result).ToString("0000");
+    }
   }
 }

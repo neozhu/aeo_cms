@@ -1,0 +1,176 @@
+﻿@model WebApp.Models.Product
+<div id="selectproductwindow" class="easyui-dialog"
+     title="选择报价的产品" style="width:700px;height:592px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                buttons: [{
+                    text:'确认',
+                    handler:function() {
+                         select_product();
+                    }
+                },{
+                    text:'取消',
+                    handler:function() {
+                        $('#selectproductwindow').dialog('close');
+                    }
+                }]
+            ">
+  <div class="panel-container show">
+    <div class="panel-content p-0">
+      <div class="table-responsive">
+        <table id="products_datagrid">
+        </table>
+      </div>
+      </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+  function open_selectproduct() {
+    $('#selectproductwindow').dialog('open');
+  }
+
+  function select_product() {
+    var list = $pddg.datagrid('getChecked');
+    if (list.length > 0) {
+      list.map(item => {
+        var product = {
+          QuotationId: $('#quotation_form #Id').val(),
+          Ver: $('#quotation_form #Ver').numberbox('getValue'),
+          QpNo: $('#quotation_form #QpNo').textbox('getValue'),
+          ProductNo: item.ProductNo,
+          ProductName: item.ProductName,
+          CategoryName: item.Category,
+          ProductEnName: item.ProductEnName,
+          CnDescription: item.CnDescription,
+          EnDescription: item.EnDescription,
+          Spec: item.Spec,
+          HSCODE: item.HSCODE,
+          HSADDTAXRATE: item.HSADDTAXRATE,
+          HSBACKTAXRATE: item.HSBACKTAXRATE,
+          CUSTBASIC: item.CUSTBASIC,
+          Logo:item.Logo,
+          Unit: item.Unit,
+          Executor:$.getusername(),
+          Qty:null
+        };
+        $quotationproductdg.datagrid("insertRow",
+          {
+            index: 0,
+            row: product
+          });
+      });
+      $("button[name*='saveitembutton']").prop('disabled', false);
+      $("button[name*='_deleterowbutton']").prop('disabled', false);
+      $("button[name*='_cancelchangesbutton']").prop('disabled', false);
+      $("button[name*='_savechangesbutton']").prop('disabled', false);
+      $('#selectproductwindow').dialog('close');
+    } else {
+      $.messager.alert('提示', '请先选择产品');
+    }
+  }
+
+   var $pddg = $('#products_datagrid');
+  $(() => {
+    //定义datagrid结构
+    $pddg.datagrid({
+      //fit: false,
+      height: 490,
+      width:680,
+      rownumbers: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'desc',
+      remoteFilter: true,
+      singleSelect: true,
+      method: 'get',
+      pagination: true,
+      clientPaging: false,
+      striped: true,
+      pageList: [10, 20, 50, 100, 500, 2000],
+      filterRules: [],
+      frozenColumns: [[
+        /*开启CheckBox选择功能*/
+        { field: 'ck', checkbox: true }
+      ]],
+      columns: [[
+        {    /*产品编号(自动生成,可手工修改)*/
+          field: 'ProductNo',
+          title: '@Html.DisplayNameFor(model => model.ProductNo)',
+          width: 130,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*产品类别*/
+          field: 'Category',
+          title: '@Html.DisplayNameFor(model => model.Category)',
+          width: 120,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*中文品名*/
+          field: 'ProductName',
+          title: '@Html.DisplayNameFor(model => model.ProductName)',
+          width: 160,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*英文品名*/
+          field: 'ProductEnName',
+          title: '@Html.DisplayNameFor(model => model.ProductEnName)',
+          width: 160,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*规格型号*/
+          field: 'Spec',
+          title: '@Html.DisplayNameFor(model => model.Spec)',
+          width: 120,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*中文描述*/
+          field: 'CnDescription',
+          title: '@Html.DisplayNameFor(model => model.CnDescription)',
+          width: 200,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*英文描述*/
+          field: 'EnDescription',
+          title: '@Html.DisplayNameFor(model => model.EnDescription)',
+          width: 200,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        },
+        {    /*备注*/
+          field: 'Remark',
+          title: '@Html.DisplayNameFor(model => model.Remark)',
+          width: 200,
+          hidden: false,
+          sortable: true,
+          resizable: true
+        }
+      ]]
+    }).datagrid('enableFilter', [
+      ])
+      .datagrid('load', '/Products/GetData');
+
+  });
+</script>
+

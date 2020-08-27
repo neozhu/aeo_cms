@@ -40,7 +40,10 @@ namespace WebApp.Models
     public DbSet<Attachment> Attachments { get; set; }
 
     public DbSet<ActionLog> ActionLogs { get; set; }
+    #region 海关参数
     public DbSet<HSCode> HSCodes { get; set; }
+    public DbSet<GPort> GPorts { get; set; }
+    #endregion
     #region 产品库
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
@@ -107,7 +110,7 @@ namespace WebApp.Models
     public DbSet<Quotation> Quotations { get; set; }
     public DbSet<QuotationProduct> QuotationProducts { get; set; }
     public DbSet<QuotationFile> QuotationFiles { get; set; }
-
+    public DbSet<QuotationCharge>  QuotationCharges { get; set; }
     public DbSet<QuotationHistory> QuotationHistories { get; set; }
 
     #endregion

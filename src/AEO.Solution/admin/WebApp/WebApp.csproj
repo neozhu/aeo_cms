@@ -453,6 +453,7 @@
     <Compile Include="Controllers\EFMigrationsManagerController.cs" />
     <Compile Include="Controllers\FileManagerController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\GPortsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HSCodesController.cs" />
     <Compile Include="Controllers\InquiriesController.cs" />
@@ -475,6 +476,7 @@
     <Compile Include="Controllers\ProductSalesHistoricalPricesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\QuestionTplsController.cs" />
+    <Compile Include="Controllers\QuotationChargesController.cs" />
     <Compile Include="Controllers\QuotationFilesController.cs" />
     <Compile Include="Controllers\QuotationProductsController.cs" />
     <Compile Include="Controllers\QuotationsController.cs" />
@@ -669,6 +671,26 @@
     <Compile Include="Migrations\202008261036571_md_QuotationHistories.designer.cs">
       <DependentUpon>202008261036571_md_QuotationHistories.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008270202437_md_Quotation_status.cs" />
+    <Compile Include="Migrations\202008270202437_md_Quotation_status.designer.cs">
+      <DependentUpon>202008270202437_md_Quotation_status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008270237104_md_gport.cs" />
+    <Compile Include="Migrations\202008270237104_md_gport.designer.cs">
+      <DependentUpon>202008270237104_md_gport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008270545493_md_QuotationCharge.cs" />
+    <Compile Include="Migrations\202008270545493_md_QuotationCharge.designer.cs">
+      <DependentUpon>202008270545493_md_QuotationCharge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008271159373_md_changequotation.cs" />
+    <Compile Include="Migrations\202008271159373_md_changequotation.designer.cs">
+      <DependentUpon>202008271159373_md_changequotation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008271203229_md_changequotation_spec.cs" />
+    <Compile Include="Migrations\202008271203229_md_changequotation_spec.designer.cs">
+      <DependentUpon>202008271203229_md_changequotation_spec.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\ApproveHistory.cs" />
@@ -688,6 +710,7 @@
     <Compile Include="Models\Dto\CompanyTreeItem.cs" />
     <Compile Include="Models\Dto\CreateAeoQuestionTestDto.cs" />
     <Compile Include="Models\Dto\CreateProductViewModel.cs" />
+    <Compile Include="Models\GPort.cs" />
     <Compile Include="Models\HSCode.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
@@ -698,6 +721,7 @@
     <Compile Include="Models\Metadata\BusinessOpportunityMetadata.cs" />
     <Compile Include="Models\Metadata\CategoryMetadata.cs" />
     <Compile Include="Models\Metadata\CompanyMetadata.cs" />
+    <Compile Include="Models\Metadata\GPortMetadata.cs" />
     <Compile Include="Models\Metadata\HSCodeMetadata.cs" />
     <Compile Include="Models\Metadata\InquiryFileMetadata.cs" />
     <Compile Include="Models\Metadata\InquiryMetadata.cs" />
@@ -714,6 +738,7 @@
     <Compile Include="Models\Metadata\ProductPurchaseHistoricalPriceMetadata.cs" />
     <Compile Include="Models\Metadata\ProductSalesHistoricalPriceMetadata.cs" />
     <Compile Include="Models\Metadata\QuestionTplMetadata.cs" />
+    <Compile Include="Models\Metadata\QuotationChargeMetadata.cs" />
     <Compile Include="Models\Metadata\QuotationFileMetadata.cs" />
     <Compile Include="Models\Metadata\QuotationMetadata.cs" />
     <Compile Include="Models\Metadata\QuotationProductMetadata.cs" />
@@ -726,6 +751,7 @@
     <Compile Include="Models\ProductRef.cs" />
     <Compile Include="Models\AeoQuestion.cs" />
     <Compile Include="Models\QuestionTpl.cs" />
+    <Compile Include="Models\QuotationCharge.cs" />
     <Compile Include="Models\QuotationFile.cs" />
     <Compile Include="Models\QuotationHistory.cs" />
     <Compile Include="Models\QuotationProduct.cs" />
@@ -763,6 +789,7 @@
     <Compile Include="Models\resource\BusinessOpportunity.Designer.cs" />
     <Compile Include="Models\resource\Category.Designer.cs" />
     <Compile Include="Models\resource\Company.Designer.cs" />
+    <Compile Include="Models\resource\GPort.Designer.cs" />
     <Compile Include="Models\resource\HSCode.Designer.cs" />
     <Compile Include="Models\resource\Inquiry.Designer.cs" />
     <Compile Include="Models\resource\InquiryFile.Designer.cs" />
@@ -782,6 +809,7 @@
     <Compile Include="Models\resource\ProductSalesHistoricalPrice.Designer.cs" />
     <Compile Include="Models\resource\QuestionTpl.Designer.cs" />
     <Compile Include="Models\resource\Quotation.Designer.cs" />
+    <Compile Include="Models\resource\QuotationCharge.Designer.cs" />
     <Compile Include="Models\resource\QuotationFile.Designer.cs" />
     <Compile Include="Models\resource\QuotationProduct.Designer.cs" />
     <Compile Include="Models\ViewModel\ErrorViewModel.cs" />
@@ -825,6 +853,8 @@
     <Compile Include="Repositories\Customers\CustomerRepository.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseQuery.cs" />
     <Compile Include="Repositories\CustomerWarehouses\CustomerWarehouseRepository.cs" />
+    <Compile Include="Repositories\GPorts\GPortQuery.cs" />
+    <Compile Include="Repositories\GPorts\GPortRepository.cs" />
     <Compile Include="Repositories\HSCodes\HSCodeQuery.cs" />
     <Compile Include="Repositories\HSCodes\HSCodeRepository.cs" />
     <Compile Include="Repositories\Inquiries\InquiryQuery.cs" />
@@ -861,6 +891,8 @@
     <Compile Include="Repositories\Products\ProductRepository.cs" />
     <Compile Include="Repositories\QuestionTpls\QuestionTplQuery.cs" />
     <Compile Include="Repositories\QuestionTpls\QuestionTplRepository.cs" />
+    <Compile Include="Repositories\QuotationCharges\QuotationChargeQuery.cs" />
+    <Compile Include="Repositories\QuotationCharges\QuotationChargeRepository.cs" />
     <Compile Include="Repositories\QuotationFiles\QuotationFileQuery.cs" />
     <Compile Include="Repositories\QuotationFiles\QuotationFileRepository.cs" />
     <Compile Include="Repositories\QuotationProducts\QuotationProductQuery.cs" />
@@ -918,6 +950,8 @@
     <Compile Include="Services\Customers\ICustomerService.cs" />
     <Compile Include="Services\CustomerWarehouses\CustomerWarehouseService.cs" />
     <Compile Include="Services\CustomerWarehouses\ICustomerWarehouseService.cs" />
+    <Compile Include="Services\GPorts\GPortService.cs" />
+    <Compile Include="Services\GPorts\IGPortService.cs" />
     <Compile Include="Services\HSCodes\HSCodeService.cs" />
     <Compile Include="Services\HSCodes\IHSCodeService.cs" />
     <Compile Include="Services\Inquiries\IInquiryService.cs" />
@@ -954,6 +988,8 @@
     <Compile Include="Services\Products\ProductService.cs" />
     <Compile Include="Services\QuestionTpls\IQuestionTplService.cs" />
     <Compile Include="Services\QuestionTpls\QuestionTplService.cs" />
+    <Compile Include="Services\QuotationCharges\IQuotationChargeService.cs" />
+    <Compile Include="Services\QuotationCharges\QuotationChargeService.cs" />
     <Compile Include="Services\QuotationFiles\IQuotationFileService.cs" />
     <Compile Include="Services\QuotationFiles\QuotationFileService.cs" />
     <Compile Include="Services\QuotationProducts\IQuotationProductService.cs" />
@@ -4331,6 +4367,22 @@
     <Content Include="Views\Quotations\_quotationfiledatagridjsview.cshtml" />
     <Content Include="Views\Quotations\_QuotationProductEditForm.cshtml" />
     <Content Include="Views\Quotations\_quotationproductdatagridjsview.cshtml" />
+    <Content Include="Views\GPorts\_DisplayForm.cshtml" />
+    <Content Include="Views\GPorts\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\GPorts\Index.cshtml" />
+    <Content Include="Views\GPorts\Create.cshtml" />
+    <Content Include="Views\GPorts\Details.cshtml" />
+    <Content Include="Views\GPorts\Edit.cshtml" />
+    <Content Include="Views\GPorts\EditForm.cshtml" />
+    <Content Include="Views\GPorts\_ImportWindow.cshtml" />
+    <Content Include="Views\QuotationCharges\_DisplayForm.cshtml" />
+    <Content Include="Views\QuotationCharges\_PopupDetailFormView.cshtml" />
+    <Content Include="Views\QuotationCharges\Index.cshtml" />
+    <Content Include="Views\QuotationCharges\Create.cshtml" />
+    <Content Include="Views\QuotationCharges\Details.cshtml" />
+    <Content Include="Views\QuotationCharges\Edit.cshtml" />
+    <Content Include="Views\QuotationCharges\EditForm.cshtml" />
+    <Content Include="Views\Quotations\_SelectProductWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4548,6 +4600,21 @@
     <EmbeddedResource Include="Migrations\202008261036571_md_QuotationHistories.resx">
       <DependentUpon>202008261036571_md_QuotationHistories.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008270202437_md_Quotation_status.resx">
+      <DependentUpon>202008270202437_md_Quotation_status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008270237104_md_gport.resx">
+      <DependentUpon>202008270237104_md_gport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008270545493_md_QuotationCharge.resx">
+      <DependentUpon>202008270545493_md_QuotationCharge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008271159373_md_changequotation.resx">
+      <DependentUpon>202008271159373_md_changequotation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008271203229_md_changequotation_spec.resx">
+      <DependentUpon>202008271203229_md_changequotation_spec.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.zh-TW.resx" />
@@ -4572,6 +4639,9 @@
     <EmbeddedResource Include="Models\resource\Company.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Company.resx" />
     <EmbeddedResource Include="Models\resource\Company.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\GPort.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\GPort.resx" />
+    <EmbeddedResource Include="Models\resource\GPort.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\HSCode.en-US.resx" />
     <EmbeddedResource Include="Models\resource\HSCode.resx" />
     <EmbeddedResource Include="Models\resource\HSCode.zh-TW.resx" />
@@ -4629,6 +4699,9 @@
     <EmbeddedResource Include="Models\resource\Quotation.en-US.resx" />
     <EmbeddedResource Include="Models\resource\Quotation.resx" />
     <EmbeddedResource Include="Models\resource\Quotation.zh-TW.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationCharge.en-US.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationCharge.resx" />
+    <EmbeddedResource Include="Models\resource\QuotationCharge.zh-TW.resx" />
     <EmbeddedResource Include="Models\resource\QuotationFile.en-US.resx" />
     <EmbeddedResource Include="Models\resource\QuotationFile.resx" />
     <EmbeddedResource Include="Models\resource\QuotationFile.zh-TW.resx" />

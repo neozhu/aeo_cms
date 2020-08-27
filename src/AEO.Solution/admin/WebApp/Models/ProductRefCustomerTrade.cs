@@ -12,8 +12,7 @@ namespace WebApp.Models
   //本企业与上游客户的料号关系海关贸易信息
   public partial class ProductRefCustomerTrade : Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "客户编号", Description = "客户编号")]
     [MaxLength(20)]
 

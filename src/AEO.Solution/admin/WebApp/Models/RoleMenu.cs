@@ -13,9 +13,7 @@ namespace WebApp.Models
     //public Entity.DbSet<RoleMenu> RoleMenus { get; set; }
      public partial class RoleMenu:Entity
     {
-        [Key]
-        public int Id { get; set; }
-
+     
         [StringLength(20)]
         [Required]
         [Index("IX_rolemenu", 1, IsUnique = true)]

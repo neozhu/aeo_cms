@@ -57,6 +57,21 @@ namespace WebApp.Controllers
     [Route("Index", Name = "公司信息", Order = 1)]
     public ActionResult Index() => this.View();
 
+
+    public async Task<JsonResult> GetComboData(string q = "") {
+      var result =await this.companyService.Queryable()
+        .Where(x => x.Code.Contains(q) || x.Name.Contains(q))
+        .Select(x => new
+        {
+          x.Id,
+          x.Name,
+          x.Code
+        })
+        .OrderBy(x => x.Id)
+        .ToListAsync();
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
+
     //Get :Companies/GetData
     //For Index View datagrid datasource url
     [HttpGet]

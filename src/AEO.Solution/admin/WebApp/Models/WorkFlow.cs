@@ -10,8 +10,7 @@ namespace WebApp.Models
   //审批记录表
   public partial class WorkFlow:Entity
   {
-    [Key]
-    public int Id { get; set; }
+
     [Display(Name = "关联业务单号", Description = "关联业务单号")]
     [MaxLength(128)]
     public string RefKey { get; set; }

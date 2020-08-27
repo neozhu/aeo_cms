@@ -20,6 +20,11 @@ namespace WebApp.Models
     [Index(IsUnique =true)]
     public string QpNo { get; set; }
 
+    [Display(Name = "状态", Description = "状态")]
+    [MaxLength(20)]
+    [Required]
+    public string Status { get; set; }
+
     [Display(Name = "业务员", Description = "业务员")]
     [MaxLength(20)]
     [Required]
@@ -139,8 +144,10 @@ namespace WebApp.Models
     {
       this.QuotationProducts = new HashSet<QuotationProduct>();
       this.QuotationFiles = new HashSet<QuotationFile>();
+      this.QuotationCharges = new HashSet<QuotationCharge>();
     }
     public virtual ICollection<QuotationProduct> QuotationProducts { get; set; }
     public virtual ICollection<QuotationFile> QuotationFiles { get; set; }
+    public virtual ICollection<QuotationCharge> QuotationCharges { get; set; }
   }
 }

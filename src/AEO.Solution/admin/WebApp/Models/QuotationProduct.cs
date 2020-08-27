@@ -28,7 +28,9 @@ namespace WebApp.Models
     [Display(Name = "英文描述", Description = "英文描述")]
     [MaxLength(256)]
     public string EnDescription { get; set; }
-
+    [Display(Name = "规格型号", Description = "规格型号")]
+    [MaxLength(100)]
+    public string Spec { get; set; }
     #region 贸易信息
     [Display(Name = "海关编码", Description = "海关编码")]
     [MaxLength(10)]
@@ -72,7 +74,23 @@ namespace WebApp.Models
     [Display(Name = "人民币金额", Description = "人民币金额")]
     public decimal RMBAmount { get; set; }
     #endregion
-
+    #region 供应商信息
+    [Display(Name = "供应商", Description = "供应商")]
+    [MaxLength(20)]
+    public string SupplierCode { get; set; }
+    [Display(Name = "供应商名称", Description = "供应商名称")]
+    [MaxLength(128)]
+    public string SupplierName { get; set; }
+    [Display(Name = "供应商货号", Description = "供应商货号")]
+    [MaxLength(128)]
+    public string SupplierProductNo { get; set; }
+    [Display(Name = "询价金额", Description = "询价金额")]
+    [DefaultValue(null)]
+    public decimal? IntPrice { get; set; }
+    [Display(Name = "价格类型", Description = "价格类型")]
+    [MaxLength(30)]
+    public string PriceType { get; set; }
+    #endregion
     #region 佣金信息
     [Display(Name = "扣佣率/值", Description = "扣佣率/值")]
     public decimal? BrightcmsRate { get; set; }

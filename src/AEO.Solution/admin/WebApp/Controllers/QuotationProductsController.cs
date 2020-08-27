@@ -19,312 +19,337 @@ using WebApp.Services;
 using WebApp.Repositories;
 namespace WebApp.Controllers
 {
-/// <summary>
-/// File: QuotationProductsController.cs
-/// Purpose:出口管理/报价单产品信息
-/// Created Date: 2020/8/26 17:40:52
-/// Author: neo.zhu
-/// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
-/// TODO: Registers the type mappings with the Unity container(Mvc.UnityConfig.cs)
-/// <![CDATA[
-///    container.RegisterType<IRepositoryAsync<QuotationProduct>, Repository<QuotationProduct>>();
-///    container.RegisterType<IQuotationProductService, QuotationProductService>();
-/// ]]>
-/// Copyright (c) 2012-2018 All Rights Reserved
-/// </summary>
-    [Authorize]
-    [RoutePrefix("QuotationProducts")]
-	public class QuotationProductsController : Controller
-	{
-		private readonly IQuotationProductService  quotationProductService;
-		private readonly IUnitOfWorkAsync unitOfWork;
-        private readonly NLog.ILogger logger;
-		public QuotationProductsController (
-          IQuotationProductService  quotationProductService, 
+  /// <summary>
+  /// File: QuotationProductsController.cs
+  /// Purpose:出口管理/报价单产品信息
+  /// Created Date: 2020/8/26 17:40:52
+  /// Author: neo.zhu
+  /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
+  /// TODO: Registers the type mappings with the Unity container(Mvc.UnityConfig.cs)
+  /// <![CDATA[
+  ///    container.RegisterType<IRepositoryAsync<QuotationProduct>, Repository<QuotationProduct>>();
+  ///    container.RegisterType<IQuotationProductService, QuotationProductService>();
+  /// ]]>
+  /// Copyright (c) 2012-2018 All Rights Reserved
+  /// </summary>
+  [Authorize]
+  [RoutePrefix("QuotationProducts")]
+  public class QuotationProductsController : Controller
+  {
+    private readonly IQuotationProductService quotationProductService;
+    private readonly IUnitOfWorkAsync unitOfWork;
+    private readonly NLog.ILogger logger;
+    public QuotationProductsController(
+          IQuotationProductService quotationProductService,
           IUnitOfWorkAsync unitOfWork,
           NLog.ILogger logger
           )
-		{
-			this.quotationProductService  = quotationProductService;
-			this.unitOfWork = unitOfWork;
-            this.logger = logger;
-		}
-        		//GET: QuotationProducts/Index
-        //[OutputCache(Duration = 60, VaryByParam = "none")]
-        [Route("Index", Name = "报价单产品信息", Order = 1)]
-		public ActionResult Index() => this.View();
+    {
+      this.quotationProductService = quotationProductService;
+      this.unitOfWork = unitOfWork;
+      this.logger = logger;
+    }
+    //GET: QuotationProducts/Index
+    //[OutputCache(Duration = 60, VaryByParam = "none")]
+    [Route("Index", Name = "报价单产品信息", Order = 1)]
+    public ActionResult Index() => this.View();
 
-		//Get :QuotationProducts/GetData
-		//For Index View datagrid datasource url
-        
-		[HttpGet]
-        //[OutputCache(Duration = 10, VaryByParam = "*")]
-		 public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
-		{
-			var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
-			var pagerows  = (await this.quotationProductService
-						               .Query(new QuotationProductQuery().Withfilter(filters)).Include(q => q.Quotation)
-							           .OrderBy(n=>n.OrderBy(sort,order))
-							           .SelectPageAsync(page, rows, out var totalCount))
-                                       .Select(  n => new { 
+    //Get :QuotationProducts/GetData
+    //For Index View datagrid datasource url
 
-    QuotationQpNo = n.Quotation?.QpNo,
-    Id = n.Id,
-    ProductNo = n.ProductNo,
-    ProductName = n.ProductName,
-    CategoryName = n.CategoryName,
-    ProductEnName = n.ProductEnName,
-    CnDescription = n.CnDescription,
-    EnDescription = n.EnDescription,
-    HSCODE = n.HSCODE,
-    HSADDTAXRATE = n.HSADDTAXRATE,
-    HSBACKTAXRATE = n.HSBACKTAXRATE,
-    CUSTBASIC = n.CUSTBASIC,
-    GUIDEPRICE = n.GUIDEPRICE,
-    Remark = n.Remark,
-    ThirdProductNo = n.ThirdProductNo,
-    Qty = n.Qty,
-    Unit = n.Unit,
-    Price = n.Price,
-    Cur = n.Cur,
-    Amount = n.Amount,
-    USDAmount = n.USDAmount,
-    RMBAmount = n.RMBAmount,
-    BrightcmsRate = n.BrightcmsRate,
-    BrightcmsFcy = n.BrightcmsFcy,
-    DarkcmsRate = n.DarkcmsRate,
-    DarkcmsFcy = n.DarkcmsFcy,
-    Executor = n.Executor,
-    Logo = n.Logo,
-    QpNo = n.QpNo,
-    QuotationId = n.QuotationId,
-    Ver = n.Ver
-}).ToList();
-			var pagelist = new { total = totalCount, rows = pagerows };
-			return Json(pagelist, JsonRequestBehavior.AllowGet);
-		}
-        [HttpGet]
-        //[OutputCache(Duration = 10, VaryByParam = "*")]
-        public async Task<JsonResult> GetDataByQuotationId (int  quotationid ,int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
-        {    
-            var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
-			    var pagerows = (await this.quotationProductService
-						               .Query(new QuotationProductQuery().ByQuotationIdWithfilter(quotationid,filters)).Include(q => q.Quotation)
-							           .OrderBy(n=>n.OrderBy(sort,order))
-							           .SelectPageAsync(page, rows, out var totalCount))
-                                       .Select(  n => new { 
+    [HttpGet]
+    //[OutputCache(Duration = 10, VaryByParam = "*")]
+    public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+    {
+      var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
+      var pagerows = ( await this.quotationProductService
+                           .Query(new QuotationProductQuery().Withfilter(filters)).Include(q => q.Quotation)
+                         .OrderBy(n => n.OrderBy(sort, order))
+                         .SelectPageAsync(page, rows, out var totalCount) )
+                                       .Select(n => new
+                                       {
 
-    QuotationQpNo = n.Quotation?.QpNo,
-    Id = n.Id,
-    ProductNo = n.ProductNo,
-    ProductName = n.ProductName,
-    CategoryName = n.CategoryName,
-    ProductEnName = n.ProductEnName,
-    CnDescription = n.CnDescription,
-    EnDescription = n.EnDescription,
-    HSCODE = n.HSCODE,
-    HSADDTAXRATE = n.HSADDTAXRATE,
-    HSBACKTAXRATE = n.HSBACKTAXRATE,
-    CUSTBASIC = n.CUSTBASIC,
-    GUIDEPRICE = n.GUIDEPRICE,
-    Remark = n.Remark,
-    ThirdProductNo = n.ThirdProductNo,
-    Qty = n.Qty,
-    Unit = n.Unit,
-    Price = n.Price,
-    Cur = n.Cur,
-    Amount = n.Amount,
-    USDAmount = n.USDAmount,
-    RMBAmount = n.RMBAmount,
-    BrightcmsRate = n.BrightcmsRate,
-    BrightcmsFcy = n.BrightcmsFcy,
-    DarkcmsRate = n.DarkcmsRate,
-    DarkcmsFcy = n.DarkcmsFcy,
-    Executor = n.Executor,
-    Logo = n.Logo,
-    QpNo = n.QpNo,
-    QuotationId = n.QuotationId,
-    Ver = n.Ver
-}).ToList();
-			var pagelist = new { total = totalCount, rows = pagerows };
-            return Json(pagelist, JsonRequestBehavior.AllowGet);
-        }
-        //easyui datagrid post acceptChanges 
-		[HttpPost]
-		public async Task<JsonResult> AcceptChanges(QuotationProduct[] quotationproducts)
-		{
-            try{
-               this.quotationProductService.ApplyChanges( quotationproducts);
-               var result = await this.unitOfWork.SaveChangesAsync();
-			   return Json(new {success=true,result}, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
-            }
-        }
-				//[OutputCache(Duration = 10, VaryByParam = "q")]
-		public async Task<JsonResult> GetQuotations(string q="")
-		{
-			var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
-			var rows = await quotationRepository
+                                         QuotationQpNo = n.Quotation?.QpNo,
+                                         Id = n.Id,
+                                         ProductNo = n.ProductNo,
+                                         ProductName = n.ProductName,
+                                         CategoryName = n.CategoryName,
+                                         ProductEnName = n.ProductEnName,
+                                         CnDescription = n.CnDescription,
+                                         EnDescription = n.EnDescription,
+                                         Spec = n.Spec,
+                                         SupplierCode=n.SupplierCode,
+                                         SupplierName=n.SupplierName,
+                                         SupplierProductNo=n.SupplierProductNo,
+                                         IntPrice=n.IntPrice,
+                                         PriceType=n.PriceType,
+                                         HSCODE = n.HSCODE,
+                                         HSADDTAXRATE = n.HSADDTAXRATE,
+                                         HSBACKTAXRATE = n.HSBACKTAXRATE,
+                                         CUSTBASIC = n.CUSTBASIC,
+                                         GUIDEPRICE = n.GUIDEPRICE,
+                                         Remark = n.Remark,
+                                         ThirdProductNo = n.ThirdProductNo,
+                                         Qty = n.Qty,
+                                         Unit = n.Unit,
+                                         Price = n.Price,
+                                         Cur = n.Cur,
+                                         Amount = n.Amount,
+                                         USDAmount = n.USDAmount,
+                                         RMBAmount = n.RMBAmount,
+                                         BrightcmsRate = n.BrightcmsRate,
+                                         BrightcmsFcy = n.BrightcmsFcy,
+                                         DarkcmsRate = n.DarkcmsRate,
+                                         DarkcmsFcy = n.DarkcmsFcy,
+                                         Executor = n.Executor,
+                                         Logo = n.Logo,
+                                         QpNo = n.QpNo,
+                                         QuotationId = n.QuotationId,
+                                         Ver = n.Ver
+                                       }).ToList();
+      var pagelist = new { total = totalCount, rows = pagerows };
+      return Json(pagelist, JsonRequestBehavior.AllowGet);
+    }
+    [HttpGet]
+    //[OutputCache(Duration = 10, VaryByParam = "*")]
+    public async Task<JsonResult> GetDataByQuotationId(int quotationid, int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+    {
+      var filters = JsonConvert.DeserializeObject<IEnumerable<filterRule>>(filterRules);
+      var pagerows = ( await this.quotationProductService
+                       .Query(new QuotationProductQuery().ByQuotationIdWithfilter(quotationid, filters)).Include(q => q.Quotation)
+                     .OrderBy(n => n.OrderBy(sort, order))
+                     .SelectPageAsync(page, rows, out var totalCount) )
+                                   .Select(n => new
+                                   {
+
+                                     QuotationQpNo = n.Quotation?.QpNo,
+                                     Id = n.Id,
+                                     ProductNo = n.ProductNo,
+                                     ProductName = n.ProductName,
+                                     CategoryName = n.CategoryName,
+                                     ProductEnName = n.ProductEnName,
+                                     CnDescription = n.CnDescription,
+                                     EnDescription = n.EnDescription,
+                                     Spec = n.Spec,
+                                     SupplierCode = n.SupplierCode,
+                                     SupplierName = n.SupplierName,
+                                     SupplierProductNo = n.SupplierProductNo,
+                                     IntPrice = n.IntPrice,
+                                     PriceType = n.PriceType,
+                                     HSCODE = n.HSCODE,
+                                     HSADDTAXRATE = n.HSADDTAXRATE,
+                                     HSBACKTAXRATE = n.HSBACKTAXRATE,
+                                     CUSTBASIC = n.CUSTBASIC,
+                                     GUIDEPRICE = n.GUIDEPRICE,
+                                     Remark = n.Remark,
+                                     ThirdProductNo = n.ThirdProductNo,
+                                     Qty = n.Qty,
+                                     Unit = n.Unit,
+                                     Price = n.Price,
+                                     Cur = n.Cur,
+                                     Amount = n.Amount,
+                                     USDAmount = n.USDAmount,
+                                     RMBAmount = n.RMBAmount,
+                                     BrightcmsRate = n.BrightcmsRate,
+                                     BrightcmsFcy = n.BrightcmsFcy,
+                                     DarkcmsRate = n.DarkcmsRate,
+                                     DarkcmsFcy = n.DarkcmsFcy,
+                                     Executor = n.Executor,
+                                     Logo = n.Logo,
+                                     QpNo = n.QpNo,
+                                     QuotationId = n.QuotationId,
+                                     Ver = n.Ver
+                                   }).ToList();
+      var pagelist = new { total = totalCount, rows = pagerows };
+      return Json(pagelist, JsonRequestBehavior.AllowGet);
+    }
+    //easyui datagrid post acceptChanges 
+    [HttpPost]
+    public async Task<JsonResult> AcceptChanges(QuotationProduct[] quotationproducts)
+    {
+      try
+      {
+        this.quotationProductService.ApplyChanges(quotationproducts);
+        var result = await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true, result }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
+    //[OutputCache(Duration = 10, VaryByParam = "q")]
+    public async Task<JsonResult> GetQuotations(string q = "")
+    {
+      var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
+      var rows = await quotationRepository
                             .Queryable()
-                            .Where(n=>n.QpNo.Contains(q))
-                            .OrderBy(n=>n.QpNo)
+                            .Where(n => n.QpNo.Contains(q))
+                            .OrderBy(n => n.QpNo)
                             .Select(n => new { Id = n.Id, QpNo = n.QpNo })
                             .ToListAsync();
-			return Json(rows, JsonRequestBehavior.AllowGet);
-		}
-		 
-				
-		//GET: QuotationProducts/Details/:id
-		public ActionResult Details(int id)
-		{
-			
-			var quotationProduct = this.quotationProductService.Find(id);
-			if (quotationProduct == null)
-			{
-				return HttpNotFound();
-			}
-			return View(quotationProduct);
-		}
-        //GET: QuotationProducts/GetItem/:id
-        [HttpGet]
-        public async Task<JsonResult> GetItem(int id) {
-            var  quotationProduct = await this.quotationProductService.FindAsync(id);
-            return Json(quotationProduct,JsonRequestBehavior.AllowGet);
-        }
-		//GET: QuotationProducts/Create
-        		public ActionResult Create()
-				{
-			var quotationProduct = new QuotationProduct();
-			//set default value
-			var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
-		   			ViewBag.QuotationId = new SelectList(quotationRepository.Queryable().OrderBy(n=>n.QpNo), "Id", "QpNo");
-		   			return View(quotationProduct);
-		}
-		//POST: QuotationProducts/Create
-		//To protect from overposting attacks, please enable the specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Create(QuotationProduct quotationProduct)
-		{
-            if (ModelState.IsValid)
-			{
-                try{ 
-				this.quotationProductService.Insert(quotationProduct);
-				var result = await this.unitOfWork.SaveChangesAsync();
-                return Json(new { success = true,result }, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
-                }
-			    //DisplaySuccessMessage("Has update a quotationProduct record");
-			}
-			else {
-			   var modelStateErrors =string.Join(",", this.ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(n=>n.ErrorMessage)));
-			   return Json(new { success = false, err = modelStateErrors }, JsonRequestBehavior.AllowGet);
-			   //DisplayErrorMessage(modelStateErrors);
-			}
-			//var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
-			//ViewBag.QuotationId = new SelectList(await quotationRepository.Queryable().OrderBy(n=>n.QpNo).ToListAsync(), "Id", "QpNo", quotationProduct.QuotationId);
-			//return View(quotationProduct);
-		}
+      return Json(rows, JsonRequestBehavior.AllowGet);
+    }
 
-        //新增对象初始化
-        [HttpGet]
-        public async Task<JsonResult> NewItem() {
-            var quotationProduct = await Task.Run(() => {
-                return new QuotationProduct();
-                });
-            return Json(quotationProduct, JsonRequestBehavior.AllowGet);
+
+    //GET: QuotationProducts/Details/:id
+    public ActionResult Details(int id)
+    {
+
+      var quotationProduct = this.quotationProductService.Find(id);
+      if (quotationProduct == null)
+      {
+        return HttpNotFound();
+      }
+      return View(quotationProduct);
+    }
+    //GET: QuotationProducts/GetItem/:id
+    [HttpGet]
+    public async Task<JsonResult> GetItem(int id)
+    {
+      var quotationProduct = await this.quotationProductService.FindAsync(id);
+      return Json(quotationProduct, JsonRequestBehavior.AllowGet);
+    }
+    //GET: QuotationProducts/Create
+    public ActionResult Create()
+    {
+      var quotationProduct = new QuotationProduct();
+      //set default value
+      var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
+      ViewBag.QuotationId = new SelectList(quotationRepository.Queryable().OrderBy(n => n.QpNo), "Id", "QpNo");
+      return View(quotationProduct);
+    }
+    //POST: QuotationProducts/Create
+    //To protect from overposting attacks, please enable the specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Create(QuotationProduct quotationProduct)
+    {
+      if (ModelState.IsValid)
+      {
+        try
+        {
+          this.quotationProductService.Insert(quotationProduct);
+          var result = await this.unitOfWork.SaveChangesAsync();
+          return Json(new { success = true, result }, JsonRequestBehavior.AllowGet);
+        }
+        catch (Exception e)
+        {
+          return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+        }
+        //DisplaySuccessMessage("Has update a quotationProduct record");
+      }
+      else
+      {
+        var modelStateErrors = string.Join(",", this.ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(n => n.ErrorMessage)));
+        return Json(new { success = false, err = modelStateErrors }, JsonRequestBehavior.AllowGet);
+        //DisplayErrorMessage(modelStateErrors);
+      }
+      //var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
+      //ViewBag.QuotationId = new SelectList(await quotationRepository.Queryable().OrderBy(n=>n.QpNo).ToListAsync(), "Id", "QpNo", quotationProduct.QuotationId);
+      //return View(quotationProduct);
+    }
+
+    //新增对象初始化
+    [HttpGet]
+    public async Task<JsonResult> NewItem()
+    {
+      var quotationProduct = await Task.Run(() =>
+      {
+        return new QuotationProduct();
+      });
+      return Json(quotationProduct, JsonRequestBehavior.AllowGet);
+    }
+
+
+    //GET: QuotationProducts/Edit/:id
+    public ActionResult Edit(int id)
+    {
+      var quotationProduct = this.quotationProductService.Find(id);
+      if (quotationProduct == null)
+      {
+        return HttpNotFound();
+      }
+      var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
+      ViewBag.QuotationId = new SelectList(quotationRepository.Queryable().OrderBy(n => n.QpNo), "Id", "QpNo", quotationProduct.QuotationId);
+      return View(quotationProduct);
+    }
+    //POST: QuotationProducts/Edit/:id
+    //To protect from overposting attacks, please enable the specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(QuotationProduct quotationProduct)
+    {
+      if (ModelState.IsValid)
+      {
+        quotationProduct.TrackingState = TrackingState.Modified;
+        try
+        {
+          this.quotationProductService.Update(quotationProduct);
+
+          var result = await this.unitOfWork.SaveChangesAsync();
+          return Json(new { success = true, result = result }, JsonRequestBehavior.AllowGet);
+        }
+        catch (Exception e)
+        {
+          return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
         }
 
-         
-		//GET: QuotationProducts/Edit/:id
-		public ActionResult Edit(int id)
-		{
-			var quotationProduct = this.quotationProductService.Find(id);
-			if (quotationProduct == null)
-			{
-				return HttpNotFound();
-			}
-			var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
-			ViewBag.QuotationId = new SelectList(quotationRepository.Queryable().OrderBy(n=>n.QpNo), "Id", "QpNo", quotationProduct.QuotationId);
-			return View(quotationProduct);
-		}
-		//POST: QuotationProducts/Edit/:id
-		//To protect from overposting attacks, please enable the specific properties you want to bind to, for more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Edit(QuotationProduct quotationProduct)
-		{
-			if (ModelState.IsValid)
-			{
-				quotationProduct.TrackingState = TrackingState.Modified;
-				                try{
-				this.quotationProductService.Update(quotationProduct);
-				                
-				var result = await this.unitOfWork.SaveChangesAsync();
-                return Json(new { success = true,result = result }, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
-                }
-				
-				//DisplaySuccessMessage("Has update a QuotationProduct record");
-				//return RedirectToAction("Index");
-			}
-			else {
-			var modelStateErrors =string.Join(",", this.ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(n=>n.ErrorMessage)));
-			return Json(new { success = false, err = modelStateErrors }, JsonRequestBehavior.AllowGet);
-			//DisplayErrorMessage(modelStateErrors);
-			}
-						//var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
-												//return View(quotationProduct);
-		}
-        //删除当前记录
-		//GET: QuotationProducts/Delete/:id
-        [HttpGet]
-		public async Task<ActionResult> Delete(int id)
-		{
-          try{
-               await this.quotationProductService.Queryable().Where(x => x.Id == id).DeleteAsync();
-               return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-           }
-           catch (Exception e)
-           {
-                return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
-           }
-		}
-		 
-       
- 
+        //DisplaySuccessMessage("Has update a QuotationProduct record");
+        //return RedirectToAction("Index");
+      }
+      else
+      {
+        var modelStateErrors = string.Join(",", this.ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(n => n.ErrorMessage)));
+        return Json(new { success = false, err = modelStateErrors }, JsonRequestBehavior.AllowGet);
+        //DisplayErrorMessage(modelStateErrors);
+      }
+      //var quotationRepository = this.unitOfWork.RepositoryAsync<Quotation>();
+      //return View(quotationProduct);
+    }
+    //删除当前记录
+    //GET: QuotationProducts/Delete/:id
+    [HttpGet]
+    public async Task<ActionResult> Delete(int id)
+    {
+      try
+      {
+        await this.quotationProductService.Queryable().Where(x => x.Id == id).DeleteAsync();
+        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
 
-        //删除选中的记录
-        [HttpPost]
-        public async Task<JsonResult> DeleteChecked(int[] id) {
-           try{
-               await this.quotationProductService.Delete(id);
-               await this.unitOfWork.SaveChangesAsync();
-               return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-           }
-           catch (Exception e)
-           {
-                    return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
-           }
-        }
-		//导出Excel
-		[HttpPost]
-		public async Task<ActionResult> ExportExcel( string filterRules = "",string sort = "Id", string order = "asc")
-		{
-			var fileName = "quotationproducts_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
-			var stream = await this.quotationProductService.ExportExcelAsync(filterRules,sort, order );
-			return File(stream, "application/vnd.ms-excel", fileName);
-		}
-        //导入数据
+
+
+
+    //删除选中的记录
+    [HttpPost]
+    public async Task<JsonResult> DeleteChecked(int[] id)
+    {
+      try
+      {
+        await this.quotationProductService.Delete(id);
+        await this.unitOfWork.SaveChangesAsync();
+        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetMessage() }, JsonRequestBehavior.AllowGet);
+      }
+    }
+    //导出Excel
+    [HttpPost]
+    public async Task<ActionResult> ExportExcel(string filterRules = "", string sort = "Id", string order = "asc")
+    {
+      var fileName = "quotationproducts_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
+      var stream = await this.quotationProductService.ExportExcelAsync(filterRules, sort, order);
+      return File(stream, "application/vnd.ms-excel", fileName);
+    }
+    //导入数据
     [HttpPost]
     public async Task<JsonResult> ImportData()
     {
@@ -368,6 +393,6 @@ namespace WebApp.Controllers
         return this.Json(new { success = false, filename = uploadfilename, message = message }, JsonRequestBehavior.AllowGet);
       }
     }
-		 
-	}
+
+  }
 }

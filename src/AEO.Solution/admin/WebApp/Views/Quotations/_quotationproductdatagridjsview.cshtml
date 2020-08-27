@@ -26,7 +26,7 @@
     //关闭编辑状态
 	function quotationproduct_endEditing() {
 			if (quotationproduct_editIndex === undefined) {
-                return true; 
+                return true;
             }
 			if ($quotationproductdg.datagrid('validateRow', quotationproduct_editIndex)) {
 				$quotationproductdg.datagrid('endEdit', quotationproduct_editIndex);
@@ -93,8 +93,8 @@
        if ($quotationform.form('enableValidation').form('validate')) {
           const quotation = $quotationform.serializeJSON();
        const item = {
-          Price: null, 
-Cur: null, 
+          Price: null,
+Cur: null,
 
           QuotationId:quotation.Id
         };
@@ -103,9 +103,9 @@ Cur: null,
       } else {
 			if (quotationproduct_endEditing()) {
 				//对必填字段进行默认值初始化
-				$quotationproductdg.datagrid('insertRow', 
+				$quotationproductdg.datagrid('insertRow',
                                { index: 0,
-                                  row: item 
+                                  row: item
                                });
 				quotationproduct_editIndex = 0;
 				$quotationproductdg.datagrid('selectRow', quotationproduct_editIndex)
@@ -116,7 +116,7 @@ Cur: null,
 	 }
     //删除编辑的行
 	function quotationproduct_removeItem() {
-		if (quotationproduct_editIndex !== undefined) {  
+		if (quotationproduct_editIndex !== undefined) {
             const delindex = quotationproduct_editIndex;
 			$quotationproductdg.datagrid('cancelEdit', delindex)
 					           .datagrid('deleteRow', delindex);
@@ -150,7 +150,7 @@ Cur: null,
                             }
                          });
                     }
-                });  
+                });
             } else {
                 $.messager.alert('提示', '请先选择要删除的记录!','question');
             }
@@ -214,10 +214,10 @@ Cur: null,
                     const response = await $.post('/QuotationProducts/AcceptChanges', {quotationproducts:changed});
                     response.changed = undefined;
     				if (response.success) {
-							toastr.success('保存明细成功'); 
+							toastr.success('保存明细成功');
 							$quotationproductdg.datagrid('acceptChanges');
 							quotationproduct_reloadData()
-                            return { success:true}; 
+                            return { success:true};
 				    } else {
                            $.messager.alert('错误', response.err ,'error');
                            return { success:false, err:response.err };
@@ -232,682 +232,161 @@ Cur: null,
       }
 
 
-$(() => {
+  $(() => {
     $quotationproductdg.datagrid({
-            fit: false,
-            height: 300,
-            rownumbers: true,
-            striped: true,
-            idField: 'Id',
-            sortName: 'Id',
-            sortOrder: 'asc',
-            remoteFilter: true,
-            singleSelect: true,
-            checkOnSelect: false,
-		    selectOnCheck: false,
-            method: 'get',
-            pageList: [10, 20, 50, 100,1000],
-            pagination: true,
-            clientPaging:false,
-            pagination: true,
-            onDblClickRow: quotationproduct_onDblClickRow,
-            onClickCell: quotationproduct_onClickCell,
-            onBeforeLoad: function () {
+      fit: false,
+      height: 300,
+      rownumbers: true,
+      striped: true,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'asc',
+      remoteFilter: true,
+      singleSelect: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      method: 'get',
+      pageList: [10, 20, 50, 100, 1000],
+      pagination: true,
+      clientPaging: false,
+      pagination: true,
+      onDblClickRow: quotationproduct_onDblClickRow,
+      onClickCell: quotationproduct_onClickCell,
+      onBeforeLoad: function () {
 
-            },
-            onLoadSuccess: function (data) {
-              quotationproduct_editIndex = undefined;
-              $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', true);
-              $("button[name*='quotationproduct_cancelchangesbutton']").prop('disabled', true);
-              $("button[name*='quotationproduct_savechangesbutton']").prop('disabled', true);
-            },
-            onCheck: function () {
-                $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', false);
-            },
-            onUncheck: function () {
-               const checked = $(this).datagrid('getChecked').length > 0;
-               $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', !checked);
-            },
-           onCheckAll: function (rows) {
-              if (rows.length > 0) {
-                 $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', false);
-              }
-           },
-           onUncheckAll: function () {
-              $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', true);           
-           },
-            onSelect: function(index,row) {
-              quotationproduct = row;
-            },
-            onBeforeEdit: function (index, row) {
-                 quotationproduct_editIndex = index;
-                 row.editing = true;
-                 $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', false);
-                 $("button[name*='quotationproduct_cancelchangesbutton']").prop('disabled', false);
-                 $("button[name*='quotationproduct_savechangesbutton']").prop('disabled', false);
-                 $(this).datagrid('refreshRow', index);
-             },
-            onBeginEdit: function (index, row) {
-               //const editors = $(this).datagrid('getEditors', index);
-  
-            },
-            onEndEdit: function (index, row) {
+      },
+      onLoadSuccess: function (data) {
+        quotationproduct_editIndex = undefined;
+        $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', true);
+        $("button[name*='quotationproduct_cancelchangesbutton']").prop('disabled', true);
+        $("button[name*='quotationproduct_savechangesbutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', !checked);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', true);
+      },
+      onSelect: function (index, row) {
+        quotationproduct = row;
+      },
+      onBeforeEdit: function (index, row) {
+        quotationproduct_editIndex = index;
+        row.editing = true;
+        $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', false);
+        $("button[name*='quotationproduct_cancelchangesbutton']").prop('disabled', false);
+        $("button[name*='quotationproduct_savechangesbutton']").prop('disabled', false);
+        $(this).datagrid('refreshRow', index);
+      },
+      onBeginEdit: function (index, row) {
+        //const editors = $(this).datagrid('getEditors', index);
 
-             },
-             onAfterEdit: function (index, row) {
-                   row.editing = false;
-                   quotationproduct_editIndex = undefined;
-                   $(this).datagrid('refreshRow', index);
-             },
-             onCancelEdit: function (index, row) {
-                quotationproduct_editIndex = undefined;
-                row.editing = false;
-                $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', true);
-              $("button[name*='quotationproduct_cancelchangesbutton']").prop('disabled', true);
-              $("button[name*='quotationproduct_savechangesbutton']").prop('disabled', true);
-                $(this).datagrid('refreshRow', index);
-            },
-            columns: [[
-            { field: 'ck', checkbox: true },
-		     
-			{    /*产品编号*/
-                 field:'ProductNo', 
-                 title:'  @Html.DisplayNameFor(model => model.ProductNo)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_ProductNo',
-                                 prompt:'@Html.DescriptionFor(model => model.ProductNo)',
-                                 required:false, 
-                                 validType: 'length[0,128]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*中文品名*/
-                 field:'ProductName', 
-                 title:'  @Html.DisplayNameFor(model => model.ProductName)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_ProductName',
-                                 prompt:'@Html.DescriptionFor(model => model.ProductName)',
-                                 required:false, 
-                                 validType: 'length[0,200]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*产品类别*/
-                 field:'CategoryName', 
-                 title:'  @Html.DisplayNameFor(model => model.CategoryName)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_CategoryName',
-                                 prompt:'@Html.DescriptionFor(model => model.CategoryName)',
-                                 required:false, 
-                                 validType: 'length[0,50]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*英文品名*/
-                 field:'ProductEnName', 
-                 title:'  @Html.DisplayNameFor(model => model.ProductEnName)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_ProductEnName',
-                                 prompt:'@Html.DescriptionFor(model => model.ProductEnName)',
-                                 required:false, 
-                                 validType: 'length[0,200]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*中文描述*/
-                 field:'CnDescription', 
-                 title:'  @Html.DisplayNameFor(model => model.CnDescription)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_CnDescription',
-                                 prompt:'@Html.DescriptionFor(model => model.CnDescription)',
-                                 required:false, 
-                                 validType: 'length[0,256]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*英文描述*/
-                 field:'EnDescription', 
-                 title:'  @Html.DisplayNameFor(model => model.EnDescription)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_EnDescription',
-                                 prompt:'@Html.DescriptionFor(model => model.EnDescription)',
-                                 required:false, 
-                                 validType: 'length[0,256]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*海关编码*/
-                 field:'HSCODE', 
-                 title:'  @Html.DisplayNameFor(model => model.HSCODE)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_HSCODE',
-                                 prompt:'@Html.DescriptionFor(model => model.HSCODE)',
-                                 required:false, 
-                                 validType: 'length[0,10]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*增值税率*/
-                 field:'HSADDTAXRATE', 
-                 title:'  @Html.DisplayNameFor(model => model.HSADDTAXRATE)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_HSADDTAXRATE',
-                                  prompt:'@Html.DescriptionFor(model => model.HSADDTAXRATE)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*退税率*/
-                 field:'HSBACKTAXRATE', 
-                 title:'  @Html.DisplayNameFor(model => model.HSBACKTAXRATE)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_HSBACKTAXRATE',
-                                  prompt:'@Html.DescriptionFor(model => model.HSBACKTAXRATE)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*报关要素*/
-                 field:'CUSTBASIC', 
-                 title:'  @Html.DisplayNameFor(model => model.CUSTBASIC)', 
-                 width:160,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_CUSTBASIC',
-                                 prompt:'@Html.DescriptionFor(model => model.CUSTBASIC)',
-                                 required:false, 
-                                 validType: 'length[0,50]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*销售指导价*/
-                 field:'GUIDEPRICE', 
-                 title:'  @Html.DisplayNameFor(model => model.GUIDEPRICE)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_GUIDEPRICE',
-                                  prompt:'@Html.DescriptionFor(model => model.GUIDEPRICE)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*备注*/
-                 field:'Remark', 
-                 title:'  @Html.DisplayNameFor(model => model.Remark)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Remark',
-                                 prompt:'@Html.DescriptionFor(model => model.Remark)',
-                                 required:false, 
-                                 validType: 'length[0,256]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*客户货号*/
-                 field:'ThirdProductNo', 
-                 title:'  @Html.DisplayNameFor(model => model.ThirdProductNo)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_ThirdProductNo',
-                                 prompt:'@Html.DescriptionFor(model => model.ThirdProductNo)',
-                                 required:false, 
-                                 validType: 'length[0,128]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*数量*/
-                 field:'Qty', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Qty)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_Qty',
-                                  prompt:'@Html.DescriptionFor(model => model.Qty)',
-                                  required:true,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*单位*/
-                 field:'Unit', 
-                 title:'  @Html.DisplayNameFor(model => model.Unit)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Unit',
-                                 prompt:'@Html.DescriptionFor(model => model.Unit)',
-                                 required:false, 
-                                 validType: 'length[0,10]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*报价*/
-                 field:'Price', 
-                 title:'  @Html.DisplayNameFor(model => model.Price)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_Price',
-                                  prompt:'@Html.DescriptionFor(model => model.Price)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*币种*/
-                 field:'Cur', 
-                 title:'  @Html.DisplayNameFor(model => model.Cur)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Cur',
-                                 prompt:'@Html.DescriptionFor(model => model.Cur)',
-                                 required:false, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*金额*/
-                 field:'Amount', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Amount)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_Amount',
-                                  prompt:'@Html.DescriptionFor(model => model.Amount)',
-                                  required:true,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*美元金额*/
-                 field:'USDAmount', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.USDAmount)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_USDAmount',
-                                  prompt:'@Html.DescriptionFor(model => model.USDAmount)',
-                                  required:true,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*人民币金额*/
-                 field:'RMBAmount', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.RMBAmount)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_RMBAmount',
-                                  prompt:'@Html.DescriptionFor(model => model.RMBAmount)',
-                                  required:true,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*扣佣率/值*/
-                 field:'BrightcmsRate', 
-                 title:'  @Html.DisplayNameFor(model => model.BrightcmsRate)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_BrightcmsRate',
-                                  prompt:'@Html.DescriptionFor(model => model.BrightcmsRate)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*扣佣金额*/
-                 field:'BrightcmsFcy', 
-                 title:'  @Html.DisplayNameFor(model => model.BrightcmsFcy)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_BrightcmsFcy',
-                                  prompt:'@Html.DescriptionFor(model => model.BrightcmsFcy)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*付佣率/值*/
-                 field:'DarkcmsRate', 
-                 title:'  @Html.DisplayNameFor(model => model.DarkcmsRate)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_DarkcmsRate',
-                                  prompt:'@Html.DescriptionFor(model => model.DarkcmsRate)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*付佣金额*/
-                 field:'DarkcmsFcy', 
-                 title:'  @Html.DisplayNameFor(model => model.DarkcmsFcy)', 
-                 width:100, 
-                 align:'right',
-                 hidden:false,
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_DarkcmsFcy',
-                                  prompt:'@Html.DescriptionFor(model => model.DarkcmsFcy)',
-                                  required:false,
-                                  precision:2,
-                                  validType:'decimal',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                formatter:numberformatter
-			},
-			{    /*执行人*/
-                 field:'Executor', 
-                 title:'  @Html.DisplayNameFor(model => model.Executor)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Executor',
-                                 prompt:'@Html.DescriptionFor(model => model.Executor)',
-                                 required:false, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*产品图片*/
-                 field:'Logo', 
-                 title:'  @Html.DisplayNameFor(model => model.Logo)', 
-                 width:200,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_Logo',
-                                 prompt:'@Html.DescriptionFor(model => model.Logo)',
-                                 required:false, 
-                                 validType: 'length[0,256]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-			{    /*报价单号*/
-                 field:'QpNo', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.QpNo)', 
-                 width:120,
-                 editor:{
-                          type:'textbox',
-                          options:{ 
-                                 id:'editor_QpNo',
-                                 prompt:'@Html.DescriptionFor(model => model.QpNo)',
-                                 required:true, 
-                                 validType: 'length[0,20]' 
-                                 }  
-                       },
-                 sortable:true,
-                 hidden:false,
-                 resizable:true 
-			},
-           {     /*系统版本号*/
-                 field:'Ver', 
-                 title:'<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Ver)', 
-                 width:100, 
-                 align:'right',
-                 editor:{
-                        type:'numberbox',
-                        options:{ 
-                                  id:'editor_Ver',
-                                  prompt:'@Html.DescriptionFor(model => model.Ver)',
-                                  required:true,
-                                  validType:'integer',
-                                  
-                                 } 
-                        },
-                sortable:true,
-                resizable:true,
-                hidden:false,
-                formatter:intformatter
-			},
-            ]]
-            })
-            .datagrid('enableFilter',[
-				{    /*增值税率*/
-					  field: 'HSADDTAXRATE',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*退税率*/
-					  field: 'HSBACKTAXRATE',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*销售指导价*/
-					  field: 'GUIDEPRICE',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*数量*/
-					  field: 'Qty',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*报价*/
-					  field: 'Price',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*金额*/
-					  field: 'Amount',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*美元金额*/
-					  field: 'USDAmount',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*人民币金额*/
-					  field: 'RMBAmount',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*扣佣率/值*/
-					  field: 'BrightcmsRate',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*扣佣金额*/
-					  field: 'BrightcmsFcy',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*付佣率/值*/
-					  field: 'DarkcmsRate',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*付佣金额*/
-					  field: 'DarkcmsFcy',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-				{    /*系统版本号*/
-					  field: 'Ver',
-					  type: 'numberbox',
-					  op:['equal','notequal','less','lessorequal','greater','greaterorequal']
-				  },
-		   ]);
+      },
+      onEndEdit: function (index, row) {
+
+      },
+      onAfterEdit: function (index, row) {
+        row.editing = false;
+        quotationproduct_editIndex = undefined;
+        $(this).datagrid('refreshRow', index);
+      },
+      onCancelEdit: function (index, row) {
+        quotationproduct_editIndex = undefined;
+        row.editing = false;
+        $("button[name*='quotationproduct_deleterowbutton']").prop('disabled', true);
+        $("button[name*='quotationproduct_cancelchangesbutton']").prop('disabled', true);
+        $("button[name*='quotationproduct_savechangesbutton']").prop('disabled', true);
+        $(this).datagrid('refreshRow', index);
+      },
+      columns: [[
+        { field: 'ck', checkbox: true },
+
+        {    /*产品编号*/
+          field: 'ProductNo',
+          title: '  @Html.DisplayNameFor(model => model.ProductNo)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*产品类别*/
+          field: 'CategoryName',
+          title: '  @Html.DisplayNameFor(model => model.CategoryName)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*中文品名*/
+          field: 'ProductName',
+          title: '  @Html.DisplayNameFor(model => model.ProductName)',
+          width: 160,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*英文品名*/
+          field: 'ProductEnName',
+          title: '  @Html.DisplayNameFor(model => model.ProductEnName)',
+          width: 160,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        
+        {    /*数量*/
+          field: 'Qty',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Qty)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          sortable: true,
+          resizable: true,
+          formatter: numberformatter
+        },
+        {    /*单位*/
+          field: 'Unit',
+          title: '  @Html.DisplayNameFor(model => model.Unit)',
+          width: 120,
+          sortable: true,
+          hidden: false,
+          resizable: true
+        },
+        {    /*报价*/
+          field: 'Price',
+          title: '  @Html.DisplayNameFor(model => model.Price)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          sortable: true,
+          resizable: true,
+          formatter: numberformatter
+        },
+        {    /*金额*/
+          field: 'Amount',
+          title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.Amount)',
+          width: 100,
+          align: 'right',
+          hidden: false,
+          sortable: true,
+          resizable: true,
+          formatter: numberformatter
+        },
+         
+      ]]
+    })
+      ;
   });
-      
+
 </script>
 
 
