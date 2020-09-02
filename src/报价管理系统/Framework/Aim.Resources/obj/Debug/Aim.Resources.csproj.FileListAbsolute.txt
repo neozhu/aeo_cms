@@ -1,0 +1,6 @@
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.Resources\bin\Debug\Aim.Resources.dll
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.Resources\bin\Debug\Aim.Resources.pdb
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.Resources\obj\Debug\Aim.Resources.csprojAssemblyReference.cache
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.Resources\obj\Debug\Aim.Resources.csproj.CoreCompileInputs.cache
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.Resources\obj\Debug\Aim.Resources.dll
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.Resources\obj\Debug\Aim.Resources.pdb

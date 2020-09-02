@@ -1,0 +1,25 @@
+2020/1/7 16:57:08: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2020/1/7 16:57:11: 2020/1/7 16:57:11----单事业部产品报价审批
+RequestId1468799
+Id00f96e4b-0e2b-4e11-a9f7-0bce520a03e6
+2020/1/7 17:01:49: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2020/1/7 17:01:51: 2020/1/7 17:01:51----单事业部产品报价审批
+RequestId1468809
+Id00f96e4b-0e2b-4e11-a9f7-0bce520a03e6
+2020/1/7 17:04:55: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2020/1/7 17:04:57: 2020/1/7 17:04:57----单事业部产品报价审批
+RequestId1468817
+Id00f96e4b-0e2b-4e11-a9f7-0bce520a03e6
+2020/1/7 17:20:43: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2020/1/7 17:21:57: 2020/1/7 17:21:57----单事业部产品报价审批
+RequestId1468855
+Id00f96e4b-0e2b-4e11-a9f7-0bce520a03e6
+2020/1/7 18:46:05: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2020/1/7 18:47:09: 2020/1/7 18:47:09----单事业部产品报价审批
+RequestId1469016
+Id00f96e4b-0e2b-4e11-a9f7-0bce520a03e6

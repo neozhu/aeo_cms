@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.title = "移动平台";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .searchbtn {
+        padding: 20px;
+        text-align: center;
+        margin-top: 90px;
+    }
+
+        .searchbtn button {
+            width: 100%;
+            background: linear-gradient(#D6DBEC,#6F85A2);
+        }
+
+    .footer {
+        width: 100%;
+        height: 45px;
+        background-color: #fff;
+        position: fixed;
+        bottom: 0;
+        text-align: center;
+        line-height: 45px;
+        font-size: 17px;
+    }
+</style>
+
+<div>
+    <header></header>
+    <div class="row center" style="height:100%">
+        <div class="col-xs-12 searchbtn">
+            <button class="btn btn-lg btn-default " id="yjcx" onclick="javascript: void (0);">运价查询</button>
+        </div>
+        <div class="col-xs-12 searchbtn" style="margin-top:0px;">
+            <button class="btn btn-lg btn-default " id="djcx" onclick="javascript: void (0);">定价查询</button>
+        </div>
+        <div class="col-xs-12 searchbtn" style="margin-top:0px;">
+            <button class="btn btn-lg btn-default " id="bjcx" onclick="javascript: void (0);">报价查询</button>
+        </div>
+    </div>
+    <footer class="footer">报价系统</footer>
+</div>
+
+@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">选择空海运</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row center" style="height:100%">
+                    <div class="col-xs-12 searchbtn">
+                        <button class="btn btn-lg btn-default " id="ky" onclick="javascript: void (0);">空运运价查询</button>
+                    </div>
+                    <div class="col-xs-12 searchbtn" style="margin-top:0px;">
+                        <button class="btn btn-lg btn-default " id="hy" onclick="javascript: void (0);">海运运价查询</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>*@
+
+<script type="text/javascript" src="~/Content/QO/scripts/jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="~/Content/QO/layer/layer.js"></script>
+<script type="text/javascript">
+
+        var username;
+        //权限工号
+        var hygh = '10002959,10003579,10000513,20000067,10000698,10001759,10003511';
+        var kygh = '';
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+                return;
+            }
+            else {
+                username = user;
+            }
+            $("#djcx").on('click', function () {
+                window.location.href = "/Mobel_DJ/DJIndex";
+            });
+            $("#bjcx").on('click', function () {
+                window.location.href = "/Mobel_BJ/BJIndex";
+            });
+            $("#ky").on('click', function () {
+                window.location.href = "/Mobel_YJ/AirIndex";
+            });
+            $("#hy").on('click', function () {
+                window.location.href = "/Mobel_YJ/OceanIndex";
+            });
+            $("#yjcx").on('click', function () {
+                //window.location.href = "/Mobel_FREIGHT_HYYJ/index";
+                layer.open({
+                    type: 1,
+                    title: '请选择',
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '240px'], //宽高
+                    content: ' <div class="col-xs-12 searchbtn" style="margin-top:0px;"><button class="btn btn-lg btn-default style="width:100%" " id="ky" onclick="window.location.href = \'/Mobel_YJ/AirIndex\'">空运运价查询</button></div> <div class="col-xs-12 searchbtn" style="margin-top:0px;"><button class="btn btn-lg btn-default " id="hy" onclick="window.location.href = \'/Mobel_YJ/OceanIndex\'">海运运价查询</button></div>'
+                });
+     //           layer.msg('请选择', {
+     //               time: 0 //不自动关闭
+     //               , btn: ['空运运价', '海运运价']
+					//,area:["500px","400px"]
+     //               , yes: function (index) {
+     //                   layer.close(index);
+     //                   window.location.href = "/Mobel_YJ/AirIndex";
+     //               },
+     //               btn2: function (index) {
+     //                   layer.close(index);
+     //                   window.location.href = "/Mobel_YJ/OceanIndex";
+     //               }
+     //           });
+            });
+        });
+</script>

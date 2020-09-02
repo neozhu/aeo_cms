@@ -95,3 +95,4 @@ The statement has been terminated.
 2020-08-25 15:54:32.9024|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
 2020-08-25 15:54:49.1564|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
 2020-08-25 15:54:59.6666|FATAL|WebApp.MvcApplication|A public action method 'TodoApprove' was not found on controller 'WebApp.Controllers.InquiriesController'.
+2020-08-28 10:57:32.3504|FATAL|WebApp.MvcApplication|d:\github\aeo_cms\src\AEO.Solution\admin\WebApp\Views\Quotations\_QuotationProductEditForm.cshtml(36): error CS1061: 'WebApp.Models.QuotationProduct' does not contain a definition for 'SamplePic' and no extension method 'SamplePic' accepting a first argument of type 'WebApp.Models.QuotationProduct' could be found (are you missing a using directive or an assembly reference?)

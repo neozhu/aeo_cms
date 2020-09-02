@@ -1,0 +1,240 @@
+﻿@{
+    ViewBag.Title = "产品、服务、费目关系维护";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.SQM_SRV_FEE_CONFIG
+@{
+    System.Data.DataTable prodt = (System.Data.DataTable)ViewBag.ProData;
+    System.Data.DataTable srvdt = (System.Data.DataTable)ViewBag.SrvData;
+    System.Data.DataTable feedt = (System.Data.DataTable)ViewBag.FeeData;
+}
+
+<style type="text/css">
+    .smart-form .form-group {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    .smart-form .control-label {
+        padding-top: 6px;
+        text-align: center;
+    }
+
+    .smart-form .col-md-9 {
+        width:73.5%;
+    }
+
+    .smart-form textarea {
+        height: 80px;
+        padding: 10px;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-primary btnsave">
+                                保存
+                            </button>
+                            <button type="submit" class="btn btn-default btnback">
+                                返回
+                            </button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form" novalidate="novalidate">
+                                <fieldset>
+                                    <input type="hidden" value="@Model.RID" id="RID">
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label">产品</label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="PRODCODE" name="PRODCODE" class="select2">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < prodt.Rows.Count; i++)
+                                                {
+                                                    <option value="@prodt.Rows[i]["PRODUCTKEY"]">@prodt.Rows[i]["PRODUCTNAME"]--@prodt.Rows[i]["PRODUCTKEY"]</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <label class="col-md-1 control-label">服务</label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="SRVCODE" name="SRVCODE" class="select2">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < srvdt.Rows.Count; i++)
+                                                {
+                                                    <option value="@srvdt.Rows[i]["SERVICETYPE"]">@srvdt.Rows[i]["SERVICENAME"]--@srvdt.Rows[i]["SERVICETYPE"]</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label">费目<i style="color:red">*</i></label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="FEECODE" name="FEECODE" class="select2">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < feedt.Rows.Count; i++)
+                                                {
+                                                    <option value="@feedt.Rows[i]["TCET084"]">@feedt.Rows[i]["TEXTDESC"]--@feedt.Rows[i]["TCET084"]</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <label class="col-md-1 control-label">服务显示</label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="SRVDISP" name="SRVDISP" class="select2">
+                                                <option value="1">是</option>
+                                                <option value="0">否</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label">费目类别</label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="FEECATG" name="FEECATG" class="select2">
+                                                <option value="0">常规</option>
+                                                <option value="1">异常</option>
+                                                <option value="2">At Cost</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-1 control-label">费目状态</label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="STATUS" name="STATUS" class="select2">
+                                                <option value="1">启用</option>
+                                                <option value="0">停用</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label">事业部</label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="BUSINESSORG" name="BUSINESSORG" class="select2">
+                                                <option value="空运">空运</option>
+                                                <option value="海运">海运</option>
+                                                <option value="供应链">供应链</option>
+                                                <option value="运输">运输</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-1 control-label">绑定关系</label>
+                                        <div class="col-md-4">
+                                            <select style="width:100%" id="ISALONE" name="ISALONE" class="select2">
+                                                <option value="0">有</option>
+                                                <option value="1">无</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label">备注</label>
+                                        <div class="col-md-9">
+                                            <textarea class="form-control" name="MEMO" id="MEMO"></textarea>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <input type="button" class="btn btn-primary btnsave" value="保存" />
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            keyValue = $("#RID").val();
+            if (!!keyValue) {
+                $("#PRODCODE").attr("disabled", "disabled");
+                $("#SRVCODE").attr("disabled", "disabled");
+                $("#FEECODE").attr("disabled", "disabled");
+                $.ajax({
+                    url: "/SQM_SRV_FEE_CONFIG/GetFormJson",
+                    data: { keyValue: keyValue },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        $("#formmain").SetWebControls(data);
+                    }
+                });
+            }
+            $(".btnsave").click(function () {
+                var feecode = $("#FEECODE").val();
+                if (feecode.length == 0) {
+                    toastr.clear();
+                    toastr.remove();
+                    toastr.error("费目不能为空！");
+                    return;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "/SQM_SRV_FEE_CONFIG/Create",
+                    data: {
+                        PRODCODE: $("#PRODCODE").val(),
+                        PRODNAME: $("#PRODCODE").find("option:selected").text().split('--')[0],
+                        SRVCODE: $("#SRVCODE").val(),
+                        SRVNAME: $("#SRVCODE").find("option:selected").text().split('--')[0],
+                        FEECODE: $("#FEECODE").val(),
+                        FEENAME: $("#FEECODE").find("option:selected").text().split('--')[0],
+                        SRVDISP: $("#SRVDISP").val(),
+                        FEECATG: $("#FEECATG").val(),
+                        STATUS: $("#STATUS").val(),
+                        MEMO: $("#MEMO").val(),
+                        BUSINESSORG: $("#BUSINESSORG").val(),
+                        ISALONE: $("#ISALONE").val(),
+                        id: $("#RID").val()
+                    },
+                    success: function (data) {
+                        var data = $.parseJSON(data);
+                        if (data.Success) {
+                            toastr.clear();
+                            toastr.remove();
+                            toastr.success(data.Message);
+                            setTimeout(function () { location.href = "/SQM_SRV_FEE_CONFIG/Index" }, 200);
+                        } else {
+                            toastr.clear();
+                            toastr.remove();
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            });
+            $(".btnback").click(function () {
+                location.href = "/SQM_SRV_FEE_CONFIG/Index";
+            });
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+        });
+    </script>
+}

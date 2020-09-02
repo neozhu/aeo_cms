@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "结算调取报价单";
+    string FWA = ViewBag.FWA;
+
+}
+
+    <script type="text/javascript">
+        window.onload = function () {
+             var tableArray = [];
+            var fwa = "@FWA";
+            $.ajax({
+                url: '/QM_Price_TM/GetQMPriceTMAddress?FWA=' + fwa,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    console.log("data:", data);
+                    tableArray = data;
+                    for (var i = 0; i < tableArray.length; i++) {
+                        window.open(tableArray[i]);// 新窗口中打开
+                    }
+                    window.history.back();
+                    window.opener = null;
+                    window.open('', '_self');
+                    window.close();
+                    //window.location.reload();
+                    
+                }
+            });
+
+        } 
+
+        $(window).unload(function () {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+            //这里面写在关闭页面时，要调用的事件
+            //alert("页面要关闭了");
+        });
+        
+        
+    </script>
+

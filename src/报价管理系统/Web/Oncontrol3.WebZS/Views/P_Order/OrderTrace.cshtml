@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "货况跟踪";
+    var id = Request.QueryString["id"];
+    var width = id == null ? "class='container'" : "style='width:100%'";
+}
+        <div  @Html.Raw(width)>
+            <div class="scs_search" id="searchBar">
+                <form id="form1">
+                    <div class="sd_cont" style="height:30px;">
+                        <span class="fld_label">订单编号</span>
+                        <span class="fld_input"><input class="easyui-textbox" id="OrderNo" name="OrderNo"></span>
+                        <div class="sc_more">
+                            <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="clear10"></div>
+            <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+                   data-options="singleSelect:true,collapsible:true,method:'get',pagination:false">
+                <thead>
+                    <tr>
+                        <th data-options="field:'ck', checkbox: true "></th>
+                        <th data-options="field:'ApplicationName',width:100,sortable:true">订单编号</th>
+                        <th data-options="field:'ModuleName',width:180,sortable:true">节点说明</th>
+                        <th data-options="field:'Type',width:90">节点状态</th>
+                        <th data-options="field:'DateTime',width:150,align:'center',sortable:true">操作时间</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        @section Scripts {
+            <script>
+                function EditUsers(value, row, index) {
+                    return "<a href='javascript:void(0);' onclick=EditRow(this)>" + value + "</a>";
+                }
+                function EditRow(e) {
+                    $("#windowDiv").html(e.innerHTML);
+                    $("#windowDiv").window({
+                        width: 500, height: 500, modal: true
+                    });
+                }
+
+                $("#submit_search").click(function () {
+                    $('#dg').datagrid({ url: "@Url.Action("TraceDetail")", queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+                    return false;
+                });
+                if ("@id" != "") {
+                    $("#OrderNo").val("@id");
+                    $("#searchBar").hide();
+                    $("#submit_search").click();
+                }
+                $("#lkModify").click(function () {
+                    var selrows = $('#dg').datagrid("getSelections");
+                    if (selrows.length > 0) {
+                        window.location.href = "@Url.Action("RoleEdit")/" + selrows[0].RoleID;
+                }
+                else {
+                        $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+                }
+                });
+            </script>
+        }

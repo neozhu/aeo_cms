@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.Title = "系统账号管理";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont">
+                <span class="fld_label">用户名</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Name" name="Name"></span>
+                <span class="fld_label">登录名</span>
+                <span class="fld_input"><input class="easyui-textbox" id="LoginName" name="LoginName"></span>
+                <span class="fld_label">状态</span>
+                <span class="fld_input"><input class="easyui-combobox" id="Status" name="Status" data-options=data:@Html.Raw(ViewBag.StatusSel),valueField:'Code',textField:'Name',editable:false></span>
+                <div class="clear10"></div>
+                <div style="display:none" id="more_sc">
+                    <span class="fld_label">创建日期</span>
+                    <span class="fld_input"><input class="easyui-datebox" id="CreateDateS" name="CreateDateS" style="width:180px"></span>
+                    <span class="fld_label">~</span>
+                    <span class="fld_input"><input class="easyui-datebox" id="CreateDateE" name="CreateDateE" style="width:180px"></span>
+                    <div class="clear10"></div>
+                </div>
+                <div class="sc_more">
+                    <a class="" href="javascript:void(0);" id="sc_more">更多查询条件</a>
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" href=@Url.Action("createchild") style="width:70px">添加</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkModify" style="width:70px">修改</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width:70px">删除</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkresetpwd" style="width:70px">重置密码</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkbind" style="width: 70px;">绑定客户</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px" data-options=singleSelect:true,collapsible:true,url:"@Url.Action("listchilds")",method:'get',pagination:true,pagesize:20>
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'LoginName',width:100,sortable:true">登录名</th>
+                <th data-options="field:'Name',width:180,sortable:true">用户名</th>
+                <th data-options="field:'Email',width:280,align:'right'">邮箱</th>
+                <th data-options="field:'Status',width:80,formatter:function(value,row){return statusEnum[value];}">状态</th>
+                <th data-options="field:'CreateDate',width:100,align:'center',formatter:formatterDate,sortable:true">创建日期</th>
+                <th data-options="field:'Remark',width:280,align:'center'">备注</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div id="divothers" class="easyui-window" style="width:850px;height:500px;" data-options="title:'账号绑定客户',minimizable:false,maximizable:false,collapsible:false,closed:true,modal:true">
+    <div id="divothers_layout" class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'north'" style="height:52px;">
+            <form id="form11">
+                <div class="sd_cont" style="padding-top:5px;">
+                    <span class="fld_label">名称</span>
+                    <span class="fld_input"><input class="easyui-textbox" id="COMPANY" name="COMPANY"></span>
+                    <span class="fld_label">
+                        <button class="scbtn01" id="submit_search_user_pop" style="float:right">查询</button>
+                    </span>
+                    <button class="scbtn01" id="usersave" style="float:right;width:50px;margin-right:20px;">保存</button>
+                    <div class="clear10"></div>
+                </div>
+            </form>
+        </div>
+        <div data-options="region:'center',border:false">
+            <div id="divothers_layout_in" class="easyui-layout" data-options="fit:true">
+                <div data-options="region:'west',border:true" style="width:400px">
+                    <table id="grid_userall" style="width: 100%; height: 100%"
+                           data-options="title:'待绑定客户',rownumbers:true,singleSelect:false,fit:true,pagination:false,method:'get',pagination:true,pageSize:20">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'ck', checkbox: true "></th>
+                                <th data-options="field:'STORERKEY',width:70">伙伴编号</th>
+                                <th data-options="field:'COMPANY',width:180">伙伴名称</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div data-options="region:'center',border:false" style="overflow:hidden;">
+                    <div style="height:480px;width:100%;padding:150px 0px 100px 5px;overflow:hidden;">
+                        <a id="usersel" class="easyui-linkbutton">>></a><br /><br />
+                        <a id="userunsel" class="easyui-linkbutton"><<</a>
+                    </div>
+                </div>
+                <div data-options="region:'east',border:true" style="width:400px">
+                    <table id="grid_usersel" style="width: 100%; height: 100%"
+                           data-options="title: '已绑定客户',rownumbers:true,singleSelect:false,fit:true,pagination:false,method:'get'">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'ck', checkbox: true "></th>
+                                <th data-options="field:'STORERKEY',width:70">已绑定编号</th>
+                                <th data-options="field:'COMPANY',width:100">已绑定伙伴名称</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        var statusEnum = @Html.Raw(ViewBag.Status)
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+        })
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkresetpwd").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                $.messager.confirm('操作提示', '确认要重置选中的记录的密码吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("Reset")",
+                            data: { id: selrows[0].UserID },
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要重置的行。', 'error');
+            }
+        });
+        $("#lkModify").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                window.location.href = "@Url.Action("EditChild")/" + selrows[0].UserID;
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+        $("#lkDelete").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                $.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("Delete")",
+                            data: { id: selrows[0].UserID },
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+        $("#lkbind").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+
+                $('#grid_userall').datagrid({
+                    url: '/p_customer/lists'
+                });
+                $('#grid_usersel').datagrid({
+                    onLoadSuccess: function (data) {
+                    }
+                });
+                //加载已选择人员
+                $('#grid_usersel').datagrid({
+                    url: '/sysuser/listsels?id=' + selrows[0].UserID
+                });
+                $('#divothers').window('open');
+            }
+            else {
+                JQuery.messager.alert('操作提示', '请选择要绑定的账号。', 'error');
+            }
+        });
+
+        $("#submit_search_user_pop").click(function () {
+            $('#grid_userall').datagrid({ queryParams: form2Json("form11") });   //点击搜索载入搜索条件
+            return false;
+        });
+
+        $("#usersel").click(function () {
+            var sel = $('#grid_userall').datagrid("getSelections");
+            var havesel = $('#grid_usersel').datagrid("getRows");
+            for (var i = 0; i < sel.length; i++) {
+                var added = false;
+                for (var j = 0; j < havesel.length; j++)
+                {
+                    if (havesel[j].ID == sel[i].ID)
+                    {
+                        added = true;
+                        break;
+                    }
+                }
+                if (added) continue;
+                var rowIndex = $('#grid_userall').datagrid('getRowIndex', sel[i]);
+                $('#grid_usersel').datagrid('insertRow', {
+                    index: havesel.length + i, row: {
+                        STORERKEY: sel[i].STORERKEY,
+                        ID: sel[i].ID,
+                        COMPANY: sel[i].COMPANY
+                    }
+                });
+                $('#grid_userall').datagrid('deleteRow', rowIndex);
+            }
+        });
+        $("#userunsel").click(function () {
+            var sel = $('#grid_usersel').datagrid("getSelections");
+            var havesel = $('#grid_userall').datagrid("getRows");
+            for (var i = 0; i < sel.length; i++) {
+                var rowIndex = $('#grid_usersel').datagrid('getRowIndex', sel[i]);
+                /*$('#grid_userall').datagrid('insertRow', {
+                    index: havesel.length + i, row: {
+                        STORERKEY: sel[i].STORERKEY,
+                        ID: sel[i].ID,
+                        COMPANY: sel[i].COMPANY
+                    }
+                });*/
+                $('#grid_usersel').datagrid('deleteRow', rowIndex);
+            }
+        });
+
+
+        $('#usersave').click(function () {
+            $('#grid_usersel').datagrid('acceptChanges');
+            var datarows = $('#grid_usersel').datagrid("getRows")//"getChecked");
+            var specialty = "";
+            for (var i = 0; i < datarows.length; i++) {
+                specialty += datarows[i].ID + ",";
+            }
+
+            $.ajax({
+                url: "@Url.Action("savecustomerref")",
+                data: { userid: $('#dg').datagrid("getSelections")[0].UserID, customerids: specialty },
+                type: "GET",
+                success: function (data) {
+                }
+            });
+            $('#divothers').window('close');
+            return false;
+        });
+    </script>
+}

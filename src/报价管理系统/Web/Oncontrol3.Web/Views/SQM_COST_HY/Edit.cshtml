@@ -1,0 +1,667 @@
+﻿@{
+    ViewBag.Title = "成本管理";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+    System.Data.DataTable BZdt = (System.Data.DataTable)ViewBag.BZdtData;
+    System.Data.DataTable GJDQdt = (System.Data.DataTable)ViewBag.GJDQdtData;
+}
+<style type="text/css">
+    label#valid.radio {
+        display: inline-table;
+        margin-right: 60px;
+    }
+
+    label#invalid.radio {
+        display: inline-table;
+    }
+
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>海运成本管理/<span style="color:#ffd600!important">海运成本维护</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-primary savebtn" id="btnSave" onclick="dosave(); return false;">
+                                保存
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnback" onclick="back()">
+                                返回
+                            </button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form form-backgroud">
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">国家/地区<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="RID" style="display:none;">
+                                                @*<select style="width:100%" id="AREA" name="parea" class="select2" mdmtype="MDM" mdmkey="T005T" mdmfieldname="LANDX"></select>*@
+                                                @*<input type="text" class="form-control" id="AREA" name="parea" mdmtype="MDM" mdmkey="T005T" mdmfieldname="LAND1,LANDX" mdmcode="AREACODE">*@
+                                                <input  type="text"  class="form-control" id="AREA" name="@GJDQdt.Rows[0]["CALCCODE"]" mdmtype="@GJDQdt.Rows[0]["MDMTYPE"]" mdmcode="AREACODE" mdmkey="@GJDQdt.Rows[0]["MDMKEY"]" mdmfieldname="@GJDQdt.Rows[0]["MDMFIELDNAME"]" mdmloctype="HY">
+                                                <input type="text" id="AREACODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">起运港</label>
+                                            <label class="input">
+                                                @*<select style="width:100%" id="QYG" name="pqyg" class="select2" mdmtype="MDMLOC1"></select>*@
+                                                <input type="text" class="form-control" id="QYG" name="pqyg" mdmtype="MDMGK" mdmkey="QYGCODE" mdmloctype="HY">
+                                                <input type="text" id="QYGCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">目的港</label>
+                                            <label class="input">
+                                                @*<select style="width:100%" id="MDG" name="pmdg" class="select2" mdmtype="MDMLOC1" ></select>*@
+                                                <input type="text" class="form-control" id="MDG" name="pmdg" mdmtype="MDMGK" mdmkey="MDGCODE" mdmloctype="HY">
+                                                <input type="text" id="MDGCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">船公司<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                @*<select style="width:100%" id="CGS" name="pcgs" class="select2"></select>*@
+                                                <input type="text" class="form-control" id="CGS" name="pcgs" mdmtype="MDMBP" mdmkey="CGSCODE">
+                                                <input type="text" id="CGSCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">币种</label>
+                                            <label class="input">
+                                                <select style="width:100%" id="BZ" name="BZ" class="select2">
+                                                    @for (int i = 0; i < BZdt.Rows.Count; i++)
+                                                    {
+                                                        <option value="@BZdt.Rows[i]["WAERS"]">@BZdt.Rows[i]["KTEXT"]--@BZdt.Rows[i]["WAERS"]</option>
+                                                    }
+                                                </select>
+                                                @*<select style="width:100%" id="BZ" name="pbz" class="select2" mdmtype="MDM" mdmkey="WAERS" mdmfieldname="KTEXT"></select>*@
+                                                @*<input type="text" class="form-control" id="BZ" name="pbz" mdmtype="MDM" mdmkey="WAERS" mdmfieldname="WAERS,KTEXT" mdmcode="BZCODE">*@
+                                                <input type="text" id="BZCODE" value="USD" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">箱型/20GP<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="GP20" name="pgp20" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">箱型/40GP<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="GP40" name="pgp40" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">箱型/40HQ<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="HQ40" name="phq40" disType="price">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">低硫/20</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="DL20" name="pdl20" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">低硫/40</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="DL40" name="pdl40" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">航程<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="HC" name="phc">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">中转港</label>
+                                            <label class="input">
+                                                @*<select style="width:100%" id="ZZG" name="pzzg" class="select2" mdmtype="MDMLOC"></select>*@
+                                                <input type="text" class="form-control" id="ZZG" name="pzzg" mdmtype="MDMGK" mdmkey="ZZGCODE" mdmloctype="HY"/>
+                                                <input type="text" id="ZZGCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">                                        
+                                        <section class="col col-3">
+                                            <label class="label">开航日<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <select style="width:100%" id="KHR" name="pkhr" class="select2"></select>
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">起运港码头<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                @*<select style="width:100%" id="MT" name="pmt" class="select2"></select>*@
+                                                <input type="text" class="form-control" id="MT" name="pmt" mdmtype="MDMGK" mdmkey="MTCODE" />
+                                                <input type="text" id="MTCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">目的港码头<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                @*<select style="width:100%" id="MT" name="pmt" class="select2"></select>*@
+                                                <input type="text" class="form-control" id="MDGMT" name="pmdgmt" mdmtype="MDMGK" mdmkey="MTCODE" />
+                                                <input type="text" id="MDGMTCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        @*<section class="col col-3">
+                                                <label class="checkbox"><input type="checkbox" name="STATUS" id="STATUS"><i></i>启用状态</label>
+                                            </section>*@
+                                        <section class="col col-3">
+                                            <label class="label">起始日期<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="STARTDATE" name="pstartdate" readonly="readonly">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">截止日期<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="ENDDATE" name="penddate" readonly="readonly">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">状态</label>
+                                            <label class="radio" id="valid"><input type="radio" name="rdSTATUS" id="rdTRUE"><i></i>有效</label>
+                                            <label class="radio" id="invalid"><input type="radio" name="rdSTATUS" id="rdFALSE"><i></i>失效</label>
+                                        </section>
+                                    </div>
+                                    <section>
+                                        <label class="label">备注</label>
+                                        <label class="textarea">
+                                            <i class="icon-append fa fa-comment"></i>
+                                            <textarea rows="4" name="pmemo" id="MEMO" disType="price"></textarea>
+                                        </label>
+                                    </section>
+                                    <div id="oprecord" style="display:none;">
+                                        <div class="row" style="margin-bottom:20px;">
+                                            <button type="button" class="btn btn-success" data-toggle="collapse"
+                                                    data-target="#record" style="margin-left:20px;margin-top:20px; ">
+                                                操作记录
+                                            </button>
+                                        </div>
+                                        <div class="row collapse in" id="record">
+                                            <section class="col col-3">
+                                                <label class="label">创建时间</label>
+                                                @*<label class="input">
+                                                    <div class="input-group date">
+                                                        <input class="form-control form-date" type="text" id="CREATETIME" style="background-color:#eee;" disabled="disabled">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </label>*@
+                                                <label class="input">
+                                                    <input type="text" class="form-datetime2" id="CREATETIME" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label class="label">创建人</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="CREATEUSER" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label class="label">修改时间</label>
+                                                @*<label class="input">
+                                                    <div class="input-group date">
+                                                        <input class="form-control form-date" type="text" id="MODIFYTIME" style="background-color:#eee;" disabled="disabled">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </label>*@
+                                                <label class="input">
+                                                    <input type="text" class="form-datetime2" id="MODIFYTIME" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label class="label">修改人</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="MODIFYUSER" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button type="button" class="btn btn-primary savebtn" onclick="dosave(); return false;">
+                                        保存
+                                    </button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        //全局数据--开航日
+        var dataList = [{ Code: 'MON', Name: 'MON' }, { Code: 'TUE', Name: 'TUE' }, { Code: 'WED', Name: 'WED' }, { Code: 'THU', Name: 'THU' },
+            { Code: 'FRI', Name: 'FRI' },{ Code: 'SAT', Name: 'SAT' }, { Code: 'SUN', Name: 'SUN' }];
+        var keyValue = "";
+        var IsEdit = false;
+        var username;
+
+        $(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            $("#formmain").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+            BindAutocompleteMDM();
+            var errorClass = 'invalid';
+            var errorElement = 'em';
+            // 表单验证
+            $('#formmain').validate({
+                errorClass: errorClass,
+                errorElement: errorElement,
+                highlight: function (element) {
+                    $(element).parent().removeClass('state-success').addClass("state-error");
+                    $(element).removeClass('valid');
+                },
+                unhighlight: function (element) {
+                    $(element).parent().removeClass("state-error").addClass('state-success');
+                    $(element).addClass('valid');
+                },
+
+                // Rules for form validation
+                rules: {
+                    @GJDQdt.Rows[0]["CALCCODE"]: {
+                        required: true
+                    },
+                    //pqyg: {
+                    //    required: true
+                    //},
+                    //pmdg: {
+                    //    required: true
+                    //},
+                    pcgs: {
+                        required: true
+                    },
+                    phc: {
+                        required: true
+                    },
+                    //pzzg: {
+                    //    required: true
+                    //},
+                    pmt: {
+                        required: true
+                    },
+                    pkhr: {
+                        required: true
+                    },
+                    pstartdate: {
+                        required: true
+                    },
+                    penddate: {
+                        required: true
+                    },
+                    pgp20: {
+                        required: true,
+                        number: true,
+                    },
+                    pgp40: {
+                        required: true,
+                        number: true
+                    },
+                    phq40: {
+                        required: true,
+                        number: true
+                    },
+                    pdl20: {
+                        number: true
+                    },
+                    pdl40: {
+                        number: true
+                    },
+                    pqygmt: {
+                        required: true
+                    },
+                    pmdgmt: {
+                        required: true
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    @GJDQdt.Rows[0]["CALCCODE"]: {
+                        required: '必填'
+                    },
+                    //pqyg: {
+                    //    required: '必填'
+                    //},
+                    //pmdg: {
+                    //    required: '必填'
+                    //},
+                    pcgs: {
+                        required: '必填'
+                    },
+                    phc: {
+                        required: '必填'
+                    },
+                    //pzzg: {
+                    //    required: '必填'
+                    //},
+                    pmt: {
+                        required: '必填'
+                    },
+                    pkhr: {
+                        required: '必填'
+                    },
+                    pstartdate: {
+                        required: '必填'
+                    },
+                    penddate: {
+                        required: '必填'
+                    },
+                    pmdgmt: {
+                        required: '必填'
+                    },
+                    pgp20: {
+                        required: '必填',
+                        number: '不合法的数字'
+                    },
+                    pgp40: {
+                        required: '必填',
+                        number: '不合法的数字'
+                    },
+                    phq40: {
+                        required: '必填',
+                        number: '不合法的数字'
+                    },
+                    pdl20: {
+                        number: '不合法的数字'
+                    },
+                    pdl40: {
+                        number: '不合法的数字'
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+
+            $(dataList).each(function (k, o) {
+                $("#KHR").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+
+            keyValue = request('keyValue');
+            $("#RID").val(keyValue);
+            console.log(keyValue);
+            if (!keyValue){
+                // 给状态赋默认值：1
+                $("#rdTRUE").attr("checked", "checked");
+                // 币种默认为美元
+                $("#BZ").select2('val', "USD");
+            }
+            if (!!keyValue) {
+                // 将控件置为disabled
+                $("#formmain").find("input,select,textarea").each(function () {
+                    if ($(this).attr("id") == "STARTDATE" || $(this).attr("id") == "ENDDATE" || $(this).attr("id") == "rdTRUE" || $(this).attr("id") == "rdFALSE" || $(this).attr("id") == "CGS" || $(this).attr("id") == "HC" || $(this).attr("id") == "ZZG" || $(this).attr("id") == "MT") {
+
+                    } else if ($(this).attr("disType") == "price") {
+
+                    } else {
+                        $(this).css("background", "rgb(255, 255, 204)");
+                        $(this).attr("disabled", "disabled");
+                    }
+                });
+                $.ajax({
+                    url: "/SQM_COST_HY/GetFormJson",
+                    data: { keyValue: keyValue },
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        $("#formmain").SetWebControls(result.data);
+                        var status = result.data.STATUS;
+                        if (status == 0) {
+                            $("#rdFALSE").attr("checked", "checked");
+                        } else if (status == 1) {
+                            $("#rdTRUE").attr("checked", "checked");
+                        }
+                        var cuser = result.data.CREATEUSER;
+                        var muser = result.data.MODIFYUSER;
+                        if (!!result.data2) {
+                            for (var i = 0; i < result.data2.length; i++) {
+                                if (result.data2[i]["WORKNO"] == cuser) {
+                                    $("#CREATEUSER").val(result.data2[i]["NAME"]);
+                                }
+                                if (result.data2[i]["WORKNO"] == muser) {
+                                    $("#MODIFYUSER").val(result.data2[i]["NAME"]);
+                                }
+                            }
+                        }
+                    }
+                });
+                // 显示操作记录
+                $("#oprecord").css("display", "");
+            }
+            // 失效进入编辑页
+            if (request("status2") == "0"){
+                // 将控件置为disabled
+                $("#formmain").find("input,select,textarea").each(function () {
+                    $(this).css("background", "rgb(255, 255, 204)");
+                    $(this).attr("disabled", "disabled");
+                });
+                // 将保存按钮隐藏
+                $(".savebtn").hide();
+            }
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+
+        });
+
+        var IsEdit = false;
+        $(document).ready(function () {
+            ///////////////////
+            $("#amenufld").hide();
+            $("#logout").hide();
+            $("#amenufld").click();
+            ///////////////////
+            $("input").change(function () {
+                IsEdit = true;
+            });
+            // 检测设备
+            detectmob();
+            // 以下代码不知道功能
+            $("#spinner").spinner();
+            $("#spinner-decimal").spinner({
+                step: 0.01,
+                numberFormat: "n"
+            });
+        });
+
+        // 返回
+        function back() {
+            if (IsEdit) {
+                Ewin.confirm({ message: "页面有修改，是否放弃保存？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    window.location.href = "@Url.Action("Index")";
+                });
+            }
+            else { window.location.href = "@Url.Action("Index")"; }
+        }
+        // 保存
+        function dosave() {
+            if (!$("#formmain").valid()) {
+                return;
+            }
+            if ($("#STARTDATE").val() >= $("#ENDDATE").val()) {
+                toastr.error("截止日期不能小于或等于起始日期");
+                return;
+            }
+            toastr.info("数据保存中，请稍候...");
+            var postdata = GetWebControlsForRadio("#formmain");
+            try {
+                $("#btnSave").attr("disabled", "disabled");
+                $.ajax({
+                    url: "/SQM_COST_HY/SubmitForm",
+                    type: "post",
+                    async:false,
+                    data: {
+                        'postdata': JSON.stringify(postdata),
+                        'keyValue': keyValue
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Code == "check") {
+                            toastr.error(data.Message);
+                            return false;
+                        }
+                        if (data.Message.indexOf("修改失败") >= 0) {
+                            toastr.error(data.Message);
+                        } else if (data.Message.indexOf("新增失败") >= 0) {
+                            toastr.error(data.Message);
+                        } else {
+                            if (data.Success) {
+                                toastr.success(data.Message);
+                                setTimeout(function () { location.href = "/SQM_COST_HY/Index"}, 200);
+                            } else {
+                                toastr.error(data.Message);
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            } catch (e)
+            {
+                window.alert("保存失败，请重试");
+            }
+            finally { $("#btnSave").removeAttr("disabled"); }
+        };
+        // checkbox默认值
+        function GetWebControlsForRadio(element) {
+            var postdata = {};
+            $(element).find('input,select,textarea').each(function (r) {
+                var id = $(this).attr("id");
+                if (id != "MODIFYTIME" && id != "MODIFYUSER"){
+                    var value = $(this).val();
+                    var type = $(this).attr('type');
+                    switch (type) {
+                        case "radio":
+                            if ($(this).is(':checked')) {
+                                if (id == "rdFALSE") {
+                                    postdata["STATUS"] = 0;
+                                } else if (id == "rdTRUE") {
+                                    postdata["STATUS"] = 1;
+                                }
+                            }
+                            break;
+                        default:
+                            postdata[id] = value;
+                            break;
+                    }
+                }
+            });
+            postdata["MODIFYUSER"] = username;
+            return postdata;
+        }
+        // 控件绑定数据源
+        function BindAutocompleteMDM() {
+            $("[mdmtype='MDM']").each(function () {
+                AutocompleteMDM($(this).attr("id"));
+            });
+            $("[mdmtype='MDMJC']").each(function () {
+                AutocompleteMDMJC($(this).attr("id"));
+            });
+            $("[mdmtype='MDMGK']").each(function () {
+                AutocompleteMDMGK($(this).attr("id"));
+            });
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+    </script>
+}

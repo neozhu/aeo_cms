@@ -1,0 +1,7 @@
+2019/12/13 17:23:27: BUSINESSORG ERROR,MRID:418ca73f-47b9-418b-aa5f-1342a34f22b2 Exception:输入字符串的格式不正确。
+2019/12/13 17:23:27: BUSINESSORG ERROR,MRID:418ca73f-47b9-418b-aa5f-1342a34f22b2 Exception:未将对象引用设置到对象的实例。
+2019/12/13 17:23:27: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/12/13 17:31:03: 2019/12/13 17:31:03----非标报价和包含包干费报价审批
+RequestId-7
+Id418ca73f-47b9-418b-aa5f-1342a34f22b2

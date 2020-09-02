@@ -1,0 +1,83 @@
+2018-03-01 18:04:19,588 [47] ERROR NHibernate.AdoNet.AbstractBatcher - Could not execute command: UPDATE QDM_PRODUCT SET CODE = :p0, NAME = :p1, SYB = :p2, YWLX = :p3, CPJL = :p4, STATUS = :p5, DTFROM = :p6, DTTO = :p7, CREATETIME = :p8, CREATEUSER = :p9, MODIFYTIME = :p10, MODIFYUSER = :p11, MEMO = :p12 WHERE ID = :p13
+System.Data.OracleClient.OracleException (0x80131938): ORA-01407: 无法更新 ("PROJDEV"."QDM_PRODUCT"."CODE") 为 NULL
+
+   在 System.Data.OracleClient.OracleConnection.CheckError(OciErrorHandle errorHandle, Int32 rc)
+   在 System.Data.OracleClient.OracleCommand.Execute(OciStatementHandle statementHandle, CommandBehavior behavior, Boolean needRowid, OciRowidDescriptor& rowidDescriptor, ArrayList& resultParameterOrdinals)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQueryInternal(Boolean needRowid, OciRowidDescriptor& rowidDescriptor)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQuery()
+   在 NHibernate.AdoNet.AbstractBatcher.ExecuteNonQuery(IDbCommand cmd)
+2018-03-01 18:04:19,616 [47] ERROR NHibernate.Util.ADOExceptionReporter - ORA-01407: 无法更新 ("PROJDEV"."QDM_PRODUCT"."CODE") 为 NULL
+
+2018-03-01 18:04:19,616 [47] ERROR NHibernate.Event.Default.AbstractFlushingEventListener - Could not synchronize database state with session
+NHibernate.Exceptions.GenericADOException: could not update: [Com.Feiliks.QDM.QDM_PRODUCT#acade1ff-aded-44a9-9268-430f98eefa00][SQL: UPDATE QDM_PRODUCT SET CODE = ?, NAME = ?, SYB = ?, YWLX = ?, CPJL = ?, STATUS = ?, DTFROM = ?, DTTO = ?, CREATETIME = ?, CREATEUSER = ?, MODIFYTIME = ?, MODIFYUSER = ?, MEMO = ? WHERE ID = ?] ---> System.Data.OracleClient.OracleException: ORA-01407: 无法更新 ("PROJDEV"."QDM_PRODUCT"."CODE") 为 NULL
+
+   在 System.Data.OracleClient.OracleConnection.CheckError(OciErrorHandle errorHandle, Int32 rc)
+   在 System.Data.OracleClient.OracleCommand.Execute(OciStatementHandle statementHandle, CommandBehavior behavior, Boolean needRowid, OciRowidDescriptor& rowidDescriptor, ArrayList& resultParameterOrdinals)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQueryInternal(Boolean needRowid, OciRowidDescriptor& rowidDescriptor)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQuery()
+   在 NHibernate.AdoNet.AbstractBatcher.ExecuteNonQuery(IDbCommand cmd)
+   在 NHibernate.AdoNet.NonBatchingBatcher.AddToBatch(IExpectation expectation)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Update(Object id, Object[] fields, Object[] oldFields, Object rowId, Boolean[] includeProperty, Int32 j, Object oldVersion, Object obj, SqlCommandInfo sql, ISessionImplementor session)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Update(Object id, Object[] fields, Object[] oldFields, Object rowId, Boolean[] includeProperty, Int32 j, Object oldVersion, Object obj, SqlCommandInfo sql, ISessionImplementor session)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.UpdateOrInsert(Object id, Object[] fields, Object[] oldFields, Object rowId, Boolean[] includeProperty, Int32 j, Object oldVersion, Object obj, SqlCommandInfo sql, ISessionImplementor session)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Update(Object id, Object[] fields, Int32[] dirtyFields, Boolean hasDirtyCollection, Object[] oldFields, Object oldVersion, Object obj, Object rowId, ISessionImplementor session)
+   在 NHibernate.Action.EntityUpdateAction.Execute()
+   在 NHibernate.Engine.ActionQueue.ExecuteActions(IList list)
+   在 NHibernate.Engine.ActionQueue.ExecuteActions()
+   在 NHibernate.Event.Default.AbstractFlushingEventListener.PerformExecutions(IEventSource session)
+2018-03-01 18:04:24,671 [6] ERROR NHibernate.AdoNet.AbstractBatcher - Could not execute command: UPDATE QDM_PRODUCT SET CODE = :p0, NAME = :p1, SYB = :p2, YWLX = :p3, CPJL = :p4, STATUS = :p5, DTFROM = :p6, DTTO = :p7, CREATETIME = :p8, CREATEUSER = :p9, MODIFYTIME = :p10, MODIFYUSER = :p11, MEMO = :p12 WHERE ID = :p13
+System.Data.OracleClient.OracleException (0x80131938): ORA-01407: 无法更新 ("PROJDEV"."QDM_PRODUCT"."CODE") 为 NULL
+
+   在 System.Data.OracleClient.OracleConnection.CheckError(OciErrorHandle errorHandle, Int32 rc)
+   在 System.Data.OracleClient.OracleCommand.Execute(OciStatementHandle statementHandle, CommandBehavior behavior, Boolean needRowid, OciRowidDescriptor& rowidDescriptor, ArrayList& resultParameterOrdinals)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQueryInternal(Boolean needRowid, OciRowidDescriptor& rowidDescriptor)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQuery()
+   在 NHibernate.AdoNet.AbstractBatcher.ExecuteNonQuery(IDbCommand cmd)
+2018-03-01 18:04:24,674 [6] ERROR NHibernate.Util.ADOExceptionReporter - ORA-01407: 无法更新 ("PROJDEV"."QDM_PRODUCT"."CODE") 为 NULL
+
+2018-03-01 18:04:24,674 [6] ERROR NHibernate.Event.Default.AbstractFlushingEventListener - Could not synchronize database state with session
+NHibernate.Exceptions.GenericADOException: could not update: [Com.Feiliks.QDM.QDM_PRODUCT#acade1ff-aded-44a9-9268-430f98eefa00][SQL: UPDATE QDM_PRODUCT SET CODE = ?, NAME = ?, SYB = ?, YWLX = ?, CPJL = ?, STATUS = ?, DTFROM = ?, DTTO = ?, CREATETIME = ?, CREATEUSER = ?, MODIFYTIME = ?, MODIFYUSER = ?, MEMO = ? WHERE ID = ?] ---> System.Data.OracleClient.OracleException: ORA-01407: 无法更新 ("PROJDEV"."QDM_PRODUCT"."CODE") 为 NULL
+
+   在 System.Data.OracleClient.OracleConnection.CheckError(OciErrorHandle errorHandle, Int32 rc)
+   在 System.Data.OracleClient.OracleCommand.Execute(OciStatementHandle statementHandle, CommandBehavior behavior, Boolean needRowid, OciRowidDescriptor& rowidDescriptor, ArrayList& resultParameterOrdinals)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQueryInternal(Boolean needRowid, OciRowidDescriptor& rowidDescriptor)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQuery()
+   在 NHibernate.AdoNet.AbstractBatcher.ExecuteNonQuery(IDbCommand cmd)
+   在 NHibernate.AdoNet.NonBatchingBatcher.AddToBatch(IExpectation expectation)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Update(Object id, Object[] fields, Object[] oldFields, Object rowId, Boolean[] includeProperty, Int32 j, Object oldVersion, Object obj, SqlCommandInfo sql, ISessionImplementor session)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Update(Object id, Object[] fields, Object[] oldFields, Object rowId, Boolean[] includeProperty, Int32 j, Object oldVersion, Object obj, SqlCommandInfo sql, ISessionImplementor session)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.UpdateOrInsert(Object id, Object[] fields, Object[] oldFields, Object rowId, Boolean[] includeProperty, Int32 j, Object oldVersion, Object obj, SqlCommandInfo sql, ISessionImplementor session)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Update(Object id, Object[] fields, Int32[] dirtyFields, Boolean hasDirtyCollection, Object[] oldFields, Object oldVersion, Object obj, Object rowId, ISessionImplementor session)
+   在 NHibernate.Action.EntityUpdateAction.Execute()
+   在 NHibernate.Engine.ActionQueue.ExecuteActions(IList list)
+   在 NHibernate.Engine.ActionQueue.ExecuteActions()
+   在 NHibernate.Event.Default.AbstractFlushingEventListener.PerformExecutions(IEventSource session)
+2018-03-01 18:09:05,832 [23] ERROR NHibernate.AdoNet.AbstractBatcher - Could not execute command: INSERT INTO QDM_PRODUCT (CODE, NAME, SYB, YWLX, CPJL, STATUS, DTFROM, DTTO, CREATETIME, CREATEUSER, MODIFYTIME, MODIFYUSER, MEMO, ID) VALUES (:p0, :p1, :p2, :p3, :p4, :p5, :p6, :p7, :p8, :p9, :p10, :p11, :p12, :p13)
+System.Data.OracleClient.OracleException (0x80131938): ORA-01400: 无法将 NULL 插入 ("PROJDEV"."QDM_PRODUCT"."CODE")
+
+   在 System.Data.OracleClient.OracleConnection.CheckError(OciErrorHandle errorHandle, Int32 rc)
+   在 System.Data.OracleClient.OracleCommand.Execute(OciStatementHandle statementHandle, CommandBehavior behavior, Boolean needRowid, OciRowidDescriptor& rowidDescriptor, ArrayList& resultParameterOrdinals)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQueryInternal(Boolean needRowid, OciRowidDescriptor& rowidDescriptor)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQuery()
+   在 NHibernate.AdoNet.AbstractBatcher.ExecuteNonQuery(IDbCommand cmd)
+2018-03-01 18:09:05,837 [23] ERROR NHibernate.Util.ADOExceptionReporter - ORA-01400: 无法将 NULL 插入 ("PROJDEV"."QDM_PRODUCT"."CODE")
+
+2018-03-01 18:09:05,838 [23] ERROR NHibernate.Event.Default.AbstractFlushingEventListener - Could not synchronize database state with session
+NHibernate.Exceptions.GenericADOException: could not insert: [Com.Feiliks.QDM.QDM_PRODUCT#687d3336-ece6-4e48-96d4-9c78ee9f3657][SQL: INSERT INTO QDM_PRODUCT (CODE, NAME, SYB, YWLX, CPJL, STATUS, DTFROM, DTTO, CREATETIME, CREATEUSER, MODIFYTIME, MODIFYUSER, MEMO, ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)] ---> System.Data.OracleClient.OracleException: ORA-01400: 无法将 NULL 插入 ("PROJDEV"."QDM_PRODUCT"."CODE")
+
+   在 System.Data.OracleClient.OracleConnection.CheckError(OciErrorHandle errorHandle, Int32 rc)
+   在 System.Data.OracleClient.OracleCommand.Execute(OciStatementHandle statementHandle, CommandBehavior behavior, Boolean needRowid, OciRowidDescriptor& rowidDescriptor, ArrayList& resultParameterOrdinals)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQueryInternal(Boolean needRowid, OciRowidDescriptor& rowidDescriptor)
+   在 System.Data.OracleClient.OracleCommand.ExecuteNonQuery()
+   在 NHibernate.AdoNet.AbstractBatcher.ExecuteNonQuery(IDbCommand cmd)
+   在 NHibernate.AdoNet.NonBatchingBatcher.AddToBatch(IExpectation expectation)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Insert(Object id, Object[] fields, Boolean[] notNull, Int32 j, SqlCommandInfo sql, Object obj, ISessionImplementor session)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Insert(Object id, Object[] fields, Boolean[] notNull, Int32 j, SqlCommandInfo sql, Object obj, ISessionImplementor session)
+   在 NHibernate.Persister.Entity.AbstractEntityPersister.Insert(Object id, Object[] fields, Object obj, ISessionImplementor session)
+   在 NHibernate.Action.EntityInsertAction.Execute()
+   在 NHibernate.Engine.ActionQueue.ExecuteActions(IList list)
+   在 NHibernate.Engine.ActionQueue.ExecuteActions()
+   在 NHibernate.Event.Default.AbstractFlushingEventListener.PerformExecutions(IEventSource session)

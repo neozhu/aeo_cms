@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "产品列表";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+<!-- MAIN CONTENT -->
+<style>
+    tr .selected {
+        background-color: lightgray;
+    }
+
+    .DTFC_LeftWrapper {
+        top: -6px !important;
+    }
+
+    .DTFC_RightWrapper {
+        top: -7px !important;
+    }
+    .fee{
+        margin-left:15px !important;
+    }
+
+
+</style>
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>报价管理/<span style="color:#ffd600!important">产品列表</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-default" id="submit_search">
+                                查询
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <input class="form-control" id="PRODUCTKEY" name="PRODUCTKEY" placeholder="产品代码">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <input class="form-control" id="SQPRODUCTNAME" name="SQPRODUCTNAME" placeholder="产品名称">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" name="BUSINESSORG" id="BUSINESSORG" class="select2">
+                                                <option></option>
+                                                <option value="空运">空运</option>
+                                                <option value="海运">海运</option>
+                                                <option value="供应链">供应链</option>
+                                                <option value="运输">运输</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <input class="form-control" id="PRODUCTMANAGERNAME" name="PRODUCTMANAGERNAME" placeholder="产品经理">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div style="display:none" id="more_sc">
+                                    <input class="form-control" id="fixedleftnum" name="fixedleftnum" style="display:none;" value="4">
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="input">
+                                                <select style="width:100%" id="Status" class="select2">
+                                                <option></option>
+                                                <option value="1">有效</option>
+                                                <option value="0">已失效</option>
+                                                </select>
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="sc_more">
+                                    <a class="control-label" href="javascript:void(0);" id="sc_more">更多查询条件</a>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding" style="margin-bottom:15px;">
+                            <table id="TreeGrid" style="width:100%;height:auto"></table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+        @*<div class="datagrid-content">
+            <table id="TreeGrid" style="width:100%;height:auto"></table>
+        </div>*@
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    @*<script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>*@
+    @*<script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>*@
+    @*<script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+        <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>*@
+    <!--easyui -->
+    <script src="~/Content/QO/scripts/easyui/js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/scripts/easyui/css/easyui.css">
+    <link rel="stylesheet" href="~/Content/QO/scripts/easyui/css/icon.css">
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //初始化Table
+            var oTable = new TableInit();
+            oTable.Init();
+            
+            $("#BUSINESSORG").select2();
+            $("#BUSINESSORG").select2({
+                placeholder: "事业部",
+                allowClear: true
+            });
+            $("#Status").select2();
+            $("#Status").select2({
+                placeholder: "状态",
+                allowClear: true
+            });
+        });
+
+        var TableInit = function () {
+            var oTableInit = new Object();
+            //初始化TreeGrid
+            oTableInit.Init = function () {
+                $("#TreeGrid").treegrid({
+                    iconCls: 'icon-table',
+                    rownumbers: false,
+                    animate: true,
+                    remoteSort: false,
+                    fitColumns: true,//表格自动适应
+                    striped: true,//隔行变色,
+                    pagination: true,//底部显示工具栏组件
+                    pageSize: 15,
+                    pageList: [10, 15, 20,30, 50],//每页显示数
+                    //height: 500,
+                    url: '/QM_Product/GetData_ProductList',
+                    idField: '_treeID',
+                    treeField: 'Product',//treegrid 树形结构主键 text
+                    queryParams: oTableInit.queryAdjustedParams,//传递参数
+                    frozenColumns: [[
+                        {
+                            field: 'Product',
+                            title: '[产品/服务/费目]名称',
+                            align: 'left'
+                        }
+                    ]],
+                    columns: [[
+                        {
+                            field: 'code',
+                            title: "[产品/服务/费目]代码",
+                            width: 100,
+                            align: 'center',
+                            sortable: true
+                        },
+                        {
+                            field: 'org',
+                            title: '事业部',
+                            width: 80,
+                            align: 'center',
+                            sortable: true
+                        },
+                        {
+                            field: 'manager',
+                            title: "产品经理",
+                            width: 80,
+                            align: 'center',
+                            sortable: true
+                        },
+                        {
+                            field: 'status',
+                            title: '状态',
+                            width: 80,
+                            align: 'center',
+                            formatter: function (node) {
+                                if (node == "0") {
+                                    return "已失效";
+                                }
+                                return "有效";
+                            }
+                        },
+                        {
+                            field: 'memo',
+                            title: "备注",
+                            width: 150,
+                            align: 'center'
+                        }
+
+                    ]],
+                    onBeforeLoad: function (row, param) {
+
+                    },
+                    onLoadSuccess: function (row, data) {
+                        if (data.hasOwnProperty('errorMsg')) {
+                            //showerrorMsg(data);
+                        }
+                        else {
+                            $(this).treegrid('resize');
+                            $(this).treegrid('freezeRow', 0);
+                        }
+                        //去掉文件夹小图标
+                        $(".tree-icon,.tree-folder").removeClass("tree-icon tree-folder tree-folder-open tree-folder-closed"); 
+                        //最内层不需要展开
+                        $(".treegrid-tr-tree tr[node-id^=3#] div span").removeClass("tree-hit tree-collapsed");
+                        //内层缩进
+                        $(".treegrid-tr-tree tr[node-id^=3#] div span[class*=tree-title]").addClass("fee");
+                    }
+                });
+            };
+
+            //查询的参数
+            oTableInit.queryAdjustedParams = {
+                PRODUCTKEY: $("#PRODUCTKEY").val(),
+                SQPRODUCTNAME: $("#SQPRODUCTNAME").val(),
+                BUSINESSORG: $("#BUSINESSORG").val(),
+                PRODUCTMANAGERNAME: $("#PRODUCTMANAGERNAME").val(),
+                Status: $('#Status').val()
+            };
+            return oTableInit;
+        };
+
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+            $("#sc_more").hide();
+        });
+
+        $("#submit_search").on('click', function () {
+            new TableInit().Init();
+        })
+
+
+    </script>
+}

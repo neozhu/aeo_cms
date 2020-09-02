@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "";
+}
+<div class="easyui-layout" id="dialogpopselwindow" style="width:100%;height:100%">
+    <div data-options="region:'north'" style="height:50px;">
+        <form id="form1">
+            <div class="sd_cont" style="padding-top:5px;">
+                <span class="fld_label">名称</span>
+                <span class="fld_input"><input class="easyui-textbox" id="popSearchNameOnly" name="popSearchNameOnly"></span>
+                <span class="fld_label">
+                    <button class="scbtn01" id="submit_search_user_pop" style="float:right">查询</button>
+                </span>
+                <div class="clear10"></div>
+            </div>
+        </form>
+    </div>
+    <div data-options="region:'center'">
+        <table id="dgselpopwin" class="easyui-datagrid"
+               data-options="singleSelect:true,method:'get',pagination:true,pagesize:20,fit:true">
+            <thead>
+                <tr></tr>
+            </thead>
+        </table>
+    </div>
+    <div data-options="region:'south'" style="text-align: center; padding: 5px 0;height:45px;">
+        <a href="javascript:void(0)" class="easyui-linkbutton" id="btnSel" style="width:80px">选择</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="easyui-linkbutton" id="btnclosepopwin" style="width:80px">关闭</a>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        //var statusEnum = @Html.Raw(ViewBag.Status);
+        //获取弹出窗口对应的combobox相关配置
+        var ctrlId = $(GetDialog($("#btnSel"))).dialog('options').queryParams["controlId"];
+        var opts = $("#" + ctrlId).popcombobox("options");
+        var display = opts.displaynames;
+        var cols = [{ field: 'ck', checkbox: true }];
+        for (var key in display) {
+            if (typeof (key) == "string") {
+                if (key.toLowerCase() == opts.sort.toLowerCase()) {
+                    cols.push({ field: key, title: display[key], width: 100, sortable: true });
+                } else {
+                    cols.push({ field: key, title: display[key], width: 100 });
+                }
+            }
+        }
+        $("#dgselpopwin").datagrid({
+            url: '@Url.Action("lists")',
+            queryParams: {
+                datasql: opts.datasql, searchCol: opts.textField,
+                sort: !opts.sort ? "" : opts.sort, order: !opts.order ? "desc" : opts.order
+            },
+            columns: [cols],
+            onDblClickRow: function (index, row) {
+                $("#btnSel").click();
+            }
+        });
+        $("#btnSel").click(function () {
+            var selrows = $('#dgselpopwin').datagrid("getSelections");
+            if (selrows.length > 0) {
+                var ctrlp = $(GetDialog(this)).dialog('options');
+                var ctrlId = ctrlp.queryParams["controlId"];
+                var opts = $("#" + ctrlId).popcombobox("options");
+                //需要增加矫正弹出panel数据,否则会认为无效
+                $("#" + ctrlId).popcombobox("loadData", selrows);
+                $("#" + ctrlId).popcombobox("setValue", selrows[0][opts["valueField"]]);
+                $("#btnclosepopwin").click();
+            }
+            else {
+                $.messager.alert('操作提示', '请先选择行。', 'error');
+            }
+        });
+        $("#submit_search_user_pop").click(function () {
+            $('#dgselpopwin').datagrid('load', {
+                Name: $("#popSearchNameOnly").val(), datasql: opts.datasql, searchCol: opts.textField,
+                sort: !opts.sort ? "" : opts.sort, order: !opts.order ? "desc" : opts.order
+            });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#btnclosepopwin").click(function (e) {
+            $(GetDialog(this)).dialog("close");
+        });
+        function GetDialog(obj) {
+            var win = $(obj);
+            while (!$(win).hasClass("window-body")) {
+                win = $(win).parent();
+                if ($(win).hasClass("window-body"))
+                    return win;
+            }
+        }
+    </script>
+}

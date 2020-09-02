@@ -1,0 +1,629 @@
+﻿@{
+    ViewBag.Title = "空出报表";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+<!-- MAIN CONTENT -->
+<style>
+    tr .selected {
+        background-color: lightgray;
+    }
+
+    .DTFC_LeftWrapper {
+        top: -6px !important;
+    }
+
+    .DTFC_RightWrapper {
+        top: -7px !important;
+    }
+
+    div.DTFC_LeftFootWrapper table, div.DTFC_LeftHeadWrapper table, div.DTFC_RightFootWrapper table, div.DTFC_RightHeadWrapper table, table.DTFC_Cloned tr.even {
+        /*background-color:transparent;*/
+    }
+
+    .col-sm-1 {
+        padding: 0px;
+    }
+
+    .jarviswidget > div {
+        font-size: 12px;
+    }
+
+    tr .selected {
+        background-color: lightgray;
+    }
+
+    .checkbox-inline {
+        margin: 6px 0px 6px 12px;
+        width: 7%;
+    }
+
+        .checkbox-inline + .checkbox-inline, .radio-inline + .radio-inline {
+            margin-top: 6px;
+        }
+
+    .control-label {
+        padding-right: 0px;
+        width: 5%;
+        margin-top: 8px;
+    }
+
+    .col-sm-1 {
+        padding: 0px;
+    }
+
+    .rq-oneline {
+        width: 17%;
+    }
+
+        .rq-oneline .input-group {
+            width: 50%;
+            float: left;
+        }
+
+    /*表格begin*/
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid thead td {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+            text-overflow: ellipsis;
+            font-weight: normal;
+            word-break: keep-all;
+            overflow: hidden;
+            background-color: #F7F7F7;
+        }
+
+            .grid thead td .table-header {
+                padding: 6px 2px;
+                background-color: #F2F2F2;
+                background: -webkit-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+                background: -moz-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+                background: -o-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+                background: linear-gradient(to bottom,#ffffff 0,#F2F2F2 100%);
+                background-repeat: repeat-x;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#F2F2F2,GradientType=0);
+            }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid .txt {
+            border: 0px solid #fff;
+            padding: 0px;
+            height: 22px;
+            line-height: 22px;
+            width: 100%;
+            font-family: Consolas,微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+            font-size: 9pt;
+            color: #000000;
+        }
+
+        .grid .disabled {
+            background-color: #F7F7F7;
+        }
+
+        .grid .txtselect {
+            border: 0px solid #fff;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            width: 100%;
+            font-family: Consolas,微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+            font-size: 9pt;
+            color: #000000;
+        }
+
+        .grid .td-div {
+            background-color: #F7F7F7;
+            color: #222;
+            cursor: pointer;
+        }
+
+        .grid td img {
+            vertical-align: middle;
+            border: 0px solid #fff;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .grid tbody .tdhover {
+            background-color: #eee;
+            cursor: pointer;
+        }
+
+        .grid .tdwarning {
+            border-bottom: 1px solid #E74D3C;
+        }
+
+    .groupgrid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .groupgrid thead td {
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+            padding: 6px 2px;
+            color: #666;
+            font-weight: bold;
+            background-color: #F7F7F7;
+        }
+
+        .groupgrid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            padding: 5px 2px;
+            word-break: break-all;
+        }
+
+            .groupgrid tbody td img {
+                vertical-align: middle;
+                border: 0px solid #fff;
+            }
+
+            .groupgrid tbody td .grouptitle {
+                float: left;
+                font-weight: bold;
+            }
+
+        .groupgrid tbody .active {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .groupgrid tbody .tdhover {
+            background-color: #eee;
+            cursor: pointer;
+        }
+    /*表格end*/
+
+    .icheckbox_square-blue {
+        zoom: 76%;
+    }
+</style>
+<div id="content">
+
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header></header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- end widget edit box -->
+                        <div class="widget-body">
+                            <form id="form1">
+                                <div class="row searchrow">
+                                    <label class="col-md-1 control-label">客户自编号</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="ZKHZBH" name="ZKHZBH">
+                                    </div>
+                                    <label class="col-md-1 control-label">报关单号</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="ZBGDH" name="ZBGDH">
+                                    </div>
+                                    <label class="col-md-1 control-label">货代分运单</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="ZHDFYD" name="ZHDFYD">
+                                    </div>
+                                    <label class="col-md-1 control-label">接单日期</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" id="JDRQS" name="JDRQS" placeholder="开始" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="text" id="JDRQE" name="JDRQE" placeholder="结束" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                    </div>
+                                    <div class="clear10"></div>
+                                </div>
+                                <div class="row searchrow">
+                                    <label class="col-md-1 control-label">发货方</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="SHIPPER_ID" name="SHIPPER_ID" mdmtype="MDMBP" mdmcode="shipper_id" mdmkey="shipper_id" mdmdesc="shipper_id">
+                                    </div>
+                                    <label class="col-md-1 control-label">申报关区</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="ZSBGQ" name="ZSBGQ" mdmtype="MDM" mdmkey="SBGQ" mdmfieldname="TYPE,DESCRIPTION">
+                                    </div>
+                                    <label class="col-md-1 control-label">目的港</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="zmdg" name="zmdg" mdmtype="MDMLOC" mdmcode="ZMDG" mdmkey="ZMDG">
+                                    </div>
+                                    <label class="col-md-1 control-label">提货日期</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" id="ZJHSHTHRQS" name="ZJHSHTHRQS" placeholder="开始" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="text" id="ZJHSHTHRQE" name="ZJHSHTHRQE" placeholder="结束" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                    </div>
+                                    <div class="clear10"></div>
+                                </div>
+                                <div class="row searchrow">
+                                    <label class="col-md-1 control-label">订购方</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="ZDGF" name="ZDGF" mdmtype="MDMBP" mdmkey="ORDER_PARTY_ID">
+                                    </div>
+                                    <label class="col-md-1 control-label">通关方式</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="ZTGFS" name="ZTGFS" mdmtype="MDM" mdmkey="TGFS" mdmfieldname="TYPE,DESCRIPTION_S">
+                                    </div>
+                                    <label class="col-md-1 control-label">FWO</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="TRQ_ID" name="TRQ_ID">
+                                    </div>
+                                    <label class="col-md-1 control-label">申报日期</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" id="ZSBRQS" name="ZSBRQS" placeholder="开始" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="text" id="ZSBRQE" name="ZSBRQE" placeholder="结束" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                    </div>
+                                    <div class="clear10"></div>
+                                </div>
+                                <div style="display: none" id="more_sc">
+                                    <div class="row searchrow">
+                                        <label class="col-md-1 control-label">销售组织</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" id="SALES_ORG_ID" name="SALES_ORG_ID" mdmtype="MDMORG" mdmkey="MDMORG" mdmfieldname="S">
+                                        </div>
+                                        <label class="col-md-1 control-label">申报方式</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" id="ZSBFS" name="ZSBFS" mdmtype="MDM" mdmkey="SBFS" mdmfieldname="TYPE,DESCRIPTION">
+                                        </div>
+                                        <label class="col-md-1 control-label">FWO最大数</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" id="FWO_VAL" name="FWO_VAL" value="1000">
+                                        </div>
+                                        <label class="col-md-1 control-label">航班日期</label>
+                                        <div class="col-sm-1">
+                                            <input type="text" id="ZJHHBRQS" name="ZJHHBRQS" placeholder="开始" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input type="text" id="ZJHHBRQE" name="ZJHHBRQE" placeholder="结束" class="form-control datepicker" data-dateformat="yy-mm-dd">
+                                        </div>
+                                        <div class="clear10"></div>
+                                    </div>
+                                    <div class="row searchrow">
+                                        <label class="col-md-1 control-label">配舱方式</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" id="ZPCFS" name="ZPCFS" mdmtype="MDM" mdmkey="PCFS" mdmfieldname>
+                                        </div>
+                                        <label class="col-md-1 control-label">接单人</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" id="ZJDR" name="ZJDR">
+                                        </div>
+                                        <label class="col-md-1 control-label">车号</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" id="ZCH1" name="ZCH1">
+                                        </div>
+                                        <label class="col-md-1 control-label">快件标记</label>
+                                        <div class="col-sm-1">
+                                            <input type="checkbox" id="ZKJBJ" name="ZKJBJ">
+                                        </div>
+                                        <label class="col-md-1 control-label">急货标记</label>
+                                        <div class="col-sm-1">
+                                            <input type="checkbox" id="ZJHBJ" name="ZJHBJ">
+                                        </div>
+                                        <div class="clear10"></div>
+                                    </div>
+                                </div>
+                                <div class="sc_more">
+                                    <a class="control-label" href="javascript:void(0);" id="sc_more">更多查询条件</a>
+                                    <div style="width: 200px; float: right;">
+                                        <button class="btn" id="submit_Fixed" style="float: left">锁定列</button>
+                                        <input class="form-control" id="fixedleftnum" name="fixedleftnum" style="width: 20px; float: left; padding: 0px;" value="2">
+                                        <button class="btn" id="submit_refresh" style="float: left">刷新</button>
+                                        <button class="btn btn-primary" id="submit_search" style="float: right">查询</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover"></table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+<script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+<link href="~/Content/QO/scripts/icheck/skins/square/blue.css" rel="stylesheet">
+<script src="~/Content/QO/scripts/icheck/icheck.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#JDRQS").val('@DateTime.Now.AddDays(-6).ToString("yyyy/MM/dd")');
+            $("#JDRQE").val('@DateTime.Now.ToString("yyyy/MM/dd")');
+            $("#fixedleftnum").val($.cookie("kcfixedcol") || 2);
+            DrawTable();
+            BindAutocompleteMDM();
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        })
+
+        function DrawTable() {
+
+            //列定义
+            var columns = [
+                            {"title": "序号", "data": null ,"orderable": true, "width": "40"},
+                            { "title": "报关状态", "data": "ZBGZT", "width": "50" },
+                            { "title": "发货方", "data": "ZFHFMS", "width": "150" },
+                            { "title": "客户自编号", "data": "ZKHZBH", "width": "100" },
+                            {
+                                "title": "数量", "data": "QUA_PCS_VAL", "width": "50",
+                                "render": function (data, type, full, meta) {
+
+                                    return full.QUA_PCS_VAL == null ? "" : parseInt(full.QUA_PCS_VAL);//保留整数
+                                }
+                            },
+                             {
+                                 "title": "毛重", "data": "GRO_WEI_VAL", "width": "50",
+                                 "render": function (data, type, full, meta) {
+                                     return full.GRO_WEI_VAL == null ? "" : full.GRO_WEI_VAL.substring(0, full.GRO_WEI_VAL.indexOf(".") + 4);//保留三位小数点
+                                 }
+
+                             },
+                            {
+                                "title": "体积", "data": "GRO_VOL_VAL", "width": "50",
+                                "render": function (data, type, full, meta) {
+                                    return full.GRO_VOL_VAL == null ? "" : full.GRO_VOL_VAL.substring(0, full.GRO_VOL_VAL.indexOf(".") + 4);//保留三位小数点
+                                }
+                            },
+                            { "title": "通关方式", "data": "ZTGFSMS", "width": "100" },
+                            { "title": "配舱方式", "data": "ZPCFS", "width": "50" },
+                            { "title": "货代分运单", "data": "ZHDFYD", "width": "100" },
+                            { "title": "目的港", "data": "ZMDGMS", "width": "100" },
+                            {
+                                "title": "提货日期", "data": "ZJHSHTHRQ", "width": "100",
+                                "render": function (data, type, full, meta) {
+                                    if (full.ZJHSHTHRQ == null || full.ZJHSHTHRQ == undefined || full.ZJHSHTHRQ == "0")
+                                        return "";
+                                    else {
+                                        var gmtDate = new Date(formatDate(full.ZJHSHTHRQ));
+                                        gmtDate.setHours(gmtDate.getHours() + 8);
+                                        return gmtDate.Format("yyyy/MM/dd hh:mm:ss");
+                                    }
+                                }
+                            },
+                            {
+                                "title": "申报日期", "data": "ZSBRQ", "width": "90",
+                                "render": function (data, type, full, meta) {
+                                    if (full.ZSBRQ == null || full.ZSBRQ == undefined)
+                                        return "";
+                                    else {
+                                        var gmtDate = new Date(formatDate(full.ZSBRQ));
+                                        gmtDate.setHours(gmtDate.getHours() + 8);
+                                        return gmtDate.Format("yyyy/MM/dd hh:mm:ss");
+                                    }
+                                }
+                            },
+                            {
+                                "title": "航班日期", "data": "ZJHHBRQ", "width": "90",
+                                "render": function (data, type, full, meta) {
+                                    if (full.ZJHHBRQ == null || full.ZJHHBRQ == undefined || full.ZJHHBRQ == "00000000")
+                                        return "";
+                                    else {
+                                        var gmtDate = new Date(formatDate(full.ZJHHBRQ));
+                                        gmtDate.setHours(gmtDate.getHours() + 8);
+                                        return gmtDate.Format("yyyy/MM/dd hh:mm:ss");
+                                    }
+                                }
+                            },
+                            {
+                                "title": "接单日期", "orderable": false, "data": "CREATED_ON", "width": "100",
+                                "render": function (data, type, full, meta) {
+                                    if (full.CREATED_ON == null || full.CREATED_ON == undefined)
+                                        return "";
+                                    else {
+                                        var gmtDate = new Date(formatDate(full.CREATED_ON));
+                                        gmtDate.setHours(gmtDate.getHours() + 8);
+                                        return gmtDate.Format("yyyy/MM/dd hh:mm:ss");
+                                    }
+                                }
+                            },
+                            { "title": "接单人", "data": "ZJDR", "width": "50" },
+                            {
+                                "title": "FWO号", "data": "TRQ_ID", "width": "100",
+                                "render": function (data, type, full, meta) {
+                                    return fqLTrim(full.TRQ_ID);
+                                }
+                            },
+                            { "title": "订购方", "data": "ZDGFMS", "width": "150" },
+                            { "title": "销售组织", "data": "SALES_ORG_ID", "width": "150" },
+                            { "title": "急货标记", "data": "ZJHBJ", "width": "50" },
+                            { "title": "快件标记", "data": "ZKJBJ", "width": "50" },
+                            { "title": "服务产品", "data": "SERVICE_PRODUCT_ID", "width": "80" },
+                            { "title": "运输FO1", "data": "FO1", "width": "60" },
+                            { "title": "车号1", "data": "ZCH1", "width": "60" },
+                            { "title": "报关单号", "data": "ZBGDH", "width": "100" },
+                            { "title": "属地报关FOO", "data": "ZSDBGFOO", "width": "90" },
+                            { "title": "场站FOO", "data": "ZCZFOO", "width": "90" },
+                          
+            ];
+            var table = $('#datatable_col_reorder').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "colReorder": true,
+                //"fixedHeader": true,scrollY:"80px",
+                "scrollX": true,
+                "fixedColumns": {
+                    leftColumns: $.cookie("kcfixedcol") || $("#fixedleftnum").val()
+                },
+                "bStateSave": true,
+                "order": [[4, "desc"]],//第一次加载默认第5列日期倒排
+                "language": { "info": "Total : _TOTAL_", "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" } },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+                "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "fnDrawCallback": function () {
+                    var api = this.api();
+                    var startIndex = api.context[0]._iDisplayStart; //获取到本页开始的条数 　
+                    api.column(0).nodes().each(function (cell, i) {
+                        cell.innerHTML = startIndex + i + 1;
+                    });
+                },
+                "ajax": {
+                    "url": "@Url.Action("AirOutListsmart")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d = $.extend(d, form2Json("form1"));//追加查询条件传送
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.ZJHBJ = $("#ZJHBJ").is(':checked') ? "Y" : "N";
+                        d.ZBCBJ = $("#ZBCBJ").is(':checked') ? "Y" : "N";
+                        d.ZKJBJ = $("#ZKJBJ").is(':checked') ? "Y" : "N";
+                        d.ZZLQQBJ = $("#ZZLQQBJ").is(':checked') ? "Y" : "N";
+                    }
+                }, columns: columns,
+                "stateSaveParams": function (settings, data) {
+                    localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+                    // 把这些数据保存在服务器上，上面的代码标识使用本地储存来存储这些数据
+                    /**$.ajax( {
+                            "url": "/state_save",
+                            "data": data,
+                            "dataType": "json",
+                            "type": "POST",
+                            "success": function () {}
+                        } );
+                     **/
+
+                },
+                "stateLoadCallback": function (settings) {
+                    //console.log("stateLoadCallback");
+                    var config = JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+                    return config;
+                    //从服务器取数，采用同步的方式获取到保存在服务器里的数据
+                    /**var o;
+                     $.ajax( {
+                        "url": "/state_load",
+                        "async": false,
+                        "dataType": "json",
+                        "success": function (json) {
+                            o = json;
+                        }
+                    } );
+                     return o;**/
+                }
+            });
+        }
+
+        $("#submit_refresh").on("click", function () {
+            $('#datatable_col_reorder').DataTable().destroy();
+            DrawTable();
+            return false;
+        });
+
+        $("#fixedleftnum").on("blur", function () {
+            if (isNaN(this.value)) {
+                alert("锁定列请填入整数!");
+                return;
+            }
+            $.cookie("kcfixedcol", $("#fixedleftnum").val());
+            $('#datatable_col_reorder').DataTable().destroy();
+            DrawTable();
+        });
+        function BindAutocompleteMDM() {
+            //加载数据源
+            $("[mdmtype='MDM']").each(function () {
+                AutocompleteMDM($(this).attr("id"));
+            });
+
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+
+            $("[mdmtype='MDMLOC']").each(function () {
+                AutocompleteMDMLOC($(this).attr("id"));
+            });
+
+            $("[mdmtype='MDMORG']").each(function () {
+                AutocompleteMDMORG($(this).attr("id"));
+            });
+        }
+
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        });
+
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+        })
+        function form2Json(id) {
+
+            var arr = $("#" + id).serializeArray()
+            var jsonStr = "";
+
+            jsonStr += '{';
+            for (var i = 0; i < arr.length; i++) {
+                jsonStr += '"' + arr[i].name + '":"' + arr[i].value + '",'
+            }
+            jsonStr = jsonStr.substring(0, (jsonStr.length - 1));
+            jsonStr += '}'
+
+            var json = JSON.parse(jsonStr)
+            return json
+        };
+
+        </script>
+        }

@@ -1,0 +1,2060 @@
+﻿@{
+    ViewBag.Title = "编辑叠加保税";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+
+<style type="text/css">
+    .service_lb .checkbox { width: 8%; }
+
+    .label { text-align: center; margin-top: 10px; }
+
+    .cols { margin-bottom: 20px; }
+
+    .service_lb .checkbox { width: 8%; }
+
+    .margin_left { margin-left: 5px; }
+
+    .form-backgroud { background: #9393FF; }
+    .form-control { padding-left: 2px; }
+
+    .smart-form header { clear: both; background: #FBFBFF; }
+
+    /*表格begin*/
+    .grid { margin: 0px; border-collapse: collapse; table-layout: fixed; }
+        .grid thead td { border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; text-align: left; text-overflow: ellipsis; font-weight: normal; word-break: keep-all; overflow: hidden; background-color: #F7F7F7; }
+            .grid thead td .table-header { padding: 6px 2px; background-color: #F2F2F2; background: -webkit-linear-gradient(top,#ffffff 0,#F2F2F2 100%); background: -moz-linear-gradient(top,#ffffff 0,#F2F2F2 100%); background: -o-linear-gradient(top,#ffffff 0,#F2F2F2 100%); background: linear-gradient(to bottom,#ffffff 0,#F2F2F2 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#F2F2F2,GradientType=0); }
+        .grid tbody td { text-align: left; border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; border-right: 1px solid #ccc; height: 22px; word-break: break-all; }
+        .grid .txt { border: 0px solid #fff; padding: 0px; height: 22px; line-height: 22px; width: 100%; font-family: Consolas,微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif; font-size: 9pt; color: #000000; }
+        .grid .disabled { background-color: #F7F7F7; }
+        .grid .txtselect { border: 0px solid #fff; height: 22px; line-height: 22px; display: inline-block; width: 100%; font-family: Consolas,微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif; font-size: 9pt; color: #000000; }
+        .grid .td-div { background-color: #F7F7F7; color: #222; cursor: pointer; }
+        .grid td img { vertical-align: middle; border: 0px solid #fff; }
+        .grid tbody .selected { background-color: #6DA47D; color: #fff; cursor: pointer; }
+        .grid tbody .tdhover { background-color: #eee; cursor: pointer; }
+        .grid .tdwarning { border-bottom: 1px solid #E74D3C; }
+    .groupgrid { margin: 0px; border-collapse: collapse; table-layout: fixed; }
+        .groupgrid thead td { border-bottom: 1px solid #ccc; text-align: left; padding: 6px 2px; color: #666; font-weight: bold; background-color: #F7F7F7; }
+        .groupgrid tbody td { text-align: left; border-bottom: 1px solid #ccc; padding: 5px 2px; word-break: break-all; }
+            .groupgrid tbody td img { vertical-align: middle; border: 0px solid #fff; }
+            .groupgrid tbody td .grouptitle { float: left; font-weight: bold; }
+        .groupgrid tbody .active { background-color: #6DA47D; color: #fff; cursor: pointer; }
+        .groupgrid tbody .tdhover { background-color: #eee; cursor: pointer; }
+    /*表格end*/
+    .input-button { font-weight: bolder; border: none; right: -2px; top: 50%; width: 14px; height: 16px; margin-top: -10px; cursor: pointer; overflow: hidden; position: absolute; z-index: 100; }
+    .input-link { font-weight: bolder; border: none; top: 50%; width: 16px; height: 16px; margin-top: -10px; cursor: pointer; overflow: hidden; position: absolute; z-index: 100; }
+
+    .bpdescription { width: 60px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    .icheckbox_square-blue { zoom: 76%; }
+
+    .cols { margin-bottom: 10px; }
+    .smart-form fieldset { padding: 8px 14px 5px; }
+</style>
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>Home / <span style="color:#ffd600!important">编辑叠加保税</span></h2>
+                        <div style="float:right; ">
+                            <button type="submit" class="btn btn-default" id="btnCopy" onclick="DoCopy()">
+                                复制
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnSave">
+                                保存
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnback" onclick="back()">
+                                返回
+                            </button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form form-backgroud">
+                                <fieldset id="fieldsetmain">
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">业务类型</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" value="DJBS" disabled="disabled" id="trq_type">
+                                                <input type="text" class="form-control" disabled="disabled" id="traffic_direct" style="display:none;">
+                                                <input type="text" class="form-control" disabled="disabled" id="lifecycle" style="display:none;">
+                                                <input type="text" class="form-control" disabled="disabled" id="iscopy" style="display:none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">FWO号</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" disabled="disabled" id="FWO">
+                                            </div>
+                                        </div>
+                                        &nbsp;<span class="input-link" title="打开TM链接"><a id="fwolink" name="rwfldlink" rwfldlinktype="FWO" rwfldlinkkey=""><i class="fa fa-external-link"></i></a></span>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">接单日期</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input class="form-control datepicker" disabled="disabled" data-dateformat="yyyy/mm/dd" type="text" id="pic_ear_req">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">接单人</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" disabled="disabled" class="form-control" id="created_by">
+                                                <input type="text" disabled="disabled" class="form-control" id="changed_by" style="display:none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">代运协议</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="DAIYUNXIEYI" readonly="readonly" style="background-color:#FFF">
+                                                @*<span class="input-button" onclick="SelectDAIYUNXIEYI()" title="选取代运协议"><i class="fa fa-search"></i></span>*@
+                                                <span class="input-button" title="选取代运协议"><a href="@Url.Action("Index", "ForwarderAgreement")" data-toggle="modal" data-target="#myModalFWA"><i class="fa fa-search"></i></a></span>
+                                                <input type="text" class="form-control" id="fag_key" readonly="readonly" style="background-color:#ffd600;display:none;">
+                                            </div>
+                                        </div>
+                                        <label style="width:60px;text-overflow:ellipsis;overflow: hidden;white-space: nowrap;" class="col-md-2 control-label label margin_left" id="DAIYUNXIEYIDESC"></label>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">项目</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" disabled="disabled" id="XIANGMU">
+                                                <input type="text" class="form-control" disabled="disabled" id="fag_item_key" style="background-color:#ffd600;display:none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">产品</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" disabled="disabled" id="SERVICE_PRODUCT_ID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">订购方</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" disabled="disabled" id="order_party_id">
+                                                <input type="text" class="form-control" disabled="disabled" id="order_party_key" style="background-color:#ffd600;display:none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">销售组织</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" disabled="disabled" id="sales_org_id">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">销售员</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" disabled="disabled" id="XIAOSHOUYUAN">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">移动类型</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="movem_type" mdmtype="MDM" mdmkey="MVMTY" mdmfieldname="MOVEM_TYPE,DESCRIPTION_S">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">商品代码</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="ccode" mdmtype="MDM" mdmkey="CCODE" mdmfieldname="CCODE,DESCRIPTION">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">通关方式</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" value="04" id="ztgfs" mdmtype="MDM" mdmkey="TGFS" mdmfieldname="TYPE,DESCRIPTION_S">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">发货方</label>
+                                        <div class="col-md-5">
+                                            @*<div class="col-md-12">
+                                                    <select mdm="seltest" style="width:100%" id="seltest" name="seltest" class="select2"></select>
+                                                </div>*@
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="选取发货方" rwpopsrc="/BP/Index?rtnkey=shipper_key&rtncode=shipper_id&rtnname=FHFMS" readonly="readonly" id="shipper_id" style="background-color:#FFF" />
+                                                    <span class="input-button" onclick="SelectRWPop('shipper_id')" title="选取发货方"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="shipper_id" mdmtype="MDMBP" mdmcode="shipper_id" mdmkey="shipper_key" mdmdesc="FHFMS" />
+                                                <input type="text" class="form-control" readonly="readonly" id="shipper_key" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                        <label style="width:60px;text-overflow:ellipsis;overflow: hidden;white-space: nowrap;" class="col-md-2 control-label label margin_left" id="FHFMS"></label>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">源位置</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="选取源位置" rwpopsrc="/LOC/Index?rtnkey=src_loc_key&rtncode=src_loc_id&rtnname=YWZMS" readonly="readonly" id="src_loc_id" style="background-color:#FFF" />
+                                                    <span class="input-button" onclick="SelectRWPop('src_loc_id')" title="选取源位置"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="src_loc_id" mdmtype="MDMLOC" mdmcode="src_loc_id" mdmkey="src_loc_key" />
+                                                <input type="text" class="form-control" readonly="readonly" id="src_loc_key" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                        <label style="width:60px;text-overflow:ellipsis;overflow: hidden;white-space: nowrap;" class="col-md-2 control-label label margin_left" id="YWZMS"></label>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">收货方</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="选取收货方" rwpopsrc="/BP/Index?rtnkey=consignee_key&rtncode=consignee_id&rtnname=SHFMS" readonly="readonly" id="consignee_id" style="background-color:#FFF">
+                                                    <span class="input-button" onclick="SelectRWPop('consignee_id')" title="选取收货方"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="consignee_id" mdmtype="MDMBP" mdmcode="consignee_id" mdmkey="consignee_key" mdmdesc="SHFMS" />
+                                                <input type="text" class="form-control" readonly="readonly" id="consignee_key" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                        <label style="width:60px;text-overflow:ellipsis;overflow: hidden;white-space: nowrap;" class="col-md-2 control-label label margin_left" id="SHFMS"></label>
+                                    </div>
+
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">目标位置</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="选取目标位置" rwpopsrc="/LOC/Index?rtnkey=des_loc_key&rtncode=des_loc_id&rtnname=MBWZMS" readonly="readonly" id="des_loc_id" style="background-color:#FFF" />
+                                                    <span class="input-button" onclick="SelectRWPop('des_loc_id')" title="选取目标位置"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="des_loc_id" mdmtype="MDMLOC" mdmcode="des_loc_id" mdmkey="des_loc_key" />
+                                                <input type="text" class="form-control" readonly="readonly" id="des_loc_key" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                        <label style="width:60px;text-overflow:ellipsis;overflow: hidden;white-space: nowrap;" class="col-md-2 control-label label margin_left" id="MBWZMS"></label>
+                                    </div>
+
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">&nbsp;</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <label><input type="checkbox" id="ZFBJ" name="ZFBJ" disabled="disabled"><i>&nbsp;</i>作废标记</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">提货日期</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input class="form-control datepicker" data-dateformat="yy/mm/dd" type="text" id="zjhshthrq">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">出口企业结算方</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="出口企业结算方" rwpopsrc="/BP/Index?rtnkey=CKQYJSFKEY&rtncode=CKQYJSFCODE" id="CKQYJSFCODE" readonly="readonly" style="background-color:#FFF">
+                                                    <span class="input-button" onclick="SelectRWPop('CKQYJSFCODE')" title="选取出口企业结算方"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="CKQYJSFCODE" mdmtype="MDMBP" mdmcode="CKQYJSFCODE" mdmkey="CKQYJSFKEY" />
+                                                <input type="text" class="form-control" readonly="readonly" id="CKQYJSFKEY" style="background-color:#ffd600;display:none;" />
+                                                <input type="text" class="form-control" readonly="readonly" id="CKQYJSFDBKEY" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">HUB仓进结算方</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="HUB仓进结算方" rwpopsrc="/BP/Index?rtnkey=HUBCJJSFKEY&rtncode=HUBCJJSFCODE" id="HUBCJJSFCODE" readonly="readonly" style="background-color:#FFF">
+                                                    <span class="input-button" onclick="SelectRWPop('HUBCJJSFCODE')" title="选取HUB仓进结算方"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="HUBCJJSFCODE" mdmtype="MDMBP" mdmcode="HUBCJJSFCODE" mdmkey="HUBCJJSFKEY" />
+                                                <input type="text" class="form-control" readonly="readonly" id="HUBCJJSFKEY" style="background-color:#ffd600;display:none;" />
+                                                <input type="text" class="form-control" readonly="readonly" id="HUBCJJSFDBKEY" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">HUB仓出结算方</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="HUB仓出结算方" rwpopsrc="/BP/Index?rtnkey=HUBCCJSFKEY&rtncode=HUBCCJSFCODE" readonly="readonly" id="HUBCCJSFCODE" style="background-color:#FFF">
+                                                    <span class="input-button" onclick="SelectRWPop('HUBCCJSFCODE')" title="选取HUB仓出结算方"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="HUBCCJSFCODE" mdmtype="MDMBP" mdmcode="HUBCCJSFCODE" mdmkey="HUBCCJSFKEY" />
+                                                <input type="text" class="form-control" readonly="readonly" id="HUBCCJSFKEY" style="background-color:#ffd600;display:none;" />
+                                                <input type="text" class="form-control" readonly="readonly" id="HUBCCJSFDBKEY" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">进口企业结算方</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                @*<input type="text" class="form-control" rwpoptitle="进口企业结算方" rwpopsrc="/BP/Index?rtnkey=JKQYJSFKEY&rtncode=JKQYJSFCODE" id="JKQYJSFCODE" readonly="readonly" style="background-color:#FFF">
+                                                    <span class="input-button" onclick="SelectRWPop('JKQYJSFCODE')" title="选取进口企业结算方"><i class="fa fa-search"></i></span>*@
+                                                <input type="text" class="form-control" id="JKQYJSFCODE" mdmtype="MDMBP" mdmcode="JKQYJSFCODE" mdmkey="JKQYJSFKEY" />
+                                                <input type="text" class="form-control" readonly="readonly" id="JKQYJSFKEY" style="background-color:#ffd600;display:none;" />
+                                                <input type="text" class="form-control" readonly="readonly" id="JKQYJSFDBKEY" style="background-color:#ffd600;display:none;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">包装类型</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="package_tco" mdmtype="MDM" mdmkey="PKTY" mdmfieldname="PACK_TCO138,DESCRIPTION">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">数量</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="validate[custom[integer]] form-control" id="qua_pcs_val">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">毛重</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="validate[required,custom[number]]  form-control" id="gro_wei_val">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">总体积</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="validate[custom[number]] form-control" id="gro_vol_val">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">品名</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="zzwpm">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">进HUB仓时间</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input class="form-control datepicker" data-dateformat="yy/mm/dd" type="text" id="zjhubcsj">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">出HUB仓时间</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input class="form-control datepicker" data-dateformat="yy/mm/dd" type="text" id="zchubcsj">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">结算备注</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="zjsbzl">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 cols">
+                                        <label class="col-md-4 control-label label">接单备注</label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="zjdbzl">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>项目/路线<span style="color:#ffd600!important"></span></h2>
+                        <div style="float:right; ">
+                            <a data-toggle="modal" href="#myModal"><button type="submit" class="btn btn-default" id="insertservice">插入服务</button></a>
+                            <button type="submit" class="btn btn-default" onclick="del_services()">删除服务</button>
+                            <button type="submit" class="btn btn-default" onclick="copyservice()">复制服务</button>
+                            <button type="submit" class="btn btn-default" onclick="checkall()">
+                                全选
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnFOOFBFO" disabled="disabled">
+                                创建FOO/FB/FO
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnSCYWDH" disabled="disabled">
+                                生成业务单号
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnXFXGW" disabled="disabled">
+                                下发新关务
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnBARCODE" disabled="disabled">
+                                打印条码
+                            </button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+                            <form class="smart-form service_lb form-backgroud" id="EXTList"></form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <!-- end widget grid -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        服务类型
+                    </h4>
+                </div>
+                <div class="modal-body no-padding">
+
+                    <form id="login-form" class="smart-form">
+
+                        <fieldset id="fsservicetype"></fieldset>
+
+                        <footer>
+                            <button type="button" id="btn_submit_service" class="btn btn-primary" data-dismiss="modal">
+                                确定
+                            </button>
+                        </footer>
+                    </form>
+
+
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalFWA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">选择代运协议</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+@section pagespecific {
+
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="~/Content/QO/scripts/framework.js?version=1.2"></script>
+    <script src="~/Content/QO/scripts/mousetrap.min.js"></script>
+    <script src="~/Content/QO/scripts/fqstr.js?version=1.2"></script>
+    <link href="~/Content/QO/ValidationEngine/css/validationEngine.jquery.css" rel="stylesheet" />
+    <script src="~/Content/QO/ValidationEngine/js/jquery.validationEngine-zh_CN.js"></script>
+    <script src="~/Content/QO/ValidationEngine/js/jquery.validationEngine.min.js"></script>
+    <link href="~/Content/QO/scripts/icheck/skins/square/blue.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/icheck/icheck.min.js"></script>
+    <script type="text/javascript">
+        //mrbig
+        function SelectRWPop(ctrl) {
+            $.modalOpen({
+                id: fqgenguid(),
+                title: "选择" + $("#" + ctrl).attr('rwpoptitle'),
+                url: $("#" + ctrl).attr('rwpopsrc'),
+                width: "600px",
+                height: "500px",
+                btn: null
+            });
+        }
+        function SelectDAIYUNXIEYI() {
+            $.modalOpen({
+                id: "DAIYUNXIEYIFORM",
+                title: "选择代运协议",
+                url: "/ForwarderAgreement/Index",
+                width: "800px",
+                height: "600px",
+                callBack: function (iframeId) {
+                    //top.frames[iframeId].submitForm();
+                },
+                btn: null
+            });
+        }
+        //全局数据
+        var keyvalue = "";
+        var iscopy = "";
+        var g_rootdbkey = "";
+        var g_ztddbkey = "";
+        var g_ztdsrvtypekey = "";
+        var g_itemccodedbkey;
+        var g_delsrvsArr = [];
+        var g_postdatahead;
+        var g_postdataservice;
+        var g_packagedbkey;
+        var g_zrootexd1dbkey;
+        var g_postdatastage;
+        var g_stage_type = 'Z01,Z02,Z03,Z04,Z05,Z06,Z10,Z30,Z31,Z32,Z33,Z35,Z36,Z37,Z38,Z39,Z40,Z41,Z42,Z61,Z62,Z63,Z64,Z88,Z99,';
+        var g_srv_type = 'A00003,A00004,A00008,A00009,O00001,O00010,O00011,O00012,O00013,';
+        var g_srvstrhiden = "";
+        var g_zlock_internal = "";
+        var g_zlock_external = "";
+        function StorageFWO() {
+            g_postdatahead = GetWebControls("#formmain");
+            g_postdataservice = [];
+            $("fieldset[name=fooservice]").each(function () {
+                var fieldsetid = $(this).attr("id");
+                if (fieldsetid != null && fieldsetid != "") {
+                    var gjsonsrv = $('#' + fieldsetid).serializeObject();
+                    //console.log(JSON.stringify(gjsonsrv));
+                    if (JSON.stringify(gjsonsrv) != "{}") {
+                        g_postdataservice.push(gjsonsrv);
+                    }
+                }
+            });
+
+            g_postdatastage = [];
+            $("fieldset[name=fbfostage]").each(function () {
+                var fieldsetid = $(this).attr("id");
+                if (fieldsetid != null && fieldsetid != "") {
+                    var gjsonstg = $('#' + fieldsetid).serializeObject();
+                    //console.log(JSON.stringify(gjsonstg));
+                    if (JSON.stringify(gjsonstg) != "{}") {
+                        g_postdatastage.push(gjsonstg);
+                    }
+                }
+            });
+        }
+        $(function () {
+            var user = '@(Oncontrol3.Web.Helpers.SessionHelper.GetSessionUser<Oncontrol3.Web.Controllers.FLD_QO_USER>().staffkey)';
+            //if (user.length < 1) {
+            //    layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            //}
+
+            keyvalue = request('fwo');
+            iscopy = request('optype');
+            //keyvalue = '00000410000000001110';//测试
+            //console.log(keyvalue);
+            if (keyvalue != '') {
+                $("#changed_by").val(user);
+                LoadFWOData();
+                StorageFWO();
+                BindTMLink();
+                $("button").each(function () {
+                    $(this).removeAttr("disabled");
+                });
+
+                if (iscopy == 'copy') {
+                    Copy();
+                    return;
+                }
+
+                ZFFWO();
+                DoLock();
+            }
+            else {
+                $("#pic_ear_req").val('@DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")');
+                $("#created_by").val(user);
+                $("#ccode").val('03'); //默认03 普通货
+            }
+        });
+        function ZFFWO() {
+            if ($('#ZFBJ').is(':checked')) {
+                $('#content').find('*').attr('disabled', 'disabled');
+                $('#btnback').removeAttr('disabled');
+                $('#btnCopy').removeAttr('disabled');
+                $('a').removeAttr('href');//去掉a标签中的href属性
+            }
+        }
+        function BindTMLink() {
+            $("a[name='rwfldlink']").click(function () {
+                if ($(this).attr('rwfldlinkkey').length != 32) {
+                    layer.msg("KEY不存在，无法跳转到TM！");
+                    return;
+                }
+                else if ($(this).attr('rwfldlinktype') == 'FWO') {
+                    var urlprefix = "@Oncontrol3.Web.Helpers.ConfigHelper.AppSettings("QO_FWO")";
+                    window.open(urlprefix + $(this).attr('rwfldlinkkey'), "_blank");
+                }
+                else if ($(this).attr('rwfldlinktype') == 'FO' || $(this).attr('rwfldlinktype') == 'FOO') {
+                    var urlprefix = "@Oncontrol3.Web.Helpers.ConfigHelper.AppSettings("QO_FOFOO")";
+                    window.open(urlprefix + $(this).attr('rwfldlinkkey'), "_blank");
+                }
+                else if ($(this).attr('rwfldlinktype') == 'FB') {
+                    var urlprefix = "@Oncontrol3.Web.Helpers.ConfigHelper.AppSettings("QO_FB")";
+                    window.open(urlprefix + $(this).attr('rwfldlinkkey'), "_blank");
+                }
+            });
+        }
+        function hideServices()    //隐藏服务（不显示该服务，但是需要写回TM）
+        {
+            $("fieldset[name=fooservice]").each(function () {
+                var hidesrvkey = $(this).attr("srvkey");
+                if (hidesrvkey != null && hidesrvkey != "") {
+                    var hidesrvcode = $('#cksrv' + hidesrvkey).attr("srvcode");
+                    if (g_srv_type.indexOf(hidesrvcode) >= 0) {
+                        g_srvstrhiden += (hidesrvcode + ",");
+                        $(this).hide();
+                    }
+                }
+            });
+        }
+        function LoadFWOData() {
+            var index = layer.load(0, {
+                shade: [0.1, '#fff'], //0.1透明度的白色背景
+                time: 300 * 1000
+            });
+            try {
+                $.ajax({
+                    url: RootPath() + "/QO_OverlayBonded/QOFWO403",
+                    type: "post",
+                    data: { 'fwo': keyvalue },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        layer.close(index);
+                        if (data.Success) {
+                            initControl(data.Data);
+                            hideServices();
+                        } else {
+                            layer.alert(data.Message, { title: '错误', icon: 2 });
+                            console.log(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        layer.close(index);
+                        if (!!data.responseText) {
+                            layer.msg(data.responseText, { time: 5000 });
+                        } else {
+                            layer.msg("请求失败！");
+                        }
+                    }
+                });
+
+            } catch (e)
+            { layer.msg("加载失败，请重试"); layer.close(index); }
+        }
+        function initControl(datajson) {
+            console.log(datajson);
+            g_zlock_internal = datajson.OUTPUT.ROOT.ZLOCK_INTERNAL;
+            g_zlock_external = datajson.OUTPUT.ROOT.ZLOCK_EXTERNAL;
+            g_rootdbkey = CharToHex(base64decode(datajson.OUTPUT.ROOT.KEY));
+            $('#trq_type').val(datajson.OUTPUT.ROOT.TRQ_TYPE);
+            $('#traffic_direct').val(datajson.OUTPUT.ROOT.TRAFFIC_DIRECT);
+            $('#lifecycle').val(datajson.OUTPUT.ROOT.LIFECYCLE);
+            $('#FWO').val(fqLTrim(datajson.OUTPUT.ROOT.TRQ_ID));
+            $('#fwolink').attr('rwfldlinkkey', CharToHex(base64decode(datajson.OUTPUT.ROOT.KEY)));
+            var gmtDate = new Date(formatDate(datajson.OUTPUT.ROOT.PIC_EAR_REQ));
+            gmtDate.setHours(gmtDate.getHours() + 8);
+            $('#pic_ear_req').val(gmtDate.Format("yyyy/MM/dd hh:mm:ss"));
+            $('#created_by').val(datajson.OUTPUT.ROOT.CREATED_BY);
+            $('#fag_key').val(CharToHex(base64decode(datajson.OUTPUT.ROOT.FAG_KEY)));
+            $('#DAIYUNXIEYI').val(fqLTrim(datajson.ES_FAG.FAGRMNTID044));
+            $('#DAIYUNXIEYIDESC').html(datajson.ES_FAG.MNEMONIC);
+            $('#DAIYUNXIEYIDESC').attr('title', datajson.ES_FAG.MNEMONIC);
+            $('#XIANGMU').val(datajson.ES_FAG.ITEM_NO);
+            $('#fag_item_key').val(CharToHex(base64decode(datajson.OUTPUT.ROOT.FAG_ITEM_KEY)));
+            $('#SERVICE_PRODUCT_ID').val(datajson.OUTPUT.ROOT.SERVICE_PRODUCT_ID);
+            $('#order_party_id').val(datajson.OUTPUT.ROOT.ORDER_PARTY_ID);
+            $('#order_party_key').val(CharToHex(base64decode(datajson.OUTPUT.ROOT.ORDER_PARTY_KEY)));
+            $('#sales_org_id').val(datajson.OUTPUT.ROOT.SALES_ORG_ID);
+            $('#XIAOSHOUYUAN').val(datajson.OUTPUT.ZROOTEXD1.ZXSY);
+            g_zrootexd1dbkey = CharToHex(base64decode(datajson.OUTPUT.ZROOTEXD1.KEY));
+            $('#movem_type').val(datajson.OUTPUT.ROOT.MOVEM_TYPE);
+            if (datajson.OUTPUT.ITEM != null) {
+                $.each(datajson.OUTPUT.ITEM, function (n, item) {
+                    if (item.ITEM.ITEM_CAT == "PKG") {
+                        g_itemccodedbkey = CharToHex(base64decode(item.ITEMCCODE.KEY));
+                        $('#ccode').val(item.ITEMCCODE.CCODE);
+                        $('#package_tco').val(item.ITEM.PACKAGE_TCO);
+                        $('#qua_pcs_val').val(parseInt(item.ITEM.QUA_PCS_VAL));
+                        $('#gro_wei_val').val(parseFloat(item.ITEM.GRO_WEI_VAL).toFixed(3));
+                        $('#gro_vol_val').val(parseFloat(item.ITEM.GRO_VOL_VAL).toFixed(3));
+                        $('#zzwpm').val(item.ITEMCCODE.ZZWPM);
+                        g_packagedbkey = CharToHex(base64decode(item.ITEM.KEY));
+
+                        if (datajson.OUTPUT.ZTD != null) {
+                            $.each(datajson.OUTPUT.ZTD, function (n, ztd) {
+                                g_ztddbkey = CharToHex(base64decode(datajson.OUTPUT.ZTD[0].ZTD.KEY));
+                            });
+                        }
+                    }
+                    else if (item.ITEM.ITEM_CAT == "SRV") {
+                        var srvdbkey = "";
+                        var html = "";
+                        var text = "";
+                        var co = item.ITEM.TRANSSRVREQ_CODE;
+                        var mm = "";
+                        var foo = "";
+                        //从后台查取扩展属性展示
+                        $.ajax({
+                            url: "/SystemServiceType/GetEXTList",
+                            data: { code: co },
+                            type: "GET",
+                            async: false,
+                            success: function (data) {
+                                var srvname = "";
+                                $.ajax({
+                                    url: "/SystemServiceType/GetServiceName",
+                                    data: { 'sc': co },
+                                    type: "GET",
+                                    async: false,
+                                    success: function (sn) {
+                                        srvname = sn;
+                                    }
+                                });
+                                srvdbkey = CharToHex(base64decode(item.ITEM.KEY));
+                                data = JSON.parse(data);
+                                var ref_foo_id = "";
+                                var td_key = "";
+                                var ztdsrvtypekey = "";
+                                if (datajson.OUTPUT.ZTD != null) {
+                                    $.each(datajson.OUTPUT.ZTD, function (n, ztd) {
+                                        g_ztddbkey = CharToHex(base64decode(datajson.OUTPUT.ZTD[0].ZTD.KEY));
+                                        $.each(ztd.ZTD_SRV_TYPE, function (n, srv) {
+                                            g_ztdsrvtypekey += CharToHex(base64decode(srv.KEY)) + ',';
+                                            ztdsrvtypekey = CharToHex(base64decode(srv.KEY));
+                                            if (srv.REF_SRV_KEY == item.ITEM.KEY) {
+                                                ref_foo_id = srv.REF_FOO_ID;
+                                                td_key = CharToHex(base64decode(srv.KEY));
+                                                return false;
+                                            }
+                                        });
+                                    });
+                                }
+
+                                html += ' <fieldset name="fooservice" srvkey="' + srvdbkey + '" rootkey="' + g_rootdbkey + '" id="' + srvdbkey + 'fieldset"><header style="margin-bottom:20px;"><label style="width:auto;font-size:13px;"><i>&nbsp;</i><input type="checkbox" tdkey="' + td_key + '" srvkey="' + srvdbkey + '" ztdsrvtypekey="' + ztdsrvtypekey + '" zfwgfdm1="' + item.ZITEMEXD1["ZFWGFDM1"] + '" zfwgfdm2="' + item.ZITEMEXD1["ZFWGFDM2"] + '" zfwgfdm3="' + item.ZITEMEXD1["ZFWGFDM3"] + '" zfwgfdm4="' + item.ZITEMEXD1["ZFWGFDM4"] + '" zfwgfdm5="' + item.ZITEMEXD1["ZFWGFDM5"] + '"  srvcode="' + co + '" name="icheckbox" id="cksrv' + srvdbkey + '"><i>&nbsp;</i>' + srvname + " </label></header>";
+
+                                for (var i = 0; i < data.length; i++) {
+                                    //if (data[i].INFOCODE == "foo" || data[i].INFOCODE == "fo" || data[i].INFOCODE == "fb") {
+                                    if (data[i].INFOCODE == "foo") {
+                                        foo = ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" srvkey="' + srvdbkey + '" id="' + srvdbkey + '" value="' + fqLTrim(ref_foo_id) + '" >';
+                                        if (ref_foo_id.length > 2) {
+                                            var rwfldlinkkey = "";
+                                            if (datajson.ES_TOR != null) {
+                                                $.each(datajson.ES_TOR, function (n, estor) {
+                                                    if (estor.ROOT.ROOT.TOR_ID == ref_foo_id) {
+                                                        rwfldlinkkey = CharToHex(base64decode(estor.ROOT.ROOT.KEY));
+                                                        return false;
+                                                    }
+                                                });
+                                            }
+                                            foo += '<span class="input-link" title="打开TM链接"><a name="rwfldlink" rwfldlinktype="FOO" rwfldlinkkey="' + rwfldlinkkey + '"><i class="fa fa-external-link"></i></a></span>';
+                                        }
+                                        foo += '<input type="text" style="display:none;" class="form-control" srvkey="' + srvdbkey + '" id="' + srvdbkey + 'transsrvreq_code" name="transsrvreq_code" rwfld="rwfld" value="' + co + '"><input type="text" style="display:none;" class="form-control" rwfld="rwfld" name="servicedbkey" value="' + srvdbkey + '"><input type="text" style="display:none;" class="form-control" rwfld="rwfld" name="zitemexd1dbkey" value="' + CharToHex(base64decode(item.ZITEMEXD1["KEY"])) + '"></div></div></div>';
+                                        continue;
+                                    }
+                                    if (data[i].INFOCODE == "zbgywdh") { //报关业务单号
+                                        var bgdh = "";
+                                        if (datajson.ES_TOR != null) {
+                                            $.each(datajson.ES_TOR, function (n, esroot) {
+                                                if (esroot.ROOT.ROOT.TOR_ID == ref_foo_id) {
+                                                    bgdh = esroot.ROOT.ZBGFW.ZBGYWDH;
+                                                    return false;
+                                                }
+                                            });
+                                        }
+                                        mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" srvkey="' + srvdbkey + '" id="' + srvdbkey + data[i].INFOCODE + '" name="' + data[i].INFOCODE + '" rwfld="rwfld" value="' + bgdh + '" > </div></div> </div>';
+                                        continue;
+                                    }
+                                    //绑定数据源
+                                    if (data[i].MDMKEY != "" && data[i].MDMKEY != null) {
+                                        var itmval = "";
+                                        if (item.ITEM[data[i].INFOCODE.toLocaleUpperCase()] != null && item.ITEM[data[i].INFOCODE.toLocaleUpperCase()] != undefined) {
+                                            itmval = item.ITEM[data[i].INFOCODE.toLocaleUpperCase()];
+                                        }
+                                        else if (item.ZITEMEXD1[data[i].INFOCODE.toLocaleUpperCase()] != null && item.ZITEMEXD1[data[i].INFOCODE.toLocaleUpperCase()] != undefined) {
+                                            itmval = item.ZITEMEXD1[data[i].INFOCODE.toLocaleUpperCase()];
+                                        }
+                                        else { }
+                                        var mdmtype = "MDM";
+                                        if (data[i].MDMKEY == "MDMORG") {
+                                            mdmtype = "MDMORG";
+                                        }
+                                        if (data[i].MDMKEY == "MDMBP") {
+                                            mdmtype = "MDMBP";
+                                        }
+
+                                        if (data[i].INFOCODE == "zwtfs") { //委托方式显示中文
+                                            var zwtfsname = "";
+                                            if (!!itmval) {
+                                                $.ajax({
+                                                    url: "/MDM/GetMDMDescription",
+                                                    data: { 'mdmkey': data[i].MDMKEY, 'mdmfieldname': data[i].FIELDNAME, 'srch': itmval },
+                                                    type: "GET",
+                                                    async: false,
+                                                    success: function (rtn) {
+                                                        zwtfsname = rtn;
+                                                    }
+                                                });
+                                            }
+
+                                            mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input style="width:34%;" type="text" class="form-control" srvkey="' + srvdbkey + '" id="' + srvdbkey + data[i].INFOCODE + '" name="' + data[i].INFOCODE + '" rwfld="rwfld"  mdmtype="' + mdmtype + '"  mdmkey="' + data[i].MDMKEY + '\" mdmfieldname="' + data[i].FIELDNAME + '" value="' + itmval + '"><input style="width:60%;" disabled="disabled" type="text" class="form-control" srvkey="' + srvdbkey + '" id="' + srvdbkey + data[i].INFOCODE + 'MS" value="' + zwtfsname + '"></div></div> </div>';
+                                        }
+                                        else {
+                                            mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" srvkey="' + srvdbkey + '" id="' + srvdbkey + data[i].INFOCODE + '" name="' + data[i].INFOCODE + '" rwfld="rwfld"  mdmtype="' + mdmtype + '"  mdmkey="' + data[i].MDMKEY + '\" mdmfieldname="' + data[i].FIELDNAME + '" value="' + itmval + '"></div></div> </div>';
+                                        }
+                                    }
+                                    else {
+                                        var zitmval = "";
+                                        if (item.ITEM[data[i].INFOCODE.toLocaleUpperCase()] != null && item.ITEM[data[i].INFOCODE.toLocaleUpperCase()] != undefined) {
+                                            zitmval = item.ITEM[data[i].INFOCODE.toLocaleUpperCase()];
+                                        }
+                                        else if (item.ZITEMEXD1[data[i].INFOCODE.toLocaleUpperCase()] != null && item.ZITEMEXD1[data[i].INFOCODE.toLocaleUpperCase()] != undefined) {
+                                            zitmval = item.ZITEMEXD1[data[i].INFOCODE.toLocaleUpperCase()];
+                                        }
+                                        else { }
+                                        mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" srvkey="' + srvdbkey + '" id="' + srvdbkey + data[i].INFOCODE + '" name="' + data[i].INFOCODE + '" rwfld="rwfld" value="' + zitmval + '" > </div></div> </div>';
+                                    }
+                                }
+                                mm = foo + mm + "</fieldset>";
+                            }
+                        });
+                        text += html + mm;
+
+                        $("#EXTList").append(text);
+                    }
+                    else { }
+                });
+            }
+            if (datajson.OUTPUT.STAGE != null) {
+                var stagehtml = '';
+                $.each(datajson.OUTPUT.STAGE, function (n, stage) {
+                    if (stage.HANDLING_EXEC == '02') {  //  阶段状态等于“02”不相关时，不显示
+                        return true;
+                    }
+                    var lxid = fqgenguid();
+                    if (stage.STAGE_TYPE == "ZAF" || stage.STAGE_TYPE == "ZOF") { //FB
+                        var fbfostage_key = CharToHex(base64decode(stage.STAGE_KEY));
+                        var fbfotarget_tor_id = stage.TARGET_TOR_ID;
+                        stagehtml += '<fieldset tor_id="' + stage.TOR_ID + '" name="fbfostage" id="' + fbfostage_key + 'fieldset"><div class="col-xs-3 cols"><label class="col-md-5 control-label label"><input type="checkbox"  name="icheckboxfofb" id="' + fbfostage_key + '" fbfotargettorid="' + fbfotarget_tor_id + '" fbfostagekey="' + fbfostage_key + '" /><i>&nbsp;</i>FB号</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" id="' + fbfostage_key + 'TARGET_TOR_ID" name="TARGET_TOR_ID" rwfld="rwfld" value="' + fqLTrim(fbfotarget_tor_id) + '">';
+                        if (fbfotarget_tor_id.length > 2) {
+                            var rwfldlinkkey = "";
+                            if (datajson.ES_TOR != null) {
+                                $.each(datajson.ES_TOR, function (n, estor) {
+                                    if (estor.ROOT.ROOT.TOR_ID == fbfotarget_tor_id) {
+                                        rwfldlinkkey = CharToHex(base64decode(estor.ROOT.ROOT.KEY));
+                                        return false;
+                                    }
+                                });
+                            }
+                            stagehtml += '<span class="input-link" title="打开TM链接"><a name="rwfldlink" rwfldlinktype="FB" rwfldlinkkey="' + rwfldlinkkey + '"><i class="fa fa-external-link"></i></a></span>';
+                        }
+                        stagehtml += '</div></div></div>';
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">阶段类型</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" name="STAGE_TYPE" rwfld="rwfld" value="' + stage.STAGE_TYPE + '"><input type="text" disabled="disabled" style="display:none;" class="form-control" name="STAGE_KEY" rwfld="rwfld" value="' + fbfostage_key + '"><input type="text" disabled="disabled" style="display:none;" class="form-control" name="TOR_KEY" rwfld="rwfld" value="' + CharToHex(base64decode(stage.TOR_KEY)) + '"></div></div></div>';
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">采购组织</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" value="' + stage.PURCH_ORG_ID + '"><input type="text" disabled="disabled" style="display:none;" class="form-control" rwfld="rwfld" name="EXEC_ORG_ID" value="' + stage.EXEC_ORG_ID + '"></div></div></div>';
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">运输公司</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" name="TSP_ID" rwfld="rwfld" value="' + stage.TSP_ID + '"></div></div></div>';
+                        stagehtml += '</fieldset>';
+                    }
+                    else {//FO
+                        if (g_stage_type.indexOf(stage.STAGE_TYPE) >= 0) {
+                            return true;
+                        }
+                        var fbfostage_key = CharToHex(base64decode(stage.STAGE_KEY));
+                        var fbfotarget_tor_id = stage.TARGET_TOR_ID;
+                        stagehtml += '<fieldset tor_id="' + stage.TOR_ID + '" name="fbfostage" id="' + fbfostage_key + 'fieldset"><div class="col-xs-3 cols"><label class="col-md-5 control-label label"><input type="checkbox"  name="icheckboxfofb" id="' + fbfostage_key + '" fbfotargettorid="' + fbfotarget_tor_id + '" fbfostagekey="' + fbfostage_key + '" /><i>&nbsp;</i>FO号</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" id="' + fbfostage_key + 'TARGET_TOR_ID" name="TARGET_TOR_ID" rwfld="rwfld" value="' + fqLTrim(fbfotarget_tor_id) + '"><input type="text" style="display:none;" disabled="disabled" class="form-control" id="' + fbfostage_key + 'PRE_KEY" name="PRE_KEY" rwfld="rwfld" value="">';
+                        if (fbfotarget_tor_id.length > 2) {
+                            var rwfldlinkkey = "";
+                            if (datajson.ES_TOR != null) {
+                                $.each(datajson.ES_TOR, function (n, estor) {
+                                    if (estor.ROOT.ROOT.TOR_ID == fbfotarget_tor_id) {
+                                        rwfldlinkkey = CharToHex(base64decode(estor.ROOT.ROOT.KEY));
+                                        return false;
+                                    }
+                                });
+                            }
+                            stagehtml += '<span class="input-link" title="打开TM链接"><a name="rwfldlink" rwfldlinktype="FO" rwfldlinkkey="' + rwfldlinkkey + '"><i class="fa fa-external-link"></i></a></span>';
+                        }
+                        stagehtml += '</div></div></div>';
+                        if (fbfotarget_tor_id.length > 2) {
+                            stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">阶段类型</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" id="' + fbfostage_key + 'STAGE_TYPE" name="STAGE_TYPE" rwfld="rwfld" value="' + stage.STAGE_TYPE + '" mdmtype="MDM" mdmkey="JDLX" mdmfieldname="STAGE_TYPE,DESCRIPTION_S"><input type="text" disabled="disabled" style="display:none;" class="form-control" name="STAGE_KEY" rwfld="rwfld" value="' + fbfostage_key + '"><input type="text" disabled="disabled" style="display:none;" class="form-control" name="TOR_KEY" rwfld="rwfld" value="' + CharToHex(base64decode(stage.TOR_KEY)) + '"></div></div></div>';
+                        }
+                        else {
+                            stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">阶段类型</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" id="' + fbfostage_key + 'STAGE_TYPE" name="STAGE_TYPE" rwfld="rwfld" value="' + stage.STAGE_TYPE + '" mdmtype="MDM" mdmkey="JDLX" mdmfieldname="STAGE_TYPE,DESCRIPTION_S"><input type="text" disabled="disabled" style="display:none;" class="form-control" name="STAGE_KEY" rwfld="rwfld" value="' + fbfostage_key + '"><input type="text" disabled="disabled" style="display:none;" class="form-control" name="TOR_KEY" rwfld="rwfld" value="' + CharToHex(base64decode(stage.TOR_KEY)) + '"></div></div></div>';
+                        }
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">采购组织</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" value="' + stage.PURCH_ORG_ID + '"><input type="text" disabled="disabled" style="display:none;" class="form-control" rwfld="rwfld" name="EXEC_ORG_ID" value="' + stage.EXEC_ORG_ID + '"></div></div></div>';
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">运输公司</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" name="TSP_ID" rwfld="rwfld" value="' + stage.TSP_ID + '"></div></div></div>';
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">源位置</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" id="' + fbfostage_key + 'SOURCE_LOG_LOCID" name="SOURCE_LOG_LOCID" rwfld="rwfld" value="' + stage.SOURCE_LOG_LOCID + '"><input type="text" disabled="disabled" class="form-control" style="display:none;" id="' + fbfostage_key + 'SOURCE_LOC_UUID" name="SOURCE_LOC_UUID" rwfld="rwfld" value="' + CharToHex(base64decode(stage.SOURCE_LOC_UUID)) + '"></div></div></div>';
+                        if (fbfotarget_tor_id.length > 2) {
+                            stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">目标位置</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" id="' + fbfostage_key + 'DEST_LOG_LOCID" name="DEST_LOG_LOCID" rwfld="rwfld" mdmtype="MDMLOC" mdmcode="' + fbfostage_key + 'DEST_LOG_LOCID" mdmkey="' + fbfostage_key + 'DEST_LOC_UUID" value="' + stage.DEST_LOG_LOCID + '"><input type="text" disabled="disabled" class="form-control" style="display:none;" id="' + fbfostage_key + 'DEST_LOC_UUID" name="DEST_LOC_UUID" rwfld="rwfld" value="' + CharToHex(base64decode(stage.DEST_LOC_UUID)) + '"></div></div></div>';
+                        }
+                        else {
+                            stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">目标位置&nbsp;<i name="fbfobtn" title="新增拆分" onclick="InsertFBFO(\'' + fbfostage_key + '\')" style="cursor:pointer;color:#5cb85c" class="fa fa-plus"></i>&nbsp;<i name="fbfobtn" title="删除" onclick="DeleteFBFO(\'' + fbfostage_key + '\')" style="cursor:pointer;color:#ee0101" class="fa fa-minus"></i></label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" id="' + fbfostage_key + 'DEST_LOG_LOCID" name="DEST_LOG_LOCID" rwfld="rwfld" mdmtype="MDMLOC" mdmcode="' + fbfostage_key + 'DEST_LOG_LOCID" mdmkey="' + fbfostage_key + 'DEST_LOC_UUID" value="' + stage.DEST_LOG_LOCID + '"><input type="text" disabled="disabled" class="form-control" style="display:none;" id="' + fbfostage_key + 'DEST_LOC_UUID" name="DEST_LOC_UUID" rwfld="rwfld" value="' + CharToHex(base64decode(stage.DEST_LOC_UUID)) + '"></div></div></div>';
+                        }
+
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">单整车标记</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" name="ZDZCBJ" rwfld="rwfld" value="' + stage.ZDZCBJ + '"></div></div></div>';
+                        stagehtml += '<div class="col-xs-3 cols"><label class="col-md-5 control-label label">车型吨位</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" name="ZZCDW" rwfld="rwfld" value="' + stage.ZZCDW + '"></div></div></div>';
+                        stagehtml += '</fieldset>';
+                    }
+                });
+                $("#EXTList").append(stagehtml);
+            }
+            //加载数据源
+            BindAutocompleteMDM();
+
+            $('#ztgfs').val(datajson.OUTPUT.ROOT.ZTGFS);
+            $('#shipper_id').val(datajson.OUTPUT.ROOT.SHIPPER_ID);
+            $('#shipper_key').val(CharToHex(base64decode(datajson.OUTPUT.ROOT.SHIPPER_KEY)));
+            $('#src_loc_id').val(datajson.OUTPUT.ROOT.SRC_LOC_ID);
+            $('#src_loc_key').val(CharToHex(base64decode(datajson.OUTPUT.ROOT.SRC_LOC_KEY)));
+            $('#consignee_id').val(datajson.OUTPUT.ROOT.CONSIGNEE_ID);
+            $('#consignee_key').val(CharToHex(base64decode(datajson.OUTPUT.ROOT.CONSIGNEE_KEY)));
+            $('#des_loc_id').val(datajson.OUTPUT.ROOT.DES_LOC_ID);
+            $('#des_loc_key').val(CharToHex(base64decode(datajson.OUTPUT.ROOT.DES_LOC_KEY)));
+            if (datajson.OUTPUT.ROOT.ZJHSHTHRQ != "0" && datajson.OUTPUT.ROOT.ZJHSHTHRQ != "0000-00-00") {
+                //$('#zjhshthrq').val(formatDate(datajson.OUTPUT.ROOT.ZJHSHTHRQ));
+                var gmtDate = new Date(formatDate(datajson.OUTPUT.ROOT.ZJHSHTHRQ));
+                gmtDate.setHours(gmtDate.getHours() + 8);
+                $('#zjhshthrq').val(gmtDate.Format("yyyy/MM/dd hh:mm:ss"));
+            }
+            if (datajson.OUTPUT.PARTY != null) {
+                $.each(datajson.OUTPUT.PARTY, function (n, party) {
+                    if (party.PARTY_RCO == "ZFW2") {
+                        $('#CKQYJSFCODE').val(party.PARTY_ID);
+                        $('#CKQYJSFKEY').val(CharToHex(base64decode(party.PARTY_UUID)));
+                        $('#CKQYJSFDBKEY').val(CharToHex(base64decode(party.KEY)));
+                    }
+                    if (party.PARTY_RCO == "ZFW3") {
+                        $('#HUBCJJSFCODE').val(party.PARTY_ID);
+                        $('#HUBCJJSFKEY').val(CharToHex(base64decode(party.PARTY_UUID)));
+                        $('#HUBCJJSFDBKEY').val(CharToHex(base64decode(party.KEY)));
+                    }
+                    if (party.PARTY_RCO == "ZFW4") {
+                        $('#HUBCCJSFCODE').val(party.PARTY_ID);
+                        $('#HUBCCJSFKEY').val(CharToHex(base64decode(party.PARTY_UUID)));
+                        $('#HUBCCJSFDBKEY').val(CharToHex(base64decode(party.KEY)));
+                    }
+                    if (party.PARTY_RCO == "ZFW1") {
+                        $('#JKQYJSFCODE').val(party.PARTY_ID);
+                        $('#JKQYJSFKEY').val(CharToHex(base64decode(party.PARTY_UUID)));
+                        $('#JKQYJSFDBKEY').val(CharToHex(base64decode(party.KEY)));
+                    }
+                });
+            }
+            if (datajson.OUTPUT.ROOT.ZJHUBCSJ != "0" && datajson.OUTPUT.ROOT.ZJHUBCSJ != "0000-00-00") {
+                //$('#zjhubcsj').val(formatDate(datajson.OUTPUT.ROOT.ZJHUBCSJ));
+                var gmtDate = new Date(formatDate(datajson.OUTPUT.ROOT.ZJHUBCSJ));
+                gmtDate.setHours(gmtDate.getHours() + 8);
+                $('#zjhubcsj').val(gmtDate.Format("yyyy/MM/dd hh:mm:ss"));
+            }
+            if (datajson.OUTPUT.ROOT.ZCHUBCSJ != "0" && datajson.OUTPUT.ROOT.ZCHUBCSJ != "0000-00-00") {
+                //$('#zchubcsj').val(formatDate(datajson.OUTPUT.ROOT.ZCHUBCSJ));
+                var gmtDate = new Date(formatDate(datajson.OUTPUT.ROOT.ZCHUBCSJ));
+                gmtDate.setHours(gmtDate.getHours() + 8);
+                $('#zchubcsj').val(gmtDate.Format("yyyy/MM/dd hh:mm:ss"));
+            }
+            $('#zjsbzl').val(datajson.OUTPUT.ROOT.ZJSBZL);
+            $('#zjdbzl').val(datajson.OUTPUT.ROOT.ZJDBZL);
+
+            if (datajson.OUTPUT.ROOT.LIFECYCLE == 10 || datajson.OUTPUT.ROOT.LIFECYCLE == '10') {
+                $('#ZFBJ').iCheck('check');
+            }
+        }
+        function DoLock() {
+            if (g_zlock_internal == '02') {
+                $('#content').find('*').attr('disabled', 'disabled');
+                $('#btnback').removeAttr('disabled');
+                $('#btnCopy').removeAttr('disabled');
+                $('a').removeAttr('href');//去掉a标签中的href属性
+                $("i[name='fbfobtn']").each(function () {
+                    $(this).hide();
+                });
+                return;
+            }
+            if (g_zlock_internal == '01' || g_zlock_external == '01') {
+                $.ajax({
+                    url: RootPath() + "/MDM/GetDatasLock",
+                    type: "post",
+                    data: {
+                        'ztype': $('#trq_type').val(),
+                        'zlock_internal': g_zlock_internal,
+                        'zlock_external': g_zlock_external
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        if (data != null && data.Data != null) {
+                            //console.log(data.Data);
+                            $.each(data.Data, function (n, lf) {
+                                if (lf.LOCKFIELD == 'fag_id')//代运协议
+                                {
+                                    $('a').removeAttr('href');//去掉a标签中的href属性
+                                }
+                                else if (lf.LOCKFIELD == 'party_idzfw1')//进口企业结算方
+                                {
+                                    $('#JKQYJSFCODE').attr('disabled', 'disabled');
+                                }
+                                else if (lf.LOCKFIELD == 'party_idzfw2')//出口企业结算方
+                                {
+                                    $('#CKQYJSFCODE').attr('disabled', 'disabled');
+                                }
+                                else if (lf.LOCKFIELD == 'party_idzfw3')//HUB仓进结算方
+                                {
+                                    $('#HUBCJJSFCODE').attr('disabled', 'disabled');
+                                }
+                                else if (lf.LOCKFIELD == 'party_idzfw4')//HUB仓出结算方
+                                {
+                                    $('#HUBCCJSFCODE').attr('disabled', 'disabled');
+                                }
+                                else {
+                                    $('#' + lf.LOCKFIELD).attr('disabled', 'disabled');
+                                    $('input:text[name=' + lf.LOCKFIELD + ']').each(function () {
+                                        $(this).attr("disabled", "disabled");
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            layer.msg(data.responseText, { time: 5000 });
+                        } else {
+                            layer.msg("请求失败！");
+                        }
+                    }
+                });
+            }
+            //if (g_zlock_external == '01') { }
+        }
+        var IsEdit = false;
+        $(document).ready(function () {
+            BindAutocompleteMDM();
+            iCheckStyled();
+            DisabledCtrl();
+            $("input").change(function () {
+                IsEdit = true;
+            });
+
+            BindShortcutKey();
+        });
+        function BindShortcutKey() {
+            Mousetrap.bind('alt+c', function (e) {
+                //Copy();
+                location.href = '/QO_OverlayBonded/OverlayBondedEdit?fwo=' + $("#FWO").val() + '&optype=copy';
+            });
+            Mousetrap.bind('alt+a', function (e) {
+                back();
+            });
+            if (!$("#btnSave").prop("disabled")) {
+                Mousetrap.bind('alt+s', function (e) {
+                    $("#btnSave").trigger('click');
+                });
+            }
+        }
+        function BindAutocompleteMDM() {
+            //加载数据源
+            $("[mdmtype='MDM']").each(function () {
+                AutocompleteMDM($(this).attr("id"));
+            });
+
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+
+            $("[mdmtype='MDMLOC']").each(function () {
+                AutocompleteMDMLOC($(this).attr("id"));
+            });
+
+            $("[mdmtype='MDMORG']").each(function () {
+                AutocompleteMDMORG($(this).attr("id"));
+            });
+
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+        function iCheckStyled() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        }
+        function DisabledCtrl() {
+            $('input:text[name=zbgywdh]').each(function () {
+                $(this).attr("disabled", "disabled");
+            });
+            $('input:text[name=foo]').each(function () {
+                $(this).attr("disabled", "disabled");
+            });
+
+            //叠加保税 进出口口岸不可修改
+            $('input:text[name=zjckka]').each(function () {
+                $(this).attr("disabled", "disabled");
+            });
+        }
+        //返回
+        function back() {
+            if (IsEdit) {
+                if (confirm("页面有修改，是否放弃保存？")) {
+                    window.location.href = "@Url.Action("OverlayBondedIndex")";
+                }
+            }
+            else { window.location.href = "@Url.Action("OverlayBondedIndex")"; }
+        }
+        function DoCopy() {
+            if (IsEdit) {
+                var msg = "有未保存的数据，是否离开当前页面继续复制？";
+                if (confirm(msg) == true) {
+                    location.href = '/QO_OverlayBonded/OverlayBondedEdit?fwo=' + $("#FWO").val() + '&optype=copy';
+                } else {
+                    return;
+                }
+            }
+            else {
+                location.href = '/QO_OverlayBonded/OverlayBondedEdit?fwo=' + $("#FWO").val() + '&optype=copy';
+            }
+        }
+        function Copy() {
+            $('#iscopy').val('copy');
+            $(".input-link").hide();
+            keyvalue = '';
+            $('#FWO').val('');
+            $("#pic_ear_req").val('@DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")');
+            var user = '@(Oncontrol3.Web.Helpers.SessionHelper.GetSessionUser<Oncontrol3.Web.Controllers.FLD_QO_USER>().staffkey)';
+            $("#created_by").val(user);
+            $('#zjhshthrq').val('');
+            $('#package_tco').val('');
+            $('#qua_pcs_val').val('');
+            $('#gro_wei_val').val('');
+            $('#gro_vol_val').val('');
+            $('#zzwpm').val('');
+            $('#zjhubcsj').val('');
+            $('#zchubcsj').val('');
+            $('#zjsbzl').val('');
+            $('#zjdbzl').val('');
+
+            //整单复制取消客户自编号和二线专用合同发票号的复制
+            //$('#zkhzbh_root').val('');
+            $("input[name='zexzyhtfph']").each(function () {
+                $(this).val('');
+            });
+
+            $('input:checkbox[name=icheckbox]').each(function () {
+                var tempkey = $(this).attr('srvkey');
+                $("#" + tempkey).val('', '');
+                $("#" + tempkey + 'zbgywdh').val('', '');
+            });
+            $('input:checkbox[name=icheckboxfofb]').each(function () {
+                var tempkey = $(this).attr('fbfostagekey');
+                $("#" + tempkey + "TARGET_TOR_ID").val('');
+            });
+            //优化复制
+            $('#ZFBJ').iCheck('uncheck');
+            $('#btnSave').removeAttr('disabled');
+            $('#btnFOOFBFO').attr("disabled", "disabled");
+            $('#btnSCYWDH').attr("disabled", "disabled");
+            $('#btnXFXGW').attr("disabled", "disabled");
+            $('#btnBARCODE').attr("disabled", "disabled");
+
+            //复制时不允许拆分阶段路线
+            $('i[name=fbfobtn]').each(function () {
+                $(this).hide();
+            });
+            //复制时删除不同组的阶段路线
+            var tor_idgrp = "";
+            $('fieldset[name=fbfostage]').each(function () {
+                if (tor_idgrp == "") {
+                    tor_idgrp = $(this).attr('tor_id');
+                    return true;
+                }
+                if ($(this).attr('tor_id') != tor_idgrp) {
+                    $(this).remove();
+                }
+            });
+
+            layer.alert('复制数据完成，请注意 <strong>保存</strong>', { icon: 1 });
+        }
+        //保存
+        $("#btnSave").click(function () {
+            if (keyvalue == '' && $('#created_by').val() == '') {
+                layer.alert('登录超时，请重新登录后再接单！', {
+                    title: '错误',
+                    skin: 'layui-layer-red',
+                    closeBtn: 0
+                });
+                return;
+            }
+
+            if (keyvalue != '' && $('#changed_by').val() == '') {
+                layer.alert('登录超时，请重新登录后再接单！', {
+                    title: '错误',
+                    skin: 'layui-layer-red',
+                    closeBtn: 0
+                });
+                return;
+            }
+
+            if (!$('#formmain').validationEngine('validate')) {
+                return;
+            }
+
+            if (keyvalue == '') {   //新增
+                var postdatahead = GetWebControls("#formmain");
+                var postdataservice = [];
+                $("fieldset[name=fooservice]").each(function () {
+                    var fieldsetid = $(this).attr("id");
+                    if (fieldsetid != null && fieldsetid != "") {
+                        var jsonsrv = $('#' + fieldsetid).serializeObject();
+                        //console.log(JSON.stringify(jsonsrv));
+                        if (JSON.stringify(jsonsrv) != "{}") {
+                            postdataservice.push(jsonsrv);
+                        }
+                    }
+                });
+
+                var postdatastage = [];
+                $("fieldset[name=fbfostage]").each(function () {
+                    var fieldsetstgid = $(this).attr("id");
+                    if (fieldsetstgid != null && fieldsetstgid != "") {
+                        var jsonstg = $('#' + fieldsetstgid).serializeObject();
+                        //console.log(JSON.stringify(gjsonstg));
+                        if (JSON.stringify(jsonstg) != "{}") {
+                            postdatastage.push(jsonstg);
+                        }
+                    }
+                });
+
+                //console.log(JSON.stringify(postdataservice));
+                var index = layer.load(2, { time: 300 * 1000 });
+                try {
+                    $.ajax({
+                        url: RootPath() + "/QO_OverlayBonded/QOFWO",
+                        type: "post",
+                        data: {
+                            'headstr': JSON.stringify(postdatahead),
+                            'srvstr': JSON.stringify(postdataservice),
+                            'stgstr': JSON.stringify(postdatastage),
+                            'srvstrhiden': g_srvstrhiden
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            layer.close(index);
+                            if (data.Success) {
+                                $("#FWO").val(data.Data);
+                                layer.alert(data.Message, {
+                                    skin: 'layui-layer-molv',
+                                    icon: 1
+                                , closeBtn: 0
+                                }, function () {
+                                    location.href = "/QO_OverlayBonded/OverlayBondedEdit?fwo=" + $("#FWO").val();
+                                });
+                            } else {
+                                layer.alert(data.Message, {
+                                    title: '错误',
+                                    skin: 'layui-layer-red'
+                                , closeBtn: 0
+                                });
+                                console.log(data.Message);
+                            }
+                        },
+                        error: function (data) {
+                            layer.close(index);
+                            if (!!data.responseText) {
+                                layer.msg(data.responseText, { time: 5000 });
+                            } else {
+                                layer.msg("请求失败！");
+                            }
+                        }
+                    });
+
+                } catch (e)
+                { layer.msg("保存失败，请重试"); layer.close(index); }
+            }
+            else {  //修改
+                var postdatahead = GetWebControls("#formmain");
+                var postdataservice = [];
+                $("fieldset[name=fooservice]").each(function () {
+                    var fieldsetid = $(this).attr("id");
+                    if (fieldsetid != null && fieldsetid != "") {
+                        var jsonsrv = $('#' + fieldsetid).serializeObject();
+                        //console.log(JSON.stringify(jsonsrv));
+                        if (JSON.stringify(jsonsrv) != "{}") {
+                            postdataservice.push(jsonsrv);
+                        }
+                    }
+                });
+
+                var postdatastage = [];
+                $("fieldset[name=fbfostage]").each(function () {
+                    var fieldsetstgid = $(this).attr("id");
+                    if (fieldsetstgid != null && fieldsetstgid != "") {
+                        var jsonstg = $('#' + fieldsetstgid).serializeObject();
+                        //console.log(JSON.stringify(gjsonstg));
+                        if (JSON.stringify(jsonstg) != "{}") {
+                            postdatastage.push(jsonstg);
+                        }
+                    }
+                });
+
+                var index = layer.load(2, { time: 300 * 1000 });
+                try {
+                    $.ajax({
+                        url: RootPath() + "/QO_OverlayBonded/QOFWO402",
+                        type: "post",
+                        data: {
+                            'headstrinit': JSON.stringify(g_postdatahead),
+                            'srvstrinit': JSON.stringify(g_postdataservice),
+                            'headstrlatest': JSON.stringify(postdatahead),
+                            'srvstrlatest': JSON.stringify(postdataservice),
+                            'rootkey': g_rootdbkey,
+                            'packagekey': g_packagedbkey,
+                            'ztdkey': g_ztddbkey,
+                            'itemccodekey': g_itemccodedbkey,
+                            'zrootexd1dbkey': g_zrootexd1dbkey,
+                            'stgstrinit': JSON.stringify(g_postdatastage),
+                            'stgstrlatest': JSON.stringify(postdatastage)
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            layer.close(index);
+                            if (data.Success) {
+                                layer.alert(data.Message, {
+                                    skin: 'layui-layer-molv',
+                                    icon: 1
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.alert(data.Message, {
+                                    title: '错误',
+                                    skin: 'layui-layer-red'
+                                , closeBtn: 0
+                                });
+                                console.log(data.Message);
+                            }
+                        },
+                        error: function (data) {
+                            layer.close(index);
+                            if (!!data.responseText) {
+                                layer.msg(data.responseText, { time: 5000 });
+                            } else {
+                                layer.msg("请求失败！");
+                            }
+                        }
+                    });
+
+                } catch (e)
+                { layer.msg("保存失败，请重试"); layer.close(index); }
+            }
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        //点击插入服务按钮，根据产品key弹出对应的服务类型
+        //$("#insertservice").click(function () {
+        //    $("#fsservicetype").empty();
+        //    //从后台读数据源
+        //    var pid = $("#SERVICE_PRODUCT_ID").val();
+        //    if (pid == "") {
+        //        return "请选择产品";
+        //    }
+        //    var html = "";
+        //    $.ajax({
+        //        url: "/SystemServiceType/GetserviceType",
+        //        data: { Pid: pid },
+        //        type: "GET",
+        //        async: false,
+        //        success: function (data) {
+        //            data = JSON.parse(data);
+        //            for (var i = 0; i < data.length; i++) {
+        //                //动态创建表单
+        //                //调取后台接口，取出表单项，加载。
+        //                //section分奇数和偶数
+        //                if (!((i + 1) % 2 == 0)) {
+        //                    html += '<section><div class="row"><label class="label col col-2">&nbsp;</label>';
+        //                }
+
+        //                html += '<div class="col col-5"><label ><input type="checkbox" srvname="' + data[i].SERVICENAME + '" srvtype="' + data[i].SERVICETYPE + '" value="' + data[i].SERVICETYPE + '" name="icheckboxsel" ><i>&nbsp;</i>' + data[i].SERVICENAME + '</label></div>';
+
+        //                if (((i + 1) % 2 == 0)) {
+        //                    html += "</div></section>";
+        //                }
+        //            }
+        //            $("#fsservicetype").append(html);
+
+        //            iCheckStyled();
+        //            DisabledCtrl();
+        //        }
+        //    });
+        //});
+
+        $("#insertservice").click(function () {
+            $("#fsservicetype").empty();
+            //从后台读数据源
+            var html = "";
+            $.ajax({
+                url: "/SystemServiceType/GetserviceTypeA",
+                data: {},
+                type: "GET",
+                async: false,
+                success: function (data) {
+                    data = JSON.parse(data);
+                    for (var i = 0; i < data.length; i++) {
+                        //动态创建表单
+                        //调取后台接口，取出表单项，加载。
+                        //section分奇数和偶数
+                        if (!((i + 1) % 2 == 0)) {
+                            html += '<section><div class="row"><label class="label col col-2">&nbsp;</label>';
+                        }
+
+                        html += '<div class="col col-5"><label ><input type="checkbox" srvname="' + data[i].SERVICENAME + '" srvtype="' + data[i].SERVICETYPE + '" value="' + data[i].SERVICETYPE + '" name="icheckboxsel" ><i>&nbsp;</i>' + data[i].SERVICENAME + '</label></div>';
+
+                        if (((i + 1) % 2 == 0)) {
+                            html += "</div></section>";
+                        }
+                    }
+                    $("#fsservicetype").append(html);
+
+                    iCheckStyled();
+                    DisabledCtrl();
+                }
+            });
+        });
+
+        $("#btn_submit_service").click(function () {
+            var text = "";
+            $('input:checkbox[name=icheckboxsel]:checked').each(function (i) {
+                IsEdit = true;
+                var fqid = fqgenguid();
+                var html = "";
+                var co = $(this).attr('srvtype');
+                //动态创建表单
+                //调取后台接口，取出表单项，加载。
+                html += ' <fieldset name="fooservice" srvkey="' + fqid + '" id="' + fqid + 'fieldset"><header style="margin-bottom:20px;"><label style="width:auto;font-size:13px" ><i>&nbsp;</i><input id="cksrv' + fqid + '" type="checkbox" srvkey="' + fqid + '" srvcode="' + co + '" name="icheckbox"><i>&nbsp;</i>' + $(this).attr('srvname') + " </label></header>";
+
+                var mm = "";
+                var foo = "";
+                //从后台查取扩展属性展示
+                $.ajax({
+                    url: "/SystemServiceType/GetEXTList",
+                    data: { code: co },
+                    type: "GET",
+                    async: false,
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        for (var i = 0; i < data.length; i++) {
+                            //if (data[i].INFOCODE == "foo" || data[i].INFOCODE == "fo" || data[i].INFOCODE == "fb") {
+                            if (data[i].INFOCODE == "foo") {
+                                foo = ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">FOO</label><div class="col-md-5"><div class="input-group"><input type="text" disabled="disabled" class="form-control" id="' + fqid + '" ><input type="text" style="display:none;" class="form-control" id="' + fqid + 'transsrvreq_code" name="transsrvreq_code" rwfld="rwfld" value="' + co + '"><input type="text" style="display:none;" class="form-control" rwfld="rwfld" name="servicedbkey" value="' + fqid + '"></div></div></div>';
+                                continue;
+                            }
+                            //绑定数据源
+                            if (data[i].MDMKEY != "" && data[i].MDMKEY != null) {
+                                var mdmtype = "MDM";
+                                if (data[i].MDMKEY == "MDMORG") {
+                                    mdmtype = "MDMORG";
+                                }
+                                if (data[i].MDMKEY == "MDMBP") {
+                                    mdmtype = "MDMBP";
+                                }
+                                if ('zbgfs' == data[i].INFOCODE) {  //默认01
+                                    mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" id="' + fqid + data[i].INFOCODE + '" value="01" name="' + data[i].INFOCODE + '" rwfld="rwfld"  mdmtype="' + mdmtype + '"  mdmkey="' + data[i].MDMKEY + '\" mdmfieldname="' + data[i].FIELDNAME + '"></div></div> </div>';
+                                }
+                                else if (data[i].INFOCODE == "zwtfs")  //委托方式显示中文
+                                {
+                                    mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input style="width:34%;" type="text" class="form-control" id="' + fqid + data[i].INFOCODE + '" name="' + data[i].INFOCODE + '" rwfld="rwfld"  mdmtype="' + mdmtype + '"  mdmkey="' + data[i].MDMKEY + '\" mdmfieldname="' + data[i].FIELDNAME + '"><input style="width:60%;" disabled="disabled" type="text" class="form-control" id="' + fqid + data[i].INFOCODE + 'MS"></div></div> </div>';
+                                }
+                                else {
+                                    mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" id="' + fqid + data[i].INFOCODE + '" name="' + data[i].INFOCODE + '" rwfld="rwfld"  mdmtype="' + mdmtype + '"  mdmkey="' + data[i].MDMKEY + '\" mdmfieldname="' + data[i].FIELDNAME + '"></div></div> </div>';
+                                }
+                            } else {
+                                mm += ' <div class="col-xs-3 cols"><label class="col-md-5 control-label label">' + data[i].INFONAME + '</label><div class="col-md-5"><div class="input-group"><input type="text" class="form-control" id="' + fqid + data[i].INFOCODE + '" name="' + data[i].INFOCODE + '" rwfld="rwfld" > </div></div> </div>';
+                            }
+                        }
+                        mm = foo + mm + "</fieldset>";
+                    }
+                });
+                text += html + mm;
+            });
+            $("#EXTList").append(text);
+            iCheckStyled();
+            DisabledCtrl();
+            //加载数据源
+            BindAutocompleteMDM();
+        });
+
+        // 删除服务
+        function del_services() {
+            var strArr = [];
+            $('input:checkbox[name=icheckbox]:checked').each(function () {
+                if (true == $(this).is(':checked')) {
+                    strArr.push($(this).attr('srvkey'));
+                }
+            });
+            if (strArr.length > 0) {
+                if (confirm("确定要删除该服务？")) {
+                    var bdel = true;
+                    $(strArr).each(function (index, value) {
+                        if (($('#' + value).val() + "").length > 2) {
+                            bdel = false;
+                            return false;
+                        }
+                    });
+                    if (!bdel) {
+                        layer.msg("已创建FOO的服务不能删除！", { time: 5000 });
+                        return;
+                    }
+                    $(strArr).each(function (index, value) {
+                        $("fieldset").each(function () {
+                            var delid = $(this).attr("id") + "";
+                            if (delid == value + 'fieldset') {
+                                if (delid.length == 32) {
+                                    g_delsrvsArr.push(delid);
+                                }
+                                $('#' + delid).remove();
+                                IsEdit = true;
+                            }
+                        });
+                    });
+                }
+            } else {
+                layer.msg("请选择要删除的服务！", { time: 5000 });
+            }
+        }
+        // 复制服务
+        function copyservice() {
+            var strArrCopy = [];
+            $('input:checkbox[name=icheckbox]:checked').each(function () {
+                if (true == $(this).is(':checked')) {
+                    strArrCopy.push($(this).attr('srvkey'));
+                }
+            });
+            if (strArrCopy.length > 0) {
+                if (strArrCopy.length > 1) {
+                    layer.msg("一次只能复制一个服务！", { time: 5000 });
+                    return;
+                }
+                else {
+                    var tempkey = fqgenguid();
+                    var copyfooid = strArrCopy[0];
+                    var copyfoo = $("#" + copyfooid + "fieldset").prop("outerHTML");
+                    copyfoo = copyfoo.replaceAll(copyfooid, tempkey);
+                    //防止多次样式化checkbox
+                    var ckrml = '<div class="icheckbox_square-blue checked" style="position: relative;">';
+                    ckrmr = '<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>';
+                    copyfoo = copyfoo.replaceAll(ckrml, '');
+                    copyfoo = copyfoo.replaceAll(ckrmr, '');
+                    //插入复制的服务
+                    $("#" + copyfooid + "fieldset").after(copyfoo);
+                    IsEdit = true;
+                    //$(copyfoo).insertBefore(copyfoo, $($("#EXTList").children()).get(0));
+                    //清空FOO号，报关业务单号
+                    $("#" + tempkey).val('');
+                    $("#" + tempkey + 'zbgywdh').val('');
+                    //叠加保税、国内结转取消报关经营单位复制
+                    $("#" + tempkey + 'zbgjydw').val('');
+
+                    BindAutocompleteMDM();
+                    iCheckStyled();
+                }
+            } else {
+                layer.msg("请选择要复制的服务！", { time: 5000 });
+            }
+        }
+        var gick = true;
+        //全选（全选按钮新增逻辑：点一次全选，点第二次全不选）
+        function checkall() {
+            if (gick) {
+                $('input:checkbox[name=icheckbox]').each(function () {
+                    if ($(this).attr('id') != "ZFBJ" && !(g_srv_type.indexOf($('#cksrv' + $(this).attr("srvkey")).attr("srvcode")) >= 0)) {
+                        $(this).iCheck('check');
+                    }
+                });
+                gick = false;
+                return;
+            }
+            else if (!gick) {
+                $('input:checkbox[name=icheckbox]').each(function () {
+                    if ($(this).attr('id') != "ZFBJ") {
+                        $(this).iCheck('uncheck');
+                    }
+                });
+                gick = true;
+                return;
+            }
+        }
+        //创建FOO/FB/FO
+        $("#btnFOOFBFO").click(function () {
+            var cbsrvsel = 0;
+            var cbfbfosel = 0;
+            $('input:checkbox[name=icheckbox]:checked').each(function (i) {
+                cbsrvsel++;
+            });
+            $('input:checkbox[name=icheckboxfofb]:checked').each(function (i) {
+                cbfbfosel++;
+            });
+
+            if (cbsrvsel < 1 && cbfbfosel < 1) {
+                layer.msg('请选择服务类型或路线', { time: 5000 });
+            }
+            if (cbsrvsel > 0 && cbfbfosel > 0) {
+                layer.msg("服务和路线不能混选", { time: 5000 });
+                return;
+            }
+
+            //创建FOO逻辑校验
+            var strArrFOO = [];
+            $('input:checkbox[name=icheckbox]:checked').each(function (i) {
+                //if (0 == i) {
+                //    //spCodesTemp = $(this).val();
+                //} else {
+                //    //spCodesTemp += ("," + $(this).val());
+                //}
+                if (true == $(this).is(':checked')) {
+                    strArrFOO.push($(this).attr('srvkey'));
+                }
+            });
+            if (strArrFOO.length > 0) {
+                var bcrt = true;
+                $(strArrFOO).each(function (index, value) {
+                    if (value.length != 32) {
+                        bcrt = false;
+                        return false;
+                    }
+                });
+                if (!bcrt) {
+                    layer.msg("未保存的服务不能创建FOO", { time: 5000 });
+                    return;
+                }
+                $(strArrFOO).each(function (index2, value2) {
+                    if (($('#' + value2).val() + "").length > 2) {
+                        bcrt = false;
+                        return false;
+                    }
+                });
+                if (!bcrt) {
+                    layer.msg("已有FOO的服务不能重复创建！", { time: 5000 });
+                    return;
+                }
+                $(strArrFOO).each(function (index4, value4) {
+                    if (($('#' + value4 + 'zcgzzdm').val() + "").length < 2) {
+                        bcrt = false;
+                        return false;
+                    }
+                });
+                if (!bcrt) {
+                    layer.msg("创建FOO时，采购组织为必输！", { time: 5000 });
+                    return;
+                }
+
+                var oarr = [];
+                $(strArrFOO).each(function (index3, value3) {
+                    var o = {};
+                    o['TD_SER_KEY'] = $("#cksrv" + value3).attr("tdkey");
+                    o['TOR_TYPE'] = $("#cksrv" + value3).attr("srvcode");
+                    o['PURCH_ORG_ID'] = $("#" + value3 + 'zcgzzdm').val();
+                    o['TSPID'] = $("#cksrv" + value3).attr("zfwgfdm1");
+                    o['ZBP1'] = $("#cksrv" + value3).attr("zfwgfdm2");
+                    o['ZBP2'] = $("#cksrv" + value3).attr("zfwgfdm3");
+                    o['ZBP3'] = $("#cksrv" + value3).attr("zfwgfdm4");
+                    o['ZBP4'] = $("#cksrv" + value3).attr("zfwgfdm5");
+                    oarr.push(o);
+                });
+
+                var index = layer.load(2, { time: 300 * 1000 });
+                try {
+                    $.ajax({
+                        url: RootPath() + "/QO_OverlayBonded/QOFWO411",
+                        type: "post",
+                        data: { 'rootkey': g_rootdbkey, 'itdatastr': JSON.stringify(oarr) },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            layer.close(index);
+                            if (data.Success) {
+                                layer.alert(data.Message, {
+                                    skin: 'layui-layer-molv',
+                                    icon: 1
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.alert(data.Message, {
+                                    title: '错误',
+                                    skin: 'layui-layer-red'
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            layer.close(index);
+                            if (!!data.responseText) {
+                                layer.msg(data.responseText, { time: 5000 });
+                            } else {
+                                layer.msg("请求失败！");
+                            }
+                        }
+                    });
+
+                } catch (e)
+                { layer.msg("创建失败，请重试"); layer.close(index); }
+            }
+
+            //创建FB/FO逻辑校验
+            var strArrFBFO = [];
+            $('input:checkbox[name=icheckboxfofb]:checked').each(function (i) {
+                if (true == $(this).is(':checked')) {
+                    strArrFBFO.push($(this).attr('fbfostagekey'));
+                }
+            });
+
+            if (strArrFBFO.length > 0) {
+                if (strArrFBFO.length > 1) {
+                    layer.msg("一次只能创建一个FB/FO", { time: 5000 });
+                    return;
+                }
+                var bcrtFBFO = true;
+                $(strArrFBFO).each(function (index, value) {
+                    if (value.length != 32) {
+                        bcrtFBFO = false;
+                        return false;
+                    }
+                });
+                if (!bcrtFBFO) {
+                    layer.msg("未保存的路线不能创建FB/FO", { time: 5000 });
+                    return;
+                }
+                $(strArrFBFO).each(function (index2, value2) {
+                    if (($('#' + value2).attr('fbfotargettorid') + "").length > 2) {
+                        bcrtFBFO = false;
+                        return false;
+                    }
+                });
+                if (!bcrtFBFO) {
+                    layer.msg("已有FB/FO的路线不能重复创建！", { time: 5000 });
+                    return;
+                }
+
+                var index = layer.load(2, { time: 300 * 1000 });
+                try {
+                    $.ajax({
+                        url: RootPath() + "/QO_OverlayBonded/QOFBFO418",
+                        type: "post",
+                        data: { 'stagekeys': JSON.stringify(strArrFBFO) },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            layer.close(index);
+                            if (data.Success) {
+                                layer.alert(data.Message, {
+                                    skin: 'layui-layer-molv',
+                                    icon: 1
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.alert(data.Message, {
+                                    title: '错误',
+                                    skin: 'layui-layer-red'
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            layer.close(index);
+                            if (!!data.responseText) {
+                                layer.msg(data.responseText, { time: 5000 });
+                            } else {
+                                layer.msg("请求失败！");
+                            }
+                        }
+                    });
+                } catch (e)
+                { layer.msg("创建失败，请重试"); layer.close(index); }
+            }
+        });
+
+        function InsertFBFO(insertid) {
+            if ($("#" + insertid + "TARGET_TOR_ID").val().length > 2) {
+                layer.msg('已有FB/FO号路线不能修改');
+                return;
+            }
+
+            var tempkey = fqgenguid();
+            var insertfbfo = $("#" + insertid + "fieldset").prop("outerHTML");
+            insertfbfo = insertfbfo.replaceAll(insertid, tempkey);
+
+            $("#" + insertid + "fieldset").after(insertfbfo);
+            $("#" + tempkey + "PRE_KEY").val(insertid);//记录插入阶段的上一个节点
+            IsEdit = true;
+
+            $("#" + insertid + "DEST_LOG_LOCID").removeAttr('disabled');
+            $("#" + tempkey).attr('fbfotargettorid', '');
+            $("#" + tempkey + "TARGET_TOR_ID").val('');
+            $("#" + tempkey + "DEST_LOG_LOCID").attr('disabled', 'disabled');
+
+            $("#" + tempkey + "DEST_LOG_LOCID").val($("#" + insertid + "DEST_LOG_LOCID").val());
+            $("#" + tempkey + "DEST_LOC_UUID").val($("#" + insertid + "DEST_LOC_UUID").val());
+            $("#" + insertid + "DEST_LOG_LOCID").val('');
+            $("#" + insertid + "DEST_LOC_UUID").val('');
+
+            $("#" + tempkey + "SOURCE_LOG_LOCID").val('');
+            $("#" + tempkey + "SOURCE_LOC_UUID").val('');
+
+            $("#" + insertid + "DEST_LOG_LOCID").attr('locidconnect', tempkey + "SOURCE_LOG_LOCID");
+            $("#" + insertid + "DEST_LOG_LOCID").attr('lockeyconnect', tempkey + "SOURCE_LOC_UUID");
+
+            BindAutocompleteMDM();
+
+            //阶段拆分合并修改逻辑：“+”“-”只能点一次，只允许一次操作
+            $("i[name='fbfobtn']").each(function () {
+                $(this).hide();
+            });
+        }
+        function DeleteFBFO(delid) {
+            if ($("#" + delid + "TARGET_TOR_ID").val().length > 2) {
+                layer.msg('已有FB/FO号路线无法删除', { time: 5000 });
+                return;
+            }
+            var leftfbfo = 0;
+            $('fieldset[name=fbfostage]').each(function (i) {
+                leftfbfo++;
+            });
+            if (leftfbfo > 1) {
+                $('#' + delid + "fieldset").remove(); IsEdit = true;
+                //阶段拆分合并修改逻辑：“+”“-”只能点一次，只允许一次操作
+                $("i[name='fbfobtn']").each(function () {
+                    $(this).hide();
+                });
+            }
+            else {
+                layer.msg('无法删除，至少保留一条路线', { time: 5000 });
+            }
+        }
+
+        //生成业务单号
+        $("#btnSCYWDH").click(function () {
+            if (g_ztddbkey.length < 2) {
+                layer.msg("提单号不存在，无法生成业务单号！", { time: 5000 });
+                return;
+            }
+            else {
+                var index = layer.load(2, { time: 300 * 1000 });
+                try {
+                    $.ajax({
+                        url: RootPath() + "/QO_OverlayBonded/QOYWDH",
+                        type: "post",
+                        data: { 'ztdkey': g_ztddbkey },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            layer.close(index);
+                            if (data.Success) {
+                                layer.alert(data.Message, {
+                                    skin: 'layui-layer-molv',
+                                    icon: 1
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.alert(data.Message, {
+                                    title: '错误',
+                                    skin: 'layui-layer-red'
+                                , closeBtn: 0
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            layer.close(index);
+                            if (!!data.responseText) {
+                                layer.msg(data.responseText, { time: 5000 });
+                            } else {
+                                layer.msg("请求失败！");
+                            }
+                        }
+                    });
+
+                } catch (e)
+                { layer.msg("创建失败，请重试"); layer.close(index); }
+            }
+        });
+
+        //下发新关务
+        $("#btnXFXGW").click(function () {
+            //只下发选中
+            if (g_ztddbkey.length < 2) {
+                layer.msg("提单号不存在，无法下发新关务！", { time: 5000 });
+                return;
+            }
+            else {
+                var strArrZTDSRVTYPEKEY = [];
+                var strArrFOO = [];
+                $('input:checkbox[name=icheckbox]:checked').each(function (i) {
+                    if (true == $(this).is(':checked')) {
+                        strArrZTDSRVTYPEKEY.push($(this).attr('ztdsrvtypekey'));
+                        strArrFOO.push($(this).attr('srvkey'));
+                    }
+                });
+                if (strArrFOO.length < 1) {
+                    layer.msg('请选择要下发新关务的服务', { time: 5000 });
+                    return;
+                }
+                if (strArrZTDSRVTYPEKEY.length > 0) {
+                    var bcrtXGW = true;
+                    $(strArrFOO).each(function (index, value) {
+                        if ($("#" + value + 'zbgywdh').val().length < 2) {
+                            bcrtXGW = false;
+                            return false;
+                        }
+                    });
+                }
+
+                if (!bcrtXGW) {
+                    layer.msg("未生成报关业务单号的服务无法下发新关务", { time: 5000 });
+                    return;
+                }
+
+                var index = layer.load(2, { time: 300 * 1000 });
+                try {
+                    $.ajax({
+                        url: RootPath() + "/QO_OverlayBonded/QOXGW",
+                        type: "post",
+                        data: { 'ztdsrvtypekeys': strArrZTDSRVTYPEKEY.toString() },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            layer.close(index);
+                            if (data.Success) {
+                                layer.alert(data.Message, {
+                                    skin: 'layui-layer-molv',
+                                    icon: 1
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.alert(data.Message, {
+                                    title: '错误',
+                                    skin: 'layui-layer-red'
+                                , closeBtn: 0
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            layer.close(index);
+                            if (!!data.responseText) {
+                                layer.msg(data.responseText, { time: 5000 });
+                            } else {
+                                layer.msg("请求失败！");
+                            }
+                        }
+                    });
+
+                } catch (e)
+                { layer.msg("创建失败，请重试"); layer.close(index); }
+            }
+
+            //原来逻辑：不选默认全发
+            //if (g_ztddbkey.length < 2) {
+            //    layer.msg("提单号不存在，无法下发新关务！", { time: 5000 });
+            //    return;
+            //}
+            //else {
+            //    var index = layer.load(2, { time: 300 * 1000 });
+            //    try {
+            //        $.ajax({
+            //            url: RootPath() + "/QO_OverlayBonded/QOXGW",
+            //            type: "post",
+            //            data: { 'ztdsrvtypekeys': g_ztdsrvtypekey },
+            //            dataType: "json",
+            //            async: false,
+            //            success: function (data) {
+            //                layer.close(index);
+            //                if (data.Success) {
+            //                    layer.alert('下发新关务成功', {
+            //                        skin: 'layui-layer-molv',
+            //                        icon: 1
+            //                    , closeBtn: 0
+            //                    }, function () {
+            //                        location.reload();
+            //                    });
+            //                } else {
+            //                    layer.alert(data.Message, {
+            //                        skin: 'layui-layer-red'
+            //                    , closeBtn: 0
+            //                    });
+            //                }
+            //            },
+            //            error: function (data) {
+            //                layer.close(index);
+            //                if (!!data.responseText) {
+            //                    layer.msg(data.responseText, { time: 5000 });
+            //                } else {
+            //                    layer.msg("请求失败！");
+            //                }
+            //            }
+            //        });
+
+            //    } catch (e)
+            //    { layer.msg("创建失败，请重试"); layer.close(index); }
+            //}
+        });
+        $("#btnBARCODE").click(function () {
+            if ($("#FWO").val().length < 2) {
+                layer.msg("FWO号不存在，无法打印条码！", { time: 5000 });
+                return;
+            }
+            else {
+                var urlprefix = "@Oncontrol3.Web.Helpers.ConfigHelper.AppSettings("QO_BARCODE")";
+                window.open(urlprefix + $("#FWO").val(), "_blank");
+            }
+        });
+
+    </script>
+}

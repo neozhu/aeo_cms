@@ -1,0 +1,327 @@
+﻿@{
+    ViewBag.Title = "费目定价";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@{
+    System.Data.DataTable orgdt = (System.Data.DataTable)ViewBag.OrgData;
+    System.Data.DataTable feedt = (System.Data.DataTable)ViewBag.FeeData;
+}
+<!-- MAIN CONTENT -->
+<style>
+    /*表格end*/
+    #datatable_col_reorder td {
+        white-space: nowrap;
+    }
+
+    #datatable_col_reorder th {
+        white-space: nowrap;
+    }
+
+    .widget-body {
+        min-height: 0px !important;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right; ">
+                            <button type="submit" id="submit_search" class="btn btn-default">
+                                查询
+                            </button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">
+                                重置
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="FEECODE" name="FEECODE" class="select2" placeholder="费目">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < feedt.Rows.Count; i++)
+                                                {
+                                                    @*<option value="@feedt.Rows[i]["FEECODE"]">@feedt.Rows[i]["FEENAME"]--@feedt.Rows[i]["FEECODE"]</option>*@
+                                                    <option value="@feedt.Rows[i]["TCET084"]">@feedt.Rows[i]["TEXTDESC"]--@feedt.Rows[i]["TCET084"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="ORGRID" name="ORGRID" class="select2" placeholder="组织名称">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < orgdt.Rows.Count; i++)
+                                                {
+                                                    <option value="@orgdt.Rows[i]["RID"]">@orgdt.Rows[i]["ORGNAME"]--@orgdt.Rows[i]["RID"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/plugins/jquery.ajaxupload.js"></script>
+    <script src="~/Content/plugins/jquery.bootpag.min.js"></script>
+    <script src="~/Content/plugins/jquery.guid.js"></script>
+    <script src="~/Content/plugins/base.js"></script>
+    <script type="text/javascript">
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        //先插DJ_PSF再跳转定价明细页
+        function doPur(feecode, feename) {
+            setStorage();
+            $.ajax({
+                type: 'POST',
+                url: "/SQM_DL_PUR/SaveDjPsf",
+                data: {
+                    FEENAME: unescape(feename),
+                    FEECODE: unescape(feecode),
+                },
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.Success) {
+                        toastr.clear();
+                        toastr.remove();
+                        location.href = '/SQM_PUR/PurIndex?djrid=' + data.Message;
+                    } else {
+                        toastr.clear();
+                        toastr.remove();
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            });
+        }
+        //直接跳转定价明细页
+        function goPur(djrid) {
+            setStorage();
+            location.href = '/SQM_PUR/PurIndex?djrid=' + djrid;
+        }
+        $("#submit_search").click(function () {
+            //费目代码
+            if (dldjfeecode != $("#FEECODE").val()) {
+                dldjfeecode = $("#FEECODE").val();
+            }
+            //组织
+            if (dldjorgrid != $("#ORGRID").val()) {
+                dldjorgrid = $("#ORGRID").val();
+            }
+            $('#datatable_col_reorder').DataTable().search(dldjfeecode, dldjorgrid).draw();
+            return false;
+        });
+        var username;
+        var storage = window.localStorage;
+        var dldjfeecode = storage.getItem("dldjfeecode");
+        var dldjorgrid = storage.getItem("dldjorgrid");
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            //初始化费目
+            if (dldjfeecode != null) {
+                $("#FEECODE").select2("val", dldjfeecode);
+            }
+            //初始化组织
+            if (dldjorgrid != null) {
+                $("#ORGRID").select2("val", dldjorgrid);
+            }
+            //列定义
+            var columns = [
+                {
+                    "title": "操作", "data": "RID", "width": "30", "orderable": false,
+                    render: function (data, type, row, meta) {
+                        if (row.ORGRID == null) {
+                            return '<button title="添加不同组织定价" onclick=noPur()><i class="fa fa-copy"></i></button>';
+                        } else {
+                            return '<button title="添加不同组织定价" class="btn btn-xs btn-default" onclick=doDifOrgPur(\"' + data + '\") ><i class="fa fa-copy"></i></button>';
+                        }
+                    }
+                },
+                {
+                    "title": "费目", "orderable": false, "data": "FEENAME", "width": "200",
+                    render: function (data, type, row, meta) {
+                        if (row.RID != null) {
+                            return '<a onclick=goPur(\"' + row.RID + '\") style="text-decoration: underline;cursor: pointer;" >' + data + '</a>';
+                        } else {
+                            return '<a onclick=doPur(\"' + escape(row.FEECODE) + '\",\"' + escape(row.FEENAME) + '\") style="text-decoration: underline;cursor: pointer;" >' + data + '</a>';
+                        }
+                    }
+                },
+                {
+                    "title": "定价方式", "orderable": false, "data": "DJFS", "width": "50", "render": function (data, type, full, meta) {
+                        var newtype = "";
+                        if (data == "0") {
+                            newtype = "普通定价";
+                        } else if (data == "1") {
+                            newtype = "At cost";
+                        } else if (data == "2") {
+                            newtype = "单票单询";
+                        }
+                        return newtype;
+                    }
+                },
+                {
+                    "title": "组织名称", "orderable": false, "data": "ORGNAME", "width": "500", "render": function (data, type, full, meta) {
+                        var info = data;
+                        if (data != null) {
+                            var dhcount = data.split(",").length - 1;
+                            if (dhcount >= 3) {
+                                var arr = data.split(",");
+                                info = arr[0] + ',' + arr[1] + ',' + arr[2] + '...';
+                            }
+                        }
+                        return info;
+                    }
+                },
+                { "title": "更新人", "orderable": false, "data": "MODIFYUSER", "width": "80" },
+                {
+                    "title": "更新日期", "orderable": false, "data": "MODIFYTIME", "width": "100",
+                    "render": function (data, type, full, meta) {
+                        return data == null ? "" : data.split('T')[0];//格式化只显示日期部分
+                    }
+                }
+            ];
+            var table = $('#datatable_col_reorder').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "scrollX": true,
+                "order": [[5, "desc"]],//第一次加载默认第5列日期倒排
+                "language": { "info": "Total : _TOTAL_", "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" } },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'pl>>",//整个griddom布局
+                "lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("Lists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.ORGRID = dldjorgrid;
+                        d.FEECODE = dldjfeecode;
+                    }
+                }, columns: columns
+            });
+            //明细双击事件
+            //$('#datatable_col_reorder tbody').on('dblclick', 'tr', function () {
+            //    var feecode = $('#datatable_col_reorder').DataTable().row(this).data()['FEECODE'];
+            //    var feename = $('#datatable_col_reorder').DataTable().row(this).data()['FEENAME'];
+            //    if (feename != null) {
+            //        doPur(feecode, feename);
+            //    }
+            //});
+        });
+        // 重置查询条件
+        function ResetQueryValue() {
+            clearStorage();
+            // 清空查询控件
+            $("#form1").find("select").each(function () {
+                $(this).select2("val", "");
+            });
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search(dldjfeecode, dldjorgrid).draw();
+            return false;
+        }
+        //没有发布定价信息
+        function noPur() {
+            toastr.clear();
+            toastr.remove();
+            toastr.error("没有发布定价信息");
+        }
+        //不同组织的定价
+        function doDifOrgPur(data) {
+            $.ajax({
+                type: 'POST',
+                url: "/SQM_PUR/difOrgPur",
+                data: {
+                    djrid: data,
+                    alonefee: "1",
+                },
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.Success) {
+                        toastr.clear();
+                        toastr.remove();
+                        toastr.success(data.Message);
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.clear();
+                        toastr.remove();
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            });
+        }
+        //存储定价Storage
+        function setStorage() {
+            storage.setItem("dldjfeecode", $("#FEECODE").val());
+            storage.setItem("dldjorgrid", $("#ORGRID").val());
+        }
+        //清除定价Storage
+        function clearStorage() {
+            storage.removeItem("dldjfeecode");
+            storage.removeItem("dldjorgrid");
+            dldjfeecode = "";
+            dldjorgrid = "";
+        }
+    </script>
+}

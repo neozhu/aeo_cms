@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "系统账号管理";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont">
+                <span class="fld_label">属性名称</span>
+                <span class="fld_input"><input class="easyui-textbox" id="INFONAME" name="INFONAME"></span>
+                <span class="fld_label">属性代码</span>
+                <span class="fld_input"><input class="easyui-textbox" id="INFOCODE" name="INFOCODE"></span>              
+                <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                <div class="clear10"></div>    
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" href=@Url.Action("create") style="width:70px">添加</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkModify" style="width:70px">修改</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width:70px">删除</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px" data-options="singleSelect:true,collapsible:true,url:'@Url.Action("lists")',method:'get',pagination:true,pagesize:20">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'INFONAME',width:180,sortable:false">扩展属性名称</th>
+                <th data-options="field:'INFOCODE',width:180,sortable:false">扩展属性代码</th>
+                <th data-options="field:'SORD',width:90,sortable:false">排序</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   
+            return false;
+        });
+
+        $("#lkModify").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                window.location.href = "@Url.Action("Edit")/" + selrows[0].INFOCODE;
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+
+        $("#lkDelete").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                $.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("Delete")",
+                            data: { id: selrows[0].INFOCODE },
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+
+
+ 
+ 
+    </script>
+}

@@ -88,6 +88,13 @@
                href="#tab-inquiryfile"
                role="tab">附件信息</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link "
+               data-toggle="tab"
+               data-model="approvehistory"
+               href="#tab-approvehistory"
+               role="tab">审批记录</a>
+          </li>
         </ul>
         <div class="tab-content p-0">
           <div class="tab-pane fade show active"
@@ -171,7 +178,7 @@
 						                   textField:  'Name' ,
                                panelHeight:'auto',
                                editable:false,
-						                   url: '/Inquiries/GetCompanies' ,
+						                   url: '/Companies/GetComboData' ,
 						                   onSelect: function(item) {
 						                    //console.log(item);
 				                       }">
@@ -312,11 +319,11 @@
 
 
 
-                    
 
- 
 
-                 
+
+
+
 
                     <!--联系人-->
                     <label class="col-md-2  pt-1 pl-0 pr-0 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ContactName)</label>
@@ -353,7 +360,7 @@
                                  " />
                     </div>
 
-                 
+
 
 
 
@@ -362,7 +369,7 @@
               </form>
 
             </div>
-  
+
           </div>
           <div class="tab-pane fade "
                id="tab-inquiryfile"
@@ -376,7 +383,7 @@
                         type="button"
                         class="btn btn-default waves-effect waves-themed"
                         onclick="inquiryfile_reloadData()">
-                  查询
+                  刷新
                 </button>
                 <button name="inquiryfile_appenditembutton"
                         type="button"
@@ -388,7 +395,7 @@
                         class="btn btn-default waves-effect waves-themed">
                   删除
                 </button>
-                 
+
               </div>
 
             </div>
@@ -415,6 +422,11 @@
                         type="button"
                         class="btn btn-default waves-effect waves-themed">
                   添加产品
+                </button>
+                <button name="inquiryproduct_copyitembutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed">
+                  复制新增
                 </button>
                 <button name="inquiryproduct_deleterowbutton"
                         type="button"
@@ -451,14 +463,37 @@
                         type="button"
                         class="btn btn-default waves-effect waves-themed"
                         onclick="inquiryref_reloadData()">
-                  查询
+                  刷新
                 </button>
-                 
+
               </div>
 
             </div>
             <div class="table-responsive">
               <table class="m-0" id="inquiryref_datagrid">
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade  "
+               id="tab-approvehistory"
+               data-model="approvehistory"
+               role="tabpanel"
+               aria-labelledby="tab-approvehistory">
+
+            <div class="d-flex justify-content-start flex-wrap p-2">
+              <div class="btn-group btn-group-sm mr-2" role="group" aria-label="审批记录">
+                <button name="approvehistory_searchbutton"
+                        type="button"
+                        class="btn btn-default waves-effect waves-themed"
+                        onclick="approvehistory_reloadData()">
+                  刷新
+                </button>
+
+              </div>
+
+            </div>
+            <div class="table-responsive">
+              <table class="m-0" id="approvehistory_datagrid">
               </table>
             </div>
           </div>
@@ -491,6 +526,7 @@
   
     $('button[name="inquiryproduct_searchbutton"]').on('click', inquiryproduct_reloadData);
     $('button[name="inquiryproduct_appenditembutton"]').on('click', inquiryproduct_appendItem);
+    $('button[name="inquiryproduct_copyitembutton"]').on('click', inquiryproduct_copyItem);
     $('button[name="inquiryproduct_deleterowbutton"]').on('click', inquiryproduct_removeItem);
     $('button[name="inquiryproduct_cancelchangesbutton"]').on('click', inquiryproduct_rejectChanges);
     $('button[name="inquiryproduct_savechangesbutton"]').on('click', inquiryproduct_acceptChanges);
@@ -511,9 +547,11 @@
     if (MODELSTATE === 'Added') {
       $('#deleteitem-btn-group').hide();
       $('button[name="inquiryfile_appenditembutton"]').attr('disabled', 'disabled');
+      $('button[name="inquiryproduct_copyitembutton"]').attr('disabled', 'disabled');
     } else {
       $('#deleteitem-btn-group').show();
       $('button[name="inquiryfile_appenditembutton"]').removeAttr('disabled');
+      $('button[name="inquiryproduct_copyitembutton"]').removeAttr('disabled');
     }
     initinquirydetailview();
     inquiryid = (data.Id || 0);
@@ -529,6 +567,9 @@
     var url = '/InquiryRefs/GetDataByInquiryId?inquiryid=' + inquiryid;
     $inquiryrefdg.datagrid('load', url);
     $inquiryrefdg.datagrid('resize');
+    var url = '/ApproveHistories/GetDataByRefId?refid=' + inquiryid;
+    $approvedg.datagrid('load', url);
+    $approvedg.datagrid('resize');
   }
   //删除当前记录
   function deleteinquiryitem() {
@@ -602,9 +643,6 @@
   //判断是否有没有保存的记录
   function inquiryhasmodified() {
     if (!hook) {
-      if (!inquiryproduct_endEditing()) {
-        return true;
-      }
       const inquiryproducts = $inquiryproductdg.datagrid("getChanges");
       if (MODELSTATE == 'Modified' && inquiryproducts.length > 0) {
         return true;

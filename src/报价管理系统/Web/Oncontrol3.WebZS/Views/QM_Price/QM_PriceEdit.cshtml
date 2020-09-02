@@ -1,0 +1,4043 @@
+﻿@{
+    ViewBag.Title = "报价列表";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+
+@{
+    System.Data.DataTable ReasonDt = (System.Data.DataTable)ViewBag.FbReasonData;
+}
+
+<style>
+    _::-webkit-full-page-media, _:future, :root .row {
+        padding-right: 15px; /*jnp add for ipad*/
+    }
+
+    body {
+        background-color: rgb(248,248,248);
+    }
+
+    .head {
+        height: 50px;
+        background-color: rgb(19,100,181);
+    }
+
+        .head span {
+            line-height: 98px;
+            font-size: 14px;
+            padding: 0px 10px 15px 10px;
+            color: #ffffff;
+        }
+
+        .head .active {
+            border-bottom: 2px solid #F8F8F8;
+        }
+
+    .fa {
+        font-size: 20px !important;
+    }
+
+    .newinf {
+        line-height: 40px;
+        margin-bottom: 15px;
+        background-color: #fff;
+    }
+
+    .fa-caret-down {
+        display: inline-block;
+        float: right;
+        color: rgb(95,95,95);
+    }
+
+    #versionBtn, #modalBtn, #btnOk, #btnModel {
+        width: 100%;
+        background-color: rgb(244,244,244);
+    }
+
+    .modelName {
+        line-height: 40px;
+    }
+
+        .modelName .planeModel {
+            margin-right: 20px;
+        }
+
+    .inf {
+        line-height: 40px;
+    }
+
+    .card-model {
+        background-color: #ffffff;
+        min-height: 60px;
+    }
+
+    #cardbox {
+        background-color: #fff;
+        min-height: 60px;
+    }
+
+    #main {
+        min-height: 200px !important;
+        padding: 0px !important;
+    }
+
+    .navbar-nav {
+        background-color: #ffffff;
+    }
+
+    .declaration {
+        padding: 20px 35px !important;
+    }
+
+    .delBtn {
+        margin: 0px 18px !important;
+    }
+
+        .delBtn .fa {
+            margin-right: 10px;
+        }
+
+    .service li {
+        list-style: none;
+    }
+
+    .service a {
+        line-height: 40px;
+        color: #000000;
+    }
+
+    .service i {
+        color: rgb(149,149,149);
+    }
+
+    .bigtittle {
+        font-size: 20px;
+        align-content: center;
+        text-align: center;
+        font-weight: bold;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+        padding-top: 20px;
+    }
+
+    #hides {
+        background-color: #ffffff;
+        margin: 15px 0px;
+    }
+
+    .nav_title {
+        width: 100%;
+        line-height: 60px;
+        text-align: center;
+        font-size: 20px;
+        color: #000;
+    }
+
+    table {
+        background-color: #ffffff;
+    }
+
+    .card-table {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .card-table .fa {
+            color: #000;
+            font-size: 35px !important;
+            margin-bottom: 10px;
+        }
+
+    .saveModel {
+        font-size: 16px;
+        color: #666;
+    }
+
+    .classify {
+        color: rgb(19,100,181);
+        font-size: 14px;
+        letter-spacing: .2em;
+        margin-bottom: 10px;
+    }
+
+    .time, .name {
+        font-size: 15px;
+        color: #666;
+    }
+
+    .font {
+        font-size: 20px;
+        color: black;
+        padding-top: 10px;
+    }
+
+    .bjok {
+        color: green;
+    }
+
+    .bjover {
+        color: #f0ad4e;
+    }
+
+    .cshbj {
+        color: white;
+    }
+
+    .bjwdj {
+        color: red;
+    }
+
+    .srvbj {
+        background-color: #ffb100;
+    }
+
+    .checkme {
+        background-color: yellow;
+    }
+
+    .card-box {
+        width: 100%;
+        height: 100px;
+        float: left;
+        border-radius: 1px;
+        margin-top: 5px;
+        overflow: visible;
+        position: relative;
+    }
+
+    .card-box-content {
+        padding: 6px 10px;
+        font-size: 14px;
+        color: #4d5d70;
+    }
+
+        .card-box-content div {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 6px;
+        }
+
+            .card-box-content div .address {
+                font-size: 12px;
+                color: #999999;
+            }
+
+            .card-box-content div span {
+                float: left;
+            }
+
+            .card-box-content div .amount {
+                text-align: right;
+                width: 50px;
+                color: #d0031c;
+            }
+
+            .card-box-content div .dis {
+                margin-left: 30px;
+            }
+
+        .card-box-content .inf {
+            font-weight: bold;
+        }
+
+        .card-box-content div .tel-num {
+            width: 80px;
+        }
+
+        .card-box-content div .pickup_btn {
+            float: right;
+            margin-left: 56px;
+            font-size: 9px;
+            line-height: 18px;
+            width: 70px;
+            height: 18px;
+            background-color: #319adf;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+    .btns {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .title {
+        color: red;
+        font: 12px;
+    }
+
+    .head {
+        color: #999;
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+
+    .dis {
+        margin-right: 50px;
+        cursor: pointer;
+    }
+
+    .fstbox {
+        height: 100%;
+        padding-bottom: 20px;
+        padding-top: 20px;
+    }
+
+    .FEE {
+        margin-bottom: 15px;
+        display: none;
+        cursor: pointer;
+    }
+
+    .SRV {
+        display: none;
+    }
+
+    .prdhead {
+        float: right;
+        color: black;
+        font-size: 30px;
+    }
+
+    .labelright {
+        margin-right: 40px;
+    }
+
+    .inlabel {
+        margin-bottom: 15px;
+    }
+
+    .srvspan {
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    .prdspan {
+        margin-left: 20px;
+        cursor: pointer;
+    }
+
+    .feespan {
+        margin-left: 20px;
+    }
+
+    .card-table img {
+        width: 50px;
+        height: 50px;
+    }
+
+    #mySwitch div {
+        margin-top: 0px;
+        text-overflow: clip;
+    }
+
+    .bootstrap-switch-handle-off, .bootstrap-switch-handle-on {
+        padding: 2px 5px !important;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .bootstrap-switch {
+        margin-top: -12px !important;
+    }
+
+    .uploadimg {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .newinf .tel-num {
+        display: block;
+        width: 180px;
+        margin-left: 10px;
+        margin-right: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    #uploadfile {
+        cursor: pointer;
+        /*box-shadow: 2px 2px 10px #888888;*/
+    }
+
+    #uploadfile2, #uploadfile2eng {
+        cursor: pointer;
+        /*box-shadow: 2px 2px 10px #888888;*/
+    }
+
+        #uploadfile2:hover, #uploadfile2eng:hover {
+            box-shadow: 2px 2px 10px #888888;
+        }
+
+    #uploadfile2btn, #uploadfile2btneng {
+        cursor: pointer;
+    }
+
+        #uploadfile2btn:hover, #uploadfile2btneng:hover {
+            box-shadow: 2px 2px 10px #888888;
+        }
+
+    .fa-caret-up {
+        display: inline-block;
+        float: right;
+        color: rgb(95,95,95);
+    }
+
+    .chooseVer {
+        cursor: pointer;
+    }
+
+    .ColVis_MasterButton {
+        display: none;
+    }
+
+    #zldiv {
+        padding-left: 10px;
+    }
+
+    .zldiv {
+        display: none;
+    }
+
+    .zlbox {
+        position: absolute;
+        margin-left: 50px;
+        width: 250px;
+        z-index: 1;
+        padding: 3px;
+        border: black solid 1px;
+        background-color: white;
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+
+        .zlbox ul li {
+            list-style-type: none;
+            margin-left: 20px;
+        }
+
+    .zl {
+        cursor: pointer;
+        float: left;
+    }
+
+    #DlFee {
+        margin-left: 40px;
+        width: 50%;
+        font-size: 12px;
+    }
+
+        #DlFee .panel-body {
+            max-height: 500px;
+            overflow-y: scroll;
+            min-width: 880px;
+            padding: 0px;
+        }
+
+        #DlFee .DLFEE {
+            display: block;
+            cursor: pointer;
+        }
+
+    .fbReasonOther {
+        display: none;
+    }
+</style>
+@*<div id="fkk"></div>*@
+<div class="row head">
+    <div style="float:left;margin-top: -25px;">
+        <span>&nbsp;&nbsp;&nbsp; 欢迎您：<span id="user"></span></span>
+    </div>
+    <div style="float:right;margin-top: -25px;">
+        <span class="dis" id="toxj">询价</span>
+        <span class="dis" id="tobjmb">报价模板</span>
+        <span class="dis" id="tocpzs">产品展示</span>
+        <span class="dis" id="tobjsy">报价首页</span>
+    </div>
+</div>
+<div style="display:none;">
+    <input id="zversion_cb" value="" />
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box" style="height:100%;">
+            <div class="card-box-content">
+                <div class="inf newinf">
+                    <span class="tel-num" id="priceName" style="width:160px;"></span>
+                    <div class="switch" id="mySwitch" style="float: left;">
+                        <input type="checkbox" checked data-on-text="YES" data-off-text="NO" />
+                    </div>
+                    <span class="widget-icon dis" id="sjbj" style="float: right;"><i class="fa fa-edit" onclick="toEditBusiness(); return false;"></i></span>
+                    <span class="dis address" style="display: none;" id="businessId"></span>
+                    <span class="dis address" style="float: right;" id="customName"></span>
+                    <span class="dis address" style="display: none;" id="bpCode"></span>
+                    <span class="dis address" style="width:220px;float: right;">
+                        <select style="width:220px" id="tjzlcs" name="tjzlcs">
+                            <option value='' disabled selected style='display:none;'>请选择体积重量参数文件</option>
+                            <option value="">无</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="card-model">
+                    <div class="btn-group btn-group-lg col-md-3">
+                        <button type="submit" class="btn btn-default" id="versionBtn"><span class="widget-icon" id="versionTittle">报价版本：V1 </span><i class="fa fa-caret-down" id="versionIcon"></i></button>
+                    </div>
+                    <div class="btn-group btn-group-lg col-md-2">
+                        <button type="submit" class="btn btn-default btn-block" id="modalBtn"><span class="widget-icon">报价模板 </span><i class="fa fa-caret-down" id="modalIcon"></i></button>
+                    </div>
+                    @*<div class="col-md-2 modelName"><span style="margin-right: 20px;"> 空运报价模板2018</span><span>001</span></div>*@
+                    <div class="col-md-2 inf">
+                        <span class="tel-num" style="margin-top:10px;" id="MBTittle"></span>
+                    </div>
+                    <div id="versionTable" class="col-md-12" style="display:none;">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>报价编号</th>
+                                    <th>版本信息</th>
+                                    <th>协议号/项目号</th>
+                                    <th>报价状态</th>
+                                    <th>有效期起</th>
+                                    <th>有效期止</th>
+                                    <th>报价人</th>
+                                    <th>更新日期</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="vertbody"></tbody>
+                        </table>
+                    </div>
+                    <!--报价模板table-->
+                    <div id="modalTable" class="col-md-12" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label><input type="checkbox" class="TEMPLATETYPE" id="GRMB"><i></i>个人模板</label>
+                            </div>
+                            <div class="col-md-2">
+                                <label><input type="checkbox" class="TEMPLATETYPE" id="GYMB"><i></i>公共模板</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="模板名称" id="TEMPLATENAME">
+                            </div>
+                            <div class="btn-group col-md-2">
+                                <button type="submit" class="btn btn-default" id="submit_search">查询</button>
+                            </div>
+                        </div>
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="BZBJ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-box fstbox" id="cardbox">
+                <div class="btn-group btn-group-lg col-md-2" id="cb">
+                    <button type="button" id="btnOk" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+                        <span style="font-size:12px;">产品/服务/费目</span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-menu" role="menu" data-stoppropagation="true">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>产品</strong>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form id="formmain" class="smart-form form-backgroud">
+                                                <fieldset style="padding-top:5px">
+                                                    <div id="ALLPRD"></div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-3">
+                                    <div class="panel panel-default" id="servicePanel">
+                                        <div class="panel-heading">
+                                            <strong>服务</strong>
+                                            <label class="checkbox" style="float:right;top:-12px;"><input type="checkbox" id="currentsrv"><i></i> 全选</label>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form id="formmain" class="smart-form form-backgroud">
+                                                <fieldset style="padding-top:5px">
+                                                    <div id="ALLSRV"></div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6">
+                                    <div class="panel panel-default" id="feePanel">
+                                        <div class="panel-heading">
+                                            <strong>费目</strong>
+                                            <label class="checkbox" style="float:right;top:-12px;"><input type="checkbox" id="currentfee"><i></i> 全选</label>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form id="formmain" class="smart-form form-backgroud">
+                                                <fieldset style="padding-top:5px">
+                                                    <div id="ALLFEE"></div>
+                                                </fieldset>
+                                                <footer>
+                                                    <button class="btn btn-primary" id="btnSave" onclick="btnSaveFee(); return false;">
+                                                        保存
+                                                    </button>
+                                                    <button class="btn btn-primary" onclick="btnCancel(); return false;">
+                                                        取消
+                                                    </button>
+                                                </footer>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 inf" style="margin-top:10px;">
+                    <span class="tel-num" style="margin-top:10px;"><i class="fa fa-circle bjok"></i>&nbsp;已确定报价</span>
+                </div>
+                <div class="col-md-2 inf" style="margin-top:10px;">
+                    <span class="tel-num" style="margin-top:10px;"><i class="fa fa-circle bjover"></i>&nbsp;报价超限</span>
+                </div>
+                <div class="col-md-2 inf" style="margin-top:10px;">
+                    <span class="tel-num" style="margin-top:10px;"><i class="fa fa-circle bjwdj"></i>&nbsp;报价无定价</span>
+                </div>
+                <div class="btn-group  col-md-1" style="margin-right:30px;margin-top: 10px;">
+                    <button type="submit" class="btn btn-default" id="qrqbfm"><span class="widget-icon">确认全部费目</span></button>
+                </div>
+                <div class="btn-group  col-md-1" style="margin-right:20px;margin-top: 10px;">
+                    <button type="submit" class="btn btn-default" id="ImportExcel"><span class="widget-icon">EXCEL上传</span></button>
+                </div>
+                <div class="btn-group  col-md-1" style="margin-top: 10px;">
+                    <button type="submit" class="btn btn-default" id="ExportExcelbtn"><span class="widget-icon ">EXCEL下载</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:10px;">
+        <div class="col-md-12">
+            <div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;background-color: #ffffff">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <div>
+                            <ul class="nav navbar-nav">
+                                <li class="cpfnlb"><a href="#">产品费目列表</a></li>
+                                <div class="btn-group  col-md-3" style="float:right;margin-right: 10px;margin-top: 10px;">
+                                    <button type="submit" class="btn btn-default" onclick="Preview(1);" id="previewIDEng"><span class="widget-icon ">英文报价预览</span></button>
+                                    <button type="submit" style="margin-left:10px;" class="btn btn-default" onclick="Preview(0);" id="previewIDChn"><span class="widget-icon ">中文报价预览</span></button>
+                                </div>
+                            </ul>
+
+                        </div>
+                    </div>
+                </nav>
+                <div id="firstprd"></div>
+                <div id="prdtittle"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal）选择文件 -->
+<div class="modal fade" id="importExc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="chooseExc">
+                    文件上传
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="importFileForm" method="post" enctype="multipart/form-data" action="">
+                    <div id="div_fileImport">
+                        <input id="fileImport" name="fileImport" type="file" class="file-loading">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 导出文件 -->
+<div class="modal fade" id="exportExcelFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="chooseExc">
+                    生成报价文件
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="div_fileExport">
+                    <a id="fileExport" name="fileExport">点击此处下载</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Excel下载 -->
+<div class="modal fade" id="exportExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="chooseExc">
+                    EXCEL下载
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="div_ExcelExport">
+                    <a id="excelExport" name="excelExport">点击此处下载</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 报价预览 -->
+<div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:900px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="chooseExc">
+                    报价预览
+                </h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+@*非标报价*@
+<div id="FBBJ" style="display:none">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-box fstbox" id="cardbox">
+                <div class="btn-group btn-group-lg col-md-2" id="cb">
+                    <button type="button" id="FBbtnOk" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+                        <span style="font-size:12px;">产品</span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-menu" role="menu" data-stoppropagation="true">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>产品</strong>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form id="formmain" class="smart-form form-backgroud">
+                                                <fieldset style="padding-top:5px">
+                                                    <div id="FBALLPRD"></div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6">
+                                    <div class="panel panel-default" id="feePanel">
+
+                                        <div class="panel-body">
+                                            <form id="formmain" class="smart-form form-backgroud">
+
+                                                <footer>
+                                                    <button class="btn btn-primary" onclick="FBbtnSaveFee(); return false;">
+                                                        保存
+                                                    </button>
+                                                    <button class="btn btn-primary" onclick="FBbtnCancel(); return false;">
+                                                        取消
+                                                    </button>
+                                                </footer>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:10px;">
+        <div class="col-md-12">
+            <div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;background-color: #ffffff">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <div>
+                            <ul class="nav navbar-nav">
+                                <li class="cpfnlb1"><a href="#">产品费目列表</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div id="FBfirstprd"></div>
+                <div id="FBprdtittle"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@*无绑定关系费目*@
+<div id="DlFee" style="display:none;">
+    @*<div class="row">
+        <div class="col-md-12">
+            <div class="card-box fstbox" id="cardbox">
+                <div class="btn-group btn-group-lg col-md-2" id="cb">*@
+    <button type="button" id="btnDlOk" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+        <span style="font-size:12px;">无绑定关系费目</span>
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-menu" role="menu" data-stoppropagation="true" style="width: 361%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6 col-sm-10">
+                    <div class="panel panel-default" id="feePanel">
+                        <div class="panel-heading">
+                            <strong>费目</strong>
+                            <label class="checkbox" style="float:right;top:-12px;"><input type="checkbox" id="dlcurrentfee"><i></i> 全选</label>
+                        </div>
+                        <div class="panel-body">
+                            <form id="dlformmain" class="smart-form form-backgroud">
+                                <fieldset style="padding-top:5px">
+                                    <div id="DLALLFEE"></div>
+                                </fieldset>
+                                <footer>
+                                    <button class="btn btn-primary dlbtnsavefee" onclick="return false;">
+                                        保存
+                                    </button>
+                                    <button class="btn btn-primary dlbtncancel" onclick="return false;">
+                                        取消
+                                    </button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*</div>
+                </div>
+            </div>
+        </div>*@
+</div>
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" id="uploadFile">
+                    <img src="~/Images/y-icon4.png" class="uploadimg">
+                    <p class="saveModel">上传报价文件</p>
+                    <p><span id="uploadfile" style="cursor: pointer" onclick="showurl()"></span></p>
+                    <p><span id="uploadTimes"></span></p>
+                    <p><span id="uploadurl" style="display:none"></span></p>
+                </div>
+            </div>
+        </td>
+        <td class="spbz" style="display:none;">
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" onclick="spbz()">
+                    <img src="~/Images/y-icon2.png">
+                    <p class="saveModel">审批备注</p>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" onclick="tjsp()">
+                    <img src="~/Images/y-icon4.png">
+                    <p class="saveModel">提交审批</p>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" onclick="SendBP()">
+                    <img src="~/Images/y-icon3.png">
+                    <p class="saveModel">发送报价文件给客户</p>
+                </div>
+            </div>
+        </td>
+        <td class="submittm" style="display:none;">
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" onclick="submitFBTM()">
+                    <img src="~/Images/y-icon6.png">
+                    <p class="saveModel">提交报价到TM</p>
+                </div>
+            </div>
+        </td>
+    </tr>
+    @*<tr id="FBtr">
+            <td>
+                <div class="card-box" style="height:120px;">
+                    <div class="card-table">
+                        <div id="uploadfile2btn" onclick="ExportFile()">
+                            <img src="~/Images/y-icon5.png" class="uploadimg">
+                            <p class="saveModel">生成报价文件</p>
+                        </div>
+                        <p><span id="uploadfile2" onclick="showurl2()"></span></p>
+                        <p><span id="uploadTimes2"></span></p>
+                        <p><span id="uploadurl2" style="display:none"></span></p>
+                        <p><span id="showmode" style="display:none"></span></p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-box" style="height:120px;">
+                    <div class="card-table" id="bjmb" vrid="" onclick="btnMB()">
+                        <img src="~/Images/y-icon1.png">
+                        <p class="saveModel">保存为报价摸版</p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-box" style="height:120px;">
+                    <div class="card-table" onclick="copyNewOne()">
+                        <img src="~/Images/y-icon1.png">
+                        <p class="saveModel">复制到其他报价</p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-box" style="height:120px;">
+                    <div class="card-table" onclick="submitTM()">
+                        <img src="~/Images/y-icon6.png">
+                        <p class="saveModel">提交报价到TM</p>
+                    </div>
+                </div>
+            </td>
+        </tr>*@
+    <tr id="FBtr">
+        <td style="text-align:center;">
+            <table style="height:120px;margin:auto">
+                <tr>
+                    <td style="text-align:center;">
+                        <div class="card-box" style="height:60px;">
+                            <div class="card-table">
+                                <div id="uploadfile2btn" onclick="ExportFile(0)">
+                                    <img src="~/Images/y-icon5.png" class="uploadimg">
+                                    <span class="saveModel">生成中文报价文件</span>
+                                </div>
+                                <p><span id="uploadfile2" onclick="showurl2()"></span></p>
+                                <p><span id="uploadTimes2"></span></p>
+                                <p><span id="uploadurl2" style="display:none"></span></p>
+                                <p><span id="showmode" style="display:none"></span></p>
+                                @*<p><span id="uploadfile2" onclick="showurl2()"></span></p>
+                                    <p><span id="uploadTimes2"></span></p>
+                                    <p><span id="uploadurl2" style="display:none"></span></p>
+                                    <p><span id="showmode" style="display:none"></span></p>*@
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;">
+                        <div class="card-box" style="height:60px;">
+                            <div class="card-table">
+                                <div id="uploadfile2btneng" onclick="ExportFile(1)">
+                                    <img src="~/Images/y-icon5.png" class="uploadimg">
+                                    <span class="saveModel">生成英文报价文件</span>
+                                </div>
+                                <p><span id="uploadfile2eng" onclick="showurl2eng()"></span></p>
+                                <p><span id="uploadTimes2eng"></span></p>
+                                <p><span id="uploadurl2eng" style="display:none"></span></p>
+                                <p><span id="showmodeeng" style="display:none"></span></p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+        <td>
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" id="bjmb" vrid="" onclick="btnMB()">
+                    <img src="~/Images/y-icon1.png">
+                    <p class="saveModel">保存为报价摸版</p>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" onclick="copyNewOne()">
+                    <img src="~/Images/y-icon1.png">
+                    <p class="saveModel">复制到其他报价</p>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="card-box" style="height:120px;">
+                <div class="card-table" onclick="submitTM()">
+                    <img src="~/Images/y-icon6.png">
+                    <p class="saveModel">提交报价到TM</p>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+<!-- 进度条 -->
+<div class="modal fade" id="progressbar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="chooseExc">
+                    文件导入中
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="importFileForm" method="post" enctype="multipart/form-data" action="">
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-info" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" style="width:100%"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  alert弹窗 有“确认”按钮 aria-hidden="true" 模态框不可见  -->
+<div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="messageAlert">
+                    消息提示
+                </h4>
+            </div>
+            <div class="modal-body" style="max-height:350px;overflow-y:scroll;">
+                <div id="message"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.reload();">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  alert弹窗2：保存为模板， 有“继续”“取消”按钮 aria-hidden="true" 模态框不可见  -->
+<div class="modal fade" id="modalAlert2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="messageAlert2">
+                    消息提示
+                </h4>
+            </div>
+            <div class="modal-body" style="max-height:350px;overflow-y:scroll;">
+                <div id="message2"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" id="btncontinue" class="btn btn-primary" data-dismiss="modal" onclick="SaveToMB();">继续</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  alert弹窗3：保存为模板， 有“继续”“取消”按钮 aria-hidden="true" 模态框不可见  -->
+<div class="modal fade" id="modalAlert3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="messageAlert3">
+                    消息提示
+                </h4>
+            </div>
+            <div class="modal-body" style="max-height:350px;overflow-y:scroll;">
+                <div id="message3"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" id="btncontinuechoosemb" class="btn btn-primary" data-dismiss="modal" onclick="">继续</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 非标原因选择框 -->
+<select style="display:none" id="fbReasonSel">
+
+    @if (ReasonDt != null)
+    {
+        for (var i = 0; i < ReasonDt.Rows.Count; i++)
+        {
+            <option title="@ReasonDt.Rows[i]["MEMO"]" value="@ReasonDt.Rows[i]["ReasonCode"]">@ReasonDt.Rows[i]["ReasonName"]--@ReasonDt.Rows[i]["ReasonCode"]</option>
+        }
+    }
+</select>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-switch/bootstrap-switch.min.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <link href="~/Content/QO/scripts/icheck/skins/square/blue.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/icheck/icheck.min.js"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script type="text/javascript">
+
+        //产品服务费目的所有信息，showPSF时初始化，查看指令
+        var PSFdata = "";
+        var SuccessTM="";
+        function submitTM()
+        {
+
+
+
+            //console.log(request("keyValue"));
+            //console.log($('.chooseVer').text());
+            var index = layer.load(2, { time: 300 * 1000 });
+            try {
+                $.ajax({
+                    url: "/QM_Price/RATEFWATM",
+                    //data: { 'keyvalue': request("keyValue"), 'zver': $('.chooseVer').text() },
+                    data: { 'keyvalue': request("keyValue"), 'zver': $("#zversion_cb").val(), 'tjzlcs': $("#tjzlcs").val(), 'qqq': JSON.stringify(needres)},
+                    type: "post",
+                    dataType: "json",
+                    async: true,
+                    success: function (data) {
+                        layer.close(index);
+                        if (data.Success) {
+                            layer.alert(data.Message, {
+                                skin: 'layui-layer-molv',
+                                icon: 1
+                            , closeBtn: 0
+                            }, function () {
+                                location.reload();
+                            });
+                            SuccessTM = "1";
+                        } else {
+                            layer.alert(data.Message, {
+                                title: '错误',
+                                skin: 'layui-layer-red'
+                            , closeBtn: 0
+                            });
+                            //console.log(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        layer.close(index);
+                        if (!!data.responseText) {
+                            layer.msg(data.responseText, { time: 5000 });
+                        } else {
+                            layer.msg("请求失败！");
+                        }
+                    }
+                });
+
+            } catch (e)
+            { layer.msg("保存失败，请重试"); layer.close(index); }
+
+            return false;
+        }
+        //非标报价提交TM
+        function submitFBTM()
+        {
+
+            var indexfb = layer.load(2, { time: 300 * 1000 });
+            try {
+                $.ajax({
+                    url: "/QM_FBPrice/RATEFWATM",
+                    data: { 'keyvalue': request("keyValue"), 'zver': $("#zversion_cb").val(), 'tjzlcs': $("#tjzlcs").val(), 'qqq': JSON.stringify(needres) },
+                    type: "post",
+                    dataType: "json",
+                    async: true,
+                    success: function (data) {
+                        layer.close(indexfb);
+                        if (data.Success) {
+                            layer.alert(data.Message, {
+                                skin: 'layui-layer-molv',
+                                icon: 1
+                            , closeBtn: 0
+                            }, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.alert(data.Message, {
+                                title: '错误',
+                                skin: 'layui-layer-red'
+                            , closeBtn: 0
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        layer.close(indexfb);
+                        if (!!data.responseText) {
+                            layer.msg(data.responseText, { time: 5000 });
+                        } else {
+                            layer.msg("请求失败！");
+                        }
+                    }
+                });
+
+            } catch (e)
+            { layer.msg("保存失败，请重试"); layer.close(indexfb); }
+
+            return false;
+        }
+
+        //全局变量
+        var PRDArray = [];
+        var SAPArray = [];
+        var srvArray = [];
+        var feeArray = [];
+        var dlfeeArray = [];
+        var vers = ""; // 存储版本号
+        var FBstate=true;//非标报价
+        var SendStatus = "";
+        var zversion = "V1";// 新建默认是V1
+        var product_dic = {};
+        //存放抓取的所有选中信息
+        var selectedArray = [];
+        var stadate ="";
+        var enddate ="";
+        var srvbjstr="@ViewBag.srvbj";//默认有背景色
+        var evt = "onorientationchange" in window ? "orientationchange" : "resize";
+        var fbreasoncode = ""; // 非标选项
+        var fbreasonother = ""; // 非标其他
+        var fbmemo = ""; // 非标备注
+        window.addEventListener(evt, resize, false);
+        function resize(fals) {
+            if (window.orientation == 0 || window.orientation == 180) {
+                $("#amenufld").trigger("click");
+            } else {
+                $("#amenufld").trigger("click");
+            }
+        }
+        function iCheckStyled() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        }
+        //页面开始加载
+        $(function () {
+            verTable();// 得到版本号
+            var BtnStatus=request("state");
+            if ("@ViewBag.bjtype"=="1") {
+                BtnStatus="false";
+            }
+            if(BtnStatus!=null){
+                if(BtnStatus=="false"){
+                    FBstate=false;
+                    $(".submittm").show();
+                    $(".spbz").hide();
+                }else{
+                    FBstate=true;
+                    $(".spbz").show();
+                    $(".submittm").hide();
+                }
+            }
+            // switch 选“标准报价”与“非标报价”
+            $("#mySwitch input").bootstrapSwitch({
+                onText: "标准报价",
+                offText: "非标报价",
+                onColor: "success",
+                offColor: "info",
+                size: "mini",
+                state: FBstate,
+                disabled:SendStatus=="1"||SendStatus=="2"||SendStatus=="4"||SendStatus=="5",
+                onInit:function (event,state){
+                    if(state==false){
+                        $("#FBBJ").css("display", "block");
+                        $("#FBtr").css("display", "none");
+                        $("#BZBJ").css("display","none");
+                        // $("#modalDiv").css("display", "none");
+                        $("#modalTable").css("display","none");
+
+                        //$("input:checkbox").iCheck("check");
+                        // $("input[type='checkbox']").attr("disabled",true);
+                    }else{
+                        $("#FBBJ").css("display", "none");
+                        $("#BZBJ").css("display","");
+                        //  $("#modalDiv").css("display", "");
+                        // $("input[type='checkbox']").attr("disabled",false);
+                    }
+                },
+                onSwitchChange: function (event, state) {
+                    if (state == true) { //标准报价
+                        $(".spbz").show();
+                        $(".submittm").hide();
+                        $.ajax({
+                            url: "@Url.Action("saveFB")",
+                            async:false,
+                            data: {
+                                rid:request("keyValue"),
+                                fbprice: "0",
+                                zver:vers
+                            },
+                            dataType: "json",
+                        })
+                        FBstate=true;
+                        $("#FBBJ").css("display", "none");
+                        $("#BZBJ").css("display","");
+                        // $("#modalDiv").css("display", "");
+                        $("#FBtr").css("display","");
+                        // $("input[type='checkbox']").prop("disabled",false);
+                        showPSF();
+                        $("#uploadfile2").empty();
+                        $("#uploadTimes2").empty();
+                        $("#uploadurl2").empty();
+
+                        $("#uploadfile").text("");
+                        $("#uploadTimes").text("");
+                        $("#uploadurl").text("");
+                    } else { //非标报价
+                        $(".submittm").show();
+                        $(".spbz").hide();
+                        $.ajax({
+                            url: "@Url.Action("saveFB")",
+                            async: false,
+                            data: {
+                                rid:request("keyValue"),
+                                fbprice: "1",
+                                zver:vers
+                            },
+                            dataType: "json",
+                        })
+                        FBstate=false;
+                        $("#FBBJ").css("display", "");
+                        $("#BZBJ").css("display","none");
+                        // $("#modalDiv").css("display", "none");
+                        $("#modalTable").css("display","none");
+                        $("#FBtr").css("display", "none");
+                        // $("input:checkbox").iCheck("check");
+                        // $("input[type='checkbox']").prop("disabled",true);
+                        // showFBPRD();
+                        showPSF();
+
+                        $("#uploadfile").text("");
+                        $("#uploadTimes").text("");
+                        $("#uploadurl").text("");
+
+                        $("#uploadfile2").empty();
+                        $("#uploadTimes2").empty();
+                        $("#uploadurl2").empty();
+                    }
+                }
+            })
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            $("#user").text(user);
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            resize(true);
+            //初始化时间控件
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN",
+                startDate: stadate,
+                endDate:enddate
+
+            });
+            //初始化toast
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            // 初始化fileinput
+            var oFileInput = new FileInput();
+            oFileInput.Init("fileImport", "/SQM_BJ_IMP_EXP/PostExcelData");
+            //新增报价
+            var name = '报价' + getNowDate();
+            //得到选中产品的code 和 name
+            var AllPRDmsg = localStorage.getItem("PRDmsg");
+            vers = $("#zversion_cb").val();
+            showHead();
+            showAllData(vers,"");
+            iCheckStyled();
+            showPSF(vers,"");
+            DrawTable();
+            showFile();
+            //$("input[name='PRD']").iCheck('check');
+            //$('.bigtittle').click(function () {
+            //    $(this).next().toggle();
+            //});
+
+        });
+        //显示当前报价名称以及客户
+        function showHead() {
+            var res = [];
+            $.ajax({
+                url: "@Url.Action("showHead")",
+                data: {
+                    keyvalue: request("keyValue")
+                },
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    res = data;
+                }
+            })
+            $("#priceName").text(res[0].BJNAME);
+            $("#priceName").attr("title",res[0].BJNAME);
+            if (res[0].BPNAME != null) {
+                $("#customName").text("客户：" + res[0].BPNAME);
+                $("#bpCode").text(res[0].BPCODE);
+            } else {
+                $("#customName").text("客户：" + " ");
+            }
+            var sjname = "";
+            var sjid = "";
+            if (res[0].BIZNAME != null) {
+                for (var i = 0; i < res.length; i++) {
+                    sjname += res[i].BIZNAME;
+                    sjname += ";";
+                    sjid = res[i].BIZID + ",";
+                }
+            }
+            $("#businessName").text("商机："+sjname);
+            $("#businessId").text(sjid);
+        }
+        //显示上传报价文件信息
+        function showFile(){
+            var up = [];
+            $.ajax({
+                url: "@Url.Action("showFile")",
+                data: {
+                    RID: request("keyValue"),
+                    "vrid": $("#bjmb").attr('vrid')
+                },
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    up = data;
+                }
+            })
+            if(up[0].SHOWMODE=="1"){
+                $("#uploadfile").text(up[0].UPLOADNAME);
+                $("#uploadTimes").text(up[0].UPLOADTIME);
+                $("#uploadurl").text(up[0].UPLOADURL);
+            }else{
+                $("#uploadfile2").text(up[0].UPLOADNAME);
+                $("#uploadTimes2").text(up[0].UPLOADTIME);
+                $("#uploadurl2").text(up[0].UPLOADURL);
+                $("#showmode").text(up[0].SHOWMODE);
+
+                $("#uploadfile").text("");
+                $("#uploadTimes").text("");
+                $("#uploadurl").text("");
+            }
+        }
+
+        function showFileeng(){
+            var up = [];
+            $.ajax({
+                url: "@Url.Action("showFileeng")",
+                data: {
+                    RID: request("keyValue"),
+                    "vrid": $("#bjmb").attr('vrid')
+                },
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    up = data;
+                }
+            })
+            if (up.length > 0) {
+                if (up[0].SHOWMODE == "1") {
+                    $("#uploadfile").text(up[0].UPLOADNAME);
+                    $("#uploadTimes").text(up[0].UPLOADTIME);
+                    $("#uploadurl").text(up[0].UPLOADURL);
+                } else {
+                    $("#uploadfile2eng").text(up[0].UPLOADNAME);
+                    $("#uploadTimes2eng").text(up[0].UPLOADTIME);
+                    $("#uploadurl2eng").text(up[0].UPLOADURL);
+                    $("#showmodeeng").text(up[0].SHOWMODE);
+
+                    $("#uploadfile").text("");
+                    $("#uploadTimes").text("");
+                    $("#uploadurl").text("");
+                }
+            }
+        }
+
+        function showurl() {
+            //location.href="/Excel/output/" + $("#uploadfile").text();
+            window.open("/Excel/output/" + $("#uploadfile").text());// 新窗口中打开
+        }
+        function showurl2() {
+            //location.href = "/Excel/output/" + $("#uploadfile2").text();
+            window.open("/Excel/output/" + $("#uploadfile2").text());
+        }
+        function showurl2eng() {
+            //location.href = "/Excel/output/" + $("#uploadfile2").text();
+            window.open("/Excel/output/" + $("#uploadfile2eng").text());
+        }
+
+        //显示当前报价的版本信息
+        function verTable() {
+            var tableArray = [];
+            var tablemsg = "";
+            $.ajax({
+                url: "@Url.Action("verTable")",
+                data: {
+                    keyvalue: request("keyValue")
+                },
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    tableArray = data;
+                }
+            });
+            // 选择最新版本号
+            var zvers = localStorage.getItem("ver");
+            var zStatus = localStorage.getItem("SendStatus");
+            if(zvers!=""&&zvers!=null){
+                zversion=zvers;
+                SendStatus=zStatus;
+            }else{
+                zversion = tableArray[0].ZVER;
+                SendStatus=tableArray[0].STATUS;
+            }
+            $("#versionTittle").html("报价版本：" + zversion);
+            $("#zversion_cb").val(zversion);
+            // 渲染version列表
+            for (var i = 0; i < tableArray.length; i++) {
+                var bjbh=tableArray[i].FWA==null?'':tableArray[i].FWA;
+                var dtfrom = tableArray[i].DTFROM;
+                if (dtfrom == null) {
+                    dtfrom = "";
+                } else {
+                    dtfrom = dtfrom.substring(0, dtfrom.indexOf("T"));
+                }
+                var dtto = tableArray[i].DTTO;
+                if (dtto == null) {
+                    dtto = "";
+                } else {
+                    dtto = dtto.substring(0, dtto.indexOf("T"));
+                }
+                var modifytime = tableArray[i].MODIFYTIME;
+                if (modifytime == null) {
+                    modifytime = "";
+                } else {
+                    modifytime = modifytime.subDate();
+                }
+                //状态判定
+                var status = tableArray[i].STATUS;
+                if(bjbh != null && bjbh != ""){
+                    status = "已提交TM";
+                }else{
+                    if (status == "0") {
+                        status = "已保存";
+                    } else if (status == "1") {
+                        status = "审批中";
+                    } else if (status == "2") {
+                        status = "审批通过";
+                    } else if (status == "3") {
+                        status = "审批退回";
+                    } else if (status == "4") {
+                        status = "已发送客户";
+                    } else if (status == "5") {
+                        status = "已提交TM";
+                    }else if (status == "6") {
+                        status = "作废";
+                    } else {
+                        status = "";
+                    }
+                }
+
+
+                tablemsg += "<tr><td></td><td><a class='chooseVer' vrid = '" + tableArray[i].RID + "' statusKey='" + tableArray[i].STATUS + "'>" + tableArray[i].ZVER + "</a></td><td>" + bjbh + "</td><td>" + status + "</td><td>" + dtfrom + "</td><td>" + dtto + "</td><td>" + tableArray[i].CREATEUSER + "</td><td>" + modifytime+"</td><td><span class='widget-icon editVersion' status='" + tableArray[i].STATUS + "' statustm='"+bjbh+"' rid = '" + tableArray[i].RID + "'><i class='fa fa-edit'></i></span></td></tr>";
+            }
+            // 保存报价模板按钮vrid属性赋值
+            $("#bjmb").attr("vrid", tableArray[0].RID);// 最新版本
+            $("#vertbody").find("*").remove();
+            $("#vertbody").append(tablemsg);
+            //点击不同的版本渲染不同版本
+            $(".chooseVer").click(function () {
+                var version = $(this).text();
+                $("#zversion_cb").val(version);
+                vers = version;
+                var vrid = $(this).attr("vrid");
+                SendStatus=$(this).attr("statusKey");
+                $("#versionTittle").html("报价版本：" + version);
+                localStorage.setItem("SendStatus",SendStatus);
+                localStorage.setItem("ver", version);
+                // 保存报价模板按钮vrid属性赋值
+                $("#bjmb").attr("vrid", vrid);// 当前版本版本id
+                showAllData(version, vrid);
+                iCheckStyled();
+                showPSF(version);
+
+            })
+
+            //回显版本信息
+            $(".editVersion").click(function () {
+                var StatusTM =$(this).attr("statustm");
+                var Status =$(this).attr("status");
+                var CONTRACTSTARTDATE,CONTRACTENDDATE,verdtfrom,verdtto;
+                var  res = {};
+                //通过版本rid 得到版本的相关信息
+                $.ajax({
+                    url: "@Url.Action("getVerByRid")",
+                    dataType: "json",
+                    async: false,
+                    data: {
+                        rid: $(this).attr("rid")
+                    },
+                    success: function (data) {
+                        res = data;
+                    }
+                });
+
+                var msg = "<form id='formmain'>";
+                msg += "<div class='row'>";
+                msg += "<div class='col-xs-12 cols'>";
+                msg += "<label class=' col-md-2 control-label' style='margin-top:10px;'>有效起始日</label>";
+                msg += "<div class='col-md-5'>";
+                msg += "<div class='input-group date form-date'>";
+                msg += "<input class='form-control' type='text' id='VERDTFROM' name='dtfrom'>";
+                msg += "<span class='input-group-addon'><i class='fa fa-calendar'></i></span>";
+                msg += "</div>";
+                msg += "</div>"
+                msg += "</div>";
+                msg += "</div>";
+                msg += "<div class='row' style='margin-top:20px;'>";
+                msg += "<div class='col-xs-12 cols'>";
+                msg += "<label class='col-md-2 control-label' style='margin-top:10px;'>有效截止日</label>";
+                msg += "<div class='col-md-5'>"
+                msg += "<div class='input-group date form-date'>";
+                msg += "<input class='form-control ' type='text' id='VERDTTO' name='dtto'>";
+                msg += "<span class='input-group-addon'><i class='fa fa-calendar'></i></span>";
+                msg += "</div>";
+                msg += "</div>";
+                msg += "</div>";
+                msg += "</div>";
+                msg += "<div class='row' style='margin-top:10px;'>";
+                msg += "<div class='col-xs-12 cols'>";
+                msg += " <div class='col-md-2'>"
+                msg += " <label class='control-label' style='margin-top:10px;'>合同编号</label>";
+                msg += "</div>";
+                msg += "<div class='col-md-6'><input type= 'text' ID='CONTRSCTNUM' class='form-control col-md-8'></div>";
+                msg += " <div class='col-md-2'>"
+                msg += " <label class='control-label' style='margin-top:10px;'>版本号</label>";
+                msg += "</div>";
+                msg += "<div class='col-md-2'><input type='text' ID='ZVER' mrid='" + res.MRID + "' rid='" + res.RID + "' disabled='disabled' class='form-control col-md-8'></div>";
+                msg += "</div>";
+                msg += "</div>";
+                msg += "<div class='row' style='margin-top:10px;'>";
+                msg += "<div class='col-xs-12 cols'>";
+                msg += "<div class='col-md-2'>"
+                msg += "<label class='control-label' style='margin-top:10px;'>报价备注</label>";
+                msg += "</div>";
+                msg += " <div class='col-md-10' style='margin-top:10px;'>"
+                msg += "<textarea rows='4' id = 'VERMEMO' style='width:100%;'></textarea>";
+                msg += "</div>";
+                msg += "</div>"
+                msg += "<div class='row'>";
+                msg += "<div class='col-md-2'>";
+                msg += "</div>";
+                msg += "<div class='btn-group col-md-2' style='margin-top:10px;'><button type= 'submit' class='btn btn-default' onclick = 'saveVer();return false'>保存</button ></div>"
+                msg += "<div class='btn-group col-md-3' style='margin-top:10px;'><button type= 'submit' class='btn btn-default' onclick = 'saveNewVer();return false'>另存为新版本</button ></div>"
+                msg += "<div class='btn-group col-md-2' style='margin-top:10px;'><button type='submit' class='btn btn-default' id='btntm' statustm='"+ StatusTM + "' Status='" + Status + "'  onclick = 'deleteVer();return false'>作废</button ></div>"
+                msg += "<button type='button' class='btn btn-default' data-dismiss='modal' style='margin-top:10px;'>取消</button>"
+                msg += "</div>"
+                msg += "</form>"
+                alert("报价版本新增/修改", msg);
+                //隐藏弹出框确定按钮
+                $(".modal-footer").children('button').hide();
+                if($("#CONTRSCTNUM").val() == ""){
+                    var sjid = $("span#businessId").text();
+                    var bpcode = $("span#bpCode").text();
+                    var list = [];
+                    $.ajax({
+                        url: "@Url.Action("GetContrsct")",
+                        dataType: "json",
+                        async: false,
+                        data: {
+                            rid: $(this).attr("rid"),
+                            sjid:sjid,
+                            bpcode:bpcode
+
+                        },
+                        success: function (data) {
+                            list = data;
+                        }
+                    });
+                    if(list!=undefined  && list.length != 0)
+                    {
+                        CONTRACTSTARTDATE = list[0].CONTRACTSTARTDATE;
+                        if(CONTRACTSTARTDATE!=null){
+                            CONTRACTSTARTDATE = CONTRACTSTARTDATE.subDate();
+                            stadate=CONTRACTSTARTDATE;
+                        }
+                        CONTRACTENDDATE = list[0].CONTRACTENDDATE;
+                        if(CONTRACTENDDATE!=null){
+                            CONTRACTENDDATE = CONTRACTENDDATE.subDate();
+                            enddate=CONTRACTENDDATE;
+                        }
+                        var CONTRSCTNUM = list[0].CONTRACTCODE;
+                        if(CONTRSCTNUM!=null){
+                            $("#CONTRSCTNUM").val(list[0].CONTRACTCODE);
+                        }
+                    }else{
+                        verdtto = res.DTTO;;
+                        if (verdtto != null) {
+                            verdtto = verdtto.subDate();
+                            enddate=verdtto;
+                        }
+                        verdtfrom = res.DTFROM;
+                        if (verdtfrom != null) {
+                            verdtfrom = verdtfrom.subDate();
+                            stadate = verdtfrom;
+                        }
+                        $("#CONTRSCTNUM").val(res.CONTRSCTNUM);
+                    }
+                    $("#ZVER").val(res.ZVER);
+                    $("#VERMEMO").val(res.MEMO);
+                }
+                else{
+                    //function btnVCancel() {
+                    //    window.focus();
+                    //    return false;
+                    //}
+                    $("#CONTRSCTNUM").val(res.CONTRSCTNUM);
+                    $("#ZVER").val(res.ZVER);
+                    $("#VERMEMO").val(res.MEMO);
+                }
+                //数据回显
+                verdtto = res.DTTO;;
+                if (verdtto != null) {
+                    verdtto = verdtto.subDate();
+                    // $("#VERDTTO").prop("disabled",true);
+                    // }else{
+                    // $("#VERDTTO").prop("disabled",false);
+                }
+                verdtfrom = res.DTFROM;
+                if (verdtfrom != null) {
+                    verdtfrom = verdtfrom.subDate();
+                    // $("#VERDTFROM").prop("disabled",true);
+                    // }else{
+                    //     $("#VERDTFROM").prop("disabled",false);
+                }
+                //有效期优先取版本的，没有的话取CRM合同的
+                $("#VERDTFROM").val(verdtfrom==null?(list.length==0?null:CONTRACTSTARTDATE):verdtfrom);
+                $("#VERDTTO").val(verdtto==null?(list.length==0?null:CONTRACTENDDATE):verdtto);
+
+                //时间控件初始化
+                $(".form-date").datetimepicker({
+                    format: "yyyy/mm/dd",
+                    autoclose: true,
+                    todayBtn: true,
+                    todayHighlight: true,
+                    startView: 2,
+                    minView: 2,
+                    clearBtn: true,
+                    language: "zh-CN",
+                    //startDate: stadate//,
+                    //endDate: enddate
+                });
+            });
+
+            // 暂存非标原因
+            fbreasoncode = tableArray[0].FBREASONCODE;
+            fbreasonother = tableArray[0].FBREASONOTHER;
+            fbmemo = tableArray[0].FBMEMO;
+        }
+        //保存版本信息
+        function saveVer() {
+            var verdtto = $("#VERDTTO").val();
+            var verdtfrom = $("#VERDTFROM").val();
+            var rid = $("#ZVER").attr("rid");
+            var vermemo = $("#VERMEMO").val();
+            var contrsctnum = $("#CONTRSCTNUM").val();
+            var bpcode = $("span#bpCode").text();
+            if(bpcode == ""){
+                toastr.error("保存失败:请先选择客户！")
+            }else{
+                $.ajax({
+                    url: "@Url.Action("saveVer")",
+                    async: false,
+                    data: {
+                        verdtto: verdtto,
+                        verdtfrom: verdtfrom,
+                        rid: rid,
+                        vermemo: vermemo,
+                        contrsctnum: contrsctnum,
+                        bpcode:bpcode
+
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            setTimeout(function () { location.reload() }, 500);
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    }
+                })
+            }
+            return false;
+        }
+
+        function deleteVer(){
+            var vrid = $("#ZVER").attr("rid");
+            var status = $("#btntm").attr("status");
+            var statustm=$("#btntm").attr("statustm");
+            var flag = true;
+            if(status == "6"){
+                toastr.error("作废失败！已经是作废状态。")
+                flag = false;
+            }
+            if(statustm != ""){
+                toastr.error("作废失败！已提交TM。")
+                flag = false;
+            }
+            if(flag==true){
+                $.ajax({
+                    url: "@Url.Action("deleteVer")",
+                    data: {
+                        vrid: vrid,
+                    },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            setTimeout(function () { location.reload() }, 500);
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    }
+                })
+            }
+
+        }
+        //另存为新的版本
+        function saveNewVer() {
+            //新增版本包括版本信息以及费目信息
+            var verdtto = $("#VERDTTO").val();
+            var verdtfrom = $("#VERDTFROM").val();
+            var zver = $("#ZVER").val();
+            zver = "V" + (parseInt(zver.substring(1)) + 1);
+            var pvrid = $("#ZVER").attr("rid");
+            var vermemo = $("#VERMEMO").val();
+            var mrid = $("#ZVER").attr("mrid");//报价主信息表rid
+            var bpcode = $("span#bpCode").text();
+            if(bpcode == ""){
+                toastr.error("保存失败:请先选择客户！")
+            }else{
+                $.ajax({
+                    url: "@Url.Action("saveNewVer")",
+                    data: {
+                        zver: zver,
+                        mrid: mrid,
+                        pvrid: pvrid,
+                        verdtfrom: verdtfrom,
+                        verdtto: verdtto,
+                        vermemo: vermemo,
+                        selectedArray: JSON.stringify(selectedArray),
+                    },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            setTimeout(function () { location.reload() }, 500);
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    }
+                })
+            }
+            return false;
+        }
+        // 模板消息提示
+        function MessageAlert2(title, message) {
+            $("#modalAlert2").modal({
+                show: true,
+                backdrop: "static",
+                keyboard: false
+            });
+            $("#messageAlert2").html(title);
+            $("#message2").html(message);
+        }
+        // 点击保存为模板
+        function btnMB() {
+            // 判断是否有未保存费目，如果有，进行弹窗提示
+            $.ajax({
+                url: "@Url.Action("CheckFeeStatus")",
+                type: "Post",
+                data: {
+                    "vrid": $("#bjmb").attr("vrid")
+                },
+                dataType: "Json",
+                success: function (msg) {
+                    if (msg != "") {
+                        MessageAlert2("消息提示", "以下费目未保存：<BR>" + msg + "<BR>点继续按钮将进行模板保存，是否继续？");
+                    } else {
+                        SaveToMB();
+                    }
+                }
+            });
+        }
+        // 保存为报价模板
+        function SaveToMB() {
+            var vrid = $("#bjmb").attr("vrid");
+            var msg = "<form id='formmain'>";
+            msg += "<div class='row' style='margin-top:10px;'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<div class='col-md-2'>"
+            msg += "<label class='control-label' style='margin-top:10px;'>模板名称</label>";
+            msg += "</div>";
+            msg += " <div class='col-md-10' style='margin-top:10px;'>"
+            msg += "<input type= 'text' id ='TEMPLATENAME1' class='form-control col-md-8'>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<div class='row' style='margin-top:10px;'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<div class='col-md-2'>"
+            msg += "<label class='control-label' style='margin-top:10px;'>模板简介</label>";
+            msg += "</div>";
+            msg += " <div class='col-md-10' style='margin-top:10px;'>"
+            msg += "<textarea rows='3' id ='TEMPLATEJJ' style='width:100%;'></textarea>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<div class='row' style='margin-top:10px;'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<div class='col-md-2'>"
+            msg += "<label class='control-label' style='margin-top:10px;'>模板详细说明</label>";
+            msg += "</div>";
+            msg += " <div class='col-md-10' style='margin-top:10px;'>";
+            msg += "<textarea rows='5' id='REMARK' style='width:100%;'></textarea>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<div class='row'>";
+            msg += "<div class='col-md-3'>";
+            msg += "</div>";
+            msg += " <div class='btn-group  col-md-3' style='margin-top:10px;'><button type= 'submit' class='btn btn-default' onclick='saveMB();return false;'>保存</button ></div>"
+            msg += " <div class='btn-group  col-md-3' style='margin-top:10px;'><button type= 'submit' data-dismiss='modal' class='btn btn-default'>取消</button ></div>"
+            msg += "</div>";
+            msg += "</form>";
+            alert("保存为报价模板", msg);
+            // 隐藏弹出框确定按钮
+            $(".modal-footer").children("button").hide();
+        };
+
+        function toEditBusiness() {
+            var fstate="";
+            if(FBstate == false){
+                fstate = "false";
+            }else{
+                fstate = "true";
+            }
+            location.href = "/QM_SJBJ/QM_SJBJEdit?keyValue=" + request('keyValue') + "&FBstate=" + fstate+ "&zversion=" + $("#zversion_cb").val()+"&SendStatus=" + SendStatus;
+            return false;
+        }
+        $("#toxj").click(function () {
+            location.href = "/SQM_ENQUIRY_HKY/QuiryHyIndex";
+        })
+        $("#tocpzs").click(function () {
+            location.href = "/SQM_CPZS/Index";
+        })
+
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        });
+
+        $("#versionBtn").click(function () {
+            $("#versionTable").toggle();
+            if ($("#versionTable").eq(0).is(":visible")) {// 元素可见
+                $("#versionIcon").removeClass().addClass("fa fa-caret-up");
+            } else {
+                $("#versionIcon").removeClass().addClass("fa fa-caret-down");
+            }
+            if ($("#modalTable").css("display") == "block") {
+                $("#modalTable").css("display", "none");
+            }
+        });
+
+        $("#modalBtn").click(function () {
+            $("#modalTable").toggle();
+            if ($("#modalTable").eq(0).is(":visible")) {
+                $("#modalIcon").removeClass().addClass("fa fa-caret-up");
+            } else {
+                $("#modalIcon").removeClass().addClass("fa fa-caret-down");
+            }
+            if ($("#versionTable").css("display") == "block") {
+                $("#versionTable").css("display", "none");
+            }
+        });
+
+        $(".bigtittle").click(function () {
+            $(this).next().toggle();
+        });
+        //$('input').on('ifChecked', function(event){
+        $("input[name='PRD']").on('ifClicked', function(event){
+            $("#servicePanel").css("display", "block");
+        });
+        $("input[name='SRV']").on('ifClicked', function (event) {
+            $("#feePanel").css("display", "block");
+        });
+        $("input[name='FEE']").on('ifClicked', function (event) {
+        });
+        // 下拉框产品服务费目展示
+        function showAllData(version, vrid) {
+            var prdmsg = "";
+            var FBprdmsg="";
+            var srvmsg = "";
+            var feemsg = "";
+            var ver = "";
+            // 报价版本没有，默认为v1
+            if (version == "" || version == null) {
+                ver = "V1";
+            } else {
+                ver = version;
+            }
+            // 将版本的rid放在保存模板按钮的属性上，方便保存模板
+            if (!(vrid == "" || vrid == null)) {
+                $("#bjmb").attr('vrid', vrid);
+            }
+            srvArray = [];
+            var srvcodeArray = [];
+            feeArray = [];
+            var prdtittlemsgfirst = "";
+            var prdtittlemsg = "";
+            var FBprdtittlemsgfirst = "";
+            var FBprdtittlemsg = "";
+            var PRDArray = [];
+            var SAPArray = [];
+            var keyValue = request("keyValue");
+            //通过主键得到产品信息
+            $.ajax({
+                url: "@Url.Action("GetAllByRid")",
+                data: {
+                    keyvalue: keyValue,
+                    ver: ver,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    PRDArray = data[0];
+                    srvArray = data[1];
+                    feeArray = data[2];
+                }
+            });
+            // 产品字典 code:name
+            for (var i = 0; i < PRDArray.length; i++) {
+                product_dic[PRDArray[i][0]] = PRDArray[i][1];
+            }
+            // 产品渲染,PRDArray 为数组包含数组，索引0为code，索引为1为name
+            for (var i = 0; i < PRDArray.length; i++) {
+                prdmsg += "<div class='row'><section class='col-xs-6 col-sm-12'><input type='checkbox' name='PRD' prdcode=" + PRDArray[i][0] + "><i></i><span class='prdspan'>" + PRDArray[i][1] + "</span></section></div>";
+                FBprdmsg += "<div class='row'><section class='col-xs-6 col-sm-12'><input type='checkbox' disabled=false name='PRD' prdcode=" + PRDArray[i][0] + "><i></i><span class='prdspan'>" + PRDArray[i][1] + "</span></section></div>";
+                //if (i == 1) {
+                //    if (PRDArray[i][2] == "1") {
+                //        prdtittlemsgfirst += ' <div class="bigtittle" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div></div>';
+                //        FBprdtittlemsgfirst += ' <div class="bigtittle" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div></div>';
+                //    }else {
+                //        prdtittlemsgfirst += ' <div class="bigtittle" style="display:none;" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div></div>';
+                //        FBprdtittlemsgfirst += ' <div class="bigtittle" style="display:none;" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div></div>';
+                //    }
+                //}
+                //else {
+                //    if (PRDArray[i][2] == "1") {
+                //        prdtittlemsg += '<div class="row" style="margin-top:10px;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;"></div></div></div></div>';
+                //        FBprdtittlemsg += '<div class="row" style="margin-top:10px;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;" style="display: none;"></div></div></div></div>';
+                //    } else {
+                //        prdtittlemsg += '<div class="row" style="margin-top:10px;display:none;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;"></div></div></div></div>';
+                //        FBprdtittlemsg += '<div class="row" style="margin-top:10px;display:none;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;" style="display: none;"></div></div></div></div>';
+                //    }
+                //}
+                if (PRDArray[i][2] == "1") {
+                    prdtittlemsg += '<div class="row" style="margin-top:10px;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + PRDArray[i][0] + '><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;"></div></div></div></div>';
+                    FBprdtittlemsg += '<div class="row" style="margin-top:10px;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + PRDArray[i][0] + ' style="pointer-events: none;"><span>' + PRDArray[i][1] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;" style="display: none;"></div></div></div></div>';
+                }
+                SAPArray.push(PRDArray[i][0]);
+            }
+            //$("#firstprd").find("*").remove();
+            $("#prdtittle").find("*").remove();
+            //$("#FBfirstprd").find("*").remove();
+            $("#FBprdtittle").find("*").remove();
+            $("#ALLPRD").find("*").remove();
+            $("#FBALLPRD").find("*").remove();
+            //$("#firstprd").append(prdtittlemsgfirst);
+            $("#prdtittle").append(prdtittlemsg);
+            //$("#FBfirstprd").append(FBprdtittlemsgfirst);
+            $("#FBprdtittle").append(FBprdtittlemsg);
+            $("#ALLPRD").append(prdmsg);
+            $("#FBALLPRD").append(FBprdmsg);
+            //返回值为多个数组，数组【0】为产品代码，【1】为服务代码，【2】为服务名称
+            for (var i = 0; i < srvArray.length; i++) {
+                if (srvbjstr.indexOf(srvArray[i][1])>=0) {
+                    srvmsg += '<section class="col-xs-6 col-sm-12 SRV"><input type="checkbox" name = "SRV"  prdcode=' + srvArray[i][0] + ' srvcode=' + srvArray[i][1] + '><i></i><span class= "srvspan srvbj">' + srvArray[i][2] + '</span></section>';
+                }else {
+                    srvmsg += '<section class="col-xs-6 col-sm-12 SRV"><input type="checkbox" name = "SRV"  prdcode=' + srvArray[i][0] + ' srvcode=' + srvArray[i][1] + '><i></i><span class= "srvspan">' + srvArray[i][2] + '</span></section>';
+                }
+                srvcodeArray.push(srvArray[i][1]);
+            }
+            $("#ALLSRV").find("*").remove();
+            $("#ALLSRV").append(srvmsg);
+            //返回值为多个数组，数组【0】为产品代码，【2】为服务代码，【5】为费目名称 【6】 为必选费目标价 【9】费目的费用说明
+            for (var j = 0; j < feeArray.length; j++) {
+                var bxbj = feeArray[j][6];
+                if (bxbj == "Y") {
+                    feemsg += '<section class="col-xs-6 col-sm-3 FEE"><input type="checkbox" name="FEE"  checked="checked" disabled="disabled"  bxbj = "' + feeArray[j][6] + '" prdcode = "' + feeArray[j][0] + '" srvcode = ' + feeArray[j][2] + ' feecode = ' + feeArray[j][4] + '><i></i><span title="' + feeArray[j][9]+ '">' + feeArray[j][5] + '</span></section>'
+                } else {
+                    feemsg += '<section class="col-xs-6 col-sm-3 FEE"><input type="checkbox" name="FEE" bxbj = "' + feeArray[j][6] + '" prdcode = "' + feeArray[j][0] + '" srvcode = ' + feeArray[j][2] + ' feecode = ' + feeArray[j][4] + '><i></i><span title="' + feeArray[j][9]+ '">' + feeArray[j][5] + '</span></section>'
+                }
+            }
+            $("#ALLFEE").find("*").remove();
+            $("#ALLFEE").append(feemsg);
+            //费目说明为空的时候去掉悬浮提示
+            $("#ALLFEE span").each(function(){
+                if ($(this).attr("title")=="null") {
+                    $(this).removeAttr("title");
+                }
+            });
+            //点击产品字，显示服务的字并给背景色 隐藏费目信息
+            $(".prdspan").click(function () {
+                //先清掉所有的背景色
+                $('input:checkbox[name=PRD]').parent().parent().find('.prdspan').removeClass('checkme')
+                //隐藏所有服务
+                $('input:checkbox[name=SRV]').parent().parent().css('display', 'none');
+                var prdcode = $(this).parent().find('input').attr('prdcode');
+                $(this).addClass('checkme');
+                $('input:checkbox[name=SRV][prdcode=' + prdcode + ']').parent().parent().css('display', 'block');
+                //第一次默认勾选全部的必选费目
+                if (selectedArray.length==0) {
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "Y"]').iCheck('check');
+                }
+                // 隐藏费目信息
+                $('input:checkbox[name=FEE]').parent().parent().css('display', 'none');
+            });
+            // 点击服务字显示，当前服务对应的费目,并且给服务上背景色
+            $('.srvspan').click(function () {
+                //先清掉所有的背景色
+                $('input:checkbox[name=SRV]').parent().parent().find('.srvspan').removeClass('checkme');
+                //隐藏所有的费目
+                $('input:checkbox[name=FEE]').parent().parent().css('display', 'none');
+                var srvcode = $(this).parent().find('input').attr('srvcode');
+                var prdcode = $(this).parent().find('input').attr('prdcode');
+                $(this).addClass('checkme');
+                $('input:checkbox[name=FEE][srvcode=' + srvcode + '][prdcode=' + prdcode + ']').parent().parent().css('display', 'block');
+                //第一次默认勾选全部的必选费目
+                if (selectedArray.length==0) {
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "Y"]').iCheck('check');
+                }else {
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][srvcode=' + srvcode + '][bxbj = "Y"]').iCheck('check');
+                }
+                //全选 18-08-15 yang
+                if (isCheckedAllFee(prdcode, srvcode)) {
+                    $("#currentfee").iCheck('check');
+                } else {
+                    $("#currentfee").iCheck('uncheck');
+                }
+            });
+            //产品checkbox 勾选事件
+            $("input:checkbox[name='PRD']").on("ifClicked", function (event) {
+                var prdcode = $(this).attr("prdcode");
+                if ($(this).is(":checked")) {
+                    $('input:checkbox[name=SRV][prdcode=' + prdcode + ']').iCheck('uncheck');
+                    $('input:checkbox[name=FEE][prdcode=' + prdcode + '][bxbj="null"]').iCheck('uncheck');
+                    $('input:checkbox[name=FEE][prdcode=' + prdcode + '][bxbj="N"]').iCheck('uncheck');
+                    $('input:checkbox[name=FEE][prdcode=' + prdcode + '][bxbj="Y"]').iCheck('check');
+                    //服务、费目全选框
+                    $('input:checkbox[id=currentsrv]').iCheck('uncheck');
+                    $('input:checkbox[id=currentfee]').iCheck('uncheck');
+                } else {
+                    $('input:checkbox[name=SRV][prdcode=' + prdcode + ']').iCheck('check');
+                    $('input:checkbox[name=FEE][prdcode=' + prdcode + '][bxbj="null"]').iCheck('check');
+                    $('input:checkbox[name=FEE][prdcode=' + prdcode + '][bxbj="N"]').iCheck('check');
+                    $('input:checkbox[name=FEE][prdcode=' + prdcode + '][bxbj="Y"]').iCheck('check');
+                    //服务、费目全选框
+                    $('input:checkbox[id=currentsrv]').iCheck('check');
+                    $('input:checkbox[id=currentfee]').iCheck('check');
+                }
+            });
+            //服务checkbox 勾选事件
+            $('input:checkbox[name=SRV]').on('ifClicked', function (event) {
+                var srvcode = $(this).attr('srvcode');
+                var prdcode = $(this).attr('prdcode');
+                if ($(this).is(':checked')) {
+                    $('input:checkbox[name=FEE][srvcode =' + srvcode + '][prdcode =' + prdcode + '][bxbj = "null"]').iCheck('uncheck');
+                    //$('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "N"]').iCheck('uncheck');
+                    //改 2018-8-13 yang
+                    $('input:checkbox[name=FEE][srvcode =' + srvcode + '][prdcode =' + prdcode + '][bxbj = "N"]').iCheck('uncheck');
+                    $('input:checkbox[name=FEE][srvcode =' + srvcode + '][prdcode =' + prdcode + '][bxbj = "Y"]').iCheck('check');
+                } else {
+                    $('input:checkbox[name=FEE][srvcode =' + srvcode + '][prdcode =' + prdcode + '][bxbj = "null"]').iCheck('check');
+                    //$('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "N"]').iCheck('check');
+                    $('input:checkbox[name=FEE][srvcode =' + srvcode + '][prdcode =' + prdcode + '][bxbj = "N"]').iCheck('check');
+                    $('input:checkbox[name=FEE][srvcode =' + srvcode + '][prdcode =' + prdcode + '][bxbj = "Y"]').iCheck('check');
+                }
+            });
+            //当前服务页面全选与不选
+            $('input:checkbox[id=currentsrv]').on('ifClicked', function (event) {
+                ////如何调用点击产品时的操作？
+                checkAllSrv();
+                // 取消以及勾选对应产品 弃用 找到以上on(ifChanged)事件导致前台报错，因为下面已经存在onchange事件，事件冲突导致：Maximum call stack size exceeded的报错
+                //var prdcode = $($("#ALLSRV").find("section[style*='display: block;']").find('input[name=SRV]')[0]).attr("prdcode");
+                //if ($(this).is(':checked')) {
+                //    $("input[name=PRD][prdcode=" + prdcode + "]").iCheck("check");
+                //} else {
+                //    $("input[name=PRD][prdcode=" + prdcode + "]").iCheck("uncheck");
+                //}
+            });
+            //当前费目页面全选与不选
+            $('input:checkbox[id=currentfee]').on('ifClicked', function (event) {
+                var checkinputs = $(this).parent().parent().parent().next().find('input[name=FEE]');
+                if ($(this).is(':checked')) {
+                    $("#ALLFEE").find("section[style*='display: block;']").find('input[name=FEE][bxbj=null]').iCheck('uncheck');
+                    $("#ALLFEE").find("section[style*='display: block;']").find('input[name=FEE][bxbj=N]').iCheck('uncheck');
+                } else {
+                    $("#ALLFEE").find("section[style*='display: block;']").find('input[name=FEE][bxbj=null]').iCheck('check');
+                    $("#ALLFEE").find("section[style*='display: block;']").find('input[name=FEE][bxbj=N]').iCheck('check');
+                }
+            });
+            //必选费目选中并且disable
+            $('input:checkbox[name=FEE]').each(function () {
+                if ($(this).attr("bxbj") == "Y") {
+                    $(this).prop("checked", true);
+                    $(this).attr("disabled", "disabled");
+                }
+            });
+            // 费目checkbox勾选 将服务checkbox勾选，如果费目勾选为空则取消对应服务勾选，如果费目有必选，必须手动点服务checkbox取消选中
+            $("input[name=FEE]:checkbox").on("ifChanged", function (evevt) {
+                //当前可见服务下的所有可见费目没有选上时，对应的服务自动去掉勾选
+                var prdcode = $(this).attr("prdcode");
+                var srvcode = $(this).attr("srvcode");
+                var count = 0;
+                $("input:checkbox[name=FEE][prdcode=" + prdcode + "][srvcode=" + srvcode + "]").each(function () {
+                    if ($(this).is(":checked")) {
+                        count++;
+                    }
+                });
+                if (count > 0) {// 服务checkboxx勾选状态
+                    $("input[name=SRV][prdcode=" + prdcode + "][srvcode=" + srvcode + "]").iCheck("check");
+                } else {
+                    $("input[name=SRV][prdcode=" + prdcode + "][srvcode=" + srvcode + "]").iCheck("uncheck");
+                }
+            })
+            //改 全选 18-08-15 yang
+            $('input:checkbox[name=SRV]').on('ifChanged', function (event) {
+                var srvcode = $(this).attr('srvcode');
+                var prdcode = $(this).attr('prdcode');
+                if (isCheckedAllSrv(prdcode)) {
+                    $("#currentsrv").iCheck('check');
+                } else {
+                    $("#currentsrv").iCheck('uncheck');
+                }
+                // 取消产品checkbox勾选
+                var count = 0;
+                $("input:checkbox[name=SRV][prdcode=" + prdcode + "]").each(function () {
+                    if ($(this).is(":checked")) {
+                        count++;
+                    }
+                });
+                if (count > 0) {
+                    $("input:checkbox[name=PRD][prdcode=" + prdcode + "]").iCheck("check");
+                } else {
+                    $("input:checkbox[name=PRD][prdcode=" + prdcode + "]").iCheck("uncheck");
+                }
+            });
+            $('input:checkbox[name=FEE]').on('ifChanged', function (event) {
+                //var currentsrv = $('input:checkbox[name=SRV]').siblings("span:has(.checkme)").attr("srvcode");
+                var currentsrv = $('.checkme').siblings('div').children('input[name=SRV]').attr('srvcode');
+                var srvcode = $(this).attr('srvcode');
+                if (currentsrv != srvcode) {
+                    return;
+                }
+                var prdcode = $(this).attr('prdcode');
+                if (isCheckedAllFee(prdcode,srvcode)) {
+                    $("#currentfee").iCheck('check');
+                } else {
+                    $("#currentfee").iCheck('uncheck');
+                }
+            });
+        }
+        // 非标页面 取消按钮
+        function FBbtnCancel() {
+            $('#FBbtnOk').trigger("click");
+            return false;
+        }
+        // 取消按钮
+        function btnCancel() {
+            $('#btnOk').trigger("click");
+            return false;
+        }
+        // 无绑定关系费目取消按钮
+        $(".dlbtncancel").click(function(){
+            $(this).closest("#DlFee").attr("class","");
+        });
+        // 非标页面 选择产品保存
+        function FBbtnSaveFee(){
+            // 初始化存值数组
+            //selectedArray=[];
+
+            toastr.success("数据保存成功");
+            $('#FBbtnOk').trigger("click");
+            return false;
+
+        }
+        //选择费目后点击保存
+        function btnSaveFee() {
+            //先判断是否有勾选费目
+            var selcount = 0;
+            $("[name = 'FEE']").each(function () {
+                if ($(this).is(':checked')) {
+                    selcount++;
+                }
+            })
+            if (selcount == 0) {
+                toastr.error("请先选择费目！");
+                return;
+            }
+            toastr.info("数据保存中，请稍候...");
+            //初始化存值数组
+            selectedArray = [];
+            //产品层 -- 将所有产品都保存
+            $("input:checkbox[name=PRD]").each(function () {
+                var prdobj = {"prdcode": $(this).attr("prdcode"), "srvcodes": [] ,"ifcheck": $(this).is(":checked")};
+                var prdcount = 0;
+                selectedArray.forEach(v => {
+                    if (v.prdcode == prdobj.prdcode) {
+                        prdcount++;
+            }
+            })
+                    if (prdcount == 0) {
+                        selectedArray.push(prdobj);
+                    }
+        });
+        //服务层
+        $("input:checkbox[name=SRV]:checked").each(function () {
+            var srvobj = { "srvcode": $(this).attr("srvcode"), "feecodes": [] };
+            var srvcount = 0;
+            selectedArray.forEach(p => {
+                if (p.prdcode == $(this).attr("prdcode")) {
+                    p.srvcodes.forEach(s => {
+                        if (s.srvcode == srvobj.srvcode) {
+                            srvcount++;
+        }
+        })
+                    if (srvcount == 0) {
+                        if ($("input:checkbox[name=PRD][prdcode=" + $(this).attr("prdcode") + "]").is(":checked")){
+                            p.srvcodes.push(srvobj);
+                        }
+                    }
+        }
+        })
+        });
+        //费目层
+        $('input:checkbox[name=FEE]:checked').each(function () {
+            selectedArray.forEach(p => {
+                if (p.prdcode == $(this).attr('prdcode')) {
+                    p.srvcodes.forEach(s => {
+                        if (s.srvcode == $(this).attr('srvcode')) {
+                            if (s.feecodes.indexOf($(this).attr('feecode')) == -1) {
+                                var pc = $(this).attr("prdcode");
+                                var sc = $(this).attr("srvcode");
+                                if ($("input[name=SRV][prdcode=" + pc + "][srvcode=" + sc + "]").is(":checked")) {
+                                    s.feecodes.push($(this).attr("feecode"));
+                                }
+                            }
+        }
+        })
+        }
+        })
+        });
+        //psf表中插入数据
+        $.ajax({
+            url: "@Url.Action("SaveToPSF")",
+            type:"Post",
+            data: {
+                postdata: JSON.stringify(selectedArray),
+                keyvalue: request("keyValue"),
+                vrid: $("#bjmb").attr("vrid"),
+            },
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                toastr.clear();
+                toastr.remove();
+                toastr.success("数据保存成功");
+            }
+        });
+        //var version = vers;
+        //showPSF(version);
+        //$('#btnOk').trigger("click");
+        window.location.reload();
+        }
+        //选择无绑定关系费目后点击保存
+        $(".dlbtnsavefee").click(function(){
+            var proserid=$(this).closest("#DlFee").prev().attr("id");
+            DlSaveFee(proserid.split("_")[1],proserid.split("_")[2]);
+        });
+        function DlSaveFee(prdcode,srvcode){
+            //先判断是否有勾选费目
+            //var selcount = 0;
+            //$("[name = 'DLFEE']").each(function () {
+            //    if ($(this).is(':checked')) {
+            //        selcount++;
+            //    }
+            //})
+            //if (selcount == 0) {
+            //    toastr.error("请先选择费目！");
+            //    return;
+            //}
+            toastr.info("数据保存中，请稍候...");
+            //初始化存值数组
+            selectedArray = [];
+            //费目层
+            $('input:checkbox[name=DLFEE]:checked').each(function () {
+                var prdobj = {"prdcode": $(this).attr("prdcode"), "srvcodes": [] ,"ifcheck": $(this).is(":checked")};
+                var prdcount = 0;
+                selectedArray.forEach(v => {
+                    if (v.prdcode == prdobj.prdcode) {
+                        prdcount++;
+            }
+            });
+        if (prdcount == 0) {
+            selectedArray.push(prdobj);
+        }
+        var srvobj = { "srvcode": $(this).attr("srvcode"), "feecodes": [] };
+        var srvcount = 0;
+        selectedArray.forEach(p => {
+            if (p.prdcode == $(this).attr("prdcode")) {
+                p.srvcodes.forEach(s => {
+                    if (s.srvcode == srvobj.srvcode) {
+                        srvcount++;
+        }
+        });
+        if (srvcount == 0) {
+            if ($("input:checkbox[name=PRD][prdcode=" + $(this).attr("prdcode") + "]").is(":checked")){
+                p.srvcodes.push(srvobj);
+            }
+        }
+        }
+        })
+        selectedArray.forEach(p => {
+            if (p.prdcode == $(this).attr('prdcode')) {
+                p.srvcodes.forEach(s => {
+                    if (s.srvcode == $(this).attr('srvcode')) {
+                        if (s.feecodes.indexOf($(this).attr('feecode')) == -1) {
+                            var pc = $(this).attr("prdcode");
+                            var sc = $(this).attr("srvcode");
+                            if ($("input[name=SRV][prdcode=" + pc + "][srvcode=" + sc + "]").is(":checked")) {
+                                s.feecodes.push($(this).attr("feecode"));
+                            }
+                        }
+        }
+        })
+        }
+        })
+        });
+        //psf表中插入数据
+        $.ajax({
+            url: "@Url.Action("SaveToPSF")",
+            type:"Post",
+            data: {
+                postdata: JSON.stringify(selectedArray),
+                keyvalue: request("keyValue"),
+                vrid: $("#bjmb").attr("vrid"),
+                prdcode:prdcode,
+                srvcode:srvcode,
+                aloenfee:"1",
+            },
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                toastr.clear();
+                toastr.remove();
+                toastr.success("数据保存成功");
+            }
+        });
+        //var version = vers;
+        //showPSF(version);
+        //$('#btnDlOk').trigger("click");
+        window.location.reload();
+        }
+        //展示已有的产品、服务、费目
+        function showPSF(version) {
+            //var res = [];
+            var count = 0;
+            var selectData;
+            var zver = "";
+            var feeArr=[];
+            if (version == null || version == "") {
+                zver = "V1";
+            } else {
+                zver = version;
+            }
+            $.ajax({
+                url: "@Url.Action("showPSF")",
+                data: {
+                    keyvalue: request("keyValue"),
+                    zver: zver,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    //res = data[0];
+                    selectData = data[1];
+                    PSFdata = data[1];
+                }
+            });
+            // 将所有checkbox置为非选中状态
+            $("input:checkbox").iCheck("uncheck");
+            // 模板的checkbox选中
+            $(".TEMPLATETYPE").iCheck("check");
+            // 勾选产品/服务/费目 + 打包数据(将键值对改造成对象形式)
+            // 初始化存值数组
+            selectedArray = [];
+            for (var product in selectData) {// 遍历产品
+                // 插入 产品:服务 数据
+                var prdobj = { "prdcode": product, "srvcodes": [] };
+                selectedArray.push(prdobj);
+                // 勾选产品
+                $("[name='PRD'][prdcode='" + product + "']").each(function () {
+                    $(this).iCheck("check");
+                });
+                for (var s = 0; s < selectData[product].length; s++){
+                    var sfObj = selectData[product][s];
+                    for (var service in sfObj) {// 遍历服务
+                        // 插入 服务:费目 数据
+                        var srvobj = { "srvcode": service, "feecodes": sfObj[service] };
+                        selectedArray.forEach(item => {
+                            if (item.prdcode == product) {
+                                item.srvcodes.push(srvobj);
+                    }
+                });
+                // 勾选服务
+                $("[name='SRV'][prdcode='" + product + "'][srvcode='" + service + "']").each(function () {
+                    $(this).iCheck("check");
+                });
+                feeArr = sfObj[service];
+                for (var f = 0; f < feeArr.length; f++) {
+                    // 勾选费目
+                    $("[name='FEE'][prdcode='" + product + "'][srvcode='" + service + "'][feecode='" + feeArr[f] + "']").each(function () {
+                        $(this).iCheck("check");
+                    });
+                }
+            }
+        }
+        }
+        // 将键值对改造成对象形式 弃用
+        // 初始化存值数组
+        //selectedArray = [];
+        //for (var key in selectData) {// key为产品
+        //    var prdobj = { "prdcode": key, "srvcodes": [] };
+        //    selectedArray.push(prdobj);
+        //    for (var i = 0; i < selectData[key].length; i++) {// 数组
+        //        for (var key1 in selectData[key][i]) {// key1为服务
+        //            var srvobj = { "srvcode": key1, "feecodes": selectData[key][i][key1] };
+        //            selectedArray.forEach(item => {
+        //                if (item.prdcode == key) {
+        //                    item.srvcodes.push(srvobj);
+        //                }
+        //            })
+        //        }
+        //    }
+        //}
+        // 数据的回显
+        // 渲染产品
+        $("#prdtittle").find("*").remove();
+        $("#FBprdtittle").find("*").remove();
+        var prdtittlemsg = "";
+        var FBprdtittlemsg="";
+        for (var i = 0; i < selectedArray.length; i++) {
+            prdtittlemsg += '<div class="row" style="margin-top:10px;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + selectedArray[i].prdcode + '><span>' + product_dic[selectedArray[i].prdcode] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;"></div></div></div></div>';
+            FBprdtittlemsg += '<div class="row" style="margin-top:10px;"><div class="col-md-12"><div class="card-box" style="height:100%;padding-bottom:20px;padding-top:20px;" ><div class="bigtittle" prdcode=' + selectedArray[i].prdcode + ' style="pointer-events: none;"><span>' + product_dic[selectedArray[i].prdcode] + '<i class="fa fa-angle-double-down prdhead"></i></span></div><div margin-left:5px;" style="display: none;"></div></div></div></div>';
+        }
+        $("#prdtittle").append(prdtittlemsg);
+        $("#FBprdtittle").append(FBprdtittlemsg);
+        $(".bigtittle").each(function () {
+            $(this).click(function () {
+                $(this).next().toggle();
+            });
+        });
+        // 渲染产品下服务指令集和对应的费目
+        for (var i = 0; i < selectedArray.length; i++) {
+            var msg = '';
+            var prdcode = selectedArray[i].prdcode;
+            for (var j = 0; j < selectedArray[i].srvcodes.length; j++) {
+                // 服务渲染
+                // 通过服务code得到服务名称
+                var srvName = '';
+                var srvcode = selectedArray[i].srvcodes[j].srvcode;
+                srvArray.forEach(srv => {
+                    if (srv[1] == selectedArray[i].srvcodes[j].srvcode) {
+                        srvName = srv[2];
+            }
+        })
+
+        //msg += '<ul class="col-md-12 service" style="background-color: #ffffff;"><li class="cpfnlb" > <a href="" style="color:black;"><img width="30" height="30" style="margin-right: 20px;" src="/Images/icon-1.png">服务：' + srvName + '<i class="fa fa-caret-right" style="margin-left: 20px;"></i></a></li></ul>';
+        msg += '<ul class="col-md-12 service" style="background-color: #ffffff;"><li class="cpfnlb" > <a href="" style="color:black;"><img width="30" height="30" style="margin-right: 20px;" src="/Images/icon-1.png">服务：' + srvName + '</a><span style="padding-top:10px;width: 20%;position:absolute;" ><span name="zl" class="zl" id="s_' + prdcode + '_' + srvcode + '" title="指令集" ><i class="fa fa-caret-right" style="margin-left: 20px;"></i></span>';
+        msg += '<div id="zl_div_' + prdcode + '_' + srvcode + '" class="zldiv zlbox" >服务指令<ul></ul></div></span></li></ul>';
+        var mm = '<ul class="col-md-12 service" style="background-color: #ffffff;"><li class="cpfnlb" > <a href="" style="color:black;"><img width="30" height="30" style="margin-right: 20px;" src="/Images/icon-1.png">服务：' + srvName + '</a><span style="padding-top:10px;position:absolute;" ><span name="zl" class="zl" id="s_' + prdcode + '_' + srvcode + '" title="指令集" ><i class="fa fa-caret-right" style="margin-left: 20px;"></i></span>';
+        var mm1='<div id="zl_div_' + prdcode + '_' + srvcode + '" class="zldiv zlbox" >服务指令<ul></ul></div></span></li></ul>';
+        showDlFee("s_" + prdcode + "_" + srvcode, zversion);
+        debugger;
+        for (var k = 0; k < selectedArray[i].srvcodes[j].feecodes.length; k++) {
+            var alonefee='0';
+            var feeName = '';
+            var feecode = selectedArray[i].srvcodes[j].feecodes[k];
+            // 费目渲染
+            // 通过费目code得到费目name
+            feeArray.forEach(fee => {
+                if (fee[4] == selectedArray[i].srvcodes[j].feecodes[k]) {
+                    feeName = fee[5];
+        }
+        });
+        if (feeName=="") {
+            dlfeeArray.forEach(fee => {
+                if (fee[2] == selectedArray[i].srvcodes[j].feecodes[k]) {
+                    feeName = fee[3];
+            alonefee='1';
+        }
+        });
+            }
+            debugger;
+            if (feecode == "CUSTOMIZE") {
+                if (feeName) {
+                    msg += ' <div class="btn-group btn-group-lg col-md-2" style="margin-top:10px;margin-bottom:10px;" ><button type="submit" title="' + feeName + '" prdcode = ' + prdcode + ' srvcode = ' + srvcode + ' feecode ="' + feecode + '" alonefee = ' + alonefee + ' class="btn btn-default feebtnZdy btn-block"><span class="widget-icon "><i class="fa fa-circle feeEdit cshbj"></i>&nbsp;' + feeName.trim() + '</span></button></div>';
+                } else {
+                    msg = msg.replace(mm, "");
+                    msg = msg.replace(mm1, "");
+                }
+            }
+            else {
+                if (feeName) {
+                    msg += ' <div class="btn-group btn-group-lg col-md-2" style="margin-top:10px;margin-bottom:10px;" ><button type="submit" title="' + feeName + '" prdcode = ' + prdcode + ' srvcode = ' + srvcode + ' feecode ="' + feecode + '" alonefee = ' + alonefee + ' class="btn btn-default feebtn btn-block"><span class="widget-icon "><i class="fa fa-circle feeEdit cshbj"></i>&nbsp;' + feeName.trim() + '</span></button></div>';
+                } else {
+                    msg = msg.replace(mm, "");
+                    msg = msg.replace(mm1, "");
+                }
+            }
+        }
+        msg += '</div>';
+        }
+        //先销毁之前的dom结构，重写生成d/
+        $('div[prdcode = ' + prdcode + ']').next().find('*').remove();
+        $('div[prdcode = ' + prdcode + ']').next().append(msg);
+        var res = [];
+        //给每个费目加psf rid 和 状态属性
+        $('.feebtn').each(function () {
+            $.ajax({
+                url: "@Url.Action("GetRid")",
+                data: {
+                    prdcode: $(this).attr("prdcode"),
+                    srvcode: $(this).attr("srvcode"),
+                    feecode: $(this).attr("feecode"),
+                    alonefee: $(this).attr("alonefee"),
+                    zver:vers,
+                    keyvalue: request("keyValue"),
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    needres.push(data);
+                    res = data;
+
+                }
+            })
+
+            $(this).attr('djrid', res[0]);
+            $(this).attr('bjrid', res[1]);
+            $(this).attr('status', res[2]);
+            $(this).attr('BJstatus',res[3]);
+            $(this).attr('minstatus',res[4]);
+            if($(this).attr('BJstatus')!=0)
+            {
+                $("#qrqbfm").prop("disabled",true);
+                $("#modalBtn").prop("disabled",true);
+                $("#ImportExcel").prop("disabled",true);
+                $("#btnSave").prop("disabled",true);
+                $("input[type='checkbox']").prop("disabled",true);
+                //$("#sjbj").css('pointer-events','none');
+                $("#btnSave").css('pointer-events','none');
+                if($(this).attr('BJstatus')=="1"){
+                    $('.editVersion').css('pointer-events','none');
+                }
+
+            }else{
+                $("#qrqbfm").prop("disabled",false);
+                $("#modalBtn").prop("disabled",false);
+                $("#ImportExcel").prop("disabled",false);
+                $("#btnSave").prop("disabled",false);
+                $("input[type='checkbox']").prop("disabled",false);
+            }
+            if ($(this).attr('status') == "3" || $(this).attr('status') == "7") {//报价无定价
+                $(this).find('.feeEdit').css('color', 'red');
+            } else if ($(this).attr('status') == "4" || $(this).attr('status') == "5"|| $(this).attr('minstatus') == "1") {//报价超限
+                $(this).find('.feeEdit').css('color', '#f0ad4e');
+            } else if ($(this).attr('status') == "2") {//已确定
+                $(this).find('.feeEdit').css('color', 'green');
+            } else {
+                $(this).find('.feeEdit').css('color', 'white');
+            }
+            });
+            $('.feebtnZdy').each(function () {
+            $.ajax({
+                url: "@Url.Action("GetRid")",
+                data: {
+                    prdcode: $(this).attr("prdcode"),
+                    srvcode: $(this).attr("srvcode"),
+                    feecode: $(this).attr("feecode"),
+                    alonefee: $(this).attr("alonefee"),
+                    zver:vers,
+                    keyvalue: request("keyValue"),
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    needres.push(data);
+                    res = data;
+
+                }
+            })
+
+            $(this).attr('djrid', res[0]);
+            $(this).attr('bjrid', res[1]);
+            $(this).attr('status', res[2]);
+            $(this).attr('BJstatus',res[3]);
+            $(this).attr('minstatus',res[4]);
+            if($(this).attr('BJstatus')!=0)
+            {
+                $("#qrqbfm").prop("disabled",true);
+                $("#modalBtn").prop("disabled",true);
+                $("#ImportExcel").prop("disabled",true);
+                $("#btnSave").prop("disabled",true);
+                $("input[type='checkbox']").prop("disabled",true);
+                //$("#sjbj").css('pointer-events','none');
+                $("#btnSave").css('pointer-events','none');
+                if($(this).attr('BJstatus')=="1"){
+                    $('.editVersion').css('pointer-events','none');
+                }
+
+            }else{
+                $("#qrqbfm").prop("disabled",false);
+                $("#modalBtn").prop("disabled",false);
+                $("#ImportExcel").prop("disabled",false);
+                $("#btnSave").prop("disabled",false);
+                $("input[type='checkbox']").prop("disabled",false);
+            }
+            if ($(this).attr('status') == "3" || $(this).attr('status') == "7") {//报价无定价
+                $(this).find('.feeEdit').css('color', 'red');
+            } else if ($(this).attr('status') == "4" || $(this).attr('status') == "5"|| $(this).attr('minstatus') == "1") {//报价超限
+                $(this).find('.feeEdit').css('color', '#f0ad4e');
+            } else if ($(this).attr('status') == "2") {//已确定
+                $(this).find('.feeEdit').css('color', 'green');
+            } else {
+                $(this).find('.feeEdit').css('color', 'white');
+            }
+        });
+            showFile();
+            showFileeng();
+            $(".feebtn").click(function () {
+                var RID = JSON.stringify([$(this).attr('djrid'), $(this).attr('bjrid')]);
+                var btnFeeCode = $(this).attr('feecode');
+                localStorage.setItem("currentbj", $("#priceName").text());
+                location.href = "/SQM_FMBJ/FMBJ?RID=" + RID + "&alonefee=" + $(this).attr('alonefee') + "&BJstatus="+$(this).attr('BJstatus');
+            });
+            $(".feebtnZdy").click(function () {
+                var RID = JSON.stringify([$(this).attr('djrid'), $(this).attr('bjrid')]);
+                var btnFeeCode = $(this).attr('feecode');
+                localStorage.setItem("currentbj", $("#priceName").text());
+                location.href = "/SQM_FMBJ/FMBJZDY?RID=" + RID + "&alonefee=" + $(this).attr('alonefee') + "&BJstatus=" + $(this).attr('BJstatus');
+            });
+        }
+        //无绑定关系费目
+        if (feeArr.length>0) {
+            $("#DlFee").show();
+            $('span[name=zl]').after($("#DlFee"));
+        }
+        }
+        //获取该事业部下面未绑定关系的费目
+        $("#DlFee").click(function(){
+            var proserid=$(this).prev().attr("id");
+            showDlFee(proserid,zversion);
+            iCheckStyled();
+        });
+        function showDlFee(proserid,zversion){
+            dlfeeArray = [];
+            var dlfeeArr=[];
+            var dlfeemsg = "";
+            var pcode = proserid.split("_")[1];
+            var srvcode = proserid.split("_")[2];
+            var keyValue = request("keyValue");
+            var ver = "";
+            // 报价版本没有，默认为v1
+            if (zversion == "" || zversion == null) {
+                ver = "V1";
+            } else {
+                ver = zversion;
+            }
+            //通过主键得到费目信息
+            $.ajax({
+                url: "@Url.Action("GetAllFee")",
+                data: {
+                    keyvalue: keyValue,
+                    ver: ver,
+                    pcode: pcode,
+                    srvcode: srvcode,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    dlfeeArray = data[0];
+                    dlfeeArr = data[1];
+                }
+            });
+            //返回值为多个数组
+            for (var j = 0; j < dlfeeArray.length; j++) {
+                dlfeemsg += '<section class="col-xs-6 col-sm-3 DLFEE"><input type="checkbox" name="DLFEE" prdcode = "' + dlfeeArray[j][0] + '" srvcode = ' + dlfeeArray[j][1] + ' feecode = "' + dlfeeArray[j][2] + '"><i></i><span title="' + dlfeeArray[j][4]+ '">' + dlfeeArray[j][3] + '</span></section>'
+            }
+            $("#"+proserid).next().find("#DLALLFEE").find("*").remove();
+            $("#"+proserid).next().find("#DLALLFEE").append(dlfeemsg);
+            //费目说明为空的时候去掉悬浮提示
+            $("#DLALLFEE span").each(function(){
+                if ($(this).attr("title")=="null") {
+                    $(this).removeAttr("title");
+                }
+            });
+            //当前费目页面全选与不选
+            $('body').on('ifClicked','input:checkbox[id=dlcurrentfee]', function (event) {
+                if ($(this).is(':checked')) {
+                    $("#"+proserid).next().find("#DLALLFEE").find('input[name=DLFEE]').iCheck('uncheck');
+                } else {
+                    $("#"+proserid).next().find("#DLALLFEE").find('input[name=DLFEE]').iCheck('check');
+                }
+            });
+            for (var f = 0; f < dlfeeArr.length; f++) {
+                // 勾选费目
+                $("[name='DLFEE'][prdcode='" + pcode + "'][srvcode='" + srvcode + "'][feecode='" + dlfeeArr[f] + "']").each(function () {
+                    $(this).iCheck("check");
+                });
+            }
+        }
+        //截取费目名称
+        String.prototype.trim = function () {
+            if (this.length > 8) {
+                return this.substring(0, 7) + "...";
+            } else {
+                return this;
+            }
+        }
+        //日期字符串统一处理
+        String.prototype.subDate = function () {
+            return this.substring(0, this.indexOf('T'));
+        }
+        // 保存报价模板
+        // 报价模板保存的是该报价信息某个版本的rid
+        function saveMB() {
+            if ($("#TEMPLATENAME1").val() == "") {
+                toastr.error("请输入模板名称");
+                return false;
+            }
+            if ($("#TEMPLATEJJ").val() == "") {
+                toastr.error("请输入模板简介");
+                return false;
+            }
+            //if ($("#REMARK").val() == "") {
+            //    toastr.error("请输入模板详细说明");
+            //    return;
+            //}
+            $.ajax({
+                url: "@Url.Action("AddBJMB")",
+                data: {
+                    VERID: $("#bjmb").attr("vrid"),
+                    TEMPLATENAME: $("#TEMPLATENAME1").val(),
+                    TEMPLATEJJ: $("#TEMPLATEJJ").val(),
+                    REMARK: $("#REMARK").val()
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.Success) {
+                        toastr.success(data.Message);
+                        setTimeout(function () { location.reload() }, 500);
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                }
+            });
+            return false;
+        }
+        //保存为其他报价
+        function copyNewOne() {
+            console.log(vers);
+            toastr.info("数据保存中，请稍候...");
+            $.ajax({
+                url: "@Url.Action("copyNewOne")",
+                data: {
+                    keyValue: request("keyValue"),
+                    postdata: JSON.stringify(selectedArray),
+                    zver:vers
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        toastr.success(data.Message);
+                        //setTimeout(function () { location.href = "/QM_SJBJ/QM_SJBJEdit?keyValue=" + data.Data+ "&zversion=" + $("#zversion_cb").val() }, 500);
+                        setTimeout(function () { location.href = "/QM_SJBJ/QM_SJBJEdit?keyValue=" + data.Data+ "&zversion=V1" }, 500);
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                }
+            })
+        }
+        //发送报价邮件给客户
+        function SendBP(){
+            var fstate="";
+            if(FBstate == false){
+                fstate = "false";
+            }else{
+                fstate = "true";
+            }
+            var keyValue=request("keyValue");
+            // alert($("span#bpCode").text());
+            if($("span#bpCode").text()==null||$("span#bpCode").text()==""){
+
+                toastr.error("发送失败：请先选择客户");
+            }else if($("span#uploadfile").text()=="" && $("span#uploadfile2").text()==""){
+                toastr.error("发送失败：无报价文件发送客户");
+            }else if(SendStatus == "0"|| SendStatus == "1" ||  SendStatus == "3"){
+                toastr.error("发送失败：审批通过后才能发送客户");
+            }else if(SendStatus == "6"){
+                toastr.error("发送失败：版本已作废");
+            }else{
+                location.href="/qm_price/qm_sendemail?bpCode="+$("span#bpCode").text()+"&keyValue="+keyValue+"&vrid="+$("#bjmb").attr('vrid')+ "&FBstate=" + fstate;
+            }
+        }
+        //提交审批
+        function spbz() {
+            var msg = "<form id='formmain'>";
+            msg += "<div class='row'>";
+            msg += "<section class='col-md-12'>";
+            msg += " <div class='col-md-3'>";
+            msg += " <h2><label class='label label label-default'>审批备注</label><h2>";
+            msg += "</div>"
+            msg += " <div class='col-md-9' style='margin-top:10px;'>"
+            msg += "<textarea rows='4' style='width:100%;'></textarea>";
+            msg += "</div>"
+            msg += "</section>";
+            msg += "</div>";
+            msg += "<div class='row'>";
+            msg += "<div class='col-md-3'>";
+            msg += "</div>";
+            msg += " <div class='btn-group btn-group-lg col-md-3' style='margin-top:10px;'><button type= 'submit' class='btn btn-default' data-dismiss='modal'>保存</button ></div>"
+            msg += " <div class='btn-group btn-group-lg col-md-3' style='margin-top:10px;'><button type= 'submit' class='btn btn-default' data-dismiss='modal'>取消</button ></div>"
+            msg += "</div>"
+            msg += "</form>"
+            alert("审批备注", msg);
+            //隐藏弹出框确定按钮
+            $(".modal-footer").children('button').hide();
+        };
+        function tjsp() {
+            debugger;
+            var msg = "<form id='formmain1'>";
+
+            if (!FBstate) { // 非标报价显示非标原因
+                msg += "<div class='row'>";
+                msg += "<section class='col-md-12'>";
+                msg += "<div class='col-md-3'>";
+                msg += "<h2><label class='label label label-default'>非标原因</label></h2>";
+                msg += "</div>";
+                msg += "<div class='col-md-9' style='margin-top:10px;'>";
+                msg += "<select multiple style='width:100%' class='select2' id='FBREASONCODE'>";
+                msg += $("#fbReasonSel").html();
+                msg += "</select>";
+                msg += "</div>";
+                msg += "</section>";
+                msg += "</div>";
+                // 其他非标原因
+                //msg += "<div class='row fbReasonOther'>";
+                //msg += "<section class='col-md-12'>";
+                //msg += "<div class='col-md-9 col-md-push-3' style='margin-top:10px;'>";
+                //msg += "<input type='text' class='form-control' placeholder='请输入其他原因' autocomplete='off' id='FBREASONOTHER'>";
+
+                // 非标备注
+                msg += "<div class='row'>";
+                msg += "<section class='col-md-12'>";
+                msg += " <div class='col-md-3'>"
+                msg += " <h2><label class='label label label-default'>非标备注</label><h2>";
+                msg += "</div>"
+                msg += " <div class='col-md-9' style='margin-top:10px;'>"
+                msg += "<textarea rows='4' style='width:100%;' id='FBMEMO'></textarea>";
+
+                msg += "</div>";
+                msg += "</section>";
+                msg += "</div>";
+            }
+
+            msg += "<div class='row'>";
+            msg += "<section class='col-md-12'>";
+            msg += " <div class='col-md-3'>"
+            msg += " <h2><label class='label label label-default'>提交审批</label><h2>";
+            msg += "</div>"
+            msg += " <div class='col-md-9' style='margin-top:10px;'>"
+            msg += "<textarea rows='4' style='width:100%;' id='MEMO'></textarea>";
+            msg += "</div>"
+            msg += "</section>";
+            msg += "</div>";
+            msg += "<div class='row'>";
+            msg += "<div class='col-md-3'>";
+            msg += "</div>";
+            msg += " <div class='btn-group btn-group-lg col-md-3' style='margin-top:10px;'><button type= 'submit' class='btn btn-default'  onclick = 'StartFlow();return false'>提交</button ></div>"
+            msg += " <div class='btn-group btn-group-lg col-md-3' style='margin-top:10px;'><button type= 'submit' class='btn btn-default' data-dismiss='modal'>取消</button ></div>"
+            msg += "</div>"
+            msg += "</form>"
+            alert("提交审批", msg);
+            $("#FBREASONCODE").select2({
+                formatSelection: formatSelect2Option,
+                formatResult:formatResult
+            });
+            if (!FBstate ) {
+                if (fbreasoncode) {
+                    var arr = fbreasoncode.split(",");
+                    $("#FBREASONCODE").select2('val', arr);
+                    if ($.inArray('04', arr) >= 0) {
+                        $('.fbReasonOther').show();
+                        $("#FBREASONOTHER").val(fbreasonother);
+                    }
+                }
+                if (fbmemo) {
+                    $("#FBMEMO").val(fbmemo);
+                }
+            }
+            //隐藏弹出框确定按钮
+            $(".modal-footer").children('button').hide();
+        };
+
+        $("body").on("select2-selecting", '#FBREASONCODE', function (e) {
+            if (e.val =="04") {
+                $('.fbReasonOther').show();
+            }
+        });
+
+        $("body").on("select2-removed", '#FBREASONCODE',function (e) {
+            if (e.val == "04") {
+                $("#FBREASONOTHER").val("");
+                $('.fbReasonOther').hide();
+            }
+        });
+
+        // 格式化select2 选择内容
+        function formatSelect2Option(object, container) {
+            var text = object.text.replace(/--\d*/g, '');
+            var title = object.element[0].title;
+            return "<span title='"+title+"'>"+text+"</span>";
+        }
+        function formatResult(object, container, query) {
+            var title = object.element[0].title;
+            return "<div title='"+title+"'>"+object.text+"</div>";
+        }
+        //function Close(){
+        //    $(".modal-content").hide();
+        //}
+        function StartFlow() {
+            
+            var reason = "";
+            var reasonother = "";
+            var reasonname = "";
+            if (!FBstate) { // 非标报价，保存非标原因
+                var fbReason = $("#FBREASONCODE").val();
+                if (!fbReason) {
+                    toastr.error("提交失败：请先选择非标原因。");
+                    return;
+                }
+                $("#FBREASONCODE").select2("data").forEach(function (item, index) {
+                    reasonname += item.id + ":" + item.text.replace(/--\d*/g,'') + ",";
+                });
+                reasonname = reasonname.replace(/,$/g, '');
+                reason = fbReason.join();
+                if ($.inArray('04', fbReason) >= 0) {
+                    if (!$("#FBMEMO").val()) {
+                        toastr.error("提交失败：请填写非标备注。");
+                        return;
+                    }
+                    //reasonother = $("#FBREASONOTHER").val();
+                    //if (!reasonother) {
+                    //    toastr.error("提交失败：非标其他原因必填。");
+                    //    return;
+                    //}
+                }
+            }
+            if($("#MEMO").val() != ""||reason||$("#FBMEMO").val()){
+                var memo = $("#MEMO").val();
+                $.ajax({
+                    url: "@Url.Action("SetMemo")",
+                    data: {
+                        vrid: $("#bjmb").attr('vrid'),
+                        memo: memo,
+                        fbreason: reason,
+                        fbreasonother: reasonother,
+                        fbreasonname:reasonname,
+                        fbmemo:$("#FBMEMO").val()
+                    },
+                    dataType: "json",
+                    async: false,
+                })
+            }
+            // return;
+            if ($("span#uploadfile").text() != "" || $("span#uploadfile2").text() != "") {
+                
+                if($("span#bpCode").text()==""){
+                    toastr.error("提交失败：请先选择客户。");
+                }else{
+                    $.ajax({
+                        url: "@Url.Action("CGSCWorkFlowXML")",
+                        data: {
+                            rid: request("keyValue"),
+                            vrid: $("#bjmb").attr('vrid')
+                            //webport: "8041"
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            if (data.Message == "提交成功") {
+                                toastr.success(data.Message);
+                                window.location.reload();
+                            } else {
+                                toastr.error(data.Message);
+                            }
+                        }
+                    })
+                }
+            }else{
+                toastr.error("无报价文件,请上传。");
+            }
+        }
+        //使菜单框点击其他地方不自动消失
+        $("body").on('click', '[data-stopPropagation]', function (e) {
+            e.stopPropagation();
+        });
+        //无绑定关系费目菜单框点击其他地方不自动消失
+        $("#DlFee").on('click', '[data-stopPropagation]', function (e) {
+            e.stopPropagation();
+        });
+        $("#tobjsy").click(function () {
+            location.href = "/QM_Price/QM_PriceIndex";
+            localStorage.setItem("ver","");
+            localStorage.setItem("SendStatus","");
+        })
+        $("#tobjmb").click(function () {
+            location.href = "/SQM_BJMB/SQM_BJMBIndex";
+        })
+        //上传报价文件
+        $("#uploadFile").click(function () {
+            if(FBstate == true){
+                if($("span#showmode").text()==""){
+                    toastr.error("请先生成报价文件。");
+                }else{
+                    $("#div_fileImport").empty();
+                    $("#div_fileImport").append("<input id='fileImport' name='fileImport' type='file' class='file-loading'>");
+                    new FileInput().Init("fileImport", "/uploadHelper/ProcessRequest");
+
+                    $("#importExc").modal("show");
+                }
+            }else{
+                $("#div_fileImport").empty();
+                $("#div_fileImport").append("<input id='fileImport' name='fileImport' type='file' class='file-loading'>");
+                new FileInput().Init("fileImport", "/uploadHelper/ProcessRequest");
+
+                $("#importExc").modal("show");
+            }
+
+
+        });
+        //确认全部费目
+        $("#qrqbfm").click(function () {
+            $("#qrqbfm").attr("disabled", "disabled");
+            var psfridArr = [];
+            $("#BZBJ").find("button[class*='feebtn']").each(function () {
+                if ($(this).attr("status") != "2") {
+                    var ridObj = { "djrid": "", "bjrid": "" };
+                    if (!($(this).attr("djrid") == null || $(this).attr("djrid") == "" || typeof ($(this).attr("djrid")) == "undefined")) {
+                        if (!($(this).attr("bjrid") == null || $(this).attr("bjrid") == "" || typeof ($(this).attr("bjrid")) == "undefined")) {
+                            ridObj["djrid"] = $(this).attr("djrid");
+                            ridObj["bjrid"] = $(this).attr("bjrid");
+                            psfridArr.push(ridObj);
+                        }
+                    }
+                }
+            });
+            if (psfridArr.length == 0) {
+                // 确认后台有无AtCost费目
+                var noAtcost = true;
+                //$.get("/QM_Price/CheckAtcost", { "vrid": $("#bjmb").attr("vrid") }, function (data) { if (data == "Y") { noAtcost = false; } });// 异步处理，data可能为undefined
+                $.ajax({
+                    url: "/QM_Price/CheckAtcost",
+                    type: "get",
+                    data: { "vrid": $("#bjmb").attr("vrid") },
+                    async: false,
+                    success: function (msg) {
+                        if (msg == "Y") {
+                            noAtcost = false;
+                        }
+                    }
+                });
+                if (!noAtcost) {
+                    alert("消息提示", "确认成功");
+                    $("#qrqbfm").removeAttr("disabled");
+                } else {
+                    alert("消息提示", "没有需要确认的费目");
+                    $("#qrqbfm").removeAttr("disabled");
+                }
+                return false;
+            }
+            toastr.info("费目确认中，请稍等");
+            $.ajax({
+                type: 'POST',
+                url: "/QM_Price/ConfirmFee",
+                data: {
+                    "psfridArr": JSON.stringify(psfridArr)
+                },
+                dataType: "json",
+                success: function (msg) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (msg.Success) {
+                        toastr.success(msg.Message);
+                        setTimeout("refresh()", "2000");
+                    } else {
+                        MessageAlert("提示", msg.Message);
+                        $("#qrqbfm").removeAttr("disabled");
+                    }
+                }
+            });
+        });
+        // 消息提示
+        function MessageAlert(title, message) {
+            $("#modalAlert").modal({
+                show: true,
+                backdrop: "static",
+                keyboard: false
+            });
+            $("#messageAlert").html(title);
+            $("#message").html(message);
+        }
+        function refresh() {
+            location.reload();
+        }
+        // Excel下载
+        $("#ExportExcelbtn").click(function () {
+            $("#ExportExcelbtn").attr("disabled", "disabled");
+            var zver = "";
+            if (vers == null || vers == "") {
+                zver = "V1";
+            } else {
+                zver = vers;
+            }
+            // 进度条开始
+            toastr.info("数据生成中，请稍候...");
+            $.ajax({
+                url: "/SQM_BJ_IMP_EXP/PriceExport",
+                type: "Post",
+                data: {
+                    "main_id": request("keyValue"),
+                    "version": zver
+                },
+                dataType: "json",
+                success: function (data) {
+                    // 进度条结束
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        // 1.清除
+                        $("#div_ExcelExport").empty();
+                        // 2.新增
+                        $("#div_ExcelExport").append("<a id='excelExport' onclick='hidemodal();' name='excelExport' href='" + data.Message + "'>点击此处下载</a>");
+                        $("#exportExcel").modal("show");
+                        $("#ExportExcelbtn").removeAttr("disabled");
+                    }
+                    else {
+                        toastr.error(data.Message);
+                        $("#ExportExcelbtn").removeAttr("disabled");
+                    }
+                }
+            });
+        });
+        // Excel上传
+        $("#ImportExcel").click(function () {
+            // 1.清除
+            $("#div_fileImport").empty();
+            // 2.新增
+            $("#div_fileImport").append("<input id='fileImport' name='fileImport' type='file' class='file-loading'>");
+            new FileInput().Init("fileImport", "/SQM_BJ_IMP_EXP/PriceImport");
+            $("#importExc").modal("show");
+        });
+        // fileinput
+        var FileInput = function () {
+            var oFile = new Object();
+            oFile.Init = function (ctrlName, uploadUrl) {
+                var control = $("#" + ctrlName);
+                // 初始化上传控件的样式
+                control.fileinput({
+                    language: "zh",
+                    uploadUrl: uploadUrl,
+                    uploadExtraData: function(){
+                        return {
+                            "currentbj": $("#priceName").text(),
+                            "currentbjrid": request("keyValue")
+                        };
+                    },
+                    allowedFileExtensions: ["xls", "xlsx","pdf","txt","doc","docx"],
+                    showUpload: true,
+                    showCaption: true,
+                    browseClass: "btn btn-primary",
+                    maxFileCount: 1,
+                    enctype: "multipart/form-data",
+                    validateInitialCount: true,
+                    autoReplace: true, // 是否自动替换当前文件
+                    dropZoneEnabled: false, //是否显示拖拽区域
+                    maxFileSize: 0, // 单位为kb，如果为0表示不限制文件大小
+                    previewFileIcon: "<img src='/Content/QO/scripts/bootstrap-fileinput-master/img/excel.png' />",
+                    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}!",
+                    layoutTemplates: {
+                        actionDelete: "", // 去除上传预览的缩略图中的删除图标
+                        actionUpload: "", // 去除上传预览缩略图中的上传图
+                        actionZoom: "" // 去除上传预览缩略图中的查看详情预览的缩略图标
+                    }
+                });
+                // 导入文件上传上传完成之后的事件
+                $("#fileImport").on("fileuploaded", function (event, data, previewId, index) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.response.Success && data.response.Data != null) {
+                        var time = "";
+                        var url=data.response.Message;
+                        $("#uploadfile").text(data.response.Data);
+                        //更新上传文件时间并回显
+                        $.ajax({
+                            url: "@Url.Action("SAVEUPLOADTIME")",
+                            data: {
+                                RID: $("#bjmb").attr('vrid'),
+                                UploadName: $("#uploadfile").text(),
+                                UploadUrl:url
+                            },
+                            async: false,
+                            dataType: 'json',
+                            success: function (data) {
+                                time = time + data.Data;
+                            }
+                        });
+                        $("#uploadTimes").text(time);
+                    }
+                    switch (data.response.Code) {
+                        case "0": // 成功
+                            //alert("消息提示", data.response.Message);
+                            toastr.success(data.response.Message);
+                            $('#importExc').modal('hide');
+                            setTimeout("refresh()", "2000");
+                            break;
+                        case "1": // 失败
+                            alert("导入失败", data.response.Message);
+                            //toastr.error(data.response.Message);
+                            $('#importExc').modal('hide');
+                            showPSF(vers);
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                        case "2": // 异常
+                            alert("导入异常", data.response.Message);
+                            //toastr.error(data.response.Message);
+                            $('#importExc').modal('hide');
+                            showPSF(vers);
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                        case "5": // 报价文件上传成功
+                            //alert("消息提示", data.response.Message);
+                            //toastr.success(data.response.Message);
+                            $('#importExc').modal('hide');
+                            $("#uploadfile2").empty();
+                            $("#uploadTimes2").empty();
+                            $("#uploadurl2").empty();
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                        case "ifexist":// 是否覆盖
+                            $('#importExc').modal('hide');
+                            alist = data.response.Data;
+                            popDialog("消息提示", data.response.Message, overdata, nooverdata);
+                    }
+                });
+                // 导入失败后的事件
+                $("#fileImport").on("fileerror", function (event, data, msg) {
+                    //alert("消息提示", "导入失败");
+                    toastr.error(data.response.Message);
+                });
+                // 覆盖导入
+                function overdata() {
+                    $("#progressbar").modal("show");
+                    $.ajax({
+                        url: "/SQM_BJ_IMP_EXP/PriceImport",
+                        type: "Post",
+                        data: {
+                            "alist": JSON.stringify(alist)
+                        },
+                        dataType: "JSON",
+                        success: function (data) {
+                            $("#progressbar").modal("hide");
+                            //alert("消息提示", data.Message);
+                            if (data.Success){
+                                toastr.success(data.Message);
+                                setTimeout("refresh()", "1500");
+                            } else {
+                                alert("消息提示", data.Message);
+                            }
+                        }
+                    })
+                }
+                // 不覆盖
+                function nooverdata() {
+                    $("#selfDialog").modal("hide");
+                }
+            }
+            return oFile;
+        }
+        //获取当前时间
+        function getNowDate() {
+            var date = new Date();
+            var sign1 = "/";
+            var sign2 = ":";
+            var year = date.getFullYear() // 年
+            var month = date.getMonth() + 1; // 月
+            var day = date.getDate(); // 日
+            var hour = date.getHours(); // 时
+            var minutes = date.getMinutes(); // 分
+            var seconds = date.getSeconds() //秒
+            //var weekArr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+            //var week = weekArr[date.getDay()];
+            // 给一位数数据前面加 “0”
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (day >= 0 && day <= 9) {
+                day = "0" + day;
+            }
+            if (hour >= 0 && hour <= 9) {
+                hour = "0" + hour;
+            }
+            if (minutes >= 0 && minutes <= 9) {
+                minutes = "0" + minutes;
+            }
+            if (seconds >= 0 && seconds <= 9) {
+                seconds = "0" + seconds;
+            }
+            var currentdate = year + month + day;
+            return currentdate;
+        }
+        function DrawTable() {
+            //列定义
+            var columns = [
+                {
+                    "title": "序号", "data": null, "width": "30" ,"sortable": false
+                },
+                {
+                    "title": "模板名称", "data": "TEMPLATENAME", "width": "300",
+                    render: function (data, type, full, meta) {
+                        return '<a href="javascript:void(0)" onclick=MatchMB(\"' + full.VERID + '\",\"' + escape(data) + '\") verid = ' + full.VERID + '>' + data + '</a>'
+                    },
+                },
+               { "title": "模板类型", "data": "TEMPLATETYPE", "width": "100" },
+               {
+                   "title": "更新时间", "data": "MODIFYTIME", "width": "100",
+                   "render": function (data, type, full, meta) {
+                       if (data != null) {
+                           return data.subDate();
+                       } else {
+                           return "";
+                       }
+                   }
+               },
+               { "title": "更新人", "data": "MODIFYNAME", "width": "80" },
+               { "title": "说明", "data": "REMARK", "width": "300" },
+
+            ];
+            var table = $('#datatable_col_reorder').dataTable({
+                "responsive": false,
+                "processing": true,
+                "serverSide": true,
+                "scrollX": false,
+                "autoWidth": false,
+                "fixedColumns": {
+                    leftColumns: 0
+                },
+                "bSort": true, //排序功能
+                "bStateSave": true,
+                "order": [[3, "desc"]],
+                "fnDrawCallback": function () {
+                    var api = this.api();
+                    var startIndex = api.context[0]._iDisplayStart;        //获取到本页开始的条数 　
+                    api.column(0).nodes().each(function (cell, i) {
+                        cell.innerHTML = startIndex + i + 1;
+                    });
+                },
+                "language": { "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" } },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+                "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+                "displayLength": 4,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("MBLists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.TEMPLATENAME = $("#TEMPLATENAME").val();
+                        d.PERSONALMB = $("#GRMB").is(":checked") == true ? "个人模板" : "";
+                        d.PUBLICMB = $("#GYMB").is(":checked") == true ? "公共模板" : "";
+                    }
+                }, columns: columns,
+                "stateSaveParams": function (settings, data) {
+                    localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+                },
+                "stateLoadCallback": function (settings) {
+                    var config = JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+                    return config;
+                }
+            });
+        };
+        // 返回模板产品与当前报价产品进行判断
+        function MatchMB(verid, data) {
+            data = unescape(data);
+            var curp = {};
+            var mbp = {};
+            var MBvrid = verid;// 模板的版本id
+            var Pvrid = $("#bjmb").attr("vrid");// 当前版本id
+            $.ajax({
+                url: "@Url.Action("MatchMB")",
+                data: {
+                    MBvrid: MBvrid,
+                    Pvrid: Pvrid
+                },
+                dataType: "json",
+                async: false,
+                success: function (msg) {
+                    if (msg) {
+                        if (msg.length == 1) {
+                            alert("消息提示", "当前模板存在0个产品！");
+                        } else {
+                            curp = msg[0];
+                            mbp = msg[1];
+                            matchMessage(curp, mbp, MBvrid, data);
+                        }
+                    } else {
+                        alert("消息提示", "匹配失败");
+                    }
+                }
+            })
+        }
+        // 匹配提示信息
+        function matchMessage(curp, mbp, verid, data) {
+            var curpArr = [];
+            var mbpArr = [];
+            var curpObj = {};
+            var message = "当前报价产品：<BR>";
+            curp.forEach(item => {
+                curpArr.push(item["PRODUCT_CODE"]);
+            curpObj[item["PRODUCT_CODE"]] = item["PRODUCT_NAME"];
+            message += "\"" + item["PRODUCT_NAME"] + "(" + item["PRODUCT_CODE"] + ")" + "\"" + "<BR>";
+        });
+        message += "模板产品：<BR>";
+        mbp.forEach(item => {
+            mbpArr.push(item["PRODUCT_CODE"]);
+        message += "\"" + item["PRODUCT_NAME"] + "(" + item["PRODUCT_CODE"] + ")" + "\"" + "<BR>";
+        });
+        var interArr = arrayInterSection(curpArr, mbpArr);// 取交集，为当前报价产品...将被模板覆盖
+        if (interArr.length == 0) {
+            message += "当前报价无产品可被模板覆盖。";
+        } else {
+            var interStr = "";
+            for (var i = 0; i < interArr.length; i++){
+                interStr += "\"" + curpObj[interArr[i]] + "\",";
+            }
+            message += "选择\"继续\"当前报价中产品：" + interStr.substring(0, interStr.length - 1) + " 将被模板覆盖。";
+        }
+        MessageAlert3("消息提示", message, verid, data);
+        }
+        // 点“继续”按钮，进行模板覆盖
+        function MessageAlert3(title, message, verid, data){
+            $("#modalAlert3").modal({
+                show: true,
+                backdrop: "static",
+                keyboard: false
+            });
+            $("#messageAlert3").html(title);
+            $("#message3").html(message);
+            if (message.indexOf("无产品可被模板覆盖") >= 0) {
+                $("#btncontinuechoosemb").css("display", "none");
+            } else {
+                $("#btncontinuechoosemb").css("display", "");
+            }
+            $("#btncontinuechoosemb").click(function () {
+                chooseMB(verid, data);
+            });
+        }
+        // 两个数组取交集
+        function arrayInterSection(a, b) {
+            var ai = 0;
+            var bi = 0;
+            var result = [];
+            // 适用有序数组
+            //while (ai < a.length && bi < b.length) {
+            //    if (a[ai] < b[bi]) {
+            //        ai++;
+            //    } else if (a[ai] > b[bi]) {
+            //        bi++;
+            //    } else {
+            //        result.push(a[ai]);
+            //        ai++;
+            //        bi++;
+            //    }
+            //}
+            for (var i = a.length - 1; i >= 0 ; i--){
+                for (var j = b.length - 1; j >= 0; j--){
+                    if (a[i] == b[j]){
+                        result.push(a[i]);
+                        a.splice(i,1);
+                        b.splice(j,1);
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+        // 选择模板,执行模板覆盖规则
+        function chooseMB(verid, data) {
+            $("#MBTittle").val(data);
+            var MBvrid = verid;// 模板的版本id
+            var Pvrid = $("#bjmb").attr("vrid");// 当前版本id
+            $.ajax({
+                url: "@Url.Action("chooseMB")",
+                data: {
+                    MBvrid: MBvrid,
+                    Pvrid: Pvrid,
+                    Mrid: request("keyValue")// 报价主表rid
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.Success) {
+                        //alert("消息提示", data.Message);
+                        toastr.success(data.Message);
+                        setTimeout(function () { location.reload() }, 1500);
+                    } else {
+                        //alert("消息提示", data.Message);
+                        toastr.error(data.Message);
+                    }
+                }
+            })
+        }
+        // 导出报价文件
+        function ExportFile(type) {
+            //$("#uploadfile2btn").click(function (event) {
+            //    event.preventDefault();
+            //});
+            // 判断相同产品服务下是否同时包含包干费与报价费目
+            $.ajax({
+                url: "/QM_Price/BGFandBJFM",
+                data: {
+                    vrid: $("#bjmb").attr('vrid')
+                },
+                async: false,
+                type: "Get",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success) {
+                        popDialog("消息提示", "以下费目同时存在于包干费与报价费目中：<BR>" + data.Data.join("<BR>") + "<BR>是否继续？", overdata, nooverdata);
+                    } else {
+                        overdata();
+                    }
+                }
+            });
+            function overdata() {
+                $("#uploadfile2btn").removeAttr("onclick");
+                // 进度条开始
+                toastr.info("数据生成中，请稍候...");
+                $.ajax({
+                    url: "/SQM_BJ_IMP_EXP/ExportMB",
+                    type: "Post",
+                    data: {
+                        "main_id": request("keyValue"),
+                        "ver_id": $("#bjmb").attr('vrid'),
+                        "type": type
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        // 进度条结束
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Success) {
+                            //$("#uploadfile2btn").attr("onclick", "ExportFile()");
+                            if (type == 0) {
+                                $("#uploadfile2btn").attr("onclick", "ExportFile(0)");
+                            }
+                            else if (type == 1) {
+                                $("#uploadfile2btneng").attr("onclick", "ExportFile(1)");
+                            }
+
+                            // 刷新显示
+                            showFile();
+                            showFileeng();
+                            // 1.清除
+                            $("#div_fileExport").empty();
+                            // 2.新增
+                            $("#div_fileExport").append("<a id='fileExport' onclick='hidemodal();' name='fileExport' href='" + data.Message + "'>点击此处下载</a>");
+                            $("#exportExcelFile").modal("show");
+                        }
+                        else {
+                            if (type == 0) {
+                                $("#uploadfile2btn").attr("onclick", "ExportFile(0)");
+                            }
+                            else if (type == 1) {
+                                $("#uploadfile2btneng").attr("onclick", "ExportFile(1)");
+                            }
+                            // $("#uploadfile2btn").attr("onclick", "ExportFile(0)");
+                            toastr.error(data.Message);
+                        }
+                    }
+                });
+            }
+            function nooverdata() {
+                $("#selfDialog").modal("hide");
+            }
+            if (type == "1") {
+                ExportFile2();
+            }
+        }
+        //同时生成中文
+        function ExportFile2() {
+            //$("#uploadfile2btn").click(function (event) {
+            //    event.preventDefault();
+            //});
+            // 判断相同产品服务下是否同时包含包干费与报价费目
+            $.ajax({
+                url: "/QM_Price/BGFandBJFM",
+                data: {
+                    vrid: $("#bjmb").attr('vrid')
+                },
+                async: false,
+                type: "Get",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success) {
+                        popDialog("消息提示", "以下费目同时存在于包干费与报价费目中：<BR>" + data.Data.join("<BR>") + "<BR>是否继续？", overdata, nooverdata);
+                    } else {
+                        overdata();
+                    }
+                }
+            });
+            function overdata() {
+                $("#uploadfile2btn").removeAttr("onclick");
+                // 进度条开始
+                toastr.info("数据生成中，请稍候...");
+                $.ajax({
+                    url: "/SQM_BJ_IMP_EXP/ExportMB",
+                    type: "Post",
+                    data: {
+                        "main_id": request("keyValue"),
+                        "ver_id": $("#bjmb").attr('vrid'),
+                        "type": "0"
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        // 进度条结束
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Success) {
+                            $("#uploadfile2btn").attr("onclick", "ExportFile(0)");
+                            // 刷新显示
+                            showFile();
+                            showFileeng();
+                        }
+                        else {
+                            $("#uploadfile2btn").attr("onclick", "ExportFile(0)");
+                            toastr.error(data.Message);
+                        }
+                    }
+                });
+            }
+            function nooverdata() {
+                $("#selfDialog").modal("hide");
+            }
+            //if (type == "1") {
+            //    ExportFile(0);
+            //}
+        }
+        // 报价预览
+        function Preview(type) {
+            $("#previewIDEng").attr("disabled", true);
+            $("#previewIDChn").attr("disabled", true);
+            toastr.info("预览数据生成中...");
+            $.ajax({
+                url: "/SQM_BJ_IMP_EXP/PreviewExc",
+                type: "Post",
+                data: {
+                    "main_id": request("keyValue"),
+                    "ver_id": $("#bjmb").attr('vrid'),
+                    "type": type
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Code == "1") {
+                            var url = data.Message + "";
+                            if (url != "") {
+                                var iTop = (window.screen.height - 600) / 2;// 获得窗口的垂直位置;
+                                var iLeft = (window.screen.width - 640) / 2;// 获得窗口的水平位置;
+                                var style = "width=640,height=500,scrollbars=yes,top=" + iTop + ",left=" + iLeft;
+                                $("#previewIDEng").removeAttr("disabled");
+                                $("#previewIDChn").removeAttr("disabled");
+                                window.open(url, "_blank", style);
+                            }
+                            else {
+                                alert("消息提示", "数据未保存");
+                            }
+                        } else {
+                            alert("警告", data.Message);
+                        }
+                    } else {
+                        alert("错误", data.Message);
+                    }
+                }
+            });
+        }
+        function hidemodal() {
+            $("#exportExc").modal("hide");
+        }
+        // modal 对话框
+        function popDialog(title, msg, callbackyes, callbackno) {
+            if (!title) {
+                title = '对话框';
+            }
+            var dialogHTML = '<div id="selfDialog" class="modal fade">';
+            dialogHTML += '<div class="modal-dialog">';
+            dialogHTML += '<div class="modal-content">';
+            dialogHTML += '<div class="modal-header">';
+            dialogHTML += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            dialogHTML += '<span aria-hidden="true">&times;</span>';
+            dialogHTML += '</button>';
+            dialogHTML += '<h4 class="modal-title">' + title + '</h4>';
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-body">';
+            dialogHTML += msg;
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-footer">';
+            dialogHTML += '<button type="button" class="btn btn-default" data-dismiss="modal" id="buttonno">取消</button>';
+            dialogHTML += '<button type="button" class="btn btn-primary" data-dismiss="modal" id="buttonyes">继续</button>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+
+            $("#selfDialog").remove();
+            $("body").append(dialogHTML);
+            $("#selfDialog").modal("show");
+            // 绑定"取消"方法
+            $("#buttonyes").click(function () {
+                if (typeof callbackyes == "function") {
+                    callbackyes();
+                }
+            });
+            // 绑定"继续"方法
+            $("#buttonno").click(function () {
+                if (typeof callbackno == "function") {
+                    callbackno();
+                }
+            });
+        }
+        function checkAllSrv() {
+            //获取当前选中的产品
+            var prd = $('input:checkbox[name=PRD]').parent().parent().find('.checkme').prev().prev();
+            if ($('input:checkbox[id=currentsrv]').is(':checked')) {
+                //$('input:checkbox[id=currentsrv]').parent().parent().parent().next().find('input[name=SRV]').iCheck('uncheck');
+                if (!!prd) {
+                    $('input:checkbox[id=currentfee]').iCheck('uncheck');
+                    var prdcode = $(prd).children("input").attr('prdcode');
+                    $('input:checkbox[name=SRV][prdcode =' + prdcode + ']').iCheck('uncheck');
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "null"]').iCheck('uncheck');
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "N"]').iCheck('uncheck');
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "Y"]').iCheck('check');
+                }
+            } else {
+                if (!!prd) {
+                    $('input:checkbox[id=currentfee]').iCheck('check');
+                    var prdcode = $(prd).children("input").attr('prdcode');
+                    $('input:checkbox[name=SRV][prdcode =' + prdcode + ']').iCheck('check');
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "null"]').iCheck('check');
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "N"]').iCheck('check');
+                    $('input:checkbox[name=FEE][prdcode =' + prdcode + '][bxbj = "Y"]').iCheck('check');
+                }
+            }
+        }
+        //当前产品下的服务是否全部被选中 18-08-14 yang
+        function isCheckedAllSrv(prdcode) {
+            var len = $('input:checkbox[name=SRV][prdcode=' + prdcode + ']').length;
+            var clen = $('input:checkbox[name=SRV][prdcode=' + prdcode + ']:checked').length;
+            if (len == clen) {
+                return true;
+            }
+            return false;
+        }
+        //判断费目的全选
+        function isCheckedAllFee(prdcode, srvcode) {
+            var len = $('input:checkbox[name=FEE][srvcode=' + srvcode + '][prdcode=' + prdcode + ']').length;
+            var clen = $('input:checkbox[name=FEE][srvcode=' + srvcode + '][prdcode=' + prdcode + ']:checked').length;
+            if (len == clen) {
+                return true;
+            }
+            return false;
+        }
+
+        //获取当前服务下的指令
+        function getZLJ(srvcode,pcode) {
+            var fee = "&feecodes=";
+            var mrid = "&mrid="+request("keyValue");
+            var zver = "&zver="+$("#zversion_cb").val();
+            for (var s = 0; s < PSFdata[pcode].length; s++) {//服务
+                var sfObj = PSFdata[pcode][s];
+                //for (var i = 0; i < sfObj[srvcode].length; i++) {
+                //    fee += sfObj[srvcode][i] + ",";
+                //}
+                for (var service in sfObj) {// 费目
+                    if (srvcode == service) {
+                        for (var i = 0; i < sfObj[service].length; i++) {
+                            fee += sfObj[service][i] + ",";
+                        }
+                        break;
+                    }
+                }
+            }
+            fee = fee.substr(0, fee.length - 1);
+            $.ajax({
+                url: "@Url.Action("ZLJ")",
+                type: "get",
+                data: "srvcode=" + srvcode+fee+mrid+zver,
+                success: function (data) {
+                    data = $.parseJSON(data);
+                    var ul = $("#zl_div_" + pcode + "_" + srvcode + " ul");
+                    $(ul).html("");
+                    if (!!data && data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            $(ul).append("<li>" + (i+1) + ". " + data[i]["INSNAME"] + "</li>");
+                        }
+                    } else {
+                        $(ul).append("<li>未获取到相关指令！</li>")
+                    }
+                }, error: function (data) {
+                    toastr.error("未获取到相关指令！");
+                }
+            })
+        }
+        //获取指令
+        $(document).ready(function(){
+            $("span[name=zl]").on("click", function(e){
+                var pcode = $(this).attr("id").split("_")[1];
+                var srvcode = $(this).attr("id").split("_")[2];
+                if (!!srvcode) {
+                    if ($("#zl_div_" + pcode + "_" + srvcode).hasClass("zldiv")) {
+                        getZLJ(srvcode, pcode);
+                    }
+                    $(".zlbox").each(function(){
+                        if ($(this).attr("id")=="zl_div_" + pcode + "_" + srvcode) {
+                            if ($(this).css("display")=="block") {
+                                $(this).hide();
+                            }else {
+                                $(this).show();
+                            }
+                        }else {
+                            $(this).hide();
+                        }
+                    });
+                }
+                $(document).one("click", function(){
+                    $(".zlbox").hide();
+                });
+                e.stopPropagation();
+                $(".zlbox").on("click", function(e){
+                    e.stopPropagation();
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "/QM_Price/getTJZLCS",
+                type: "Post",
+                dataType: "json",
+                success: function (res) {
+                    for (var i = 0; i < res.Data.length; i++) {
+                        $("#tjzlcs").append("<option value='" + res.Data[i]["ID"] + "'>" + res.Data[i]["ID"] + "//" + res.Data[i]["DESCRIPTION"]+"</option>");
+                    }
+                }
+            })
+        })
+    </script>
+    <script>
+        var needres = [];
+    </script>
+}

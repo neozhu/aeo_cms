@@ -1,0 +1,3 @@
+1.下载安装flash cs5
+2.打开flash cs5，找到公司项目 打开路径../js/jquery.uploadify-v2.1.0/uploadify.fla
+3.在flash cs5 编辑上传按钮的背景颜色；

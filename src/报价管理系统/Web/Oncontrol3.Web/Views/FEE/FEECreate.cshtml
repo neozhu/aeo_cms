@@ -1,0 +1,1499 @@
+﻿@{
+    ViewBag.Title = "费目维护";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.SQM_FEE_CALC
+@{
+    System.Data.DataTable dt = (System.Data.DataTable)ViewBag.Data;
+    System.Data.DataTable djfsdt = (System.Data.DataTable)ViewBag.djfsdt;
+    System.Data.DataTable fftypedt = (System.Data.DataTable)ViewBag.fftypedt;
+}
+
+<!-- Basic Styles -->
+<link rel="stylesheet" type="text/css" media="screen" href="/content/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="/content/css/font-awesome.min.css">
+
+<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+<link rel="stylesheet" type="text/css" media="screen" href="/content/css/smartadmin-production-plugins.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="/content/css/smartadmin-production.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="/content/css/smartadmin-skins.min.css">
+<style type="text/css">
+    #gbox_jqgrid {
+        margin: 0px 5px !important;
+        width: 99% !important;
+    }
+
+    #search_jqgrid {
+        display: none !important;
+    }
+
+    #delmodjqgrid {
+        display: none !important;
+    }
+
+    #alertmod_jqgrid {
+        display: none !important;
+    }
+
+    #pjqgrid_center {
+        display: none;
+    }
+
+    .smart-form .form-group {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    .smart-form .control-label {
+        width: 15%;
+        padding-top: 6px;
+    }
+
+    .smart-form .form-group .col-md-3 {
+        margin-right: 200px;
+    }
+
+    .smart-form .form-group .radio-inline {
+        float: left;
+    }
+
+    .ui-jqgrid .ui-paging-info {
+        margin-right: 65px;
+    }
+
+    .ui-pg-selbox {
+        min-height: 25px;
+    }
+
+    .editable {
+        width: 100% !important;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+        word-break: break-all;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        vertical-align: middle;
+    }
+
+    .form-control {
+        padding: 0px 12px;
+    }
+
+    .djfs, .gdz {
+        margin-right: 40px;
+        margin-bottom: 10px;
+    }
+
+    .dlc .active .form-control, .gdzdiv .active .form-control {
+        background-color: #3276b1;
+        color: white;
+    }
+
+    .select2-container {
+        width: 260px !important;
+    }
+
+    .delete_djfs {
+        font-size: 20px;
+        margin: 5px -5px;
+    }
+
+    .ui-jqgrid-btable .ui-widget-content td:nth-child(9) {
+        padding-right: 40px;
+    }
+
+    .smart-form .form-group .col-md-3 {
+        margin-right: 0px;
+    }
+
+    .calcdisable {
+        border: none;
+        background-color: #d9edf7;
+    }
+
+    .col-md-1 {
+        display: flex;
+        width: 12%;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        @*<div style="float:right; ">
+                                <button type="submit" id="calc_main" class="btn btn-success">计算基础绑主数据</button>
+                            </div>*@
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-primary fmbc">
+                                保存
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnback" onclick="back()">
+                                返回
+                            </button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form form-backgroud">
+                                <fieldset>
+                                    <input type="hidden" value="@Model.RID" id="RID">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">费目名称<i style="color:red">*</i></label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" id="FEECODE" name="FEECODE" class="select2">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < dt.Rows.Count; i++)
+                                                {
+                                                    @*<option value="@dt.Rows[i]["FEECODE"]">@dt.Rows[i]["FEENAME"]--@dt.Rows[i]["FEECODE"]</option>*@
+                                                    <option value="@dt.Rows[i]["TCET084"]">@dt.Rows[i]["TEXTDESC"]--@dt.Rows[i]["TCET084"]</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <label class="col-md-2 control-label">前提条件</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="PRECOND" id="PRECOND" class="select2">
+                                                <option value="">请选择</option>
+                                                <option value="ZPRECON-Z01">ZPRECON-Z01</option>
+                                                <option value="ZPRECON-Z02">ZPRECON-Z02</option>
+                                                <option value="ZPRECON-Z03">ZPRECON-Z03</option>
+                                                <option value="ZPRECON-Z04">ZPRECON-Z04</option>
+                                                <option value="ZPRECON-Z05">ZPRECON-Z05</option>
+                                                <option value="ZPRECON-Z06">ZPRECON-Z06</option>
+                                                <option value="ZPRECON-Z07">ZPRECON-Z07</option>
+                                                <option value="ZPRECON-Z08">ZPRECON-Z08</option>
+                                                <option value="ZPRECON-Z09">ZPRECON-Z09</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mulbjfs">
+                                        <label class="col-md-2 control-label" style="width:13%;">是否多报价方式<i style="color:red">*</i></label>
+                                        <div class="col-md-3">
+                                            <label class="radio radio-inline"><input type="radio" class="radiobox" name="MULBJFS" value="1"><span>是</span></label>
+                                            <label class="radio radio-inline"><input type="radio" checked class="radiobox" name="MULBJFS" value="0"><span>否</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc fshh" style="display:none;">
+                                        <input type="button" title="新增" class="btn btn-primary add_djfs" style="width:20px;margin:7px;float:left;" value=" + " />
+                                        @if (djfsdt != null && djfsdt.Rows.Count > 0)
+                                        {
+                                            for (int i = 0; i < djfsdt.Rows.Count; i++)
+                                            {
+                                        <div class="col-md-1 djfs">
+                                            <input type="hidden" class="djfsrid" value="@djfsdt.Rows[i]["DJFSRID"]" />
+                                            @*<input type="text" class="form-control djfsname" title="@djfsdt.Rows[i]["DJFSNAME"]" value="@djfsdt.Rows[i]["DJFSNAME"]">*@
+                                            <input type="text" class="form-control djfsname" title="@djfsdt.Rows[i]["SIGHT_FSFYSM"]" value="@djfsdt.Rows[i]["DJFSNAME"]">
+                                            <input class="btn delete_djfsarea" type="button" value=" X " style="float:left;width:30px;height:34px;">
+                                        </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-1 djfs">
+                                                <input type="hidden" class="djfsrid" />
+                                                <input type="text" class="form-control djfsname" value="定价方式">
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">最低收费</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="FSMIN" id="FSMIN" class="select2">
+                                                <option value="0">无</option>
+                                                <option value="1">有</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-2 control-label">是否展示</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="FSDISP" id="FSDISP" class="select2">
+                                                <option value="1">是</option>
+                                                <option value="0">否</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-2 control-label" style="display:none;">前提条件</label>
+                                        <div class="col-md-3" style="display:none;">
+                                            <select style="width:100%" name="FSPRECOND" id="FSPRECOND" class="select2">
+                                                <option value="">请选择</option>
+                                                <option value="ZPRECON-Z01">ZPRECON-Z01</option>
+                                                <option value="ZPRECON-Z02">ZPRECON-Z02</option>
+                                                <option value="ZPRECON-Z03">ZPRECON-Z03</option>
+                                                <option value="ZPRECON-Z04">ZPRECON-Z04</option>
+                                                <option value="ZPRECON-Z05">ZPRECON-Z05</option>
+                                                <option value="ZPRECON-Z06">ZPRECON-Z06</option>
+                                                <option value="ZPRECON-Z07">ZPRECON-Z07</option>
+                                                <option value="ZPRECON-Z08">ZPRECON-Z08</option>
+                                                <option value="ZPRECON-Z09">ZPRECON-Z09</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">高低值比较</label>
+                                        <div class="col-md-3">
+                                            <label class="radio radio-inline"><input type="radio" checked class="radiobox" name="GDZKEY" value="0"><span>无</span></label>
+                                            <label class="radio radio-inline"><input type="radio" class="radiobox" name="GDZKEY" value="A"><span>A</span></label>
+                                            <label class="radio radio-inline"><input type="radio" class="radiobox" name="GDZKEY" value="H"><span>H</span></label>
+                                            <label class="radio radio-inline"><input type="radio" class="radiobox" name="GDZKEY" value="L"><span>L</span></label>
+                                        </div>
+                                        <label class="col-md-2 control-label">排序</label>
+                                        <div class="col-md-3">
+                                            <input style="width:72%" class="form-control" name="FSSORT" id="FSSORT">
+                                        </div>
+                                    </div>
+                                    <div class="form-group gdzdiv fshh" style="display:none;">
+                                        <input type="button" title="新增" class="btn btn-primary add_gdz" style="width:20px;margin:7px;float:left;" value=" + " />
+                                    </div>
+                                    <!--仓租费信息-->
+                                    <div class="form-group czf" style="display:none">
+                                        <label class="col-md-2 control-label">计算方法类型</label>
+                                        <div class="col-md-3">
+                                            @if (fftypedt != null && fftypedt.Rows.Count > 0)
+                                            {
+                                                <select style="width:100%" name="JSFFlX" id="JSFFLX" class="select2">
+                                                    <option value="">请选择</option>
+                                                    @for (int i = 0; i < fftypedt.Rows.Count; i++)
+                                                    {
+                                                        <option value="@fftypedt.Rows[i]["FFTYPE"]">@fftypedt.Rows[i]["FFTYPENAME"]--@fftypedt.Rows[i]["FFTYPE"]</option>
+                                                    }
+                                                </select>
+                                            }
+                                        </div>
+                                        <label class="col-md-2 control-label">计算方法</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="JSFF" id="JSFF" class="select2">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">阶梯累计</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="JTLJ" id="JTLJ" class="select2">
+                                                <option value="1">是</option>
+                                                <option value="0">否</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-2 control-label">建议解析基础</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="FSRSLBASE" id="FSRSLBASE" class="select2">
+                                                <option value="">请选择</option>
+                                                <option value="SERVICE">SERVICE</option>
+                                                <option value="RESOURCE">RESOURCE</option>
+                                                <option value="PRODUCT">PRODUCT</option>
+                                                <option value="PACKAGE">PACKAGE</option>
+                                                <option value="CONTAINER">CONTAINER</option>
+                                                <option value="ACTIVE_RESOURCE">ACTIVE_RESOURCE</option>
+                                                <option value="PASSIVE_RESOURCE">PASSIVE_RESOURCE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">费目单位</label>
+                                        <div class="col-md-3">
+                                            <input style="width:72%" class="form-control" name="FEEUNIT" id="FEEUNIT">
+                                        </div>
+                                        <label class="col-md-2 control-label">阶段类别</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="FSJDLB" id="FSJDLB" class="select2">
+                                                <option value="">请选择</option>
+                                                <option value="P">P-首程运输段</option>
+                                                <option value="M">M-主运输段</option>
+                                                <option value="O">O-续运输段</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">英文费目单位</label>
+                                        <div class="col-md-3">
+                                            <input style="width:72%" class="form-control" name="FEEUNIT_EN" id="FEEUNIT_EN">
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" id="IsSetCustomer" style="display:none;">
+                                        <label class="col-md-2 control-label" >指定客户</label>
+                                        <div class="col-md-3">
+                                            <select style="width:100%" name="FSSETCUSTOMER" id="FSSETCUSTOMER" class="select2">
+                                                <option value="0" selected="selected">否</option>
+                                                <option value="1">是</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">费用说明</label>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" name="FSFYSM" id="FSFYSM" style="height:80px;"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">英文费用说明</label>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" name="FSFYSM_EN" id="FSFYSM_EN" style="height:80px;"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group dlc" style="display:none;">
+                                        <label class="col-md-2 control-label">场景费用说明</label>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" name="SIGHT_FSFYSM" id="SIGHT_FSFYSM" style="height:80px;"></textarea>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div role="main" class="main" style="display:none;">
+                                    <div id="content">
+                                        <section id="widget-grid" class="">
+                                            <div class="row">
+                                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <table id="jqgrid"></table>
+                                                    <div id="pjqgrid"></div>
+                                                </article>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                                <footer>
+                                    <input type="button" class="btn btn-primary fmbc" value="保存" />
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        var keyValue = "";
+        var IsEdit = false;
+        var gdzkey = '';
+        var username;
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            $(".mulbjfs").hide();
+            $("[name='MULBJFS'][value='1']").prop("checked", true);
+            keyValue = $("#RID").val();
+            //if (!!keyValue) {
+            if (!!keyValue) {
+                //有rid,是修改，不可
+                $("#FEECODE").attr("disabled", "disabled");
+                $(".main").show();
+            }
+            var allowcacloffer = "@Model.ALLOWCACLOFFER";
+            if (allowcacloffer.length > 0) {
+                $("[name='ALLOWCACLOFFER'][value='" + allowcacloffer + "']").prop("checked", true);
+            }
+            //if ($("#FSSETCUSTOMER").val() == '0') {
+            //    $("#IsSetCustomer").hide();//选“否”，隐藏此div
+            //}
+            //非数值型的计算基础CODE
+            var calcstr = ","+"@ViewBag.calcstr";
+            //是否多报价方式
+            //var mulbjfs = "@Model.MULBJFS";
+            var mulbjfs = "1";
+            //定价方式里初始化数据
+            if (mulbjfs == "0") {
+                $("#FSRSLBASE").select2('val', "@Model.RSLBASE");
+                $("#FSMIN").select2('val', "@Model.MINPRICE");
+            } else {
+                $("#FSRSLBASE").select2('val', "@ViewBag.fsrslbase");
+                $("#FSMIN").select2('val', "@ViewBag.fsmin");
+                $("#FSDISP").select2('val', "@ViewBag.fsdisp");
+                $("#FSSETCUSTOMER").select2('val', "@ViewBag.fssetcustomer");//是否指定客户
+                $("#FSSORT").select2('val', "@ViewBag.fssort");
+                $("#JSFFLX").select2('val', "@ViewBag.jsfflx");
+                $(".fshh").css("display", "inline-block");
+                $(".fshh").css("width", "100%");
+            }
+            $("div").find(".djfs").first().addClass("active");
+            if ($(".dlc").find(".active").find(".djfsrid").val().length == 0) {
+                $(".dlc").find(".active").find(".djfsrid").val(fqgenguid());
+            }
+            if (mulbjfs.length > 0) {
+                $("[name='MULBJFS'][value='" + mulbjfs + "']").prop("checked", true);
+            }
+            $("[name='MULBJFS']").change(function () {
+                if ($(this).val() == '1') {
+                    gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                    $(".dlc").show();
+                    $(".fshh").css("display", "inline-block");
+                    $(".fshh").css("width", "100%");
+                    if (gdzkey != "0") {
+                        $(".gdzdiv").show();
+                    }
+                    $("div").find(".djfs").first().addClass("active");
+                    $("div").find(".djfs").first().siblings().removeClass("active");
+                    showFSData();
+                } else {
+                    gdzkey = "0";
+                    $(".dlc").hide();
+                    $(".gdzdiv").hide();
+                    $("div").find(".djfs").removeClass("active");
+                    $("#FSRSLBASE").select2('val', "@Model.RSLBASE");
+                    $("#FSMIN").select2('val', "@Model.MINPRICE" == "" ? "0" : "@Model.MINPRICE");
+                }
+                //更新计算基础列表数据
+                showRefData(gdzkey);
+            });
+            gdzkey = "@ViewBag.gdzkey";
+            if (gdzkey.length > 0 && mulbjfs == "1") {
+                $("[name='GDZKEY'][value='" + gdzkey + "']").prop("checked", true);
+                //更新定价方式里面数据
+                showFSData();
+                showGdzData(gdzkey);
+                $("div").find(".gdz").first().addClass("active");
+                $("div").find(".gdz").first().siblings().removeClass("active");
+            }
+            //是否高低值,新增时gdzkey=""
+            if (gdzkey == '0' || gdzkey == "") {
+                $(".gdzdiv").hide();
+            } else {
+                $(".gdzdiv").show();
+            }
+            $("[name='GDZKEY']").change(function () {
+                gdzkey = $(this).val();
+                if (gdzkey == '0') {
+                    $(".gdzdiv").hide();
+                } else {
+                    $(".gdzdiv").show();
+                    showGdzData(gdzkey);
+                    //$("input[name='GDZKEY']:radio").attr("disabled", "disabled");
+                    $("div").find(".gdz").first().addClass("active");
+                    $("div").find(".gdz").first().siblings().removeClass("active");
+                    if ($(".gdzdiv").find(".active").find(".gdzrid").val().length == 0) {
+                        $(".gdzdiv").find(".active").find(".gdzrid").val(fqgenguid());
+                    }
+                }
+                //更新计算基础列表数据
+                showRefData(gdzkey);
+            });
+            if (mulbjfs == '1') {
+                $(".dlc").show();
+            } else {
+                $("div").find(".djfs").removeClass("active");
+            }
+
+            //$("#CACLCODE").attr("disabled", "disabled");
+            $.ajax({
+                url: "/FEE/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#formmain").SetWebControls(data);
+                }
+            });
+            //更新计算基础列表数据
+            showRefData(gdzkey);
+            // }
+            $("input").change(function () {
+                IsEdit = true;
+            });
+            $("select").change(function () {
+                IsEdit = true;
+            });
+            //计算方法类型变更事件
+            getjsffdata("@ViewBag.jsfflx");
+            $("#JSFFLX").change(function () {
+                getjsffdata($(this).val());
+            });
+            //新增定价方式
+            $(".add_djfs").click(function () {
+                var add_area = $("div").find(".djfs").last();
+                add_area.after('<div class="col-md-1 djfs"><input type="hidden" class="djfsrid"/><input type="text" class="form-control djfsname" value="定价方式" style="float:left;"><input class="btn delete_djfsarea" type="button" value=" X " style="float:left;width:30px;height:34px;"></div>');
+            });
+            //定价方式删除
+            $("#formmain").on("click", ".delete_djfsarea", function (event) {
+                popDialog("删除", "确定要删除该方式？", deletedjfs, nodelete);
+                //if ($(this).parent().hasClass("active")) {
+                //    $("div").find(".djfsname").first().click();
+                //}
+                //$(this).parent().remove();
+            });
+            function deletedjfs() {
+                var deldjfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+                $.ajax({
+                    type: 'POST',
+                    url: "/FEE/delDjfs",
+                    data: {
+                        djfsrid: deldjfsrid == undefined ? '' : deldjfsrid,
+                        gdzrid: '',
+                    },
+                    success: function (data) {
+                        var data = $.parseJSON(data);
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            window.location.href = '/FEE/FEECreate?id=' + "@Model.RID";
+                        } else {
+                            toastr.error(data.Message);
+                            $(".ui-widget-overlay").hide();
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            }
+            //定价方式切换
+            $("#formmain").on("click", ".djfs", { foo: "文本:" }, function (event) {
+                var guid = fqgenguid();
+                $(this).addClass("active");
+                $(this).siblings().removeClass("active");
+                //$("input[name='GDZKEY']:radio").attr("disabled", false);
+                $("[name='GDZKEY'][value='0']").prop("checked", true);
+                var djfsrid = $(this).find(".djfsrid").val();
+                if (djfsrid.length == 0) {
+                    $(this).find(".djfsrid").val(guid);
+                }
+                //更新定价方式里面数据
+                showFSData();
+                gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                showGdzData(gdzkey);
+                //隐藏高低值列表
+                if (gdzkey != "0") {
+                    $(".gdzdiv").show();
+                    $("div").find(".gdz").first().addClass("active");
+                    $("div").find(".gdz").first().siblings().removeClass("active");
+                } else {
+                    $(".gdzdiv").hide();
+                }
+                //更新计算基础列表数据
+                showRefData(gdzkey);
+                //计算方法获取值
+                getjsffdata($("#JSFFLX").val());
+            });
+            //新增高低值
+            $(".add_gdz").click(function () {
+                gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                var gdzname = '';
+                if (gdzkey == "H") {
+                    gdzname = "高A";
+                } else if (gdzkey == "L") {
+                    gdzname = "低A";
+                } else if (gdzkey == "A") {
+                    gdzname = "顺A";
+                }
+                var add_area = $("div").find(".gdz").last();
+                add_area.after('<div class="col-md-1 gdz"><input type="hidden" class="gdzrid"/><input type="text" class="form-control gdzname" style="float:left;" value="' + gdzname + '"><input class="btn delete_gdzarea" type="button" value=" X " style="float:left;width:30px;height:34px;"></div>');
+            });
+            //高低值删除
+            $("#formmain").on("click", ".delete_gdzarea", function (event) {
+                popDialog("删除", "确定要删除该方式？", deletegdz, nodelete);
+            });
+            function deletegdz() {
+                var delgdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+                $.ajax({
+                    type: 'POST',
+                    url: "/FEE/delDjfs",
+                    data: {
+                        djfsrid: '',
+                        gdzrid: delgdzrid == undefined ? '' : delgdzrid,
+                    },
+                    success: function (data) {
+                        var data = $.parseJSON(data);
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            window.location.href = '/FEE/FEECreate?id=' + "@Model.RID";
+                        } else {
+                            toastr.error(data.Message);
+                            $(".ui-widget-overlay").hide();
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            }
+            //高低值切换
+            $("#formmain").on("click", ".gdz", { foo: "文本:" }, function (event) {
+                gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                var guid = fqgenguid();
+                $(this).addClass("active");
+                $(this).siblings().removeClass("active");
+                var gdzrid = $(this).find(".gdzrid").val();
+                if (gdzrid.length == 0) {
+                    $(this).find(".gdzrid").val(guid);
+                    $("#JSFFLX").select2('val', '');
+                    $("#JSFF").select2('val', '');
+                }
+                //更新计算基础列表数据
+                showRefData(gdzkey);
+            });
+            $("#calc_main").click(function () {
+                window.location.href = '/SQM_CALC/Index';
+            });
+            //保存
+            $(".fmbc").click(function () {
+                toastr.clear();
+                toastr.remove();
+                if ($("#FEECODE").val().length == 0) {
+                    toastr.error("请选择费目！");
+                    return;
+                }
+                cacltext = $("#CACLCODE").find("option:selected").text();
+                var mulbjfs = $('input:radio[name="MULBJFS"]:checked').val();
+                //定价方式数据
+                var djfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+                var djfsname = $(".dlc").find(".active").find(".djfsname").val();
+                if (djfsrid == undefined) {
+                    djfsrid = '';
+                    djfsname = '';
+                }
+                if (mulbjfs == '1' && djfsname != '' && djfsname.replace(/(^\s+)|(\s+$)/g, "").length == 0) {
+                    toastr.error("请维护定价方式名称！");
+                    return;
+                }
+                var strdjfsrid = '';
+                var strdjfsname = '';
+                $(".djfsrid").each(function () {
+                    strdjfsrid += $(this).val() + ',';
+                });
+                $(".djfsname").each(function () {
+                    if (mulbjfs == '1' && $(this).val().replace(/(^\s+)|(\s+$)/g, "").length == 0) {
+                        toastr.error("请维护定价方式名称！");
+                        return;
+                    }
+                    strdjfsname += $(this).val() + ',';
+                });
+                //高低值数据
+                var gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                var strgdzrid = '';
+                var strgdzname = '';
+                var currentgdzrid = ''; //当前选中的高低值
+                if (gdzkey != "0") {
+                    $(".gdzrid").each(function () {
+                        strgdzrid += $(this).val() + ',';
+                    });
+                    $(".gdzname").each(function () {
+                        if (mulbjfs == '1' && $(this).val().replace(/(^\s+)|(\s+$)/g, "").length == 0) {
+                            toastr.error("请维护高低值名称！");
+                            return;
+                        }
+                        strgdzname += $(this).val() + ',';
+                    });
+                    currentgdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+                }
+                var jsfflx = $("#JSFFLX").val();
+                var jsff = $("#JSFF").val();
+                if (jsfflx == undefined) {
+                    jsfflx = '';
+                    jsff = '';
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "/FEE/FEECreateData",
+                    data: {
+                        FEECODE: $("#FEECODE").val(),
+                        FEENAME: $("#FEECODE").find("option:selected").text(),
+                        CACLCODE: $("#CACLCODE").val(),
+                        CACLUNIT: cacltext.substring(0, cacltext.indexOf('-')),
+                        MINPRICE: $("#FSMIN").val(),
+                        FSDISP: $("#FSDISP").val(),
+                        FSSORT: $("#FSSORT").val(),
+                        PRECOND: $("#PRECOND").val(),
+                        id: $("#RID").val(),
+                        ALLOWCACLOFFER: $("#ALLOWCACLOFFER").val(),
+                        MULBJFS: $("input[name='MULBJFS']:checked").val(),
+                        DJFSRID: djfsrid,
+                        DJFSNAME: djfsname,
+                        //STRDJFSRID: strdjfsrid.substr(0, strdjfsrid.length - 1),
+                        //STRDJFSNAME: strdjfsname.substr(0, strdjfsname.length - 1),
+                        STRDJFSRID: djfsrid,
+                        STRDJFSNAME: djfsname,
+                        STRGDZRID: strgdzrid.substr(0, strgdzrid.length - 1),
+                        STRGDZNAME: strgdzname.substr(0, strgdzname.length - 1),
+                        MODIFYUSER: username,
+                        GDZKEY: gdzkey,
+                        CURRENTGDZRID: currentgdzrid, //计算方法保存在当前高低值下
+                        RSLBASE: $("#FSRSLBASE").val(),//建议解析基础也到下面了
+                        FSSETCUSTOMER: $("#FSSETCUSTOMER").val(),
+                        FEEUNIT: getFEEUNIT(),//费目单位
+                        FEEUNIT_EN: $("#FEEUNIT_EN").val(),//英文费目单位
+                        FSJDLB: $("#FSJDLB").val(),//阶段类别
+                        FSFYSM: $("#FSFYSM").val(),//费用说明
+                        FSFYSM_EN: $("#FSFYSM_EN").val(),//英文费用说明
+                        SIGHT_FSFYSM: $("#SIGHT_FSFYSM").val(),// 场景费用说明
+                        JSFFLX: jsfflx,
+                        JSFF: jsff,
+                        JTLJ: $("#JTLJ").val()
+                    },
+                    success: function (data) {
+                        var data = $.parseJSON(data);
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            //为rid 赋值，否则新增基础时报错
+                            $("#RID").val(data.Code);
+                            $("#FEECODE").attr("disabled", "disabled");
+                            $(".main").show();
+                            // document.location.href = '/FEE/FEECreate?id=' + data.Code;
+                            //if (data.Code == '1') {
+                            //    //setTimeout(function () { location.href = "/FEE/FEEIndex" }, 200);
+                            //    window.location.href = window.location.href;
+                            //} else {
+                            //}
+                            //单位赋值
+                            $("#FEEUNIT").val(getFEEUNIT());
+                            //保存后，需要显示维护的值
+                            $("#FEEUNIT_EN").val(tmpData[7]);//英文费目单位
+                            $("#FSFYSM_EN").val(tmpData[8]);//英文费用说明
+                            $("#SIGHT_FSFYSM").val(tmpData[9]);//场景费用说明
+                            IsEdit = false;
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            });
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            $(window).resize(function () {
+                $("#jqgrid").setGridWidth($(window).width());
+            });
+            //计算基础绑数据
+            function gettypes() {
+                //动态生成select内容
+                var str = ":请选择;";
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: "/FEE/getCalcName",
+                    success: function (data) {
+                        if (data != null) {
+                            var jsonobj = eval(data);
+                            var length = jsonobj.length;
+                            for (var i = 0; i < length; i++) {
+                                str += jsonobj[i]["CALC_BASE"] + ":" + jsonobj[i]["DESCRIPTION"] + "--" + jsonobj[i]["CALC_BASE"] + ";";
+                            }
+                        }
+                    }
+                });
+                str = str.substr(0, str.length - 1);
+                return str;
+            }
+            //标度计量单位绑数据
+            function getmsrunit() {
+                //动态生成select内容
+                var str = ":请选择;";
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: "/FEE/getMsrUnit",
+                    success: function (data) {
+                        if (data != null) {
+                            var jsonobj = eval(data);
+                            var length = jsonobj.length;
+                            for (var i = 0; i < length; i++) {
+                                str += jsonobj[i]["DDTEXT"] + ":" + jsonobj[i]["DDTEXT"] + "--" + jsonobj[i]["MSEHI"] + ";";
+                            }
+                        }
+                    }
+                });
+                str = str.substr(0, str.length - 1);
+                return str;
+            }
+            var djfsrid = '';
+            var gdzrid = '';
+            var gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+            if ($(".dlc").children().hasClass("active")) {
+                djfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+            }
+            if (gdzkey != '0' && $(".gdzdiv").children().hasClass("active")) {
+                gdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+            }
+            jQuery("#jqgrid").jqGrid({
+                url: "/FEE/getRefData?FEECODE=" + $("#FEECODE").val() + "&GDZRID=" + gdzrid + "&DJFSRID=" + djfsrid + "&GDZKEY=" + gdzkey,
+                datatype: "json",
+                height: 'auto',
+                colNames: ['RID', '计算基础', '计算基础代码', "标度计量单位", '是否计费数量', '是否筛选条件', '标度', '计算基础说明'],
+                colModel: [{
+                    name: 'RID',
+                    index: 'RID',
+                    hidden: true
+                }, {
+                    name: 'CALCNAME',
+                    index: 'CALCNAME',
+                }, {
+                    name: 'CALCCODE',
+                    index: 'CALCCODE',
+                    editable: true,
+                    //editrules: { required: true },
+                    edittype: 'select',
+                    editoptions: {
+                        value: gettypes(),
+                        dataInit: function (element) {
+                            $(element).width(260).select2()
+                        },
+                        dataEvents: [
+                             {
+                                 type: 'change',
+                                 fn: function (e) {
+                                     var val = this.value;
+                                     var ids = $('#jqgrid').jqGrid('getGridParam', 'selarrrow');
+                                     $("#" + ids[0] + "_ISCNT").find('*').remove();
+                                     if (calcstr.indexOf(',' + val + ',') >= 0) {
+                                         $("#" + ids[0] + "_ISCNT").append('<option role="option" value="否" selected="selected">否</option><option role="option" value="是">是</option>');
+                                         $("#" + ids[0] + "_ISCNT").attr("disabled", "disabled");
+                                         $("#" + ids[0] + "_ISCNT").addClass("calcdisable");
+                                     } else {
+                                         $("#" + ids[0] + "_ISCNT").attr("disabled", false);
+                                         $("#" + ids[0] + "_ISCNT").removeClass("calcdisable");
+                                         $("#" + ids[0] + "_ISCNT").append('<option role="option" value="是" selected="selected">是</option><option role="option" value="否">否</option>');
+                                     }
+                                 }
+                             }
+                        ]
+                    }
+                }, {
+                    name: 'MSRUNIT',
+                    index: 'MSRUNIT',
+                    editable: true,
+                    edittype: 'select',
+                    editoptions: {
+                        value: getmsrunit(),
+                        dataInit: function (element) {
+                            $(element).width(260).select2()
+                        }
+                    }
+                }, {
+                    name: 'ISCNT',
+                    index: 'ISCNT',
+                    editable: true,
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: { value: "是:是;否:否" }
+                }, {
+                    name: 'ISSEARCH',
+                    index: 'ISSEARCH',
+                    editable: true,
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: { value: "否:否;是:是" }
+                }, {
+                    name: 'SCALE',
+                    index: 'SCALE',
+                    editable: true,
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: { value: "=:等于;>=:大于等于;<=:小于等于" }
+                }, {
+                    name: 'MEMO',
+                    index: 'MEMO',
+                    editable: true,
+                    width: 1000
+                }],
+                rowNum: 50,
+                rowList: [20, 30, 50],
+                pager: '#pjqgrid',
+                sortname: 'id',
+                toolbarfilter: true,
+                viewrecords: true,
+                sortorder: "asc",
+                //caption : "表头",
+                multiselect: true,   //是否多选
+                autowidth: true,
+                //loadComplete: function () {
+                //    if ($("#FEEUNIT").val() == "") {
+                //        //加载完成调用，否则数据显示有异常
+                //        $("#FEEUNIT").val(getFEEUNIT());
+                //    }
+                //}
+            });
+            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+                edit: false,
+                add: false,
+                del: true
+            });
+            jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
+            // remove classes
+            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            $(".ui-jqgrid-pager").removeClass("ui-state-default");
+            $(".ui-jqgrid").removeClass("ui-widget-content");
+
+            // add classes
+            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+            //计算基础编辑
+            $("#jqgrid_iledit").click(function () {
+                toastr.clear();
+                toastr.remove();
+                if ($(this).hasClass("ui-state-hover")) {
+
+                } else if ($(this).hasClass("ui-state-disabled")) {
+                    return;
+                }
+                var ids = $('#jqgrid').jqGrid('getGridParam', 'selarrrow');
+                if (ids.length == 0) {
+                    toastr.error("请选择要编辑的记录！");
+                    return;
+                }
+                for (var i = 0; i < ids.length; i++) {
+                    if (ids[i].indexOf('jqg') == "-1") {
+                        $("#" + ids[i] + "_CALCCODE").attr("disabled", "disabled");
+                        $("#" + ids[i] + "_CALCCODE").addClass("calcdisable");
+                    }
+                    if (calcstr.indexOf(','+$("#" + ids[i] + "_CALCCODE").val()+',') >= 0) {
+                        $("#" + ids[i] + "_ISCNT").attr("disabled", "disabled");
+                        $("#" + ids[i] + "_ISCNT").addClass("calcdisable");
+                    }
+                    $("#" + ids[i] + "_SCALE").attr("disabled", "disabled");
+                    $("#" + ids[i] + "_SCALE").addClass("calcdisable");
+                }
+            });
+            //计算基础保存
+            $("#jqgrid_ilsave").click(function () {
+                toastr.clear();
+                toastr.remove();
+                var refdjfsrid = '';
+                var refdjfsname = '';
+                var refgdzrid = '';
+                var refgdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                var refgdzname = '';
+                var caclunit = $("#CACLCODE").find("option:selected").text().substring(0, $("#CACLCODE").find("option:selected").text().indexOf('-'));
+                if ($(".dlc").children().hasClass("active")) {
+                    refdjfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+                    refdjfsname = $(".dlc").find(".active").find(".djfsname").val();
+                }
+                if (refgdzkey != "0" && $(".gdzdiv").children().hasClass("active")) {
+                    refgdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+                    refgdzname = $(".gdzdiv").find(".active").find(".gdzname").val();
+                }
+                if ($(this).hasClass("ui-state-hover")) {
+
+                } else if ($(this).hasClass("ui-state-disabled")) {
+                    return;
+                }
+                var calcname = $('#jqgrid').find('tbody tr:gt(0) td:eq(3)').text();
+                if ($.trim(calcname).length == 0) {
+                    toastr.error("请选择计算基础！");
+                    //$("#refresh_jqgrid").click();
+                    return;
+                }
+                // 遍历所有的table数据
+                var html = '';
+                $('#jqgrid').find('tbody').each(function () {
+                    $(this).find('tr:gt(0)').each(function () {
+                        $(this).find('td:gt(0)').each(function () {
+                            html += $(this).text() + ',';
+                        });
+                        html = (html.substring(html.length - 1) == ',') ? html.substring(0, html.length - 1) : html;
+                        html += '|';
+                    });
+                });
+                var tmpData = [];
+                $.ajax({
+                    type: 'POST',
+                    url: "/FEE/FeeCalcRef",
+                    async: false,
+                    data: {
+                        FEECODE: $("#FEECODE").val(),
+                        CACLUNIT: caclunit,
+                        FEERID: $("#RID").val(),
+                        FSRSLBASE: $("#FSRSLBASE").val(),
+                        FSPRECOND: $("#FSPRECOND").val(),
+                        FSMIN: $("#FSMIN").val(),
+                        FSDISP: $("#FSDISP").val(),
+                        FSSETCUSTOMER: $("#FSSETCUSTOMER").val(),//新增字段：指定客户
+                        FSSORT: $("#FSSORT").val(),
+                        DJFSRID: refdjfsrid,
+                        DJFSNAME: refdjfsname,
+                        GDZRID: refgdzrid,
+                        GDZKEY: refgdzkey,
+                        GDZNAME: refgdzname,
+                        MULBJFS: $("input[name='MULBJFS']:checked").val(),
+                        html: html,
+                    },
+                    beforeSend: function () {
+                        tmpData = getTmpData();
+                    },
+                    success: function (data) {
+                        gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                        var data = $.parseJSON(data);
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            //更新计算基础列表数据
+                            showRefData(gdzkey);
+                            //保存成功后隐藏该方式下的删除按钮
+                            //$(".gdzdiv .active .delete_gdzarea").hide();
+                            //$(".dlc .active .delete_djfsarea").hide();
+                            //还原input的值
+                            $("#JSFFLX").select2('val', tmpData[0]);
+                            $("#JSFF").select2('val', tmpData[1]);
+                            $("#JTLJ").select2('val', tmpData[2]);
+                            $("#FSRSLBASE").select2('val', tmpData[3]);
+                            $("#FEEUNIT").val(tmpData[4]);
+                            $("#FSJDLB").select2('val', tmpData[5]);
+                            $("#FSFYSM").val(tmpData[6]);
+                            $("#FEEUNIT_EN").val(tmpData[7]);//英文费目单位
+                            $("#FSFYSM_EN").val(tmpData[8]);//英文费用说明
+                            $("#SIGHT_FSFYSM").val(tmpData[9]);//场景费用说明
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            });
+            //计算基础删除
+            $("#del_jqgrid").click(function () {
+                toastr.clear();
+                toastr.remove();
+                var rids = '';
+                var ids = $('#jqgrid').jqGrid('getGridParam', 'selarrrow');
+                if (ids.length == 0) {
+                    toastr.error("请选择要删除的记录！");
+                    $(".ui-widget-overlay").hide();
+                    return false;
+                } else {
+                    popDialog("删除", "确定要删除所选记录吗？", deleteAllRows, nodelete);
+                }
+            });
+            function nodelete() {
+                $(".ui-widget-overlay").hide();
+            }
+            function deleteAllRows() {
+                var djfsrid = '';
+                var gdzrid = '';
+                var gdzkey = $('input:radio[name="GDZKEY"]:checked').val();
+                if ($(".dlc").children().hasClass("active")) {
+                    djfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+                }
+                if (gdzkey != '0' && $(".gdzdiv").children().hasClass("active")) {
+                    gdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+                }
+                var rids = '';
+                var ids = $('#jqgrid').jqGrid('getGridParam', 'selarrrow');
+                for (var i = 0; i < ids.length; i++) {
+                    var rowData = $('#jqgrid').jqGrid('getRowData', ids[i]);
+                    rids += rowData.RID + ',';
+                }
+                rids = rids.substring(0, rids.length - 1);
+                $.ajax({
+                    type: 'POST',
+                    url: "/FEE/delFeeCalcRef",
+                    data: {
+                        RIDS: rids,
+                        djfsrid: djfsrid,
+                        gdzrid: gdzrid,
+                    },
+                    success: function (data) {
+                        var data = $.parseJSON(data);
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            window.location.href = '/FEE/FEECreate?id=' + "@Model.RID";
+                        } else {
+                            toastr.error(data.Message);
+                            $(".ui-widget-overlay").hide();
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            }
+            //仓租费计算方法类型
+            if ("@Model.JSFFZS" == "1") {
+                $(".czf").show();
+            } else {
+                $(".czf").hide();
+            }
+            //$("#").find("input,select,textarea").each(function () {
+            //    $(this).attr("autocomplete", "off");
+            //});
+            $("#FEEUNIT").attr("autocomplete", "off");
+        })
+        //展示高低值名称列表
+        function showGdzData(gdzkey) {
+            var gdzmsg = "";
+            var GDZArray = [];
+            var gdzname = '';
+            if (gdzkey == "H") {
+                gdzname = "高A";
+            } else if (gdzkey == "L") {
+                gdzname = "低A";
+            } else if (gdzkey == "A") {
+                gdzname = "顺A";
+            }
+            $.ajax({
+                url: "@Url.Action("GetGdzData")",
+                data: {
+                    feecode: "@Model.FEECODE",
+                    djfsrid: $(".dlc").find(".active").find(".djfsrid").val(),
+                    gdzkey: gdzkey,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    GDZArray = data[0];
+                }
+            });
+            ////高低值渲染
+            if (GDZArray.length > 0) {
+                for (var i = 0; i < GDZArray.length; i++) {
+                    gdzmsg += "<div class='col-md-1 gdz'><input type='hidden' class='gdzrid' value=" + GDZArray[i][0] + " /><input type='text' class='form-control gdzname' title='" + GDZArray[i][1] + "' value=" + GDZArray[i][1] + "><input class='btn delete_gdzarea' type='button' value=' X ' style='float:left;width:30px;height:34px;'></div>";
+                }
+            } else {
+                gdzmsg = "<div class='col-md-1 gdz active'><input type='hidden' class='gdzrid' value=" + fqgenguid() + " /><input type='text' class='form-control gdzname' title='" + gdzname + "' value=" + gdzname + "></div>";
+            }
+            $(".gdzdiv").find(".gdz").remove();
+            $(".add_gdz").after(gdzmsg);
+        }
+        //更新计算基础列表数据
+        function showRefData(gdzkey) {
+            var djfsrid = '';
+            var gdzrid = '';
+            $("#FEEUNIT").val("");
+            if ($(".dlc").children().hasClass("active")) {
+                djfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+            }
+            if ($(".gdzdiv").children().hasClass("active")) {
+                gdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+            }
+            //var caclunit = $("#CACLCODE").find("option:selected").text().substring(0, $("#CACLCODE").find("option:selected").text().indexOf('-'));
+            $("#jqgrid").jqGrid('setGridParam', {
+                url: "/FEE/getRefData",
+                datatype: 'json',
+                //loadComplete: function () {
+                //    if ($("#FEEUNIT").val() == "") {
+                //        //加载完成调用，否则数据显示有异常
+                //        $("#FEEUNIT").val(getFEEUNIT());
+                //    }
+                //},
+                postData: { 'FEECODE': $("#FEECODE").val(), 'DJFSRID': djfsrid, 'GDZRID': gdzrid, 'GDZKEY': gdzkey }
+            }).trigger("reloadGrid"); //重新载入
+
+            //var jsfflx = '';
+            //var jsff = '';
+            //获取计算方法、类型的数据,仓租费特有
+            //if ($("#FEECODE").val() == "S1000CZF0001") {
+
+            $.ajax({
+                url: "/FEE/JSFFByGdzRid",
+                type: "get",
+                async: false,
+                data: "djfsrid=" + djfsrid + "&gdzrid=" + gdzrid + "&gdzkey=" + gdzkey,
+                success: function (data) {
+                    if (data != null && data != undefined) {
+                        var result = $.parseJSON(data);
+                        if (result.length > 0) {
+                            if ("@Model.JSFFZS" == "1") {
+                                //设置计算方法类型
+                                $("#JSFFLX").select2('val', result[0]['JSFFLX']);
+                                //重新请求此类型的数据
+                                getjsffdata(result[0]['JSFFLX']);
+                                $("#JSFF").select2('val', result[0]['JSFF']);
+                            }
+                            if (!!result[0]["JTLJ"]) {
+                                $("#JTLJ").select2("val", result[0]["JTLJ"]);
+                            } else {
+                                $("#JTLJ").select2("val", "0");
+                            }
+                            if (!!result[0]["FSRSLBASE"]) { //建议解析基础
+                                $("#FSRSLBASE").select2("val", result[0]["FSRSLBASE"]);
+                            } else {
+                                $("#FSRSLBASE").select2("val", "");
+                            }
+                            if (!!result[0]["FEEUNIT"]) { //费目单位
+                                $("#FEEUNIT").val(result[0]["FEEUNIT"]);
+                            }
+                            //if (!!result[0]["FEEUNIT_EN"]) { //英文费目单位
+                            //    $("#FEEUNIT_EN").val(result[0]["FEEUNIT_EN"]);
+                            //}
+                            if (!!result[0]["FSJDLB"]) {
+                                $("#FSJDLB").select2("val", result[0]["FSJDLB"]);
+                            } else {
+                                $("#FSJDLB").select2("val", "");
+                            }
+                            if (!!result[0]["FSFYSM"]) { //费目说明
+                                $("#FSFYSM").val(result[0]["FSFYSM"]);
+                            } else {
+                                $("#FSFYSM").val("");
+                            }
+                            if (!!result[0]["SIGHT_FSFYSM"]) { //场景费目说明
+                                $("#SIGHT_FSFYSM").val(result[0]["SIGHT_FSFYSM"]);
+                            } else {
+                                $("#SIGHT_FSFYSM").val("");
+                            }
+                            if (!!result[0]["FSFYSM_EN"]) { //英文费目说明
+                                $("#FSFYSM_EN").val(result[0]["FSFYSM_EN"]);
+                            } else {
+                                $("#FSFYSM_EN").val("");
+                            }
+                        } else {
+                            $("#JTLJ").select2("val", "0");
+                            $("#FSRSLBASE").select2("val", "");
+                            $("#FSJDLB").select2("val", "");
+                            $("#FSFYSM").val("");
+                            $("#FSFYSM_EN").val("");  //英文费目说明
+                            $("#FEEUNIT_EN").val("FEEUNIT_EN");//英文费目单位
+                            $("#SIGHT_FSFYSM").val("");//场景费用说明
+                        }
+                    } else {
+                        $("#JTLJ").select2("val", "0");
+                        $("#FSRSLBASE").select2("val", "");
+                        $("#FSJDLB").select2("val", "");
+                        $("#FSFYSM").val("");
+                        $("#FSFYSM_EN").val("");
+                        $("#SIGHT_FSFYSM").val("");//场景费用说明
+                    }
+                }, error: function () {
+                    toastr.error("获取数据失败");
+                }
+            })
+        }
+        //更新定价方式里面数据
+        function showFSData() {
+            var djfsrid = '';
+            var fsArray = [];
+            if ($(".dlc").children().hasClass("active")) {
+                djfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+            }
+            $.ajax({
+                url: "@Url.Action("GetFSData")",
+                data: {
+                    djfsrid: $(".dlc").find(".active").find(".djfsrid").val(),
+                    feecode: "@Model.FEECODE",
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    fsArray = data[0];
+                }
+            });
+            //方式内数据渲染
+            if (fsArray.length > 0) {
+                $("#FSRSLBASE").select2('val', fsArray[0][3]);
+                $("#FSPRECOND").select2('val', fsArray[0][2]);
+                $("#FSMIN").select2('val', fsArray[0][1] == null ? "0" : fsArray[0][1]);
+                $("#JSFFLX").select2('val', fsArray[0][4]);
+                $("#JSFF").select2('val', fsArray[0][5]);
+                $("#FSDISP").select2('val', fsArray[0][6]);
+                $("#FSSORT").val(fsArray[0][7]);
+                $("#FSSETCUSTOMER").select2('val',fsArray[0][8]);
+              //  $("#FSFYSM_EN").val(fsArray[0][9]);
+                $("#FEEUNIT_EN").val(fsArray[0][9]);
+                $("#SIGHT_FSFYSM").val(fsArray[0][10]);
+                $("[name='GDZKEY'][value='" + fsArray[0][0] + "']").prop("checked", true);
+                getjsffdata(fsArray[0][4]);
+            } else {
+                $("#JSFFLX").select2('val', '');
+                $("#JSFF").select2('val', '');
+                $("#FSRSLBASE").select2('val', '');
+                $("#FSPRECOND").select2('val', '');
+                $("#FSMIN").select2('val', '0');
+                $("#FSDISP").select2('val', '1');
+                $("#FSSORT").val('');
+                $("#FSSETCUSTOMER").val('val', '0');
+                $("#FSFYSM_EN").val('');
+                $("#FEEUNIT_EN").val('');
+                $("#SIGHT_FSFYSM").val('');
+
+            }
+        }
+        //获取计算方法主数据
+        function getjsffdata(jsfftype) {
+            var jsfflist;
+            var jsff;
+            //自动带出计算方法
+            $.ajax({
+                url: "@Url.Action("getJsff")",
+                data: {
+                    jsfftype: jsfftype,
+                    djfsrid: $(".dlc").find(".active").find(".djfsrid").val(),
+                    feecode: "@Model.FEECODE",
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    jsfflist = data[0];
+                    jsff = data[1];
+                }
+            });
+            $("#JSFF").find("*").remove();
+            if (jsfflist.length > 0) {
+                for (var i = 0; i < jsfflist.length; i++) {
+                    if (jsfflist[i].FFCODE == null) {
+                        $("#JSFF").append($("<option value=''>空</option>"));
+                    } else {
+                        $("#JSFF").append($("<option></option>").attr("value", jsfflist[i].FFCODE).html(jsfflist[i].FFNAME));
+                    }
+                }
+            }
+            $("#JSFF").select2('val', jsff);
+        }
+        // 返回
+        function back() {
+            if (IsEdit) {
+                Ewin.confirm({ message: "页面有修改，是否放弃保存？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    window.location.href = "@Url.Action("FEEIndex")";
+                });
+            }
+            else { window.location.href = "@Url.Action("FEEIndex")"; }
+        }
+        // modal 对话框
+        function popDialog(title, msg, callbackyes, callbackno) {
+            if (!title) {
+                title = '对话框';
+            }
+            var dialogHTML = '<div id="selfDialog" class="modal fade">';
+            dialogHTML += '<div class="modal-dialog">';
+            dialogHTML += '<div class="modal-content">';
+            dialogHTML += '<div class="modal-header">';
+            dialogHTML += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            dialogHTML += '<span aria-hidden="true">&times;</span>';
+            dialogHTML += '</button>';
+            dialogHTML += '<h4 class="modal-title">' + title + '</h4>';
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-body">';
+            dialogHTML += msg;
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-footer">';
+            dialogHTML += '<button type="button" class="btn btn-default" data-dismiss="modal" id="buttonno">否</button>';
+            dialogHTML += '<button type="button" class="btn btn-primary" data-dismiss="modal" id="buttonyes">是</button>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+
+            $("#selfDialog").remove();
+            $("body").append(dialogHTML);
+            $("#selfDialog").modal("show");
+            // 绑定"是"方法
+            $("#buttonyes").click(function () {
+                if (typeof callbackyes == "function") {
+                    callbackyes();
+                }
+            });
+            // 绑定"否"方法
+            $("#buttonno").click(function () {
+                if (typeof callbackno == "function") {
+                    callbackno();
+                }
+            });
+        }
+
+        //获取费目单位
+        function getFEEUNIT() {
+            if (!!$("#FEEUNIT").val()) {//原本有单位
+                return $("#FEEUNIT").val();
+            }
+            var str = "";
+            //没有手动维护单位，设默认值
+            $("#jqgrid tbody tr").each(function () {
+                var unit = $(this).children('td').eq(4).text();
+                //if (!str.match(unit)) {
+                //    str += unit + "/"; //错，立方米  米
+                //}
+                if (unit.trim() != "") {
+                    str += unit + "/";
+                }
+            });
+            return str.substr(0, str.length - 1);
+        }
+
+        //解决保存表格数据刷新页面数据丢失问题
+        function getTmpData() {
+            var data = [];
+            data[0] = $("#JSFFLX").val();
+            data[1] = $("#JSFF").val();
+            data[2] = $("#JTLJ").val();
+            data[3] = $("#FSRSLBASE").val();
+            data[4] = $("#FEEUNIT").val();
+            data[5] = $("#FSJDLB").val();
+            data[6] = $("#FSFYSM").val();
+            data[7] = $("#FEEUNIT_EN").val();//英文费目单位
+            data[8] = $("#FSFYSM_EN").val();//英文费目说明
+            data[9] = $("#SIGHT_FSFYSM").val();//场景费用说明
+
+            return data;
+        }
+
+    </script>
+}

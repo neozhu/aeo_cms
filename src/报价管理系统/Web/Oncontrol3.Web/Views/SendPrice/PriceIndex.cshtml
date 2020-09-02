@@ -1,0 +1,475 @@
+﻿@{
+    ViewBag.Title = " 同步定价方式到TM";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.SQM_DJ_PSF
+@{
+    System.Data.DataTable orgdt = (System.Data.DataTable)ViewBag.OrgData;
+    System.Data.DataTable feedt = (System.Data.DataTable)ViewBag.FeeData;
+    System.Data.DataTable DJFSdt = (System.Data.DataTable)ViewBag.DJFSData;
+}
+<script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+<style>
+    /*表格end*/
+    #datatable_col_reorder td {
+        white-space: nowrap;
+    }
+
+    #datatable_col_reorder th {
+        white-space: nowrap;
+    }
+
+    .pur-top .djfs, .pur-top .gdz {
+        padding-bottom: 10px;
+        width: 10%;
+        display: inline-block;
+    }
+
+        /*.pur-top .gdz:nth-child(1) {
+                margin-left: -84px;
+            }*/
+
+        .pur-top .djfs .active, .pur-top .gdz .active {
+            background-color: #2e7bcc;
+            color: white;
+        }
+
+        .pur-top .djfs .djfsname, .pur-top .gdz .gdzname {
+            cursor: pointer;
+        }
+</style>
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right; ">
+                            <button type="submit" id="searchByFee" class="btn btn-success">
+                                费目查询
+                            </button>
+                            <button type="submit" id="searchByAll" class="btn btn-success">
+                                报价清单查询
+                                <span id="queryNum"></span>
+                            </button>
+                            <button type="submit" id="submitTM" class="btn btn-success">
+                                同步TM
+                            </button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">
+                                重置
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <select style="width:100%" name="BUSINESSORG" id="BUSINESSORG" class="select2">
+                                                <option value=""></option>
+                                            </select>
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <select style="width:100%" id="FEECODE" name="FEECODE" class="select2" placeholder="费目">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < feedt.Rows.Count; i++)
+                                                {
+                                                    @*<option value="@feedt.Rows[i]["FEECODE"]">@feedt.Rows[i]["FEENAME"]--@feedt.Rows[i]["FEECODE"]</option>*@
+                                                    <option value="@feedt.Rows[i]["TCET084"]">@feedt.Rows[i]["TEXTDESC"]--@feedt.Rows[i]["TCET084"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="djfsdiv">
+
+                        </div>
+                        @*@if (DJFSdt != null && DJFSdt.Rows.Count > 0 && DJFSdt.Rows[0]["DJFSRID"].ToString() != "")
+                        {
+                            <div class="row ptbj divys">
+                                <div class="col-md-6" style="width:100%">
+                                    <div class="col-md-10">
+                                        <h4><label class="label label label-default">定价方式</label></h4>
+                                    </div>
+                                    <div class="ptdj dlc col-md-8">
+                                        <button class="fsmore" id="fsmore" title="展开"><i class="fa fa-caret-down"></i></button>
+                                        <button id="fsless" class="fsless" title="收起" style="display:none;"><i class="fa fa-caret-up"></i></button>
+                                        @for (int i = 0; i < DJFSdt.Rows.Count; i++)
+                                        {
+                                            <div class="djfs djfszs" onclick='djfsqh("@DJFSdt.Rows[i]["DJFSRID"]","")' >
+                                                <input type="hidden" class="djfsrid" value="@DJFSdt.Rows[i]["DJFSRID"]" />
+                                                <input type="text" class="form-control djfsname" title="@DJFSdt.Rows[i]["DJFSNAME"]" value="@DJFSdt.Rows[i]["DJFSNAME"]" readonly>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }*@
+                        <br /><br />
+
+                        <div id="bjDetailTable" class="widget-body">
+                            <label>报价清单</label>
+                            <table  id="myTable" class="table table-hover">
+                                <tr>
+                                    <td>
+                                        <input id="checkall" name="checkall" type="checkbox" value="" />
+                                    </td>
+                                    @*<td>
+            <input type="hidden" id="hid" name="bjrid" />
+        </td>*@
+                                    <td>报价名称</td>
+                                    <td>报价组织</td>
+                                    <td>客户</td>
+                                    <td>最新版本</td>
+                                    <td>产品</td>
+                                    <td>销售员</td>
+                                    <td>FWA号</td>
+                                    <td>项目号</td>
+                                    <td>版本更新日期</td>
+                                    <td>状态</td>
+                                    <td>返回结果</td>
+                                    <td style="display:none">MRID</td>
+                                    <td style="display:none">前提条件</td>
+                                    <td style="display:none">建议解析基础</td>
+                                    <td style="display:none">阶段类别</td>
+                                </tr>
+                                <tbody id="tbody">
+                                    
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+
+
+                </div>
+            </article>
+        </div>
+
+        <!-- 选择产品 -->
+
+    </section>
+</div>
+
+@section pagespecific{
+
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/plugins/jquery.ajaxupload.js"></script>
+    <script src="~/Content/plugins/jquery.bootpag.min.js"></script>
+    <script src="~/Content/plugins/jquery.guid.js"></script>
+    <script src="~/Content/plugins/base.js"></script>
+    <script type="text/javascript">
+          $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            if (kygh.indexOf(user) != -1) {
+                $("#BUSINESSORG").append("<option value='空运'>空运</option>");
+                if ($("#BUSINESSORG").val() == "") {
+                    $("#BUSINESSORG").select2("val", "空运");
+                    mrbusinessorg = "空运";
+                }
+            }
+            if (hygh.indexOf(user) != -1) {
+                $("#BUSINESSORG").append("<option value='海运'>海运</option>");
+                if ($("#BUSINESSORG").val() == "") {
+                    $("#BUSINESSORG").select2("val", "海运");
+                    mrbusinessorg = "海运";
+                }
+            }
+            if (gylgh.indexOf(user) != -1) {
+                $("#BUSINESSORG").append("<option value='供应链'>供应链</option>");
+                if ($("#BUSINESSORG").val() == "") {
+                    $("#BUSINESSORG").select2("val", "供应链");
+                    mrbusinessorg = "供应链";
+                }
+            }
+            if (ysgh.indexOf(user) != -1) {
+                $("#BUSINESSORG").append("<option value='运输'>运输</option>");
+                if ($("#BUSINESSORG").val() == "") {
+                    $("#BUSINESSORG").select2("val", "运输");
+                    mrbusinessorg = "运输";
+                }
+            }
+            //初始化事业部
+            if (djbusinessorg != null) {
+                $("#BUSINESSORG").select2("val", djbusinessorg);
+            } else {
+                djbusinessorg = mrbusinessorg;
+            }
+            //初始化费目
+            if (djfeecode != null) {
+                $("#FEECODE").select2("val", djfeecode);
+            }
+            //定价方式
+            @*if ("@ViewBag.djfsrid" != "") {
+                $('input[value="@ViewBag.djfsrid"]').next().addClass("active");
+                $('input[value="@ViewBag.djfsrid"]').closest(".djfs").addClass("active");
+            }*@
+        });
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        //费目查询
+        var djbusinessorg = "";
+        var djfeecode = "";
+        var currentDjfsrid = "";//当前选中按钮的djfsrid的值
+        $("#searchByFee").click(function () {
+            //事业部
+            if (djbusinessorg != $("#BUSINESSORG").val()) {
+                djbusinessorg = $("#BUSINESSORG").val();
+            }
+            //费目代码
+            if (djfeecode != $("#FEECODE").val()) {
+                djfeecode = $("#FEECODE").val();
+            }
+            // $('#datatable_col_reorder').DataTable().search("").draw();
+            showDjfsdata(djfeecode);
+            return false;
+        });
+        //报价清单查询
+        var djfsrid = "";
+
+        function showDjfsdata(feecode) {
+            var backflag = true;
+            var djfsmsg = "";
+            var djfsArray = [];
+            if (djfeecode != null) {
+                $.ajax({
+                    url: "/SendPrice/GetDjfs",
+                    type: "POST",
+                    data: {
+                        "feecode": djfeecode
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                       djfsArray = data[0];
+                    }
+                });
+                //定价方式渲染
+      
+                if (djfsArray.length > 0) {
+                    for (var i = 0; i < djfsArray.length; i++) {
+                        //djfsmsg += "<input type='hidden'  class='djfsrid' value=" + djfsArray[i][0] + " /><input type='button' class='btn btn-default' title='" + djfsArray[i][1] + "'  value=" + djfsArray[i][1] + "  onclick='selectBtn('" + djfsArray[i][0] +" )'  readonly>&nbsp";
+                       // djfsmsg += "<div class='djfs djfszs' onclick='djfsqh('" + djfsArray[i][0] + "')' >< input type ='hidden'  class='djfsrid' value =' " + djfsArray[i][0] + "' /> <input type='button' class='btn btn-default' title='" + djfsArray[i][1] + "'  value='" + djfsArray[i][1] + "' readonly></div>";   
+                        djfsmsg += "<input type='hidden'  class='djfsrid' value='" + djfsArray[i][0] + "' /><input type='button' class='btn btn-default' title='" + djfsArray[i][1] + "'  value='" + djfsArray[i][1] + "'  onclick='SelectBtn(\" "+ djfsArray[i][0] +"\")'  readonly>&nbsp";
+}
+                } else {
+                    //toastr.clear();
+                    //toastr.remove();
+                    //toastr.error("未维护基础数据！");
+                    backflag = false;
+                }
+
+            }
+            djfsmsg = djfsmsg.replace(/&nbsp/ig, "");//移除多余的&nbsp 空格符号
+            $(".djfsdiv input").remove();
+            $(".djfsdiv").append(djfsmsg);
+            return backflag;
+        };
+        // $('input[value="@ViewBag.djfsrid"]').next().addClass("active");
+        //  $('input[value="@ViewBag.djfsrid"]').closest(".djfs").addClass("active");
+       
+        function SelectBtn(djfsrid) {
+            $('input[value=' + djfsrid + ' ]').addClass("active"); 
+            // $(this).siblings().removeClassctive");
+            $(this).siblings().find(".djfsrid").removeClass("active");
+            currentDjfsrid = djfsrid;
+           }
+      //报价清单查询
+        $("#searchByAll").click(function () {
+            if (currentDjfsrid == "") {
+                toastr.error("请选择一个报价方式！");
+            } else {
+                // var version = request("zversion");//
+                // getPriceDetail(djfeecode, djfsrid);
+                $.ajax({
+                    type: 'GET',
+                    url: "/SendPrice/GetPriceDetail",
+                    data: { djfsrid: currentDjfsrid },
+                    dataType: 'json',// toastr.clear();
+                    // toastr.remove();
+                    success: function (data) {
+                            //console.log(data);
+                            //console.log(data[0].BJNAME);
+                            var obj = eval(data);
+                            // var tbody = $('<tbody></tbody>');
+                            $(obj).each(function (index) {
+                                var val = obj[index];
+                                var tr = $('<tr></tr>');
+                                tr.append('<td><input type="checkbox" name="checkbox"/></td>' + '<td>' + val.BJNAME + '</td>' + '<td>' + val.ORGNAME + '</td>' + '<td>' + val.BPNAME + '</td>' + '<td>' + val.ZVER + '</td>' + '<td>' + val.PRODUCT_NAME + '</td>' + '<td>' + val.CREATEUSER + '</td>' + '<td>' + val.FWA + '</td>' + '<td>' + val.ITEMNO + '</td>' + '<td>' + val.MODIFYTIME + '</td>' + '<td>' + '' + '</td>' + '<td>' + '' + '</td>'+ '<td style="display:none">' + val.MRID + '</td>' + '<td style="display:none">' + val.CONDITION + '</td>' + '<td style="display:none">' + val.JXJC + '</td>' + '<td style="display:none">' + val.STAGETYPE + '</td>');
+                                //tbody.append(tr);
+                                $("#tbody").append(tr);
+                            });
+                            $('#myTable tbody').replaceWith(tbody);
+                    }
+
+                   
+                });
+            }
+        })
+        var checkArray = [];//定义一个空数组
+        // checkbox全选、全不选
+        $('input[name="checkall"]').on("click", function () {
+            if ($(this).is(':checked')) {
+                $('input[name="checkbox"]').each(function () {
+                    $(this).prop("checked", true);
+                    $("input[name='checkbox']").each(function () {
+                        if ($(this).prop("checked")) {
+                            //   // var BJNAME = $(this).closest('tr').find('td').eq(1).text();//报价名称
+                            //    //var ORGNAME = $(this).closest('tr').find('td').eq(2).text();//报价组织
+                            //    //var BPNAME = $(this).closest('tr').find('td').eq(3).text();//客户
+                            var ZVER = $(this).closest('tr').find('td').eq(4).text();//最新版本
+                            //    //var PRODUCT_NAME = $(this).closest('tr').find('td').eq(5).text();//产品
+                            //   // var CREATEUSER = $(this).closest('tr').find('td').eq(6).text();//销售员
+                            var FWA = $(this).closest('tr').find('td').eq(7).text();//FWA号
+                            var ITEMNO = $(this).closest('tr').find('td').eq(8).text();// 项目号
+                            //   // var MODIFYTIME = $(this).closest('tr').find('td').eq(9).text();//版本更新日期    
+                            //var STATUS = $(this).closest('tr').find('td').eq(10).text();//状态 
+                            //var RESULT = $(this).closest('tr').find('td').eq(11).text();//返回结果 
+                            var MRID = $(this).closest('tr').find('td').eq(12).text();//MRID
+                            var CONDITION = $(this).closest('tr').find('td').eq(13).text();//
+                            var JXJC = $(this).closest('tr').find('td').eq(14).text();//JXJC
+                            var STAGETYPE = $(this).closest('tr').find('td').eq(15).text();//STAGETYPE
+                            //要更新的三个字段  CONDITION,JXJC,STAGETYPE
+                            checkArray.push(MRID, FWA,ZVER,ITEMNO, CONDITION, JXJC, STAGETYPE);
+                            //checkArray.push($(this).val());
+                            //checkArray[i] = $(this).val();
+                        }
+                    })
+                });
+            } else {
+                $('input[name="checkbox"]').each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+     
+        //$("input[type='checkbox']").each(function () {
+        //    if ($(this).prop("checked")) {
+        //        //   // var BJNAME = $(this).closest('tr').find('td').eq(1).text();//报价名称
+        //        //    //var ORGNAME = $(this).closest('tr').find('td').eq(2).text();//报价组织
+        //        //    //var BPNAME = $(this).closest('tr').find('td').eq(3).text();//客户
+        //        var ZVER = $(this).closest('tr').find('td').eq(4).text();//最新版本
+        //        //    //var PRODUCT_NAME = $(this).closest('tr').find('td').eq(5).text();//产品
+        //        //   // var CREATEUSER = $(this).closest('tr').find('td').eq(6).text();//销售员
+        //        var FWA = $(this).closest('tr').find('td').eq(7).text();//FWA号
+        //        var ITEMNO = $(this).closest('tr').find('td').eq(8).text();// 项目号
+        //        //   // var MODIFYTIME = $(this).closest('tr').find('td').eq(9).text();//版本更新日期    
+        //        var MRID = $(this).closest('tr').find('td').eq(10).text();//MRID
+        //        var CONDITION = $(this).closest('tr').find('td').eq(11).text();//MRID
+        //        var JXJC = $(this).closest('tr').find('td').eq(12).text();//JXJC
+        //        var STAGETYPE = $(this).closest('tr').find('td').eq(13).text();//STAGETYPE
+        //        //要更新的三个字段  CONDITION,JXJC,STAGETYPE
+        //        checkArray.push(ZVER, FWA, ITEMNO, MRID, CONDITION, JXJC, STAGETYPE);
+        //        //checkArray.push($(this).val());
+        //        //checkArray[i] = $(this).val();
+        //    }
+        //})
+        $("#submitTM").click(function () {
+            if (checkArray.length < 1) {
+                alert("请选择报价数据！");
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: "/SendPrice/SubmitTM",
+                    data: { 'postdata': JSON.stringify(checkArray)},
+                    dataType: "JSON",
+                   // traditional:true,
+                    success: function (data) {
+                        console.log(data);
+                        $("input[name='checkbox']").each(function () {
+                            if ($(this).prop("checked")) {
+                                $(this).closest('tr').find('td').eq(10).html(data.Success);//状态 
+                                $(this).closest('tr').find('td').eq(11).html(data.Message);//返回结果
+                            }
+                        })
+                    }
+                })
+            }
+
+        });
+     
+        var username;
+        var mrbusinessorg = "";
+        var storage = window.localStorage;
+        var djbusinessorg = storage.getItem("djbusinessorg");
+        //权限工号
+        var kygh = "@ViewBag.kygh";
+        var hygh = "@ViewBag.hygh";
+        var gylgh = "@ViewBag.gylgh";
+        var ysgh = "@ViewBag.ysgh";
+
+        //$("#djfsBtns").append("<input type='button' id='btn1' value='定价方式1'/>")
+        //$("#djfsBtns").append("<input type='button' id='btn2' value='定价方式2'/>")
+        // 重置查询条件
+        function ResetQueryValue() {
+            clearStorage();
+            $("#BUSINESSORG").select2("val", djbusinessorg);
+            // 清空查询控件
+            $("#form1").find("select").each(function () {
+                if ($(this).attr("id") != "BUSINESSORG") {
+                    $(this).select2("val", "");
+                }
+            });
+           //   $("div.djfsdiv").hide();
+            $("#tbody tr").remove();
+            showDjfsdata("");
+           // $(".djfsdiv").hide();
+            // 刷新页面
+          //  $('#datatable_col_reorder').DataTable().search(djbusinessorg, djfeecode).draw();
+            return false;
+        }
+        //存储定价Storage
+        function setStorage() {
+            storage.setItem("djbusinessorg", $("#BUSINESSORG").val());
+            storage.setItem("djfeecode", $("#FEECODE").val());
+        }
+        //清除定价Storage
+        function clearStorage() {
+            storage.removeItem("djbusinessorg");
+            storage.removeItem("djfeecode");
+            djbusinessorg = mrbusinessorg;
+            djfeecode = "";
+        }
+    </script>
+}
+
+
+
+

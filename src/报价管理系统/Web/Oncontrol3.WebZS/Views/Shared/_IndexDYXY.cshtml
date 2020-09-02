@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <!--框架必需start-->
+    @*<link href="~/Content/QO/scripts/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Content/QO/scripts/plugins/jquery-ui/jquery-ui.min.js"></script>*@
+    <!--框架必需end-->
+    <!--bootstrap组件start-->
+    @*<link href="~/Content/QO/scripts/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/QO/scripts/bootstrap/bootstrap.min.js"></script>*@
+    <!--bootstrap组件end-->
+    <!--jqgrid表格组件start-->
+    <link href="~/Content/QO/scripts/plugins/jqgrid/jqgrid.css" rel="stylesheet" />
+    <script src="~/Content/QO/scripts/plugins/jqgrid/grid.locale-cn.js"></script>
+    <script src="~/Content/QO/scripts/plugins/jqgrid/jqgrid.min.js"></script>
+    <!--表格组件end-->
+
+    <script src="~/Content/QO/scripts/iPragmatic-ui.js"></script>
+
+    <style>
+        body {
+            margin: 1px;
+            margin-bottom: 0px;
+        }
+
+        .titlePanel{line-height:60px;height: 60px;background:#fff;border:1px solid #ccc;margin:0px;border-bottom:none;position: relative;}
+.titlePanel .title-info{background: url(../Images/view_grid.png) left center no-repeat;padding-left: 16px;float: left;margin: 20px 0 0 20px;height: 20px;line-height: 20px;cursor:pointer;}
+.titlePanel .title-name{line-height: 20px;padding-left: 10px;font-size: 18px;}
+.titlePanel .title-name .arrow{width: 8px;height: 8px;display: block;float:right;margin-left:10px;margin-top:7px;background: url(../Images/black_arrow_8.png) 0 -8px no-repeat;}
+.titlePanel .grid-operation{line-height:60px;height: 60px;width: 100%;background: #fff;position: absolute;display:none;}
+.titlePanel .grid-operation ul{margin: 13px 0 0 5px;}
+.titlePanel .grid-operation ul li{float: left;height: 12px;line-height: 12px;}
+.titlePanel .grid-operation ul .first{position: relative;display: block;padding: 10px 15px;}
+.titlePanel .grid-operation .closeoperation{position: absolute;top:23px;right:18px;display:block;height: 12px;width: 12px;background: url(../Images/button_pm_close.png) left center no-repeat;}
+.titlePanel .title-search{float: left;padding-left:15px;}
+.titlePanel .title-search .btn{margin-bottom: 3px;height:28px;padding-top:5px;}
+.titlePanel .title-search select{padding: 4px;padding-left:6px;}
+.titlePanel .title-search .form-control{border-radius: 4px;box-shadow:none;}
+.titlePanel .title-search .ui-filter .form-control{border-radius: 0px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+.titlePanel .toolbar{float: right;padding-right: 15px;line-height: 56px;}
+.titlePanel .toolbar i{font-size: 14px;margin-top:-1px;vertical-align: middle;color: #666666;}
+    </style>
+</head>
+<body>
+    @RenderBody()
+    @Html.AntiForgeryToken()
+</body>
+</html>

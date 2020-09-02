@@ -1,0 +1,73 @@
+﻿    <!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+@using Aim.Portal
+@using Aim.Portal.Model
+
+<aside id="left-panel">
+
+    <!-- User info -->
+    @{ Html.RenderPartial("_CurrentUser"); }
+    <!-- end user info -->
+    <!-- NAVIGATION : This navigation is also responsive
+
+    To make this navigation dynamic please make sure to link the node
+    (the reference to the nav > ul) after page load. Or the navigation
+    will not initialize.
+    -->
+    <nav>
+        <!-- NOTE: Notice the gaps after each icon usage <i></i>..
+        Please note that these links work a bit different than
+        traditional href="" links. See documentation for details.
+        -->
+
+        <ul>
+            <li class="@Html.RouteIf("index", "active")">
+                <a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">门户</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("index", "active")">
+                        <a href="@Url.Action("index", "home")" title="Dashboard"><span class="menu-item-parent">首页</span></a>
+                    </li>
+                </ul>
+            </li>
+            @if (PortalService.CurrentUserInfo != null)
+            {
+                string[] icons = new string[] { " fa-cube txt-color-blue", " fa-inbox", " fa-bar-chart-o", " fa-table", " fa-pencil-square-o",
+                    " fa-desktop", " fa-list-alt", " fa-cloud", " fa-puzzle-piece", " fa-shopping-cart", " fa-windows", " fa-comment-o" };
+                var i = 0;
+                foreach (var x in PortalService.CurrentUserContext.AccessibleApplications.Where(app => app.Status == 1).OrderBy(ten => ten.SortIndex).ToList() as List<Aim.Portal.Model.SysApplication>)
+                {
+                    <li class="top-menu-invisible">
+                        <a href="#"><i class="fa fa-lg fa-fw @icons[i]"></i> <span class="menu-item-parent">@x.Name</span></a>
+                        <ul>
+                            @if (PortalService.CurrentUserContext.AccessibleModules.Where(tent => tent.ApplicationID == x.ApplicationID).Count() > 0)
+                            {
+                                foreach (var c in PortalService.CurrentUserContext.AccessibleModules.Where(tent => tent.ApplicationID == x.ApplicationID && (tent.ParentID == null || tent.ParentID == String.Empty)).OrderBy(ts => ts.SortIndex))
+                                {
+                                    var target = c.Url != null && c.Url.Split('?').Length > 1 && c.Url.Split('?')[0].EndsWith("aspx") ? "target='_blank'" : "";
+                                    var active = "";
+                                    if (!string.IsNullOrEmpty(c.Url))
+                                    {
+                                        active = Request.Url.AbsoluteUri.ToString().IndexOf(c.Url) > 0 ? "active" : "";
+                                    }
+                                    <li class="@active">
+                                        <a href="@c.Url" title="@c.Name" @target><span class="menu-item-parent">@c.Name</span></a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                            i++;
+                            if (i == 11)
+                            {
+                                i = 0;
+                            }
+                }
+            }
+        </ul>
+    </nav>
+    <span class="minifyme" data-action="minifyMenu" id="aminifymefld">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+
+</aside>
+<!-- END NAVIGATION -->

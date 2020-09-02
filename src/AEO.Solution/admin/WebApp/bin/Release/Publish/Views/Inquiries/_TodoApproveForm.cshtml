@@ -1,0 +1,96 @@
+﻿@model WebApp.Models.ApproveHistory
+<div id="todoapprovedlg" class="easyui-dialog"
+     title="审批" style="width:600px;height:230px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                onOpen:function(){
+                   $('#todoapprove_form').form('disableValidation');
+                },
+                buttons: [{
+                    text:' 同意 ',
+                    handler:function(){
+                        confirm_todoapprovedlg('生效');
+                    }
+                },
+                    {
+                    text:' 驳回 ',
+                    handler:function(){
+                        confirm_todoapprovedlg('驳回');
+                    }
+                },{
+                    text:' 取消 ',
+                    handler:function(){
+                        $('#todoapprovedlg').dialog('close');
+                    }
+                }]
+            ">
+<div class="panel-container show">
+      <div class="panel-content" style="padding-left:20px;padding-right:20px">
+        <form id="todoapprove_form" class="form-horizontal" novalidate>
+           <fieldset class="form-group">
+            <legend class="ui-grouplabel">审批意见</legend>
+            <div class="row h-100 align-items-center m-0 pt-1">
+              <div class="col-md-12 mb-1">
+                <input id="@Html.IdFor(model => model.Result)"
+                       name="@Html.NameFor(model => model.Result)"
+                       value=""
+                       tabindex="2"
+                       class="easyui-textbox"
+                       type="text"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DisplayNameFor(model => model.Result)',
+                                 multiline:true,
+                                 height:80,
+								                 required:true,
+                                 " />
+              </div>
+            </div>
+          </fieldset>
+        </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+ 
+  var selectedid = [];
+  function open_todoapprovedlg(row, checkedid) {
+
+    $('#todoapprovedlg').dialog('open');
+
+    $('#todoapprove_form').form('reset');
+    $('#todoapprove_form').form('load', {
+      RefId: row.Id,
+      RefKey: row.InquiryNo,
+      Result: null,
+    });
+    selectedid = checkedid;
+  }
+  function confirm_todoapprovedlg(status) {
+    if (status == '生效' && $('#todoapprove_form #Result').textbox('getValue')=='') {
+      $('#todoapprove_form #Result').textbox('setValue', '同意');
+    } else {
+      //$('#todoapprove_form #Result').textbox('setValue', '');
+    }
+      const $approveform = $('#todoapprove_form');
+      if ($approveform.form('enableValidation').form('validate')) {
+        approveitem = $approveform.serializeJSON();
+        const url = '/Inquiries/TodoApprove';
+        $.post(url, {
+          id: selectedid,
+          result: approveitem.Result,
+          status:status
+        }).done(res => {
+          toastr.success('审批完成!');
+          $('#todoapprovedlg').dialog('close');
+          reloadData();
+        })
+        
+      }
+    }
+ </script>
+
+ 

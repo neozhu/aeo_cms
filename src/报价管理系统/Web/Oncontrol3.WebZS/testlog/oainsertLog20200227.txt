@@ -1,0 +1,30 @@
+2020/2/27 16:11:40: 2020/2/27 16:11:39,System.InvalidOperationException: CommandText 属性尚未初始化。
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString, IDbConnection conn)
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString)
+   在 Oncontrol3.Web.Helpers.feilioahelper.GetDCPFZR(String vrid, String rid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Helpers\feilioahelper.cs:行号 484
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11162
+2020/2/27 16:12:07: 2020/2/27 16:12:07,System.InvalidOperationException: CommandText 属性尚未初始化。
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString, IDbConnection conn)
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString)
+   在 Oncontrol3.Web.Helpers.feilioahelper.GetDCPFZR(String vrid, String rid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Helpers\feilioahelper.cs:行号 484
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11162
+2020/2/27 16:12:57: 2020/2/27 16:12:57,System.InvalidOperationException: CommandText 属性尚未初始化。
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString, IDbConnection conn)
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString)
+   在 Oncontrol3.Web.Helpers.feilioahelper.GetDCPFZR(String vrid, String rid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Helpers\feilioahelper.cs:行号 484
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11162
+2020/2/27 16:13:42: 2020/2/27 16:13:42,System.InvalidOperationException: CommandText 属性尚未初始化。
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString, IDbConnection conn)
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString)
+   在 Oncontrol3.Web.Helpers.feilioahelper.GetDCPFZR(String vrid, String rid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Helpers\feilioahelper.cs:行号 484
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11162
+2020/2/27 16:13:52: 2020/2/27 16:13:52,System.InvalidOperationException: CommandText 属性尚未初始化。
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString, IDbConnection conn)
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString)
+   在 Oncontrol3.Web.Helpers.feilioahelper.GetDCPFZR(String vrid, String rid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Helpers\feilioahelper.cs:行号 484
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11162
+2020/2/27 16:14:28: 2020/2/27 16:14:28,System.InvalidOperationException: CommandText 属性尚未初始化。
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString, IDbConnection conn)
+   在 Aim.Data.DataHelper.QueryDataTable(String sqlString)
+   在 Oncontrol3.Web.Helpers.feilioahelper.GetDCPFZR(String vrid, String rid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Helpers\feilioahelper.cs:行号 484
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11162

@@ -1,0 +1,115 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="FormPage.master.cs" Inherits="Aim.Portal.Web.Masters.MiniUI.FormPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/css/common.css" rel="stylesheet" />
+    <link href="/App_Themes/Ext/portal.css" rel="stylesheet" type="text/css" />
+    <%--<script type="text/javascript" src="/js/mini-core/jquery-1.6.2.min.js"></script>--%>
+
+    <script type="text/javascript" src="/js/mini-core/boot.js"></script>
+
+    <script type="text/javascript" src="/js/lib/jquery.plug-ins.js"></script>
+
+    <script type="text/javascript" src="/js/lib/jquery.form.js"></script>
+
+    <script type="text/javascript" src="/js/common.js"></script>
+
+    <script type="text/javascript" src="/js/mini-ext/mini-pgform.js"></script>
+
+    <script type="text/javascript" src="/js/mini-ext/mini-pgfunc.js?v=2.0"></script>
+
+    <script type="text/javascript" src="/js/mini-ext/mini-ext.js"></script>
+
+    <%--使用miniui的页面整体样式--%>
+    <link href="/css/mini.css" rel="stylesheet" type="text/css" />
+    <%--按钮及按钮组控件--%>
+    <link href="/css/aim-button/gh-buttons.css" rel="stylesheet" />
+    <%--My97时间空间--%>
+
+    <script type="text/javascript" src="/js/DatePicker/WdatePicker.js"></script>
+
+    <%-- rayway控件集 --%>
+
+    <script type="text/javascript" src="/rayway/js/core.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/box.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/dropdownmenu.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/navigation.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/dock.js"></script>
+
+    <link href="/rayway/css/neter.css" rel="stylesheet" />
+    <%-- rayway控件集 --%>
+    <link href="/App_Themes/Ext/form.css" rel="stylesheet" type="text/css" />
+    <link href="/js/lib/jquery.validationEngine/validationEngine.jquery.css" rel="stylesheet" />
+    <link href="/App_Themes/Default/jquery-ui-1.8/redmond.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="/js/lib/jquery-ui-1.8.custom.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="/js/lib/jquery.validationEngine/jquery.validationEngine-zh_CN.js"></script>
+
+    <script type="text/javascript" src="/js/lib/jquery.validationEngine/jquery.validationEngine.js"></script>
+
+    <style type="text/css">
+        *
+        {
+            margin: 0;
+            padding: 0;
+        }
+        body
+        {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background-color: rgb(250, 250, 250);
+        }
+        fieldset
+        {
+            margin: 15px;
+            padding: 5px;
+        }
+        fieldset legend
+        {
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var leaveMessage = "页面没有保存，是否真的离开？";
+        var IsEdit = false;
+
+        $(function() {
+            var WinAlert = window.alert;
+            window.alert = function(e) {
+                //if (e != null && typeof (e) == "string" && e.indexOf("www.miniui.com") > -1) { }
+                if (e && (e + "").indexOf("www.miniui.com") > -1) { }
+                else {
+                    WinAlert(e);
+                }
+            };
+        });
+    </script>
+
+    <asp:ContentPlaceHolder ID="HeadHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ContentPlaceHolder ID="BodyHolder" runat="server">
+    </asp:ContentPlaceHolder>
+    </form>
+</body>
+
+<script type="text/javascript">
+</script>
+
+</html>

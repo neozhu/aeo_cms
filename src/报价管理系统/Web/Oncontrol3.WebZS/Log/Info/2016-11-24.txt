@@ -1,0 +1,18 @@
+2016-11-24 15:48:31,522  INFO   - Save开始
+2016-11-24 15:48:31,791  INFO   - 接口开始
+2016-11-24 15:48:31,793  INFO   - 接口访问开始..
+2016-11-24 15:48:31,793  INFO   - 接口User:soapcall--Pwd:soapcall
+2016-11-24 15:48:52,794  INFO   - 接口访问异常..   在 System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   在 System.Net.HttpWebRequest.GetRequestStream()
+   在 System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   在 KittingIO.SI_WIS_PORTAL1001Service.SI_WIS_PORTAL1001(DT_WIS_PORTAL1001_REQ MT_WIS_PORTAL1001_REQ) 位置 e:\Work\2016\Oncontrol3\Code\Web\Oncontrol3.Web\Service References\KittingI.cs:行号 46
+   在 OnControl.Web.P_KITTINGController.ImportDatas(DataTable dt) 位置 e:\Work\2016\Oncontrol3\Code\Web\Oncontrol3.Web\Controllers\P_KITTINGController.cs:行号 397无法连接到远程服务器由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 204.74.211.183:50200
+2016-11-24 16:42:09,367  INFO   - Save开始
+2016-11-24 16:42:09,598  INFO   - 接口开始
+2016-11-24 16:42:09,598  INFO   - 接口访问开始..
+2016-11-24 16:42:09,598  INFO   - 接口User:soapcall--Pwd:soapcall
+2016-11-24 16:42:30,613  INFO   - 接口访问异常..   在 System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   在 System.Net.HttpWebRequest.GetRequestStream()
+   在 System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   在 KittingIO.SI_WIS_PORTAL1001Service.SI_WIS_PORTAL1001(DT_WIS_PORTAL1001_REQ MT_WIS_PORTAL1001_REQ) 位置 e:\Work\2016\Oncontrol3\Code\Web\Oncontrol3.Web\Service References\KittingI.cs:行号 46
+   在 OnControl.Web.P_KITTINGController.ImportDatas(DataTable dt) 位置 e:\Work\2016\Oncontrol3\Code\Web\Oncontrol3.Web\Controllers\P_KITTINGController.cs:行号 397无法连接到远程服务器由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 204.74.211.183:50200

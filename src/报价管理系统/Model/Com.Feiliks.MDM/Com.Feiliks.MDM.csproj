@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{973DE4F5-54D9-4D09-B502-B9D3C45E5D80}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Com.Feiliks.MDM</RootNamespace>
+    <AssemblyName>Com.Feiliks.MDM</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aim.Component">
+      <HintPath>..\..\Framework\Aim.Component\bin\Debug\Aim.Component.dll</HintPath>
+    </Reference>
+    <Reference Include="Aim.Core">
+      <HintPath>..\..\lib\Aim.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Aim.Portal">
+      <HintPath>..\..\lib\Aim.Portal.dll</HintPath>
+    </Reference>
+    <Reference Include="Aim.Portal.ServicesProvider">
+      <HintPath>..\..\lib\Aim.Portal.ServicesProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>..\..\Framework\Aim.Resources\libs\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Framework\Aim.Resources\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\lib\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp">
+      <HintPath>..\..\lib\PostSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Customed\MDM_ATIASG.cs" />
+    <Compile Include="Customed\MDM_BP.cs" />
+    <Compile Include="Customed\MDM_CALC_BASE.cs" />
+    <Compile Include="Customed\MDM_CALC_BASIC.cs" />
+    <Compile Include="Customed\MDM_CALC_STRC.cs" />
+    <Compile Include="Customed\MDM_CALC_VALUE.cs" />
+    <Compile Include="Customed\MDM_COND.cs" />
+    <Compile Include="Customed\MDM_DIMWP.cs" />
+    <Compile Include="Customed\MDM_FATY.cs" />
+    <Compile Include="Customed\MDM_FEE.cs" />
+    <Compile Include="Customed\MDM_INS.cs" />
+    <Compile Include="Customed\MDM_INSASN.cs" />
+    <Compile Include="Customed\MDM_INSSET.cs" />
+    <Compile Include="Customed\MDM_LOC.cs" />
+    <Compile Include="Customed\MDM_MAIN_BASIC.cs" />
+    <Compile Include="Customed\MDM_MAIN_STRC.cs" />
+    <Compile Include="Customed\MDM_MIAN_VALUE.cs" />
+    <Compile Include="Customed\MDM_MSR_UNIT.cs" />
+    <Compile Include="Customed\MDM_MVMTY_BIZSTG_REF.cs" />
+    <Compile Include="Customed\MDM_ORG.cs" />
+    <Compile Include="Customed\MDM_PERATOR.cs" />
+    <Compile Include="Customed\MDM_PRD_SRV_REF.cs" />
+    <Compile Include="Customed\MDM_PRODUCT.cs" />
+    <Compile Include="Customed\MDM_PTRO.cs" />
+    <Compile Include="Customed\MDM_RNDPR.cs" />
+    <Compile Include="Customed\MDM_SERVICE.cs" />
+    <Compile Include="Customed\MDM_SERVICE_PRODUCT_ID.cs" />
+    <Compile Include="Customed\MDM_SRVRQCD.cs" />
+    <Compile Include="Customed\MDM_SRV_FEE_REF.cs" />
+    <Compile Include="Customed\MDM_STAGECAT.cs" />
+    <Compile Include="Customed\MDM_TCURR.cs" />
+    <Compile Include="Customed\MDM_TSR.cs" />
+    <Compile Include="Customed\MDM_WAERS.cs" />
+    <Compile Include="Customed\QO_ET_SDPZ.cs" />
+    <Compile Include="Customed\QO_ET_SDPZ_S.cs" />
+    <Compile Include="Customed\QO_EXT_CONFIG_INFO.cs" />
+    <Compile Include="Customed\QO_EXT_SRV_REF.cs" />
+    <Compile Include="Generated\MDM_ATIASG_g.cs" />
+    <Compile Include="Generated\MDM_BP_g.cs" />
+    <Compile Include="Generated\MDM_CALC_BASE_g.cs" />
+    <Compile Include="Generated\MDM_CALC_BASIC_g.cs" />
+    <Compile Include="Generated\MDM_CALC_STRC_g.cs" />
+    <Compile Include="Generated\MDM_CALC_VALUE_g.cs" />
+    <Compile Include="Generated\MDM_COND_g.cs" />
+    <Compile Include="Generated\MDM_DIMWP_g.cs" />
+    <Compile Include="Generated\MDM_FATY_g.cs" />
+    <Compile Include="Generated\MDM_FEE_g.cs" />
+    <Compile Include="Generated\MDM_INSASN_g.cs" />
+    <Compile Include="Generated\MDM_INSSET_g.cs" />
+    <Compile Include="Generated\MDM_INS_g.cs" />
+    <Compile Include="Generated\MDM_LOC_g.cs" />
+    <Compile Include="Generated\MDM_MAIN_BASIC_g.cs" />
+    <Compile Include="Generated\MDM_MAIN_STRC_g.cs" />
+    <Compile Include="Generated\MDM_MIAN_VALUE_g.cs" />
+    <Compile Include="Generated\MDM_MSR_UNIT_g.cs" />
+    <Compile Include="Generated\MDM_MVMTY_BIZSTG_REF_g.cs" />
+    <Compile Include="Generated\MDM_ORG_g.cs" />
+    <Compile Include="Generated\MDM_PERATOR_g.cs" />
+    <Compile Include="Generated\MDM_PRD_SRV_REF_g.cs" />
+    <Compile Include="Generated\MDM_PRODUCT_g.cs" />
+    <Compile Include="Generated\MDM_PTRO_g.cs" />
+    <Compile Include="Generated\MDM_RNDPR_g.cs" />
+    <Compile Include="Generated\MDM_SERVICE_g.cs" />
+    <Compile Include="Generated\MDM_SERVICE_PRODUCT_ID_g.cs" />
+    <Compile Include="Generated\MDM_SRVRQCD_g.cs" />
+    <Compile Include="Generated\MDM_SRV_FEE_REF_g.cs" />
+    <Compile Include="Generated\MDM_STAGECAT_g.cs" />
+    <Compile Include="Generated\MDM_TCURR_g.cs" />
+    <Compile Include="Generated\MDM_TSR_g.cs" />
+    <Compile Include="Generated\MDM_WAERS_g.cs" />
+    <Compile Include="Generated\QO_ET_SDPZ_g.cs" />
+    <Compile Include="Generated\QO_ET_SDPZ_S_g.cs" />
+    <Compile Include="Generated\QO_EXT_CONFIG_INFO_g.cs" />
+    <Compile Include="Generated\QO_EXT_SRV_REF_g.cs" />
+    <Compile Include="MdmModelBase.cs" />
+    <Compile Include="ModelBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

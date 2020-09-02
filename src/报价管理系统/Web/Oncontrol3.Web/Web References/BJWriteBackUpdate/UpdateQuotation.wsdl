@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://define.datainterface.ltd3000.org/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="UpdateQuotation" targetNamespace="http://define.datainterface.ltd3000.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://define.datainterface.ltd3000.org/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="UpdateQuotation" type="tns:UpdateQuotation" />
+      <xs:element name="UpdateQuotationResponse" type="tns:UpdateQuotationResponse" />
+      <xs:complexType name="UpdateQuotation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="head" type="tns:phUpdateQuotation" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="body" type="tns:pbUpdateQuotation" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="phUpdateQuotation">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:msgHead">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="password" type="xs:string" />
+              <xs:element minOccurs="0" name="username" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="msgHead">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="msgId" type="xs:string" />
+          <xs:element minOccurs="0" name="platformMsgId" type="xs:string" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+          <xs:element minOccurs="0" name="token" type="xs:string" />
+          <xs:element minOccurs="0" name="random" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="pbUpdateQuotation">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="data" nillable="true" type="tns:pbUpdateQuotationData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="pbUpdateQuotationData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+          <xs:element minOccurs="0" name="customItem1__c" type="xs:string" />
+          <xs:element minOccurs="0" name="customItem3__c" type="xs:string" />
+          <xs:element minOccurs="0" name="customItem4__c" type="xs:string" />
+          <xs:element minOccurs="0" name="customItem5__c" type="xs:string" />
+          <xs:element minOccurs="0" name="customItem6__c" type="xs:string" />
+          <xs:element minOccurs="0" name="customItem7__c" type="xs:string" />
+          <xs:element minOccurs="0" name="entityType" type="xs:string" />
+          <xs:element minOccurs="0" name="quotationEntityRelAccount" type="xs:string" />
+          <xs:element minOccurs="0" name="quoteTime" type="xs:string" />
+          <xs:element minOccurs="0" name="totalDiscountAmount" type="xs:string" />
+          <xs:element minOccurs="0" name="quotationEntityRelOpportunity" type="xs:string" />
+          <xs:element minOccurs="0" name="quotationTitle" type="xs:string" />
+          <xs:element minOccurs="0" name="validDate" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="UpdateQuotationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:msgResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="msgResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="client" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="list" nillable="true" type="tns:msgResponse" />
+          <xs:element minOccurs="0" name="msgId" type="xs:string" />
+          <xs:element minOccurs="0" name="originMessage" type="xs:string" />
+          <xs:element name="result" type="xs:int" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+          <xs:element minOccurs="0" name="standardResult" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="UpdateQuotation">
+    <wsdl:part name="parameters" element="tns:UpdateQuotation" />
+  </wsdl:message>
+  <wsdl:message name="UpdateQuotationResponse">
+    <wsdl:part name="parameters" element="tns:UpdateQuotationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UpdateQuotationImp">
+    <wsdl:operation name="UpdateQuotation">
+      <wsdl:input name="UpdateQuotation" message="tns:UpdateQuotation" />
+      <wsdl:output name="UpdateQuotationResponse" message="tns:UpdateQuotationResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UpdateQuotationSoapBinding" type="tns:UpdateQuotationImp">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UpdateQuotation">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="UpdateQuotation">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpdateQuotationResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UpdateQuotation">
+    <wsdl:port name="UpdateQuotationImpPort" binding="tns:UpdateQuotationSoapBinding">
+      <soap:address location="http://172.20.70.63:9090/services/updateQuotation" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

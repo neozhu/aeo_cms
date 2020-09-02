@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "邮件模板管理";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont" style="height:30px;">
+                <span class="fld_label">模板名称</span>
+                <span class="fld_input"><input class="easyui-textbox" id="NAME" name="NAME"></span>
+                <span class="fld_label">模板标题</span>
+                <span class="fld_input"><input class="easyui-textbox" id="TITLE" name="TITLE"></span>
+                <div class="sc_more">
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" href=@Url.Action("create") style="width:70px">添加</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkModify" style="width:70px">修改</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width:70px">删除</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:true,collapsible:true,url:'@Url.Action("lists")',method:'get',pagination:true,pageSize:20">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'CODE',width:100,sortable:true">编号</th>
+                <th data-options="field:'NAME',width:180,sortable:true">名称</th>
+                <th data-options="field:'TITLE',width:280,align:'right'">标题</th>
+                <th data-options="field:'CREATETIME',width:100,align:'center',formatter:formatterDate,sortable:true">创建日期</th>
+                <th data-options="field:'EXT1',width:280,align:'center'">补充说明</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        var statusEnum = @Html.Raw(ViewBag.Status);
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkresetpwd").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                $.messager.confirm('操作提示', '确认要重置选中的记录的密码吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("Reset")",
+                            data: { id: selrows[0].ID},
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                $.messager.alert('操作提示', '请选择要重置的行。', 'error');
+            }
+        });
+        $("#lkModify").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                window.location.href =  "@Url.Action("Edit")/"+selrows[0].ID;
+            }
+            else
+            {
+                $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+        $("#lkDelete").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                $.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("Delete")",
+                            data: { id: selrows[0].ID},
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                $.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+</script>
+}

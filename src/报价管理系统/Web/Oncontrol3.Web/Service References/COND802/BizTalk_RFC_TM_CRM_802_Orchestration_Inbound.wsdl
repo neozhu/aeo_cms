@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://BizTalk.RFC.TM_CRM_802.Schemas.INPUT.Z2FM_COND_UPDATE" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://BizTalk.RFC.TM_CRM_802.Schemas.OUTPUT.Z2FM_COND_UPDATE_RES" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_CRM_802, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a3c06fcbb79d6db5" published web service.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://BizTalk.RFC.TM_CRM_802.Schemas.INPUT.Z2FM_COND_UPDATE" />
+      <s:import namespace="http://BizTalk.RFC.TM_CRM_802.Schemas.OUTPUT.Z2FM_COND_UPDATE_RES" />
+      <s:element name="Exec">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:Z2FM_COND_UPDATE" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s2:Z2FM_COND_UPDATE_RES" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.TM_CRM_802.Schemas.INPUT.Z2FM_COND_UPDATE">
+      <s:element name="Z2FM_COND_UPDATE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IS_CONDITION">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="COND_KEY" type="s:base64Binary" />
+                  <s:element minOccurs="0" maxOccurs="1" name="CONDITION_ID" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="COND_DESCR" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="CONDITION_TYPE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="CONDITION_ORIGIN" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="GENERATE_CODE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="COND_DAD">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="COND_KEY" type="s:base64Binary" />
+                        <s:element minOccurs="0" maxOccurs="1" name="DAD" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="DOBJ_DESCRIPTION" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="DEC_TAB_POS" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="INPUT_REQUIRED" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="COND_DOCU">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="COND_KEY" type="s:base64Binary" />
+                        <s:element minOccurs="0" maxOccurs="1" name="LANGU" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="DOCUMENTATION" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="COND_DECISION">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="COND_KEY" type="s:base64Binary" />
+                        <s:element minOccurs="0" maxOccurs="1" name="COL_NO" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="ROW_NO" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="SIGN" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="OPTION" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="R_LOW_VALUE" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="R_HIGH_VALUE" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="IV_SIMULATE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.TM_CRM_802.Schemas.OUTPUT.Z2FM_COND_UPDATE_RES">
+      <s:element name="Z2FM_COND_UPDATE_RES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="ET_MESSAGE">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="TYPE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="NUMBER" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MESSAGE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="LOG_NO" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="LOG_MSG_NO" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MESSAGE_V1" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MESSAGE_V2" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MESSAGE_V3" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MESSAGE_V4" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="PARAMETER" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="ROW" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="FIELD" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="SYSTEM" type="s:string" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExecSoapIn">
+    <wsdl:part name="parameters" element="tns:Exec" />
+  </wsdl:message>
+  <wsdl:message name="ExecSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap">
+    <wsdl:operation name="Exec">
+      <wsdl:input message="tns:ExecSoapIn" />
+      <wsdl:output message="tns:ExecSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap" type="tns:BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exec">
+      <soap:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_CRM_802_Orchestration_Inbound/Exec" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap12" type="tns:BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exec">
+      <soap12:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_CRM_802_Orchestration_Inbound/Exec" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BizTalk_RFC_TM_CRM_802_Orchestration_Inbound">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_CRM_802, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a3c06fcbb79d6db5" published web service.</wsdl:documentation>
+    <wsdl:port name="BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap" binding="tns:BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap">
+      <soap:address location="http://172.20.70.55/BizTalk.RFC.TM_CRM_802_Proxy/BizTalk_RFC_TM_CRM_802_Orchestration_Inbound.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap12" binding="tns:BizTalk_RFC_TM_CRM_802_Orchestration_InboundSoap12">
+      <soap12:address location="http://172.20.70.55/BizTalk.RFC.TM_CRM_802_Proxy/BizTalk_RFC_TM_CRM_802_Orchestration_Inbound.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

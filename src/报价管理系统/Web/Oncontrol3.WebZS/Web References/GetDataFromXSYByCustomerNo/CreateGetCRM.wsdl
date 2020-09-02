@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://define.datainterface.ltd3000.org/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="CreateGetCRM" targetNamespace="http://define.datainterface.ltd3000.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://define.datainterface.ltd3000.org/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="CreateGetCRM" type="tns:CreateGetCRM" />
+      <xs:element name="CreateGetCRMResponse" type="tns:CreateGetCRMResponse" />
+      <xs:complexType name="CreateGetCRM">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="head" type="tns:phCreateGetCRM" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="body" type="tns:pbCreateGetCRM" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="phCreateGetCRM">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:msgHead">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="password" type="xs:string" />
+              <xs:element minOccurs="0" name="username" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="msgHead">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="msgId" type="xs:string" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+          <xs:element minOccurs="0" name="token" type="xs:string" />
+          <xs:element minOccurs="0" name="random" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="pbCreateGetCRM">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="customerno" type="xs:string" />
+          <xs:element minOccurs="0" name="businessno" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CreateGetCRMResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:msgResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="msgResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="client" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="list" nillable="true" type="tns:msgResponse" />
+          <xs:element minOccurs="0" name="msgId" type="xs:string" />
+          <xs:element minOccurs="0" name="originMessage" type="xs:string" />
+          <xs:element name="result" type="xs:int" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateGetCRMResponse">
+    <wsdl:part name="parameters" element="tns:CreateGetCRMResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateGetCRM">
+    <wsdl:part name="parameters" element="tns:CreateGetCRM" />
+  </wsdl:message>
+  <wsdl:portType name="CreateGetCRMImp">
+    <wsdl:operation name="CreateGetCRM">
+      <wsdl:input name="CreateGetCRM" message="tns:CreateGetCRM" />
+      <wsdl:output name="CreateGetCRMResponse" message="tns:CreateGetCRMResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CreateGetCRMSoapBinding" type="tns:CreateGetCRMImp">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateGetCRM">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="CreateGetCRM">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CreateGetCRMResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CreateGetCRM">
+    <wsdl:port name="CreateGetCRMImpPort" binding="tns:CreateGetCRMSoapBinding">
+      <soap:address location="http://172.20.70.63:9090/services/createGetCrm" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

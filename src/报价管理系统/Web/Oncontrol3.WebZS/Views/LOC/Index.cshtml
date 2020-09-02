@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "位置";
+    Layout = "~/Views/Shared/_IndexDYXY.cshtml";
+}
+<script>
+    var rtnkey = "";
+    var rtncode = "";
+    var rtnname = "";
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+    $(document).ready(function () {
+        rtnkey = GetQueryString("rtnkey");
+        rtncode = GetQueryString("rtncode");
+        rtnname = GetQueryString("rtnname");
+    });
+
+    $(function () {
+        InitialPage();
+        GetGrid();
+    });
+    //初始化页面
+    function InitialPage() {
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#gridTable').setGridWidth(($('.gridPanel').width()));
+                $("#gridTable").setGridHeight($(window).height() - 136.5);
+            }, 200);
+            e.stopPropagation();
+        });
+    }
+    //加载表格
+    function GetGrid() {
+        var selectedRowIndex = 0;
+        var $gridTable = $('#gridTable');
+        $gridTable.jqGrid({
+            url: "/LOC/Lists",
+            datatype: "json",
+            height: $(window).height() - 136.5,
+            autowidth: true,
+            colModel: [
+                { label: '主键', name: 'LOCID', index: 'LOCID', hidden: true },
+                { label: '位置代码', name: 'LOCNO', index: 'LOCNO', width: 120, align: 'left' },
+                { label: '位置名称', name: 'DESCR40', index: 'DESCR40', width: 140, align: 'left' }
+            ],
+            viewrecords: true,
+            rowNum: 20,
+            rowList: [20, 50, 100],
+            pager: "#gridPager",
+            sortname: 'LOCNO asc,DESCR40 desc',
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+            onSelectRow: function () {
+                selectedRowIndex = $("#" + this.id).getGridParam('selrow');
+            },
+            ondblClickRow: function () {
+                selectedRowIndex = $("#" + this.id).getGridParam('selrow');
+                btn_add();
+            },
+            gridComplete: function () {
+                $("#" + this.id).setSelection(selectedRowIndex, false);
+            }
+        });
+        //查询事件
+        $("#btn_Search").click(function () {
+            var queryJson = {
+                "locno": $("#locno").val(),
+                "descr40": $("#descr40").val()
+            }
+            $gridTable.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) }, page: 1
+            }).trigger('reloadGrid');
+        });
+        //查询回车
+        $('#locno').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                $('#btn_Search').trigger("click");
+            }
+        });
+        //查询回车
+        $('#descr40').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                $('#btn_Search').trigger("click");
+            }
+        });
+    }
+
+    function btn_add()
+    {
+        var SELLOCID = $("#gridTable").jqGridRowValue("LOCID");
+        var SELLOCNO = $("#gridTable").jqGridRowValue("LOCNO");
+        var SELDESCR40 = $("#gridTable").jqGridRowValue("DESCR40");
+        if (SELLOCID) {
+            if (rtnkey != undefined && rtnkey != null && rtnkey.toString().length >= 1) {
+                parent.window.$('#' + rtnkey).val(SELLOCID);
+            }
+            if (rtncode != undefined && rtncode != null && rtncode.toString().length >= 1) {
+                parent.window.$('#' + rtncode).val(SELLOCNO);
+            }
+            if (rtnname != undefined && rtnname != null && rtnname.toString().length >= 1) {
+                parent.window.$('#' + rtnname).html(SELDESCR40);
+                parent.window.$('#' + rtnname).attr('title', SELDESCR40);
+            }
+            dialogClose();
+        } else {
+            layer.msg('请选择需要添加的位置！');
+        }
+    }
+    function btn_clear() {
+        if (rtnkey != undefined && rtnkey != null && rtnkey.toString().length >= 1) {
+            parent.window.$('#' + rtnkey).val('');
+        }
+        if (rtncode != undefined && rtncode != null && rtncode.toString().length >= 1) {
+            parent.window.$('#' + rtncode).val('');
+        }
+        if (rtnname != undefined && rtnname != null && rtnname.toString().length >= 1) {
+            parent.window.$('#' + rtnname).html('');
+            parent.window.$('#' + rtnname).attr('title', '');
+        }
+        dialogClose();
+    }
+</script>
+<div class="titlePanel">
+    <div class="title-search">
+        <table>
+            <tr>
+                <td style="padding-left: 2px;">
+                    <input id="locno" type="text" class="form-control" placeholder="位置代码" style="width: 100px;" />
+                </td>
+                <td style="padding-left: 2px;">
+                    <input id="descr40" type="text" class="form-control" placeholder="位置名称" style="width: 100px;" />
+                </td>
+                <td style="padding-left: 5px;">
+                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="toolbar">
+        <div class="btn-group">
+            <a id="seladd" class="btn btn-success" onclick="btn_add()"><i style="color:#FFF" class="fa fa-plus"></i>&nbsp;确定</a>
+            <a id="selclear" class="btn btn-default" onclick="btn_clear()"><i class="fa fa-trash-o"></i>&nbsp;清空</a>
+        </div>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridTable"></table>
+    <div id="gridPager"></div>
+</div>

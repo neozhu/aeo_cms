@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "扩展属性维护";
+}
+
+@model Oncontrol3.Web.Helpers.CreateEXTDetails
+<div class="container">
+    @using (Html.BeginForm(Html.ViewContext.RouteData.Values["id"] != null ? "Edit" : "Create", "SystemServiceType", FormMethod.Post, new { id = "ff" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="order_title">
+            <span>扩展属性</span>
+        </div>
+        <div class="ord_main">
+
+            <div class="clear"></div>
+            <span class="fld_label">属性名称</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.INFONAME, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true" })</span>
+            <span class="fld_label">属性代码</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.INFOCODE, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true" })</span>
+            <span class="fld_label">主数据</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.MDMKEY, new { style = "width:100%", @class = "easyui-textbox" })</span>
+            <span class="fld_label">字段</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.FIELDNAME, new { style = "width:100%", @class = "easyui-textbox"})</span>
+            <span class="fld_label">排序</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.SORD, new { style = "width:100%", @class = "easyui-numberbox", data_options = "required:true" })</span>
+            <div class="clear"></div>
+            <div class="clear"></div>
+            <span class="fld_label">服务类型</span><div class="clear"><div class="clear"></div></div>
+                @foreach (SelectListItem item in Model.CheckBoxList)
+                {
+                    <span class="fld_input">
+                            @Html.CheckBox("ServiceTypes", Model.selectedvalues.Contains(item.Value) ? true : false, new { value = item.Value})
+                            @Html.Label(item.Text)
+                    </span>
+                }
+            <div class="clear"></div>
+            <div class="clear"></div>
+         </div>
+            <div style="text-align:center;padding:5px 0">
+                @Html.ValidationSummary()
+                
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>&nbsp;&nbsp;
+                <a href="@Url.Action("Index")" class="easyui-linkbutton" style="width:80px">返回</a>
+            </div>
+    }
+
+</div>
+
+  <script type="text/javascript">
+
+      function submitForm() {
+          debugger;
+        //判断code是否存在
+          var code = $("#INFOCODE").val();
+          $.ajax({
+              url: "/SystemServiceType/CheckCode",
+              data: { code: code },
+              type: "GET",
+              async: false,
+              success: function (data) {
+                  console.log(data);
+                  if (data!=1 && data!=0) {
+                      $.messager.alert('操作提示', '代码已存在。', 'error');
+                      return;
+                  } else {
+                      if ($("#ff").form('validate')) {
+                          $("#ff").submit();//同步提交
+                      }
+                  }
+
+              }
+          });
+    }
+
+
+</script>

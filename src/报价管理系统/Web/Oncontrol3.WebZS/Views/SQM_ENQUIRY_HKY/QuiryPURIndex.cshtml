@@ -1,0 +1,370 @@
+﻿@{
+    ViewBag.Title = "询价列表";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+<!-- MAIN CONTENT -->
+<style>
+    /*表格end*/
+    #datatable_col_reorder td {
+        white-space: nowrap;
+    }
+
+    #datatable_col_reorder th {
+        white-space: nowrap;
+    }
+    .htmlstr {
+        position: absolute;
+        width: 1400px;
+    }
+    #datatable_col_reorder tbody td {
+        height: 70px;
+    }
+    /**** datatable 左右无边框 ****/
+    .table-bordered tbody td {
+        border: 1px solid #ddd !important;
+        border-right-style: none !important;
+        border-left-style: none !important;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right; ">
+                            <button type="submit" id="submit_back" class="btn btn-default">
+                                返回
+                            </button>
+                            <button type="submit" id="submit_search" class="btn btn-default">
+                                查询
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" name="TYPE" id="TYPE" class="select2">
+                                                <option value="1">空运</option>
+                                                <option value="0">海运</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <input class="form-control" id="CreateUser" name="CreateUser" placeholder="询价人">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" name="STATUS" id="STATUS" class="select2">
+                                                <option value="">全部</option>
+                                                <option value="1">待答复</option>
+                                                <option value="2">已答复</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="~/Content/plugins/toastr.min.js"></script>
+    <script src="~/Content/plugins/jquery.ajaxupload.js"></script>
+    <script src="~/Content/plugins/jquery.bootpag.min.js"></script>
+    <script src="~/Content/plugins/jquery.guid.js"></script>
+    <script src="~/Content/plugins/base.js"></script>
+    <script type="text/javascript">
+        var xqlxObj = { "0": "整箱进口", "1": "整箱出口" };
+        var ywnrObj = { "0": "海运", "1": "海外服务", "2": "公路运输" };
+        var xjlxObj = { "0": "单询", "1": "月度", "2": "标案" };
+        var cqObj = { "1": "星期一", "2": "星期二", "3": "星期三", "4": "星期四", "5": "星期五", "6": "星期六", "0": "星期日" };
+        var KhrObj = { "1": "MON", "2": "TUE", "3": "WED", "4": "THU", "5": "FRI", "6": "SAT", "0": "SUN" };
+        // 填充查询条件
+        $("#TYPE").val(localStorage.getItem("Type"));// 空海运类型
+        $("#CreateUser").val(localStorage.getItem("CreateUser"));// 询价人
+        $("#STATUS").val(localStorage.getItem("Status"));// 状态
+        function doPur(QYG, MDG, CQDATE, SBLX, SBLXCODE, ORGCODE, rid, productkey, prdname, servicetype, srvname, feecode, feename, businessorg) {
+            // 存储查询信息
+            SavaSelectData();
+            // 存储起运港/目的港/船期/设备类型
+            localStorage.setItem("QYG",unescape(QYG));
+            localStorage.setItem("MDG", unescape(MDG));
+            if (CQDATE != null && CQDATE != "") {
+                if (CQDATE.indexOf(",") >= 0) {
+                    var cqArr = CQDATE.split(",");
+                    var whereStr = "";
+                    cqArr.forEach(item => { whereStr += KhrObj[item] + "," });
+                    localStorage.setItem("CQ", whereStr.substring(0, whereStr.length - 1));// 转成开航日    sql in('WED','RHU')
+                } else {
+                    localStorage.setItem("CQ", KhrObj[CQDATE]);// 转成开航日
+                }
+            } else {
+                localStorage.setItem("CQ", "");
+            }
+            if (SBLX != null && SBLX != "") {
+                localStorage.setItem("SBLX", unescape(SBLX));
+            } else {
+                localStorage.setItem("SBLX","");
+            }
+            if (SBLXCODE != null && SBLXCODE != "") {
+                localStorage.setItem("SBLXCODE", SBLXCODE);
+            } else {
+                localStorage.setItem("SBLXCODE", "");
+            }
+            if (businessorg == "0") {
+                businessorg = "02";
+            } else if (businessorg == "1"){
+                businessorg = "01";
+            }
+            $.ajax({
+                type: 'POST',
+                url: "/SQM_PUR/SaveDjPsfORG",
+                data: {
+                    PRDNAME: prdname,
+                    PRDCODE: productkey,
+                    SRVNAME: srvname,
+                    SRVCODE: servicetype,
+                    FEENAME: feename,
+                    FEECODE: feecode,
+                    BUSINESSORG: businessorg,
+                    ORGRID: ORGCODE
+                },
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.Success) {
+                        toastr.clear();
+                        toastr.remove();
+                        //将rid存储起来，后面要使用
+                        //sessionStorage.setItem("sehrid", $('#datatable_col_reorder').DataTable().row().data().RID);// 如何确保是选中行rid？
+                        sessionStorage.setItem("sehrid", rid);
+                        location.href = '/SQM_PUR/PurIndex?djrid=' + data.Message + "&sign=q&psf=['" + feecode + "','" + servicetype + "','" + productkey + "']&orgcode=" + ORGCODE;
+                        //数据可能有问题，先拿个能查出数据的记录来试试效果
+                        //location.href = '/SQM_PUR/PurIndex?djrid=3d645bcf-d07f-4897-890c-c3de9b4551ce&sign=q';
+                    } else {
+                        toastr.clear();
+                        toastr.remove();
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            });
+        }
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        });
+        $("#submit_back").click(function () {
+            window.location.href = "/SQM_PUR/Index";
+        });
+        $(document).ready(function () {
+            // 列定义
+            var columns = [
+                { "title": "创建时间", "data": "CREATETIME", "bVisible": false },
+                {
+                    "title": "操作", "data": "RID","width": "25", "sortable": false,
+                    render: function (data, type, row, meta) {
+                        return '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + data + '\",\"' + row.TYPE + '\") ><i class="fa fa-pencil"></i></button>';
+                    }
+                },
+                {
+                    "title": "询价单号", "data": "SERIALNUMBER", "width": "130",
+                    render: function (data, type, row, meta) {
+                        if (data == null) {
+                            data = "";
+                        }
+                        return GetHtml(data, row);
+                    }
+                },
+                { "title": "起运港", "data": "QYG", "width": "160" },
+                { "title": "目的港", "data": "MDG", "width": "160" },
+                {
+                    "title": "询价类型", "data": "TYPE", "width": "80",
+                    render: function (data, type, row, meta) {
+                        if (data != null) {
+                            return xjlxObj[data];
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {
+                    "title": "询价状态", "data": "STATUS", "width": "45",
+                    render: function (data, type, row, meta) {
+                        if (data == "2") {
+                            return "已答复";
+                        } else {
+                            return "待答复";
+                        }
+                    }
+                },
+                { "title": "询价人", "data": "CREATEUSER", "width": "45" },
+                { "title": "产品", "data": "PRDCODE", "width": "80"},
+                { "title": "服务", "data": "SRVCODE", "width": "80"},
+                {
+                    "title": "费目", "data": "FEECODE", "width": "150",
+                    render: function (data, type, row, meta) {
+                        if (data == null) {
+                            return data;
+                        } else if (row.STATUS == "1") {// 待答复
+                            return '<a onclick=doPur(\"' + escape(row.QYG) + '\",\"' + escape(row.MDG) + '\",\"' + row.CQDATE + '\",\"' + escape(row.SBLX) + '\",\"' + row.SBLXCODE + '\",\"' + row.ORGCODE + '\",\"' + row.RID + '\",\"' + row.PRDCODE + '\",\"' + row.PRDNAME + '\",\"' + row.SRVCODE + '\",\"' + row.SRVNAME + '\",\"' + row.FEECODE + '\",\"' + row.FEENAME + '\",\"' + row.TYPE + '\") style="text-decoration: underline;cursor: pointer;" >' + data + '</a>';
+                        } else if (row.STATUS == "2") { // 已答复
+                            var djzbrid = row.MXDJZBRID == null ? (row.DJZBRID == null ? "" : row.DJZBRID) : row.MXDJZBRID;
+                            var djrid = row.MXDJRID == null ? (row.DJRID == null ? "" : row.DJRID) : row.MXDJRID;
+                            var djfsrid = row.MXDJFSRID == null ? (row.DJFSRID == null ? "" : row.DJFSRID) : row.MXDJFSRID;
+                            var gdzrid = row.MXGDZRID == null ? (row.GDZRID == null ? "" : row.GDZRID) : row.MXGDZRID;
+                            return '<a onclick=viewResult(\"' + djzbrid + '\",\"' + djrid + '\",\"' + djfsrid + '\",\"' + gdzrid + '\") style="text-decoration: underline;cursor: pointer;" >' + data + '</a>';
+                        }
+                    }
+                }
+            ];
+            var table = $('#datatable_col_reorder').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "scrollX": false,
+                "order": [[6, "desc"]],//第一次加载默认第5列日期倒排
+                "language": { "info": "Total : _TOTAL_", "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" } },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'pl>>",//整个griddom布局
+                "lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("PURLists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.STATUS = $("#STATUS").val();
+                        d.CREATEUSER = $("#CreateUser").val();
+                        d.TYPE = $("#TYPE").val();
+                    }
+                }, columns: columns
+            });
+        });
+        // 查询结果--定价详细页面
+        function viewResult(djzbrid, djrid, djfsrid, gdzrid) {
+            // 存储查询信息
+            SavaSelectData();
+            var djfs = '';
+            var gdzkey = '';
+            window.location.href = '/SQM_PUR/PurEdit?id=' + djzbrid + '&djrid=' + djrid + '&djfsrid=' + djfsrid + '&djfs=' + djfs + '&gdzkey=' + gdzkey + '&gdzrid=' + gdzrid + '&sign=pur';
+        }
+        function GetHtml(data,row) {
+            var type = row.TYPE;// 类型  0-海运 1-空运
+            var hwlb = row.HWLB == null ? "" : (row.HWLB == "0" ? "是" : "否");// 货物类别
+            var ysfs = row.YSFS == null ? "" : row.YSFS;// 运输方式
+            var yffs = row.YFFS == null ? "" : row.YFFS;// 运费方式
+            var cq = row.CQDATE == null ? "" : row.CQDATE;// 船期
+            if (cq != "" && cq.indexOf(",") >= 0) {
+                var cqArr = cq.split(",");
+                cq = "";
+                cqArr.forEach(item => {
+                    cq += cqObj[item] + ",";
+                });
+                cq = cq.substring(0, cq.length - 1);
+            } else {
+                cq = row.CQDATE == null ? "" : cqObj[row.CQDATE];
+            }
+            var xqlx = row.XQLX == null ? "" : xqlxObj[row.XQLX];// 需求类型
+            var ywlx = row.YWLX == null ? "" : ywnrObj[row.YWLX];// 业务类型
+            var xjlx = row.XJLX == null ? "" : ywnrObj[row.XJLX];// 询价类型
+            var pm = row.PRODUCT == null ? "" : row.PRODUCT;// 品名
+            var hl = row.HL == null ? "" : row.HL;// 货量
+            var sblx = row.SBLX == null ? "" : row.SBLX;
+            var sblxcode = row.SBLXCODE == null ? "" : row.SBLXCODE;
+            var sblxvalue = sblxcode;
+            var memo = row.MEMO == null ? "" : row.MEMO;
+            var xjrq;// 询价日期
+            if (row.CREATETIME == null || row.CREATETIME == undefined)
+                xjrq = "";
+            else {
+                xjrq = new Date(formatDate(row.CREATETIME));
+                xjrq.setHours(xjrq.getHours() + 8);
+                xjrq = xjrq.Format("yyyy/MM/dd");
+            }
+
+            var dfrq;// 答复日期
+            if (row.SPONSEDATE == null || row.SPONSEDATE == undefined)
+                dfrq = "";
+            else {
+                dfrq = new Date(formatDate(row.SPONSEDATE));
+                dfrq.setHours(dfrq.getHours() + 8);
+                dfrq = dfrq.Format("yyyy/MM/dd");
+            }
+            var htmlStr = data + "<br>";
+            if (type == "0") {
+                htmlStr += "<div class='htmlstr' style='margin-top:5px'><div class='row' style='margin-left:0px;'><span style='font-weight: bold;'>运输方式：</span><span style='padding-right:15px;'>" + ysfs + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>业务类型：</span><span style='padding-right:15px;'>" + ywlx + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>运费方式：</span><span style='padding-right:15px;'>" + yffs + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>品名：</span><span style='padding-right:15px;'>" + pm + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>货量：</span><span style='padding-right:15px;'>" + hl + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>设备类型：</span><span style='padding-right:15px;'>" + sblxvalue + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>询价日期：</span><span style='padding-right:15px;'>" + xjrq + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>答复日期：</span><span style='padding-right:15px;'>" + dfrq + "</span>";
+                htmlStr += "</div><div class='row' style='margin-left:0px;margin-top:5px;'>";
+                htmlStr += "<span style='font-weight: bold;'>船期或时间段：</span><span style='padding-right:15px;'>" + cq + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>备注：</span><span style='padding-right:15px;'>" + memo + "</span>";
+                htmlStr += "</div>";
+            } else if (type == "1" ) {
+                var jgdate = "";
+                if (row.JGDATE != null) {
+                    jgdate = new Date(row.JGDATE);
+                    jgdate.setHours(jgdate.getHours() + 8);
+                    jgdate = jgdate.Format("yyyy/MM/dd");
+                }
+                var myfs = row.MYFS == null ? "" : row.MYFS; //贸易方式
+                var product = row.PRODUCT == null ? "" : row.PRODUCT;//品名
+                htmlStr += "<div class='htmlstr' style='margin-top:5px;'><div class='row' style='margin-left:0px;'><span style='font-weight: bold;'>是否危险品：</span><span style='padding-right:15px;'>" + hwlb + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>贸易方式：</span><span style='padding-right:15px;'>" + myfs + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>进港日期：</span><span style='padding-right:15px;'>" + jgdate + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>询价日期：</span><span style='padding-right:15px;'>" + xjrq + "</span>";
+                htmlStr += "<span style='font-weight: bold;'>答复日期：</span><span style='padding-right:15px;'>" + dfrq + "</span>";
+                htmlStr += "</div><div class='row' style='margin-left:0px;margin-top:5px;'>";
+                htmlStr += "<span style='font-weight: bold;'>备注：</span><span style='padding-right:15px;'>" + memo + "</span>";
+                htmlStr += "</div>";
+            }
+            htmlStr += "</div>";
+            return htmlStr;
+        }
+        // 进入编辑页，只能看不能进行编辑
+        function doEdit(rid, type) {
+            SavaSelectData();
+            if (type == "0"){
+                document.location.href = "/SQM_ENQUIRY_HKY/QuiryHyCreate?keyValue=" + rid + "&sign=dj";
+            } else if (type == "1"){
+                document.location.href = "/SQM_ENQUIRY_HKY/QuiryHyCreate?keyValue=" + rid + "&sign=dj";
+            }
+        }
+        // 存储查询信息
+        function SavaSelectData() {
+            localStorage.setItem("Type", $("#TYPE").val());// 空海运类型
+            localStorage.setItem("CreateUser", $("#CreateUser").val());// 询价人
+            localStorage.setItem("Status", $("#STATUS").val());// 状态
+        }
+    </script>
+}

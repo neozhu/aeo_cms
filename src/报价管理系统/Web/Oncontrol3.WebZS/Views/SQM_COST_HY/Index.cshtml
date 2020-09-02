@@ -1,0 +1,950 @@
+﻿@{
+    ViewBag.Title = "成本管理";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+    System.Data.DataTable GJDQdt = (System.Data.DataTable)ViewBag.GJDQdtData;
+}
+<!-- MAIN CONTENT -->
+<style>
+    tr .selected {
+        background-color: lightgray;
+    }
+
+    .DTFC_LeftWrapper {
+        top: -6px !important;
+    }
+
+    .DTFC_RightWrapper {
+        top: -7px !important;
+    }
+
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+    /*.DTFC_LeftHeadWrapper {left: -2px !important; }
+    .DTFC_LeftBodyWrapper {left: -2px !important; }*/
+    /*.col-sm-1 { padding: 0px; }
+
+    .jarviswidget > div { font-size: 12px; }*/
+
+
+    /*#datatable_col_reorder td{white-space:nowrap;}
+    #datatable_col_reorder th{white-space:nowrap;}*/
+</style>
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>海运成本管理/<span style="color:#ffd600!important">海运成本列表</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-warning" id="ExportExcel">
+                                导出
+                            </button>
+                            <button type="submit" class="btn btn-warning" id="importExcel">
+                                导入
+                            </button>
+                            <button type="submit" class="btn btn-success" id="btnadd">
+                                新建
+                            </button>
+                            <button type="submit" class="btn btn-success" id="btndelete">
+                                删除
+                            </button>
+                            <button type="submit" class="btn btn-default" id="submit_search">
+                                查询
+                            </button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">
+                                查询重置
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">目的港</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control" id="MDG" name="pmdg" mdmtype="MDMGK" mdmloctype="HY" placeholder="目的港">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">国家/地区</label>
+                                        <label class="input">
+                                            @*<input type="text" class="form-control" id="AREA" name="parea" mdmtype="MDM" mdmkey="T005T" mdmfieldname="LAND1,LANDX" placeholder="国家/地区">*@
+                                            <input placeholder="国家/地区" type="text" class="form-control" id="AREA" name="@GJDQdt.Rows[0]["CALCCODE"]" mdmtype="@GJDQdt.Rows[0]["MDMTYPE"]" mdmkey="@GJDQdt.Rows[0]["MDMKEY"]" mdmfieldname="@GJDQdt.Rows[0]["MDMFIELDNAME"]" mdmloctype="HY">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">起运港</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control" id="QYG" name="pqyg" mdmtype="MDMGK" mdmloctype="HY" placeholder="起运港">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">码头</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control" id="MT" name="pmt" mdmtype="MDMGK" placeholder="码头">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">开航日</label>
+                                        <label class="input">
+                                            @*<input class="form-control" id="KHR" name="KHR" placeholder="开航日">*@
+                                            <select style="width:100%" id="KHR" name="pkhr" class="select2" placeholder="开航日"><option></option></select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">船公司</label>
+                                        <label class="input">
+                                            @*<select style="width:100%" id="CGS" class="select2" placeholder="船公司"><option></option></select>*@
+                                            <input type="text" class="form-control" id="CGS" name="pcgs" mdmtype="MDMBP" placeholder="船公司">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">状态</label>
+                                        <label class="input">
+                                            <select style="width:100%" id="Status" class="select2"><option></option></select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div style="display:none" id="more_sc">
+                                    <input class="form-control" id="fixedleftnum" name="fixedleftnum" style="display:none;" value="4">
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">起始日期</label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="STARTDATE" placeholder="起始日期">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">截止日期</label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="ENDDATE" placeholder="截止日期">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="sc_more">
+                                    <a class="control-label" href="javascript:void(0);" id="sc_more">更多查询条件</a>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover"></table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+    <!-- 模态框（Modal）选择文件 -->
+    <div class="modal fade" id="importExc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="chooseExc">
+                        导入EXCEL文件
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="importFileForm" method="post" enctype="multipart/form-data" action="">
+                        <div id="div_fileImport">
+                            <input id="fileImport" name="fileImport" type="file" class="file-loading">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 导出文件 -->
+    <div class="modal fade" id="exportExc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="chooseExc">
+                        导出EXCEL文件
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="div_fileExport">
+                        <a id="fileExport" name="fileExport">点击此处下载</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    @*<script src="~/Content/plugins/jquery.ajaxupload.js"></script>
+        <script src="~/Content/plugins/jquery.bootpag.min.js"></script>
+        <script src="~/Content/plugins/jquery.guid.js"></script>
+        <script src="~/Content/plugins/base.js"></script>*@
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        //全局数据--开航日
+        var dataList = [{ Code: 'MON', Name: 'MON' }, { Code: 'TUE', Name: 'TUE' }, { Code: 'WED', Name: 'WED' }, { Code: 'THU', Name: 'THU' },
+            { Code: 'FRI', Name: 'FRI' }, { Code: 'SAT', Name: 'SAT' }, { Code: 'SUN', Name: 'SUN' }];
+        var username;
+        // fileinput
+        var FileInput = function () {
+            var oFile = new Object();
+            oFile.Init = function (ctrlName, uploadUrl) {
+                var control = $("#" + ctrlName);
+                // 初始化上传控件的样式
+                control.fileinput({
+                    language: "zh",
+                    uploadUrl: uploadUrl,
+                    allowedFileExtensions: ["xls", "xlsx"],
+                    showUpload: true,
+                    showCaption: true,
+                    browseClass: "btn btn-primary",
+                    maxFileCount: 1,
+                    enctype: "multipart/form-data",
+                    validateInitialCount: true,
+                    autoReplace: true, // 是否自动替换当前文件
+                    dropZoneEnabled: false, //是否显示拖拽区域
+                    maxFileSize: 0, // 单位为kb，如果为0表示不限制文件大小
+                    previewFileIcon: "<img src='/Content/QO/scripts/bootstrap-fileinput-master/img/excel.png' />",
+                    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}!",
+                    layoutTemplates: {
+                        actionDelete: "", // 去除上传预览的缩略图中的删除图标
+                        actionUpload: "", // 去除上传预览缩略图中的上传图
+                        actionZoom: "" // 去除上传预览缩略图中的查看详情预览的缩略图标
+                    }
+                });
+
+                // 导入文件上传上传完成之后的事件
+                $("#fileImport").on("fileuploaded", function (event, data, previewId, index) {
+                    toastr.clear();
+                    toastr.remove();
+                    switch (data.response.Code) {
+                        case "0": // 成功
+                            alert("消息提示", data.response.Message);
+                            //toastr.success(data.response.Message);
+                            $('#importExc').modal('hide');
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                        case "1": // 失败
+                            alert("消息提示", data.response.Message);
+                            //toastr.error(data.response.Message);
+                            $('#importExc').modal('hide');
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                        case "2": // 异常
+                            alert("消息提示", data.response.Message);
+                            //toastr.error(data.response.Message);
+                            $('#importExc').modal('hide');
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                    }
+                });
+                // 导入失败后的事件
+                $("#fileImport").on("fileerror", function (event, data, msg) {
+                    //alert("消息提示", "导入失败");
+                    toastr.error(data.response.Message);
+                });
+            }
+            return oFile;
+        }
+        // 状态
+        var dataSel = [{ Code: '1', Name: '有效' }, { Code: '0', Name: '失效' }];
+        // toast
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        function placeholderSupport() {
+            return 'placeholder' in document.createElement('input');
+        }
+        function addNew()
+        {
+            document.location.href = '/SQM_COST_HY/Edit';
+            return false;
+        }
+        function doEdit(prdid) {
+            document.location.href = '/SQM_COST_HY/Edit?keyValue=' + prdid;
+        }
+        function doEdit2(prdid) {
+            document.location.href = '/SQM_COST_HY/Edit?keyValue=' + prdid + '&status2=0';
+        }
+        var rowId = 0;
+        function doDelete(prdid)
+        {
+            rowId = prdid;
+            popDialog("删除", "确定要删除本条记录吗？", deleteRow);
+        }
+        // 对话框回调函数
+        function deleteRow() {
+            $.ajax({
+                url: "/SQM_COST_HY/Delete",
+                type:"Post",
+                async: false,
+                data: {
+                    "rowId": rowId
+                },
+                success: function (msg) {
+                    toastr.clear();
+                    toastr.remove();
+                    console.log(msg);
+                    if (msg.indexOf("成功!") >= 0) {
+                        toastr.success("删除成功!");
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error(msg);
+                    }
+                }
+            });
+        }
+        // 导出
+        $("#ExportExcel").click(function () {
+            var checkBoxs = $("input[name='checkBox']:checked");
+            if (checkBoxs.length == 0) {
+                alert("消息提示", "请选择需要导出的数据行");
+                return false;
+            } else {
+                var rowIds = [];
+                var checkBoxs = $("input[name='checkBox']:checked");
+                checkBoxs.each(function () {
+                    rowIds.push($(this).val());
+                });
+                toastr.info("数据生成中...");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ExportExc")",
+                    data: {
+                        "rowIds": JSON.stringify(rowIds)
+                    },
+                    dataType:"Json",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Success) {
+                            // 1.清除
+                            $("#div_fileExport").empty();
+                            // 2.新增
+                            $("#div_fileExport").append("<a id='fileExport' onclick='hidemodal();' name='fileExport' href='" + data.Message + "'>点击此处下载</a>");
+                            $("#exportExc").modal("show");
+                        }
+                        else {
+                            alert("消息提示", data.Message);
+                        }
+                    }
+                });
+            }
+        });
+        function hidemodal() {
+            $("#exportExc").modal("hide");
+        }
+        // 导入
+        $("#importExcel").click(function () {
+            // 1.清除
+            $("#div_fileImport").empty();
+            // 2.新增
+            $("#div_fileImport").append("<input id='fileImport' name='fileImport' type='file' class='file-loading'>");
+            new FileInput().Init("fileImport", "/SQM_COST_HY/PostExcelData");
+            $("#importExc").modal("show");
+        });
+        // 点击"删除"
+        $("#btndelete").click(function () {
+            var checkBoxs = $("input[name='checkBox']:checked");
+            if (checkBoxs.length == 0) {
+                alert("消息提示", "请选择需要删除的数据行");
+                return false;
+            } else {
+                popDialog("删除", "确定要删除所选记录吗？", deleteAllRows);
+            }
+        });
+        // 删除rowIds里边存在的单独的id--遍历数组中只出现一次的元素
+        //function deleteSingleRow(rowIds) {
+        //    var singleRow = [];
+        //    for (var i = 0; i < rowIds.length; i++) {
+        //        var temp = rowIds[i];
+        //        var count = 0;
+        //        for (var j = i; j < rowIds.length; j++){
+        //            if (temp == rowIds[j]) {
+        //                count++;
+        //            }
+        //        }
+        //        if (count == 1) {
+        //            singleRow.push(rowIds[i]);
+        //        }
+        //    }
+        //    return rowIds.join(",").replace(singleRow.join(","), "");
+        //}
+        // 批量删除
+        function deleteAllRows() {
+            var rowIds = [];
+            var checkBoxs = $("input[name='checkBox']:checked");
+            checkBoxs.each(function () {
+                rowIds.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteBatch")",
+                data: {
+                    "rowIds": rowIds.join(",")
+                },
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.indexOf("成功!") >= 0) {
+                        toastr.success("删除成功!");
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error(data);
+                    }
+                }
+            });
+        }
+        $("#btnadd").click(function () {
+            addNew();
+            return false;
+        });
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        });
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+        });
+        $(document).ready(function () {
+            ///////////////////
+            $("#amenufld").hide();
+            $("#logout").hide();
+            $("#amenufld").click();
+            ///////////////////
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            // 无
+            $("#form1").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+            // 更多查询
+            $("#sc_more").click(function () {
+                if ($("#more_sc").css("display").trim() == "none") {
+                    $("#sc_more").text("更多查询条件");
+                    $(".sc_more a.clk").css("background", "url(../images/tip_donw1.png) no-repeat right");
+                } else {
+                    $("#sc_more").text("收起");
+                    $(".sc_more a.clk").css("background", "url(../images/tip_up1.png) no-repeat right");
+                }
+            });
+            BindAutocompleteMDM();
+            // 开航日初始化
+            $(dataList).each(function (k, o) {
+                $("#KHR").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            // 初始化状态
+            $(dataSel).each(function (k, o) {
+                $("#Status").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            $("#Status").select2({
+                placeholder: "状态",
+                allowClear: true
+            });
+            $("#Status").select2("val", 1);
+
+            if (placeholderSupport()) {
+                $("label[class='label']").hide();
+            }
+            @*$("#CreateDateS").val('@DateTime.Now.AddDays(-6).ToString("yyyy/MM/dd")');
+            $("#CreateDateE").val('@DateTime.Now.ToString("yyyy/MM/dd")');*@
+
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+
+            @*var user = '@(Oncontrol3.Web.Helpers.SessionHelper.GetSessionUser<Oncontrol3.Web.Controllers.FLD_QO_USER>().staffkey)';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+                $('#btnadd').attr('disabled', 'disabled');
+            }*@
+            $("#fixedleftnum").val($.cookie("bjfixedcol") || 4);
+            DrawTable();
+            $("div[class='ColVis']").hide();
+            // 设备检测
+            detectmob();
+            // 初始化fileinput
+            var oFileInput = new FileInput();
+            oFileInput.Init("fileImport", "/SQM_COST_HY/PostExcelData");
+        });
+        function checkAll() {
+            if ($(".DTFC_LeftHeadWrapper input[name = 'checkRowIds']").is(":checked")) {
+                $(".DTFC_LeftBodyLiner input[name = 'checkBox']").each(function () {
+                    if ($(this).is(":unchecked")){
+                        $(this).prop("checked", true);
+                    }
+                });
+            } else if ($(".DTFC_LeftHeadWrapper input[name='checkRowIds']").is(":unchecked")){
+                $(".DTFC_LeftBodyLiner input[name='checkBox']").each(function () {
+                    if ($(this).is(":checked")) {
+                        $(this).prop("checked", false);
+                    }
+                });
+            }
+        }
+        function checkOne() {
+            var unchecked = 0;
+            $(".DTFC_LeftBodyLiner input[name ='checkBox']").each(function (i) {
+                if ($(this).is(":unchecked")) {
+                    unchecked++;
+                }
+            });
+            if (unchecked > 0) {
+                $(".DTFC_LeftHeadWrapper input[name='checkRowIds']").prop("checked", false);
+            }
+            else if (unchecked == 0 && $(".DTFC_LeftHeadWrapper input[name='checkRowIds']").is(":unchecked")) {
+                $(".DTFC_LeftHeadWrapper input[name='checkRowIds']").prop("checked", true);
+            }
+        }
+        function DrawTable() {
+            // 列定义
+            var columns = [
+                        { "title": "创建时间", "data": "CREATETIME", "bVisible": false },
+                        {
+                            "title": "序号", "data": null, "width": "25", "sortable": false
+                        },
+                        {
+                            "title": "<input type='checkbox' name='checkRowIds' onclick='checkAll()' />", "sortable": false, "width": "20", "data": "RID",
+                            render: function (data, type, row, meta) {
+                                if (row.STATUS == 0) {
+                                    return "<input type='checkbox' name='checkBox' onclick='return false;' value='" + data + "'/>";
+                                } else if (row.STATUS == 1){
+                                    return "<input type='checkbox' name='checkBox' onclick='checkOne()' value='" + data + "'/>";
+                                }
+                            }
+                        },
+                        {
+                             "title": "操作", "data": "RID", "width": "55","sortable": false,
+                             render: function (data, type, row, meta) {
+                                 if (row.STATUS == 0) {
+                                     return '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit2(\"' + data + '\") ><i class="fa fa-pencil"></i></button>'
+                                         + '<button title="删除" class="btn btn-xs btn-default" disabled="disabled" onclick=doDelete(\"' + data + '\") ><i class="fa fa-times"></i></button>';
+                                 } else if (row.STATUS == 1) {
+                                     return '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + data + '\") ><i class="fa fa-pencil"></i></button>'
+                                         + '<button title="删除" class="btn btn-xs btn-default" onclick=doDelete(\"' + data + '\") ><i class="fa fa-times"></i></button>';
+                                 }
+                             }
+                        },
+                        { "title": "国家/地区", "data": "AREA", "width": "100" },
+                        { "title": "目的港", "data": "MDG", "width": "200" },
+                        { "title": "起运港", "data": "QYG", "width": "200" },
+                        { "title": "船公司", "data": "CGS", "width": "80" },
+                        { "title": "币种", "data": "BZ", "width": "40" },
+                        {
+                            "title": "20GP", "data": "GP20", "width": "45",
+                            render: function (data, type, row, meta ) {
+                                data = data == 0 || data == "" ? "" : data;
+                                return data;
+                            }
+                        },
+                        {
+                            "title": "40GP", "data": "GP40", "width": "45",
+                            render: function (data, type, row, meta ) {
+                                data = (data == 0 || data == "") ? "" : data;
+                                return data;
+                            }
+                        },
+                        {
+                            "title": "40HQ", "data": "HQ40", "width": "45",
+                            render: function (data, type, row, meta ) {
+                                data = (data == 0 || data == "") ? "" : data;
+                                return data;
+                            }
+                        },
+                        {
+                            "title": "低硫20", "data": "DL20", "width": "45",
+                            render: function (data, type, row, meta ) {
+                                data = (data == 0 || data == "") ? "" : data;
+                                return data;
+                            }
+                        },
+                        {
+                            "title": "低硫40", "data": "DL40", "width": "45",
+                            render: function (data, type, row, meta ) {
+                                data = (data == 0 || data == "") ? "" : data;
+                                return data;
+                            }
+                        },
+                        { "title": "航程", "data": "HC", "width": "45" },
+                        { "title": "中转港", "data": "ZZG", "width": "120" },
+                        { "title": "码头", "data": "MT", "width": "160" },
+                        { "title": "开航日", "data": "KHR", "width": "38" },
+                        { "title": "起始日期",  "data": "STARTDATE", "width": "60",
+                            "render": function (data, type, full, meta) {
+                                if (full.STARTDATE == null || full.STARTDATE == undefined)
+                                    return "";
+                                else {
+                                    var gmtDate = new Date(formatDate(full.STARTDATE));
+                                    gmtDate.setHours(gmtDate.getHours() + 8);
+                                    return gmtDate.Format("yyyy/MM/dd");
+                                }
+                            }
+                        },
+                        { "title": "截止日期",  "data": "ENDDATE", "width": "60",
+                            "render": function (data, type, full, meta) {
+                                if (full.ENDDATE == null || full.ENDDATE == undefined)
+                                    return "";
+                                else {
+                                    var gmtDate = new Date(formatDate(full.ENDDATE));
+                                    gmtDate.setHours(gmtDate.getHours() + 8);
+                                    return gmtDate.Format("yyyy/MM/dd");
+                                }
+                            }
+                        },
+                        {
+                            "title": "状态", "data": "STATUS", "width": "30",
+                            render: function (data, type, row, meta) {
+                                if (data == 0) {
+                                    return "失效";
+                                } else {
+                                    return "有效";
+                                }
+                            }
+                        },
+                        {"title": "备注", "data": "MEMO", "width": "200"}
+            ];
+            var table = $('#datatable_col_reorder').dataTable({
+                responsive: true,
+                "processing": true,
+                "serverSide": true,
+                "colReorder": true,
+                //"fixedHeader": true,scrollY:"80px",
+                @*"aoColumnDefs":[{"aTargets":[1],"mRender":function(data,type,full){
+                        return "<a href="@Url.Action("ZbgztIndex", "AirInReport")" data-toggle=\"modal\" onclick=\"preUpdate(‘"+data+"‘)\"> <i class=\"fa fa-lg-2 fa-pencil\"> </i> </a> "}
+                    }],*@
+                "scrollX": true,
+                "fixedColumns": {
+                    //leftColumns: $.cookie("bjfixedcol") || $("#fixedleftnum").val()
+                    leftColumns: 6
+                },
+                "bStateSave": true,
+                "order": [[0, "desc"]],
+                "fnDrawCallback": function () {
+                    var api = this.api();
+                    var startIndex = api.context[0]._iDisplayStart; //获取到本页开始的条数 　
+                    api.column(1).nodes().each(function (cell, i) {
+                        cell.innerHTML = startIndex + i + 1;
+                    });
+                    // 取消标题的checkbox选中
+                    $("input[name = 'checkRowIds']").prop("checked", false);
+                    // “失效”标题checkbox disabled
+                    if ($("#Status").val() == "0"){
+                        $("input[name = 'checkRowIds']").attr("onclick", "return false;");
+                    } else {
+                        $("input[name = 'checkRowIds']").attr("onclick", "checkAll();");
+                    }
+                },
+                //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                //    $("td:first", nRow).html(iDisplayIndex + 1);//设置序号位于第一列，并顺次加一
+                //    return nRow;
+                //},
+                "language": { "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+                "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("Lists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+
+                        d.MDG = $("#MDG").val();
+                        d.AREA = $("#AREA").val();
+                        d.QYG = $("#QYG").val();
+                        d.MT = $("#MT").val();
+                        d.KHR = $("#KHR").val();
+                        d.CGS = $("#CGS").val();
+                        d.Status = $("#Status").val() == "" ? "1" : $("#Status").val();
+
+                        d.StartDate = $("#STARTDATE").val();
+                        d.EndDate = $("#ENDDATE").val();
+                    }
+                }, columns: columns,
+                "stateSaveParams": function (settings, data) {
+                    localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+                    // 把这些数据保存在服务器上，上面的代码标识使用本地储存来存储这些数据
+                    /**$.ajax( {
+                            "url": "/state_save",
+                            "data": data,
+                            "dataType": "json",
+                            "type": "POST",
+                            "success": function () {}
+                        } );
+                     **/
+
+                },
+                "stateLoadCallback": function (settings) {
+                    //console.log("stateLoadCallback");
+                    var config = JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+                    return config;
+                    //从服务器取数，采用同步的方式获取到保存在服务器里的数据
+                    /**var o;
+                     $.ajax( {
+                        "url": "/state_load",
+                        "async": false,
+                        "dataType": "json",
+                        "success": function (json) {
+                            o = json;
+                        }
+                    } );
+                     return o;**/
+                }
+
+            });
+            $('#datatable_col_reorder tbody').on('dblclick', 'tr', function () {
+                var fwo = $('#datatable_col_reorder').DataTable().row(this).data()['RID'];
+                if ($('#datatable_col_reorder').DataTable().row(this).data()['STATUS'] == "1"){
+                    location.href = '/SQM_COST_HY/Edit?keyValue=' + fwo;
+                }
+            });
+        }
+
+        // modal 对话框
+        function popDialog(title, msg, callback) {
+            if (!title) {
+                title = '对话框';
+            }
+            var dialogHTML = '<div id="selfDialog" class="modal fade">';
+            dialogHTML += '<div class="modal-dialog">';
+            dialogHTML += '<div class="modal-content">';
+            dialogHTML += '<div class="modal-header">';
+            dialogHTML += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            dialogHTML += '<span aria-hidden="true">&times;</span>';
+            dialogHTML += '</button>';
+            dialogHTML += '<h4 class="modal-title">' + title + '</h4>';
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-body">';
+            dialogHTML += msg;
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-footer">';
+            dialogHTML += '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>';
+            dialogHTML += '<button type="button" class="btn btn-primary" data-dismiss="modal" id="certainDelete">确定</button>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+
+            $("#selfDialog").remove();
+            $("body").append(dialogHTML);
+            $("#selfDialog").modal("show");
+            // 绑定"确定"方法
+            $("#certainDelete").click(function(){
+                if (typeof callback == "function") {
+                    callback();
+                }
+            });
+        }
+        // 控件绑定数据源
+        function BindAutocompleteMDM() {
+            $("[mdmtype='MDM']").each(function () {
+                AutocompleteMDM($(this).attr("id"));
+            });
+            $("[mdmtype='MDMJC']").each(function () {
+                AutocompleteMDMJC($(this).attr("id"));
+            });
+            $("[mdmtype='MDMGK']").each(function () {
+                AutocompleteMDMGK($(this).attr("id"));
+            });
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+        // 重置查询条件
+        function ResetQueryValue() {
+            // 清空查询控件
+            $("#form1").find("input,select").each(function () {
+                $(this).val("");
+            });
+            // 失效->有效
+            $("#Status").select2("val", 1);
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        }
+        // 导入Excel文件
+        //function importFileClick() {
+        //    toastr.info("数据导入中，请稍候...");
+        //    //获取导入文件控件内容
+        //    var file = document.getElementById('fileImport');
+        //    try {
+        //        file = file.files[0];
+        //    }
+        //    catch (e) {
+        //        file = file.value
+        //    }
+        //    //判断控件中是否存在文件内容，如果不存在，弹出提示信息，阻止进一步操作
+        //    if (file == null || file == "") {
+        //        document.getElementById('fileName').innerHTML = "<span style='color:Red'>错误，请选择文件</span>";
+        //        return;
+        //    }
+        //    //获取文件名称
+        //    var fileName = file.name || file;
+        //    //获取文件类型名称
+        //    var file_typename = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
+        //    //这里限定导入文件文件类型必须为.xlsx，如果文件类型不符，提示错误信息
+        //    if (file_typename == '.xlsx' || file_typename == '.xls') {
+        //        //计算文件大小
+        //        var fileSize = 0;
+        //        //如果文件大小大于1024字节X1024字节，则显示文件大小单位为MB，否则为KB
+        //        if (file.size > 1024 * 1024) {
+        //            fileSize = Math.round(file.size * 100 / (1024 * 1024)) / 100;
+
+        //            if (fileSize > 10) {
+        //                alert('错误，文件超过10MB，禁止导入！');
+        //                return false;
+        //            }
+        //            fileSize = fileSize.toString() + 'MB';
+        //        }
+        //        else {
+        //            fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+        //        }
+        //        // FormData对象提交方式
+        //        $("#btnSave").attr("disabled", "disabled");
+        //        var formData = new FormData($("#importFileForm")[0]);
+        //        $.ajax({
+        //            url: "/SQM_COST_HY/PostExcelData",
+        //            type: "post",
+        //            data: formData,
+        //            dataType: "json",
+        //            processData: false,
+        //            contentType: false,
+        //            xhrFields: {
+        //                withCredentials: true
+        //            },
+        //            crossDomain: true,
+        //            success: function (data) {
+        //                toastr.clear();
+        //                toastr.remove();
+        //                switch (data.Code) {
+        //                    case "0": // 成功
+        //                        alert("消息提示", data.Message);
+        //                        $('#importExc').modal('hide');
+        //                        $('#datatable_col_reorder').DataTable().search("").draw();
+        //                        break;
+        //                    case "1": // 失败
+        //                        alert("消息提示", data.Message);
+        //                        $('#importExc').modal('hide');
+        //                        break;
+        //                    case "2": // 异常
+        //                        alert("消息提示", data.Message);
+        //                        $('#importExc').modal('hide');
+        //                        break;
+        //                }
+        //            },
+        //            error: function (data) {
+        //                if (!!data.responseText) {
+        //                    alert(data.responseText);
+        //                } else {
+        //                    window.alert("请求失败！");
+        //                }
+        //            }
+        //        });
+        //    }
+        //    else {
+        //        //将错误信息显示在前端label文本中
+        //        document.getElementById('fileName').innerHTML = "<span style='color:Red'>错误提示:导入文件应该是.xlsx或者.xls后缀而不应该是" + file_typename + ",请重新选择文件</span>";
+        //    }
+        //}
+    </script>
+}

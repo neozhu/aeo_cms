@@ -1,0 +1,89 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Base_old.Master.cs" Inherits="Aim.Portal.Web.Masters.MiniUI.Base_old" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <!--<meta http-equiv="X-UA-Compatible" content="edge" />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/css/common.css" rel="stylesheet" />
+    <link href="/App_Themes/Ext/portal.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="/js/mini-core/boot.js?v=2.1"></script>
+
+    <script type="text/javascript" src="/js/lib/jquery.plug-ins.js"></script>
+
+    <script type="text/javascript" src="/js/lib/jquery.form.js"></script>
+
+    <script type="text/javascript" src="/js/common.js"></script>
+
+    <script type="text/javascript" src="/js/mini-ext/mini-pgform.js"></script>
+
+    <%--<script type="text/javascript" src="/js/pgfunc.js"></script>--%>
+
+    <script type="text/javascript" src="/js/mini-ext/mini-pgfunc.js"></script>
+
+    <script type="text/javascript" src="/js/mini-ext/mini-ext.js"></script>
+
+    <%--使用miniui的页面整体样式--%>
+    <link href="/css/mini.css" rel="stylesheet" type="text/css" />
+    <%--按钮及按钮组控件--%>
+    <link href="/css/aim-button/gh-buttons.css" rel="stylesheet" />
+    <%--My97时间空间--%>
+
+    <script type="text/javascript" src="/js/DatePicker/WdatePicker.js"></script>
+
+    <%-- rayway控件集 --%>
+
+    <script type="text/javascript" src="/rayway/js/core.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/box.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/dropdownmenu.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/navigation.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/dock.js"></script>
+
+    <script type="text/javascript" src="/rayway/js/searchbar.js"></script>
+
+    <link href="/rayway/css/neter.css" rel="stylesheet" />
+    <%-- rayway控件集 --%>
+    <style type="text/css">
+        body
+        {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function() {
+            var WinAlert = window.alert;
+            window.alert = function(e) {
+                if (e && (e + "").indexOf("www.miniui.com") > -1) { }
+                else {
+                    WinAlert(e);
+                }
+            };
+        });
+    </script>
+
+    <asp:ContentPlaceHolder ID="HeadHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server" style="width: 100%; height: 100%;">
+    <asp:ContentPlaceHolder ID="BodyHolder" runat="server">
+    </asp:ContentPlaceHolder>
+    </form>
+</body>
+
+<script type="text/javascript">
+</script>
+
+</html>

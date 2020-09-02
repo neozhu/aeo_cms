@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "报价导出";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+<style>
+    .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+<center>
+    <h2>导出界面</h2>
+</center>
+
+    <div class="row searchrow">
+        <center>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <input type="text" id="CreateDateS" name="CreateDateS" placeholder="导出日期起" class="form-control datepicker" data-dateformat="yy/mm/dd">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <input type="text" id="CreateDateE" name="CreateDateE" placeholder="导出日期止" class="form-control datepicker" data-dateformat="yy/mm/dd">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        </center>
+</div>
+    <div>
+        <center>
+            <button class="button" id="btnDc">
+                报价导出
+            </button>
+            <button class="button" id="DjDc">
+                定价导出
+            </button>
+            <button class="button" id="TjDc">
+                统计导出
+            </button>
+        </center>
+    </div>
+    @section pagespecific {
+        <script type="text/javascript">
+            $(function () {
+                $("#btnDc").click(function () {
+                    $.ajax({
+                        url: "/QM_Price/PriceExport",
+                        type: "Post",
+                        data: {
+                            ExportFlag: "1",
+                            CreateDateS: $("#CreateDateS").val(),
+                            CreateDateE: $("#CreateDateE").val()
+                        },
+                        async: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.Success) {
+                                location.href = data.Message;
+                            }
+                        }
+                    });
+
+                })
+                $("#DjDc").click(function () {
+                    $.ajax({
+                        url: "/QM_Price/PriceExport",
+                        type: "Post",
+                        data: {
+                            ExportFlag: "2",
+                            CreateDateS: $("#CreateDateS").val(),
+                            CreateDateE: $("#CreateDateE").val()
+                        },
+                        async: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.Success) {
+                                location.href = data.Message;
+                            }
+                        }
+                    });
+
+                })
+                $("#TjDc").click(function () {
+                    $.ajax({
+                        url: "/QM_Price/PriceExport",
+                        type: "Post",
+                        data: {
+                            ExportFlag: "3",
+                            CreateDateS: $("#CreateDateS").val(),
+                            CreateDateE: $("#CreateDateE").val()
+
+                        },
+                        async: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.Success) {
+                                location.href = data.Message;
+                            }
+                        }
+                    });
+
+                })
+
+            })
+        </script>
+    }

@@ -1,0 +1,29 @@
+2019/9/5 17:11:23: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/9/5 17:11:26: 2019/9/5 17:11:26----非标报价和包含包干费报价审批
+RequestId1302044
+Idfd718301-d482-45e5-8004-f4ae03dce7f7
+2019/9/5 17:18:27: BUSINESSORG ERROR,MRID:10e5ce71-751e-468b-ab87-a49bf1595482 Exception:输入字符串的格式不正确。
+2019/9/5 17:18:27: BUSINESSORG ERROR,MRID:10e5ce71-751e-468b-ab87-a49bf1595482 Exception:未将对象引用设置到对象的实例。
+2019/9/5 17:18:27: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/9/5 17:18:30: 2019/9/5 17:18:30----非标报价和包含包干费报价审批
+RequestId1302058
+Id10e5ce71-751e-468b-ab87-a49bf1595482
+2019/9/5 17:22:42: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/9/5 17:22:45: 2019/9/5 17:22:45----非标报价和包含包干费报价审批
+RequestId1302063
+Id2973734f-e20e-429a-997f-716a166c8900
+2019/9/5 17:29:35: BUSINESSORG ERROR,MRID:49dd8d3a-a155-4092-9393-373f1df2aff4 Exception:输入字符串的格式不正确。
+2019/9/5 17:29:35: BUSINESSORG ERROR,MRID:49dd8d3a-a155-4092-9393-373f1df2aff4 Exception:未将对象引用设置到对象的实例。
+2019/9/5 17:29:35: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/9/5 17:29:39: 2019/9/5 17:29:39----非标报价和包含包干费报价审批
+RequestId1302075
+Id49dd8d3a-a155-4092-9393-373f1df2aff4
+2019/9/5 18:15:25: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/9/5 18:15:28: 2019/9/5 18:15:28----非标报价和包含包干费报价审批
+RequestId1302184
+Id60229566-0d3f-489a-9191-ae53eb7cd886

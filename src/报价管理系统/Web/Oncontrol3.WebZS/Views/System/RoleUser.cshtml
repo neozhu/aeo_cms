@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "系统账号管理";
+}
+<div class="easyui-layout" style="width:100%;height:100%">
+    <div class="scs_search" data-options="region:'north',split:false" style="height:35px;border:none;">
+        <div class="sd_cont">
+            <span class="fld_label" style="width:100px;">要添加的用户</span>
+            <span class="fld_input"><input class="easyui-popcombobox" id="CreateId" name="CreateId"></span>
+            <button class="scbtn01" id="adduserrole" style="float:left">添加</button>
+        </div>
+    </div>
+    <div data-options="region:'center',split:false">
+        <table id="dgroleusers" class="easyui-datagrid"
+               data-options="singleSelect:true,fit:true,url:'@(Url.Action("RoleUserData")+"/"+Html.ViewContext.RouteData.Values["id"])',method:'get'">
+            <thead>
+                <tr>
+                    <th data-options="field:'ck', checkbox: true "></th>
+                    <th data-options="field:'LoginName',width:90,sortable:true">登录名</th>
+                    <th data-options="field:'Name',width:70,sortable:true">用户名</th>
+                    <th data-options="field:'Email',width:180,align:'right'">邮箱</th>
+                    <th data-options="field:'Status',width:50,formatter:function(value,row){return statusEnum[value];}">状态</th>
+                    <th data-options="field:'dd',width:50,formatter:Remove">移除</th>
+                </tr>
+            </thead>
+        </table>
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+        var statusEnum = @Html.Raw(ViewBag.Status);
+        var roleid = "@Html.ViewContext.RouteData.Values["id"]";
+        $("#adduserrole").click(function () {
+            if ($("#CreateId").popcombobox("getValue") != "") {
+                $.ajax({
+                    url: "@Url.Action("AddUserRole")",
+                    data: { roleid:roleid,userid: $("#CreateId").popcombobox("getValue") },
+                    type: "GET",
+                    success: function (data) {
+                        $.messager.alert('操作提示', data);
+                        $("#dgroleusers").datagrid("load");
+                    }
+                });
+            }
+            else {
+                $.messager.alert('操作提示', '请先输入要加入角色的用户。', 'error');
+            }
+            return false;
+        });
+        function Remove(value, row) {
+            return "<a href='javascript:void(0);' onclick=RemoveRow('" + row.UserID + "','" + row.Name + "')>移除</a>";
+        }
+        function RemoveRow(userid,username) {
+            $.messager.confirm('操作提示', '确认要将[' + username + ']移除角色吗?', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteUserRole")",
+                        data: { roleid:roleid,userid: userid },
+                        type: "GET",
+                        success: function (data) {
+                            $.messager.alert('操作提示', data);
+                            $("#dgroleusers").datagrid("load");
+                        }
+                    });
+                }
+            });
+        }
+
+        $("#CreateId").popcombobox({
+            method: 'get',
+            nameField: 'CreateName',//用于保存对应数据库Name的字段,对应createid,默认为查询条件
+            //url: '@Url.Action("GetDatas","Common")?q='+$("#CreateId").val(),//自动完成的数据源,绑定已有id,第一次需要传入参数,未指定则调用datasql
+            valueField: 'UserID',
+            mode: 'remote',
+            textField: 'Name',
+            limitToList: true,
+            dialogWidth: 400,
+            dialogHeight: 500,
+            datasql: "select * from SYSUSER where STATUS='1'",//列表数据源
+            displaynames: { LoginName: '登录名', Name: '姓名' },//列表显示字段
+            sort: 'NAME',//排序字段
+            order: 'desc'//排序方式
+        });
+
+        $("#lkDelete").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                $.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("Delete")",
+                            data: { id: selrows[0].UserID },
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+    </script>
+}

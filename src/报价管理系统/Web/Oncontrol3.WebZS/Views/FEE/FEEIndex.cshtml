@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "费目管理";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@{
+    System.Data.DataTable dt = (System.Data.DataTable)ViewBag.Data;
+}
+<style type="text/css">
+    .select2-results li:first-child {
+        height: 25px;
+    }
+
+    .widget-body {
+        min-height: 50px !important;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right; ">
+                            <button type="submit" onclick="addNew()" class="btn btn-success">新建</button>
+                            <button type="submit" id="submit_search" class="btn btn-default">查询</button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">重置</button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="FEECODE" name="FEECODE" class="select2" placeholder="费目">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < dt.Rows.Count; i++)
+                                                {
+                                                    @*<option value="@dt.Rows[i]["FEECODE"]">@dt.Rows[i]["FEENAME"]--@dt.Rows[i]["FEECODE"]</option>*@
+                                                    <option value="@dt.Rows[i]["TCET084"]">@dt.Rows[i]["TEXTDESC"]--@dt.Rows[i]["TCET084"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#amenufld").hide();
+            //$("#logout").hide();
+            //$("#amenufld").click();
+            //列定义
+            var columns = [{
+                "title": "操作", "data": "RID", "width": "30", "orderable": false,
+                render: function (data, type, row, meta) {
+                    return '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + data + '\") ><i class="fa fa-pencil"></i></button>';
+                    //+ '<button title="删除" class="btn btn-xs btn-default" onclick=deleterow(\"' + data + '\") ><i class="fa fa-times"></i></button>';
+                }
+            },
+                            { "title": "费目名称", "data": "FEENAME" },
+                            { "title": "费目代码", "data": "FEECODE" },
+                            //{ "title": "计费单位", "data": "CACLUNIT" },
+                            //{
+                            //    "title": "最低收费", "data": "MINPRICE", "render": function (data, type, full, meta) {
+                            //        if (data == 0) {
+                            //            return "无";
+                            //        } else {
+                            //            return "有";
+                            //        }
+                            //    }
+                            //},
+                            { "title": "前提条件", "data": "PRECOND" },
+                            //{ "title": "建议解析基础", "data": "RSLBASE" },
+                            {
+                                "title": "允许多计费单位报价", "data": "ALLOWCACLOFFER", "render": function (data, type, full, meta) {
+                                    if (data == 0) {
+                                        return "否";
+                                    } else {
+                                        return "是";
+                                    }
+                                }
+                            },
+                            //{ "title": "计算基础代码", "data": "CALCCODE" },
+                            //{ "title": "计算基础", "data": "CALCNAME" },
+                            //{ "title": "是否计费数量", "data": "ISCNT" },
+                            //{ "title": "计算基础说明", "data": "MEMO" },
+                            {
+                                "title": "创建日期", "data": "CREATETIME", "width": "100",
+                                "render": function (data, type, full, meta) {
+                                    return data == null ? "" : data.split('T')[0];//格式化只显示日期部分
+                                }
+                            }
+            ];
+            var table = $('#datatable_col_reorder').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "order": [[5, "desc"]],//第一次加载默认第5列日期倒排
+                "language": {
+                    "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'pl>>",//整个griddom布局
+                "lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("FEELists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.FEECODE = $("#FEECODE").val();
+                        //d.Status = $("#Status").val();
+                    }
+                }, columns: columns
+            });
+            $('#datatable_col_reorder tbody').on('dblclick', 'tr', function () {
+                var rid = $('#datatable_col_reorder').DataTable().row(this).data()['RID'];
+                location.href = '/FEE/FEECreate?id=' + rid;
+            });
+        });
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        });
+        function deleterow(id) {
+            if (confirm('确认要删除该费目及其下面的计算基础?')) {
+                $.ajax({
+                    url: "@Url.Action("FEEDelete")",
+                    data: { id: id },
+                    type: "GET",
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/FEE/FEEIndex';
+                    }
+                });
+            }
+        }
+        function addNew() {
+            document.location.href = '/FEE/FEECreate';
+            return false;
+        }
+        function doEdit(rid) {
+            document.location.href = '/FEE/FEECreate?id=' + rid;
+        }
+        // 重置查询条件
+        function ResetQueryValue() {
+            // 清空查询控件
+            $("#form1").find("select").each(function () {
+                $(this).select2("val", "");
+            });
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        }
+    </script>
+}

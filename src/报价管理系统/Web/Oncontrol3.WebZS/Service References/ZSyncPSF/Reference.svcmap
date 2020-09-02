@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="7ec8b92e-dff9-48b3-b165-461ac26492d4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://172.20.70.55/BizTalk.RFC.Z2FM_RFC_MD_SERVICE_TCET_Proxy/BizTalk_RFC_Z2FM_RFC_MD_SERVICE_TCET_Orchestration_Inbound.asmx" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BizTalk_RFC_Z2FM_RFC_MD_SERVICE_TCET_Orchestration_Inbound.disco" MetadataType="Disco" ID="e15f9b8f-80bd-4c5f-8a42-3233fdbaab3e" SourceId="1" SourceUrl="http://172.20.70.55/BizTalk.RFC.Z2FM_RFC_MD_SERVICE_TCET_Proxy/BizTalk_RFC_Z2FM_RFC_MD_SERVICE_TCET_Orchestration_Inbound.asmx?disco" />
+    <MetadataFile FileName="BizTalk_RFC_Z2FM_RFC_MD_SERVICE_TCET_Orchestration_Inbound.wsdl" MetadataType="Wsdl" ID="27141e51-1098-43a9-9300-c7b6b51d60d7" SourceId="1" SourceUrl="http://172.20.70.55/BizTalk.RFC.Z2FM_RFC_MD_SERVICE_TCET_Proxy/BizTalk_RFC_Z2FM_RFC_MD_SERVICE_TCET_Orchestration_Inbound.asmx?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

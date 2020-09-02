@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - 飞力门户</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link type="text/css" href="~/Content/main.css"  rel="stylesheet"/>
+    <link type="text/css" href="~/Content/easyui/themes/default/easyui.css" rel="stylesheet" />
+    <link type="text/css" href="~/Content/easyui/themes/icon.css" rel="stylesheet" />
+        @RenderSection("stylesadd", required: false)
+</head>
+<body>
+    <header>
+        <div class="content-wrapper">
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+            </div>
+        </div>
+    </header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+    <div class="clear40"></div>
+    <div class="foot">
+        <a href="">飞力达集团下属公司</a><a href="">第三方托管</a><a href="">合作专业机构</a><a href="">合作供应商</a>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="c_lefter">
+                <div class="cl_main">
+                    <div class="clm_mod"><img src="/images/fwxbg.png"></div>
+                    <div class="clm_mod"><img src="/images/fxlbg.png"></div>
+                    <div class="clm_mod"><img src="/images/fqqbg.png"></div>
+                </div>
+                <div class="cl_contact">
+                    联系我们 <em>021-34252525</em>
+                </div>
+            </div>
+            <div class="c_righter">
+                <p>
+                    <a href="">关于我们</a>  <a href="">用户协议</a> <a href="">法律声明</a> <a href="">常见问题</a> <a href="">意见反馈</a> <a class="last" href="">网站地图</a>
+                </p>
+                <p>备案/许可证编号：沪ICP备13045265号-3 www.98.cn  Copyright © 2015版权所有 复制必究 , Power by DedeCms</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/easyui/jquery.js" type="text/javascript"></script>
+    <script src="~/Scripts/easyui/jquery.easyui.js" type="text/javascript"></script>
+    <script src="~/Scripts/easyui/common.js" type="text/javascript"></script>
+    <script src="~/Scripts/editor/kindeditor.js" type="text/javascript"></script>
+    <script src="~/Content/easyui/locale/easyui-lang-cz.js"></script>
+    <script src="~/Scripts/easyui/easyui.aimext.js" type="text/javascript"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        $("#logomenu").click(function () {
+            $("#scs_main").show();
+        }).mouseover(function () {
+            $("#scs_main").show();
+        });
+        $("#scs_main").mouseleave(function () {
+            $(this).hide();
+        })
+    </script>
+</body>
+</html>

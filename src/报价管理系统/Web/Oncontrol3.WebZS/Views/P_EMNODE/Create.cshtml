@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "";
+}
+@model OnControl.Model.P_EMNODE
+<div class="container">
+    @using (Html.BeginForm(Html.ViewContext.RouteData.Values["id"] != null ? "Edit" : "Create", "P_EMNODE", FormMethod.Post, new { id = "ff" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="order_title">
+            <span>基础信息</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">EM事件节点</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.NAME, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true" })</span>
+            <span class="fld_label">服务类型</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.TYPE, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:true,data:StatusSel,valueField:'Code',textField:'Name',editable:false" })</span>
+            <span class="fld_label">排序</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.SORTINDEX, new { style = "width:100%", @class = "easyui-numberbox", data_options = "required:true" })</span>
+            <div class="clear"></div>
+            <span class="fld_label">备注</span>
+            <span>@Html.TextAreaFor(m => m.REMARK, new { style = "width:100%;height:60px", data_options = "required:false" })</span>
+        </div>
+    }
+    <div style="text-align:center;padding:5px 0">
+        @Html.ValidationSummary()
+        <div style="color:red">@ViewBag.StatusMessage</div>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>&nbsp;&nbsp;
+        <a href="@Url.Action("Index")" class="easyui-linkbutton" style="width:80px">返回</a>
+    </div>
+</div>
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        var statusEnum = { SO: "SO", ASN: "ASN", FO: "FO" };
+        var StatusSel = [{ Code: "SO", Name: "SO" }, { Code: "ASN", Name: "ASN" }, { Code: "FO", Name: "FO" }];
+
+        function submitForm() {
+            if ($("#ff").form('validate')) {
+                $("#ff").submit();//同步提交
+            }
+        }
+    </script>
+}

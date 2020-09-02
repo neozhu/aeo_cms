@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "Kitting导入";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont">
+                <!--<span class="fld_label">客户名称</span>
+                <span class="fld_input"><input class="easyui-textbox" id="CUSTOMERNAME" name="CUSTOMERNAME"></span>-->
+                <span class="fld_label">导入状态</span>
+                <span class="fld_input"><input class="easyui-combobox" id="IMPORTSTATE" name="IMPORTSTATE" data-options=data:importstate,valueField:'Code',textField:'Name',editable:false></span>
+                <span class="fld_label">作废状态</span>
+                <span class="fld_input"><input class="easyui-combobox" id="RSTATE" name="RSTATE" data-options=data:rstate,valueField:'Code',textField:'Name',editable:false></span>
+                <span class="fld_label">过账状态</span>
+                <span class="fld_input"><input class="easyui-combobox" id="MSTATE" name="MSTATE" data-options=data:mstate,valueField:'Code',textField:'Name',editable:false></span>
+                <span class="fld_label">Kitting ID</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Kitting" name="Kitting"></span>
+                <span class="fld_label">PD LINE</span>
+                <span class="fld_input"><input class="easyui-textbox" id="PDLINE" name="PDLINE"></span>
+                <span class="fld_label">批次号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="SEQ" name="SEQ"></span>
+                <span class="fld_label">料号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="ITEMCODE" name="ITEMCODE"></span>
+                <span class="fld_label">工单号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="WORKNO" name="WORKNO"></span>
+                <div class="clear10"></div>
+                <div id="more_sc">
+                    <span class="fld_label">导入时间</span>
+                    <span class="fld_input"><input class="easyui-datebox" id="CreateDateS" name="CreateDateS" data-options="required:true" value=@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd") style="width:180px"></span>
+                    <span class="fld_label">~</span>
+                    <span class="fld_input"><input class="easyui-datebox" id="CreateDateE" name="CreateDateE" value=@DateTime.Now.ToString("yyyy-MM-dd") style="width:180px"></span>
+                    <div class="clear10"></div>
+                </div>
+                <div class="sc_more">
+                    <a class="" href="javascript:void(0);" id="sc_more">更多查询条件</a>
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkupload" style="width:60px">上传</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkresetpwd" style="width:100px" target="_blank" href="/Importtmp.xlsx">下载导入模板</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkreset" style="width:50px">作废</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkexport" style="width:50px">导出</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:false,collapsible:true,method:'get',pagination:false,pageSize:20,remoteSort:false,multiSort:true">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'REFPO',width:115,sortable:false,sortable:true">批次号</th>
+                <th data-options="field:'INPUTDATE',width:140,align:'center',sortable:true">导入日期</th>
+                <th data-options="field:'REF01',width:40,sortable:false">厂别</th>
+                <th data-options="field:'REFPOLINE',width:40,sortable:false">项次</th>
+                <th data-options="field:'REF03',width:100,sortable:false">PD LINE</th>
+                <th data-options="field:'REF02',width:100,sortable:false">移转类型</th>
+                <th data-options="field:'REF04',width:100,sortable:false">站别</th>
+                <th data-options="field:'REF07',width:100,sortable:false">Item Line</th>
+                <th data-options="field:'REF05',width:130,sortable:false">料号</th>
+                <th data-options="field:'REF08',width:130,sortable:false">品名</th>
+                <th data-options="field:'REF10',width:100,sortable:false">From 库别</th>
+                <th data-options="field:'REF11',width:100,sortable:false">To 库别</th>
+                <th data-options="field:'QTY1',width:100,sortable:false">需求数量</th>
+                <th data-options="field:'QTY3',width:100,sortable:false">实际数量</th>
+                <th data-options="field:'QTY5',width:100,sortable:false">过账数量</th>
+                <th data-options="field:'DATE3',width:140,align:'center',sortable:true">入账日期</th>
+                <th data-options="field:'REF18',width:70,sortable:false">入账D/N</th>
+                <th data-options="field:'REF12',width:100,sortable:false">交货Building</th>
+                <th data-options="field:'REF13',width:100,sortable:false">送货码头</th>
+                <th data-options="field:'DATE1',width:140,sortable:false,sortable:true">请求出货时间</th>
+                <th data-options="field:'NOTES1',width:100,sortable:false">备注</th>
+                <th data-options="field:'REF06',width:100,sortable:false">工单号</th>
+                <th data-options="field:'INPUTUSER',width:70,sortable:false">导入人</th>
+                <th data-options="field:'ISINPUT',width:80,sortable:false,formatter:function(val){return val=='Y'?'已导入':'未导入';}">导入状态</th>
+                <th data-options="field:'ASN',width:80,sortable:false">Kitting ID</th>
+                <th data-options="field:'ZSOHZT',width:80,sortable:false">订单状态</th>
+                <th data-options="field:'ZWMSDH',width:80,sortable:false">出货单号</th>
+                <th data-options="field:'ZCPH',width:80,sortable:false">车牌号</th>
+                <th data-options="field:'ZDDFYRQ',width:140,sortable:false,sortable:true">发车时间</th>
+                <!--<th data-options="field:'OP',width:70,sortable:false,formatter:Editors">操作</th>-->
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="easyui-window" id="import-excel-template" title="文件上传" style="width:400px;height:170px;" closed="true">
+    <iframe width="100%" height="100%" src="/P_KITTING/FileUpload" frameborder="0" border="0"></iframe>
+</div>
+<div style="display:none;">
+    <iframe id="filedownload" src=""></iframe>
+</div>
+@section Scripts {
+    <script>
+        var rstate = [{ Code: "Y", Name: "已作废" }, { Code: "N", Name: "未作废" }];
+        var mstate = [{ Code: "Y", Name: "已过帐" }, { Code: "N", Name: "未过帐" }];
+        var importstate = [{ Code: "Y", Name: "已导入" }, { Code: "N", Name: "未导入" }];
+        var jq = $;//重命名,因为模板生成会报错.
+
+        function Editors(value, row, index) {
+            return "<a href='javascript:void(0);' onclick=EditRow('" + row.RoleID + "')>货况跟踪</a>";
+        }
+        function EditRow(roleID) {
+            $("#windowDiv").window({
+                width: 500, height: 600, modal: true,
+                href: "@Url.Action("RoleUser")/" + roleID
+            });
+        }
+
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+        })
+
+        $("#submit_search").click(function () {
+            if ($("#form1").form('validate')) {
+                $('#dg').datagrid({ url: '@Url.Action("SearchLists")', queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            }
+            return false;
+        });
+        $("#lkreset").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                jq.messager.confirm('操作提示', '确认要作废选中的记录吗?', function (r) {
+                    if (r) {
+                        MaskUtil.mask("作废中,请稍候...");
+                        var kseqs = "";
+                        var kseqlines = "";
+                        for (var i = 0; i < selrows.length; i++) {
+                            kseqs += selrows[0].REFPO + ",";
+                            kseqlines += selrows[0].REFPOLINE + ",";
+                        }
+
+                        jq.ajax({
+                            url: "@Url.Action("Reset")",
+                            data: { po: kseqs, poline: kseqlines },
+                            type: "GET",
+                            success: function (data) {
+                                MaskUtil.unmask("");
+                                jq.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                jq.messager.alert('操作提示', '请选择要作废的行。', 'error');
+            }
+        });
+        $("#lkexport").click(function () {
+            if ($("#form1").form('validate')) {
+                MaskUtil.mask("导出中,请稍候...");
+                var newWin = window.open("");
+                $.ajax({
+                    url: "@Url.Action("Export")",
+                    data: form2Json("form1"),
+                    type: "GET",
+                    success: function (data) {
+                        MaskUtil.unmask("");
+                        newWin.location.href = data;
+                    }
+                });
+            }
+        });
+
+
+        $("#lkupload").click(function () {
+            $('#import-excel-template').window('open')
+        });
+
+    </script>
+}
+

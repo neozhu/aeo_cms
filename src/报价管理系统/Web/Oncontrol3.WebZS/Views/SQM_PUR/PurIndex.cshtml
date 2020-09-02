@@ -1,0 +1,1420 @@
+﻿@{
+    ViewBag.Title = "产品定价";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.SQM_DJ_PSF
+@{
+    bool gyl = @ViewBag.gyl;
+    bool min = @ViewBag.min;
+    System.Data.DataTable dt = (System.Data.DataTable)ViewBag.Data;
+    System.Data.DataTable FCREFdt = (System.Data.DataTable)ViewBag.FCREFData;
+    System.Data.DataTable SEARFCREFdt = (System.Data.DataTable)ViewBag.SEARFCREFData;
+    System.Data.DataTable DJFSdt = (System.Data.DataTable)ViewBag.DJFSData;
+    System.Data.DataTable GDZDATAdt = (System.Data.DataTable)ViewBag.GDZDATAdt;
+}
+<!-- MAIN CONTENT -->
+<style>
+    /*.widget-body {
+        min-height: 150px !important;
+    }*/
+
+    .widget-body .row {
+        margin: 0px;
+        display: inline-block;
+        width: 25%;
+        float: left;
+        max-height: 46px;
+    }
+
+        .widget-body .row .col-3 {
+            width: 100%;
+        }
+
+    .pur-top {
+        padding: 0px 10px;
+        line-height: 40px;
+        background-color: white;
+    }
+
+        .pur-top .qzrq {
+            padding: 10px 0px;
+        }
+
+            .pur-top .qzrq label {
+                font-weight: bold;
+                float: left;
+                margin-right: 5px;
+            }
+
+            .pur-top .qzrq .input-group {
+                width: 20%;
+                margin-right: 10px;
+                float: left;
+            }
+
+            .pur-top .qzrq .btn {
+                margin-top: -10px;
+            }
+
+        .pur-top .djfs, .pur-top .gdz {
+            padding-bottom: 10px;
+            width: 10%;
+            display: inline-block;
+        }
+
+            /*.pur-top .gdz:nth-child(1) {
+                margin-left: -84px;
+            }*/
+
+            .pur-top .djfs .active, .pur-top .gdz .active {
+                background-color: #2e7bcc;
+                color: white;
+            }
+
+            .pur-top .djfs .djfsname, .pur-top .gdz .gdzname {
+                cursor: pointer;
+            }
+
+        .pur-top .top-lable {
+            font-weight: bold;
+        }
+
+        .pur-top .select2-container {
+            width: 94% !important;
+            line-height: 20px;
+        }
+
+    .DTFC_LeftWrapper {
+        top: -6px !important;
+    }
+
+    .smart-form .col-3 {
+        width: 24.5%;
+    }
+
+    /*表格end*/
+    /*#datatable_col_reorder td {
+        white-space: nowrap;
+    }*/
+
+    #datatable_col_reorder th {
+        white-space: nowrap;
+    }
+
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+    .select2-results li:first-child {
+        height: 25px;
+    }
+
+    .djfz {
+        font-style: initial;
+        margin-top: 5px;
+        font-size: 14px;
+        width: 38%;
+        cursor: pointer;
+    }
+
+    .gdz {
+        margin-right: 5px;
+    }
+
+    /*.dataTables_scrollHead table tr th:last-child {
+        width: 200px !important;
+    }*/
+
+    .dataTables_scrollBody table tr td:last-child {
+        min-width: 200px !important;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="pur-top">
+                    <div class="top-lable" style="float:left;margin-right:70px;">
+                        @if (Model.ALONEFEE == "1")
+                        {
+                            @Html.Raw("费目定价：" + @Model.FEENAME);
+                        }
+                        else
+                        {
+                            @*@Html.Raw("费目定价：@Model.PRDNAME - @Model.SRVNAME - @Model.FEENAME");*@
+                            @Html.Raw(string.Format("费目定价：{0} - {1} - {2}", @Model.PRDNAME, @Model.SRVNAME, @Model.FEENAME));
+                        }
+                    </div>
+                    <label>定价方式</label>
+                    <label class="radio-inline"><input type="radio" class="radiobox" name="DJFS" value="0"><span>普通定价</span></label>
+                    @*<label class="radio-inline ptdj"><input type="checkbox" class="checkbox" name="COST"><span>At cost</span></label>*@
+                    <label class="radio-inline ptdj"><input type="checkbox" class="checkbox" name="DPDX"><span>是否单票单询</span></label>
+                    <div>
+                        <label style="font-weight:bold;">组织名称<i style="color:red">*</i></label>
+                        <select multiple style="width:100%" class="select2" id="ZZMC">
+                            @if (dt != null)
+                            {
+                                for (var i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    <option value="@dt.Rows[i]["RID"]">@dt.Rows[i]["ORGNAME"]--@dt.Rows[i]["RID"]</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="atcost" style="text-align:right;">
+                        <button type="submit" class="btn btn-success djfb">发布</button>
+                        <button type="submit" class="btn btn-default" onclick="back()">返回</button>
+                    </div>
+                    @*<div class="qzrq ptdj">
+                            <label>起始日期</label>
+                            <div class="input-group date">
+                                <input class="form-control form-date" type="text" id="QSDATE" name="QSDATE">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <label>截止日期</label>
+                            <div class="input-group date">
+                                <input class="form-control form-date" type="text" id="JZDATE" name="JZDATE">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <button type="submit" id="qzrq" class="btn btn-default">确定</button>
+                        </div>*@
+                    @if (DJFSdt != null && DJFSdt.Rows.Count > 0 && DJFSdt.Rows[0]["DJFSRID"].ToString() != "")
+                    {
+                        <div class="ptdj dlc">
+                            @for (int i = 0; i < DJFSdt.Rows.Count; i++)
+                            {
+                                <div class="djfs">
+                                    <input type="hidden" class="djfsrid" value="@DJFSdt.Rows[i]["DJFSRID"]" />
+                                    <input type="text" class="form-control djfsname" title="@DJFSdt.Rows[i]["DJFSNAME"]" value="@DJFSdt.Rows[i]["DJFSNAME"]" readonly>
+                                </div>
+                            }
+                        </div>
+                        <div class="ptdj gdzradio">
+                            <label style="float: left; margin-right: 20px; ">高低值比较</label>
+                            <div class="">
+                                <label class="radio-inline"><input type="radio" class="radiobox" name="GDZKEY" value="0" disabled="disabled"><span>无</span></label>
+                                <label class="radio-inline"><input type="radio" class="radiobox" name="GDZKEY" value="A" disabled="disabled"><span>A</span></label>
+                                <label class="radio-inline"><input type="radio" class="radiobox" name="GDZKEY" value="H" disabled="disabled"><span>H</span></label>
+                                <label class="radio-inline"><input type="radio" class="radiobox" name="GDZKEY" value="L" disabled="disabled"><span>L</span></label>
+                                <label style="margin-left:80px; margin-right: 20px; ">阶梯累计</label>
+                                <label class="radio-inline"><input type="radio" class="radiobox" name="JTLJ" value="0" disabled="disabled"><span>否</span></label>
+                                <label class="radio-inline"><input type="radio" class="radiobox" name="JTLJ" value="1" disabled="disabled"><span>是</span></label>
+                            </div>
+                        </div>
+                        <!--阶梯累计-->
+                        @*<div class="jtljradio">
+                                <label style="float: left; margin-right: 20px; ">阶梯累计</label>
+                                <div class="">
+                                    <label class="radio-inline"><input type="radio" class="radiobox" name="JTLJ" value="0" disabled="disabled"><span>否</span></label>
+                                    <label class="radio-inline"><input type="radio" class="radiobox" name="JTLJ" value="1" disabled="disabled"><span>是</span></label>
+                                </div>
+                            </div>*@
+                    }
+                    @if (GDZDATAdt != null && GDZDATAdt.Rows.Count > 0 && !String.IsNullOrEmpty(GDZDATAdt.Rows[0]["GDZRID"].ToString()))
+                    {
+                        <div class="ptdj gdzdiv">
+                            @for (int i = 0; i < GDZDATAdt.Rows.Count; i++)
+                            {
+                                <div class='gdz'>
+                                    <input type='hidden' class='gdzrid' value="@GDZDATAdt.Rows[i]["GDZRID"]" />
+                                    <input type='text' class='form-control gdzname' value="@GDZDATAdt.Rows[i]["GDZNAME"]" readonly>
+                                </div>
+                            }
+                        </div>
+                    }
+
+
+                </div>
+                <div class="jarviswidget jarviswidget-sortable ptdj" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <input id="kyyf" value="@ViewBag.kyyf" type="hidden" />
+                        @*<span class="widget-icon" style="margin-left: -95px;"> <i class="fa fa-edit"></i> </span>
+                            <h2 style="margin-left: -65px;">@ViewBag.Title</h2>*@
+                        <div style="float:right; ">
+                            <button type="submit" id="responseQ" class="btn btn-success" style="display:none;" onclick="btnxjdf(); return false;">询价答复</button>
+                            <button type="submit" onclick="goPurEdit()" class="btn btn-success">新建</button>
+                            <button type="submit" id="handleImp" class="btn btn-success">导入</button>
+                            <button type="submit" onclick="handleExp()" id="handleExp" class="btn btn-success">导出</button>
+                            <button type="submit" id="btndelete" class="btn btn-success">删除</button>
+                            <button type="submit" class="btn btn-success djfb">发布</button>
+                            <button type="submit" id="submit_search" class="btn btn-default">查询</button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">重置</button>
+                            <button type="submit" id="btnback" class="btn btn-default" onclick="back()">返回</button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                @if (SEARFCREFdt != null)
+                                {
+                                    for (int i = 0; i < SEARFCREFdt.Rows.Count; i++)
+                                    {
+                                        if ((String)SEARFCREFdt.Rows[i]["CALCCODE"] == "ZKHR")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@SEARFCREFdt.Rows[i]["VALCOL"]" name="@SEARFCREFdt.Rows[i]["CALCCODE"]" class="select2">
+                                                            <option value="MON">MON</option>
+                                                            <option value="TUE">TUE</option>
+                                                            <option value="WED">WED</option>
+                                                            <option value="THU">THU</option>
+                                                            <option value="FRI">FRI</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="SUN">SUN</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="input">
+                                                        <input type="text" class="form-control" id="@SEARFCREFdt.Rows[i]["VALCOL"]" name="@SEARFCREFdt.Rows[i]["CALCCODE"]" mdmtype="@SEARFCREFdt.Rows[i]["MDMTYPE"]" mdmkey="@SEARFCREFdt.Rows[i]["MDMKEY"]" mdmfieldname="@SEARFCREFdt.Rows[i]["MDMFIELDNAME"]" mdmloctype="@SEARFCREFdt.Rows[i]["MDMLOCTYPE"]" placeholder="@SEARFCREFdt.Rows[i]["CALCNAME"]">
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <div class="input-group date">
+                                                <input class="form-control form-date" type="text" id="STARTDATE" name="STARTDATE" placeholder="起始日期">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <div class="input-group date">
+                                                <input class="form-control form-date" type="text" id="ENDDATE" name="ENDDATE" placeholder="截止日期">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width: 100%;" id="STATUS" name="STATUS" class="select2">
+                                                <option value="1">有效</option>
+                                                <option value="0">失效</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width: 100%;" id="DJSTATUS" name="DJSTATUS" class="select2">
+                                                <option></option>
+                                                <option value="1">已发布</option>
+                                                <option value="0">未发布</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <!-- 定价复制--产品服务选择 -->
+    <div class="modal fade" id="djfzAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="chooseExc">选择产品服务</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="page1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 模态框（Modal）选择文件 -->
+    <div class="modal fade" id="importExc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="chooseExc">
+                        导入EXCEL文件
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="importFileForm" method="post" enctype="multipart/form-data" action="">
+                        <div id="div_fileImport">
+                            <input id="fileImport" name="fileImport" type="file" class="file-loading">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 导出文件 -->
+    <div class="modal fade" id="exportExc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="chooseExc">
+                        导出EXCEL文件
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="div_fileExport">
+                        <a id="fileExport" name="fileExport">点击此处下载</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        var gdzkey = '';
+        var jtlj = "";
+        // 询价 2018/7/24 chenbo
+        function back2() {
+            location.href = "/SQM_ENQUIRY_HKY/QuiryPURIndex";
+        }
+        if (request("sign") == "q") {
+            // Datatable 绘制完成后执行方法
+            //$("#datatable_col_reorder").on("draw.dt", function () {
+            //    alert("", localStorage.getItem("QYG") + "," + localStorage.getItem("MDG") + "," + localStorage.getItem("CQ"));
+            //});
+            $("#responseQ").show();
+            var psf = request("psf");
+            $("#btnback").attr("onclick", "back2()");
+            // 填充组织
+            //$("#ZZMC").val(request("orgcode"));
+            var zz = request("orgcode");
+            $("#ZZMC").attr("disabled", true);
+            $("#ZZMC").select2("val", request("orgcode"));
+        }
+
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        });
+        $(".djfb").click(function () {
+            var ifdpdx = '';
+            var ifcost = '';
+            if ($("input[name='DPDX']:checked").val() == "on") {
+                ifdpdx = '1';
+            }
+            if ($("input[name='COST']:checked").val() == "on") {
+                ifcost = '1';
+            }
+            var zzmcarr = $("#ZZMC").val();
+            if (zzmcarr == null) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("组织名称不能为空！");
+                return false;
+            }
+            var djfs = $("input[name='DJFS']:checked").val();
+            djfbAllRows(djfs, ifdpdx, ifcost);
+            //var checkBoxs = $("input[name='checkBox']:checked");
+            //var djfs = $("input[name='DJFS']:checked").val();
+            //if (checkBoxs.length == 0 && djfs == '0' && ifdpdx != "1" && ifcost!="1") {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请选择需要发布的数据行！");
+            //    return false;
+            //} else {
+            //    djfbAllRows(djfs, ifdpdx,ifcost);
+            //}
+        });
+        //批量发布
+        function djfbAllRows(djfs, ifdpdx, ifcost) {
+            var zzmcarr = $("#ZZMC").val();
+            var orgcode = zzmcarr.join(",");
+            var rowIds = [];
+            var checkBoxs = $("input[name='checkBox']:checked");
+            checkBoxs.each(function () {
+                if (rowIds.indexOf($(this).val()) == -1) {
+                    rowIds.push($(this).val());
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: "/SQM_PUR/PurCreate",
+                data: {
+                    ORGCODE: orgcode,
+                    RID: "@Model.RID",
+                    FEECODE: "@Model.FEECODE",
+                    ROWIDS: rowIds.join(","),
+                    DJFS: $("input[name='DJFS']:checked").val(),
+                    IFDPDX: ifdpdx,
+                    IFCOST: ifcost
+                },
+                dataType: "json",
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        toastr.success(data.Message);
+                        if (djfs != '0') {
+                            setTimeout(function () { location.href = "/SQM_PUR/Index" }, 2000);
+                        }
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            });
+        }
+        // fileinput
+        var FileInput = function () {
+            var oFile = new Object();
+            oFile.Init = function (ctrlName, uploadUrl) {
+                var control = $("#" + ctrlName);
+                // 初始化上传控件的样式
+                control.fileinput({
+                    language: "zh",//设置语言
+                    uploadUrl: uploadUrl,//上传的地址
+                    allowedFileExtensions: ["xls", "xlsx"],//接收的文件后缀
+                    showUpload: true,//是否显示上传按钮
+                    showCaption: true,//是否显示标题
+                    browseClass: "btn btn-primary",//按钮样式 
+                    maxFileCount: 1,//表示允许同时上传的最大文件个数
+                    enctype: "multipart/form-data",
+                    validateInitialCount: true,
+                    autoReplace: true, // 是否自动替换当前文件
+                    dropZoneEnabled: false, //是否显示拖拽区域
+                    maxFileSize: 0, // 单位为kb，如果为0表示不限制文件大小
+                    previewFileIcon: "<img src='/Content/QO/scripts/bootstrap-fileinput-master/img/excel.png' />",
+                    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}!",
+                    layoutTemplates: {
+                        actionDelete: "", // 去除上传预览的缩略图中的删除图标
+                        actionUpload: "", // 去除上传预览缩略图中的上传图
+                        actionZoom: "" // 去除上传预览缩略图中的查看详情预览的缩略图标
+                    }
+                });
+
+                // 导入文件上传上传完成之后的事件
+                $("#fileImport").on("fileuploaded", function (event, data, previewId, index) {
+                    toastr.clear();
+                    toastr.remove();
+                    switch (data.response.Code) {
+                        case "0": // 成功
+                            alert("消息提示", data.response.Message);
+                            //toastr.success(data.response.Message);
+                            $('#importExc').modal('hide');
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                        case "1": // 失败
+                            alert("消息提示", data.response.Message);
+                            //toastr.error(data.response.Message);
+                            $('#importExc').modal('hide');
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                        case "2": // 异常
+                            alert("消息提示", data.response.Message);
+                            //toastr.error(data.response.Message);
+                            $('#importExc').modal('hide');
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                            break;
+                    }
+                });
+                // 导入失败后的事件
+                $("#fileImport").on("fileerror", function (event, data, msg) {
+                    //alert("消息提示", "导入失败");
+                    toastr.error(data.response.Message);
+                });
+            }
+            return oFile;
+        }
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        function back() {
+            if ("@Model.ALONEFEE" == "1") {
+                window.location.href = "@Url.Action("Index","SQM_DL_PUR")";
+            } else {
+                window.location.href = "@Url.Action("Index")";
+            }
+        }
+        var rowId = 0;
+        function doDelete(prdid) {
+            rowId = prdid;
+            popDialog("删除", "确定要删除本条记录吗？", deleteRow);
+        }
+        // 对话框回调函数
+        function deleteRow() {
+            $.ajax({
+                url: "/SQM_PUR/DeleteRow",
+                type: "Post",
+                async: false,
+                data: {
+                    "rowId": rowId
+                },
+                success: function (msg) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (msg.indexOf("成功!")) {
+                        toastr.success("删除成功!");
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error("删除失败!");
+                    }
+                }
+            });
+        }
+        function checkAll() {
+            if ($("input[name = 'checkRowIds']").is(":checked")) {
+                $("input[name='checkBox']").prop("checked", true);
+            } else {
+                $("input[name='checkBox']").prop("checked", false);
+            }
+        }
+        // 点击起止日期确定
+        $("#qzrq").click(function () {
+            var nowtime = new Date(new Date() - 1000 * 60 * 60 * 24);
+            var starttime = new Date(Date.parse($("#QSDATE").val()));
+            toastr.clear();
+            toastr.remove();
+            if (starttime < nowtime) {
+                toastr.error("起始日期不能小于当前日期！");
+                return;
+            }
+            if ($("#QSDATE").val() >= $("#JZDATE").val()) {
+                toastr.error("截止日期不能小于或等于起始日期！");
+                return;
+            }
+            popDialog("提示", "确定批量替换所有数据？", ghqzrq);
+        });
+        // 批量替换起止日期
+        function ghqzrq() {
+            var djfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            var postdata = GetWebControlsForRadio("#form1");
+            try {
+                $("#qzrq").attr("disabled", "disabled");
+                $.ajax({
+                    url: "/SQM_PUR/ChangeQZ",
+                    type: "post",
+                    data: {
+                        'postdata': JSON.stringify(postdata),
+                        'djrid': "@Model.RID",
+                        "qsdate": $("#QSDATE").val(),
+                        "jzdate": $("#JZDATE").val(),
+                        "djfsrid": djfsrid,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            toastr.clear();
+                            toastr.remove();
+                            toastr.error("请求失败！");
+                        }
+                    }
+                });
+            } catch (e) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请求失败，请重试");
+            }
+            finally { $("#qzrq").removeAttr("disabled"); }
+        }
+        // 点击"删除"
+        $("#btndelete").click(function () {
+            var checkBoxs = $("input[name='checkBox']:checked");
+            if (checkBoxs.length == 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请选择需要删除的数据行！");
+                return false;
+            } else {
+                popDialog("删除", "确定要删除所选记录吗？", deleteAllRows);
+            }
+        });
+        // 批量删除
+        function deleteAllRows() {
+            var rowIds = [];
+            var checkBoxs = $("input[name='checkBox']:checked");
+            checkBoxs.each(function () {
+                rowIds.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("PurDelete")",
+                data: {
+                    "rowIds": rowIds.join(",")
+                },
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.indexOf("成功!") >= 0) {
+                        toastr.success("删除成功!");
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error(data);
+                    }
+                }
+            });
+        }
+        // 导入
+        $("#handleImp").click(function () {
+            toastr.clear();
+            toastr.remove();
+            if ("@ViewBag.gdznum" == "False") {
+                toastr.error("高低值比较最少需要两组计算基础，请确认！");
+                return false;
+            }
+            if ("@ViewBag.czfee" == "False") {
+                toastr.error("请维护该费目下的定价方式！");
+                return false;
+            }
+            popDialog("提示", "导入会将现有定价数据全部置为失效，是否继续？", handleImp);
+        });
+        function handleImp() {
+            // 1.清除
+            $("#div_fileImport").empty();
+            // 2.新增
+            $("#div_fileImport").append("<input id='fileImport' name='fileImport' type='file' class='file-loading'>");
+            new FileInput().Init("fileImport", "/SQM_PUR/PostExcelData?djrid=" + "@Model.RID");
+            $("#importExc").modal("show");
+        }
+        // 导出
+        function handleExp() {
+            toastr.clear();
+            toastr.remove();
+            if ("@ViewBag.gdznum" == "False") {
+                toastr.error("高低值比较最少需要两组计算基础，请确认！");
+                return false;
+            }
+            if ("@ViewBag.czfee" == "False") {
+                toastr.error("请维护该费目下的定价方式！");
+                return false;
+            }
+            // 进度条开始
+            toastr.info("数据生成中，请稍候...");
+            $.ajax({
+                url: "@Url.Action("Export")",
+                type: "Post",
+                data: {
+                    "djrid": "@Model.RID",
+                    "feecode": "@Model.FEECODE",
+                    "feename": "@Model.FEENAME"
+                },
+                dataType: "json",
+                success: function (data) {
+                    // 进度条结束
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        // 1.清除
+                        $("#div_fileExport").empty();
+                        // 2.新增
+                        $("#div_fileExport").append("<a id='fileExport' onclick='hidemodal();' name='fileExport' href='" + data.Message + "'>点击此处下载</a>");
+                        $("#exportExc").modal("show");
+                    }
+                    else {
+                        toastr.error(data.Message);
+                    }
+                }
+            });
+        }
+        function GetWebControlsForRadio(element) {
+            var postdata = {};
+            $(element).find('input,select').each(function (r) {
+                var id = $(this).attr('id');
+                var value = $(this).val();
+                var type = $(this).attr('type');
+                postdata[id] = value;
+            });
+            postdata["MODIFYUSER"] = username;
+            return postdata;
+        }
+        // 控件绑定数据源
+        function BindAutocompleteMDM() {
+            $("[mdmtype='MDM']").each(function () {
+                if ($("#kyyf").val()) {
+                    AutocompleteMDM($(this).attr("id"), "kygj");
+                } else {
+                    AutocompleteMDM($(this).attr("id"));
+                }
+            });
+            $("[mdmtype='MDMJC']").each(function () {
+                AutocompleteMDMJC($(this).attr("id"));
+            });
+            $("[mdmtype='MDMGK']").each(function () {
+                AutocompleteMDMGK($(this).attr("id"));
+            });
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+        //定价方式change事件
+        $(".djfs").click(function () {
+            $(this).addClass("active");
+            $(this).find(".djfsname").addClass("active");
+            $(this).siblings().removeClass("active");
+            $(this).siblings().find(".djfsname").removeClass("active");
+            getPurIndex(1);
+        });
+        //高低值比较change事件
+        //$("[name='GDZKEY']").change(function () {
+        //    var backflag = true;
+        //    gdzkey = $(this).val();
+        //    if (gdzkey == '0') {
+        //        $(".gdzdiv").hide();
+        //    } else {
+        //        $(".gdzdiv").show();
+        //        backflag = showGdzData(gdzkey);
+        //        if (backflag) {
+        //            $("div").find(".gdz").first().addClass("active");
+        //            $("div").find(".gdz").first().find(".gdzname").addClass("active");
+        //            $("div").find(".gdz").first().siblings().removeClass("active");
+        //        }
+        //    }
+        //    if (backflag) {
+        //        getPurIndex();
+        //    }
+        //});
+        var username;
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            // 清楚所有控件缓存
+            $("#form1").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+            var jsjcnum = "@SEARFCREFdt.Rows.Count";
+            if (jsjcnum <= 3) {
+                $(".widget-body").css("min-height", "100px");
+            } else if (jsjcnum >= 4 && jsjcnum <= 7) {
+                $(".widget-body").css("min-height", "150px");
+            } else {
+                $(".widget-body").css("min-height", "200px");
+            }
+            //是否单票单询
+            if ("@Model.IFDPDX" == "1") {
+                $("input[type='checkbox'][name='DPDX']").prop("checked", true);
+            }
+            //是否atcost
+            if ("@Model.IFCOST" == "1") {
+                $("input[type='checkbox'][name='COST']").prop("checked", true);
+            }
+            //定价方式
+            if ("@ViewBag.djfsrid" != "") {
+                $('input[value="@ViewBag.djfsrid"]').next().addClass("active");
+                $('input[value="@ViewBag.djfsrid"]').closest(".djfs").addClass("active");
+            }
+            //高低值比较
+            gdzkey = "@ViewBag.gdzkey";
+            $("[name='GDZKEY'][value='" + gdzkey + "']").prop("checked", true);
+            if (gdzkey != "" && gdzkey != "0") {
+                $(".gdzdiv").show();
+                showGdzData(gdzkey);
+            }
+            //高低值
+            if ("@ViewBag.gdzrid" != "") {
+                $('input[value="@ViewBag.gdzrid"]').next().addClass("active");
+                $('input[value="@ViewBag.gdzrid"]').closest(".gdz").addClass("active");
+            }
+            // 控件绑定数据源
+            BindAutocompleteMDM();
+            //展示GDZKEY
+            showGdzKey(gdzkey);
+            //定价方式切换
+            var djfs;
+            if ("@ViewBag.djfs" == "") {
+                djfs = "@Model.DJFS";
+            } else {
+                djfs = "@ViewBag.djfs";
+            }
+            if (djfs.length > 0) {
+                if (djfs == "0") {
+                    $('input[name=DJFS][value=0]').attr("checked", "true");
+                    $(".atcost").hide();
+                } else {
+                    $('input[name=DJFS][value=' + djfs + ']').attr("checked", "true");
+                    $(".ptdj").hide();
+                }
+            } else {
+                $('input[name=DJFS][value=0]').attr("checked", "true");
+                $(".atcost").hide();
+            }
+            //高低值列表change事件
+            $(".gdz").click(function () {
+                $(this).addClass("active");
+                $(this).find(".gdzname").addClass("active");
+                $(this).siblings().removeClass("active");
+                $(this).siblings().find(".djfsname").removeClass("active");
+                getPurIndex(2);
+            });
+            $('input[name=DJFS]').click(function () {
+                var val = $(this).val();
+                if (val == 0) {
+                    $('input[name=DJFS][value=0]').attr("checked", "true");
+                    $(".atcost").hide();
+                    $(".ptdj").show();
+                } else {
+                    $('input[name=DJFS][value=' + val + ']').attr("checked", "true");
+                    $(".ptdj").hide();
+                    $(".atcost").show();
+                }
+            });
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+            var zzmc = "@Model.ORGCODE";
+            if (zzmc.length > 0) {
+                var zzmccode = zzmc.split(",");
+                for (var i = 0; i < zzmccode.length; i++) {
+                    var codeval = zzmccode[i].split("-");
+                    $("#ZZMC").find("option[value = '" + codeval[1] + "']").attr("selected", "selected");
+                    $(".select2-choices li:first").append("<li class='select2-search-choice'><div key='" + codeval[1] + "'>" + codeval[0] + "</div><a href='#' class='select2-search-choice-close' tabindex='-1'></a></li>");
+                }
+            }
+            $(".select2-search-choice-close").click(function () {
+                $("#ZZMC option[value='" + $(this).prev().attr("key") + "']").attr("selected", false);
+                $(this).closest("li").hide();
+            });
+            //列定义
+            var columns = [
+                {
+                    "title": "<input type='checkbox' name='checkRowIds' onclick='checkAll()' />", "sortable": false, "data": "RID",
+                    render: function (data, type, row, meta) {
+                        if (row.STATUS == 0) {
+                            return "<input type='checkbox' name='checkBox' onclick='return false;' value='" + data + "'/>";
+                        } else {
+                            return "<input type='checkbox' name='checkBox' value='" + data + "'/>";
+                        }
+                    }
+                },
+                {
+                    "title": "操作", "data": "RID",
+                    render: function (data, type, row, meta) {
+                        if (row.STATUS == 0) {
+                            return '<button title="编辑" class="btn btn-xs btn-default" disabled="disabled"><i class="fa fa-pencil"></i></button>'
+                                + '<button title="删除" class="btn btn-xs btn-default" disabled="disabled" ><i class="fa fa-times"></i></button>';
+                        } else if (row.STATUS == 1) {
+                            return '<button title="编辑" class="btn btn-xs btn-default" onclick=goPurEdit(\"' + data + '\") ><i class="fa fa-pencil"></i></button>'
+                                + '<button title="删除" class="btn btn-xs btn-default" onclick=doDelete(\"' + data + '\") ><i class="fa fa-times"></i></button>';
+                        }
+                    }
+                },
+                { "title": "创建时间", "data": "CREATETIME", "sClass": "hidden" },
+                @if (FCREFdt!=null)
+                {
+                    for (var i = 0; i < FCREFdt.Rows.Count; i++)
+                    {
+                        @Html.Raw("{'title': '"+FCREFdt.Rows[i]["CALCNAME"]+ "','name': '" + FCREFdt.Rows[i]["CALCNAME"] + "','data': '" + FCREFdt.Rows[i]["VALCOL"]+"'},");
+                    }
+                }
+/**/
+                @if (min)
+                {
+                    @Html.Raw("{'title': 'MIN', 'data': 'MIN'},");
+	            }
+                {
+                    "title": "计算方式", "data": "CALCTYPE", "render": function (data, type, full, meta) {
+                        if (data == 'A') {
+                            return "绝对值";
+                        } else if (data == 'B') {
+                            return "相对值";
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { "title": "计费单位", "data": "CALCUNIT" },
+                @if (gyl)
+	            {
+                    @Html.Raw("{'title': '计算基础', 'data': 'CALCNAME'},");
+	            }else
+	            {
+                    @Html.Raw("{'title': '币种', 'data': 'CURRENCY'},");
+	            }
+                { "title": "采购价", "data": "PURPRICE" },
+                { "title": "成本价", "data": "COSTPRICE" },
+                { "title": "最高价", "data": "MAXPRICE" },
+                { "title": "最低价", "data": "MINPRICE" },
+                { "title": "指导价", "data": "GUIDEPRICE" },
+                {
+                    "title": "起始日期", "data": "STARTDATE",
+                    "render": function (data, type, full, meta) {
+                        return data == null ? "" : data.split('T')[0];//格式化只显示日期部分
+                    }
+                },
+                {
+                    "title": "截止日期", "data": "ENDDATE",
+                    "render": function (data, type, full, meta) {
+                        return data == null ? "" : data.split('T')[0];//格式化只显示日期部分
+                    }
+                },
+                {
+                    "title": "状态", "data": "STATUS", "render": function (data, type, full, meta) {
+                        if (data == 0) {
+                            return "失效";
+                        } else {
+                            return "有效";
+                        }
+                    }
+                },
+                {
+                    "title": "定价状态", "data": "DJSTATUS", "render": function (data, type, full, meta) {
+                        if (data == 0 || data == null) {
+                            return "未发布";
+                        } else {
+                            return "已发布";
+                        }
+                    }
+                },
+                { "title": "备注", "orderable": false, "data": "MEMO" },
+            ];
+            var table = $('#datatable_col_reorder').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "scrollX": true,
+                "fixedColumns": {
+                    leftColumns: 4
+                },
+                "order": [[2, "desc"]],
+                "fnDrawCallback": function () {
+                    // 取消标题的checkbox选中
+                    $("input[name = 'checkRowIds']").prop("checked", false);
+                    // “失效”标题checkbox disabled
+                    if ($("#STATUS").val() == 0) {
+                        $("input[name = 'checkRowIds']").attr("onclick", "return false;");
+                    } else {
+                        $("input[name = 'checkRowIds']").attr("onclick", "checkAll();");
+                    }
+                },
+                "language": {
+                    "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条</br><div class='djfz' onclick='djfz()'><input type='checkbox' name='djfz'/><span> 复制到其它产品及服务的相同费目<span></div>",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'pl>>",//整个griddom布局
+                "lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("PurLists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.FEECALCID = "@Model.RID";
+                        d.COLUMN1 = $("#COLUMN1").val();
+                        d.COLUMN2 = $("#COLUMN2").val();
+                        d.COLUMN3 = $("#COLUMN3").val();
+                        d.COLUMN4 = $("#COLUMN4").val();
+                        d.COLUMN5 = $("#COLUMN5").val();
+                        d.COLUMN6 = $("#COLUMN6").val();
+                        d.COLUMN7 = $("#COLUMN7").val();
+                        d.COLUMN8 = $("#COLUMN8").val();
+                        d.COLUMN9 = $("#COLUMN9").val();
+                        d.COLUMN10 = $("#COLUMN10").val();
+                        d.STARTDATE = $("#STARTDATE").val();
+                        d.ENDDATE = $("#ENDDATE").val();
+                        d.STATUS = $("#STATUS").val();
+                        d.DJSTATUS = $("#DJSTATUS").val();
+                        d.DJFSRID = $(".dlc").find(".active").find(".djfsrid").val() == undefined ? '' : $(".dlc").find(".active").find(".djfsrid").val();
+                        d.GDZRID = $(".gdzdiv").find(".active").find(".gdzrid").val() == undefined ? '' : $(".gdzdiv").find(".active").find(".gdzrid").val();
+                        // 询价筛选
+                        if (request("sign") == "q") {
+                            for (var i = 0; i < d.columns.length; i++) {
+                                if (d.columns[i].name != "" && d.columns[i].name != null && (typeof (d.columns[i].name) != "undefined")) {
+                                    if (d.columns[i].name.indexOf("起运港") >= 0) {
+                                        var qyg = localStorage.getItem("QYG").replace(")", "").split("(")[1];
+                                        d[d.columns[i].data] = qyg;
+                                    } else if (d.columns[i].name.indexOf("目的港") >= 0) {
+                                        var mdg = localStorage.getItem("MDG").replace(")", "").split("(")[1];
+                                        d[d.columns[i].data] = mdg;
+                                    } else if (d.columns[i].name.indexOf("船期") >= 0 || d.columns[i].name.indexOf("开航日") >= 0) {
+                                        d[d.columns[i].data] = localStorage.getItem("CQ");
+                                        d.CQCOL = d.columns[i].data;
+                                        localStorage.setItem("CQCOL", d.columns[i].data);
+                                    } else if (d.columns[i].name.indexOf("设备类型") >= 0 || d.columns[i].name.indexOf("设备") >= 0) {
+                                        d[d.columns[i].data + "C"] = localStorage.getItem("SBLXCODE");// 设备类型代码
+                                        d.SBLXCOL = d.columns[i].data + "C";
+                                        //localStorage.setItem("SBLXCOL", d.columns[i].data);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }, columns: columns
+            });
+            $('#datatable_col_reorder tbody').on('dblclick', 'tr', function () {
+                var rid = $('#datatable_col_reorder').DataTable().row(this).data()['RID'];
+                goPurEdit(rid);
+            });
+            var dataSel = [{ Code: '', Name: '&nbsp' }];
+            $("#DJSTATUS").select2();
+            $(dataSel).each(function (k, o) {
+                $("#DJSTATUS").prepend($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            $("#DJSTATUS").select2({
+                placeholder: "发布状态",
+                allowClear: true
+            });
+            //累计标记
+            jtlj = "@ViewBag.jtlj";
+            if (!!jtlj) {
+                $("input[name='JTLJ'][value='" + jtlj + "']").removeAttr("disabled");
+                $("input[name='JTLJ'][value='" + jtlj + "']").prop("checked", true);
+            } else {
+                $("input[name='JTLJ'][value='0']").removeAttr("disabled");
+                $("input[name='JTLJ'][value='0']").prop("checked", true);
+            }
+
+        });
+        //定价复制--产品服务选择
+        //定价复制
+        function djfz() {
+            toastr.clear();
+            toastr.remove();
+            if ("@Model.ALONEFEE" == "1") {
+                toastr.error("无绑定关系的费目不能复制！");
+                return;
+            }
+            $("input[name = 'djfz']").prop("checked", true);
+            popDialog("提示", "复制将会把已定价的信息置为失效，是否继续？", godjfz, nodjfz);
+        }
+        function godjfz() {
+            // 引入html
+            $("#page1").load("/SQM_PUR/PurCopyIndex?feecode=" + "@Model.FEECODE" + "&djrid=" + "@Model.RID" + "&prdcode=" + "@Model.PRDCODE");
+            $("#djfzAdd").modal("show");
+        }
+        //不复制
+        function nodjfz() {
+            $("input[name = 'djfz']").prop("checked", false);
+            $(".modal-backdrop").hide();
+        }
+        //展示GDZKEY
+        function showGdzKey(gdzkey) {
+            var GDZKEYArray = [];
+            $.ajax({
+                url: "@Url.Action("GetGdzKey")",
+                data: {
+                    feecode: "@Model.FEECODE",
+                    djfsrid: $(".dlc").find(".active").find(".djfsrid").val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    GDZKEYArray = data[0];
+                }
+            });
+            ////高低值渲染
+            if (GDZKEYArray.length > 0) {
+                for (var i = 0; i < GDZKEYArray.length; i++) {
+                    $("input[name='GDZKEY'][value='" + GDZKEYArray[i][0] + "']").removeAttr("disabled");
+                }
+                if (gdzkey == "") {
+                    $("input[name='GDZKEY'][value='" + GDZKEYArray[0][0] + "']").prop("checked", true);
+                } else {
+                    $("input[name='GDZKEY'][value='" + gdzkey + "']").prop("checked", true);
+                }
+            }
+        }
+        //展示高低值名称列表
+        function showGdzData(gdzkey) {
+            var backflag = true;
+            var gdzmsg = "";
+            var GDZArray = [];
+            $.ajax({
+                url: "@Url.Action("GetGdzData")",
+                data: {
+                    feecode: "@Model.FEECODE",
+                    djfsrid: $(".dlc").find(".active").find(".djfsrid").val(),
+                    gdzkey: gdzkey,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    GDZArray = data[0];
+                }
+            });
+            ////高低值渲染
+            if (GDZArray.length > 0) {
+                for (var i = 0; i < GDZArray.length; i++) {
+                    gdzmsg += "<div class='gdz'><input type='hidden' class='gdzrid' value=" + GDZArray[i][0] + " /><input type='text' class='form-control gdzname' title='" + GDZArray[i][1] + "'  value=" + GDZArray[i][1] + " readonly></div>";
+                }
+            } else {
+                //toastr.clear();
+                //toastr.remove();
+                //toastr.error("未维护基础数据！");
+                $(".gdzdiv").find(".gdz").remove();
+                backflag = false;
+            }
+            $(".gdzdiv").find(".gdz").remove();
+            $(".gdzdiv").append(gdzmsg);
+            return backflag;
+        }
+        //列表字段展示
+        function getPurIndex(flag) {
+            var gdzrid = '';
+            var djfsrid = $(".dlc").find(".active").find(".djfsrid").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            if (flag == 2) {
+                var gdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+                if (gdzrid == undefined) {
+                    gdzrid = '';
+                }
+            }
+            var djfs = $("input[name='DJFS']:checked").val();
+            var gdzkey = $("input[name='GDZKEY']:checked").val();
+            if (gdzkey == undefined) {
+                gdzkey = '';
+            }
+            if (request("sign") == "q") {
+                location.href = '/SQM_PUR/PurIndex?djrid=' + "@Model.RID" + '&djfsrid=' + djfsrid + '&djfs=' + djfs + '&gdzkey=' + gdzkey + '&gdzrid=' + gdzrid + '&sign=q&orgcode=' + request("orgcode");
+            } else {
+                location.href = '/SQM_PUR/PurIndex?djrid=' + "@Model.RID" + '&djfsrid=' + djfsrid + '&djfs=' + djfs + '&gdzkey=' + gdzkey + '&gdzrid=' + gdzrid;
+            }
+
+        }
+        //定价编辑页
+        function goPurEdit(id) {
+            toastr.clear();
+            toastr.remove();
+            if ("@ViewBag.gdznum" == "False") {
+                toastr.error("高低值比较最少需要两组计算基础，请确认！");
+                return false;
+            }
+            if ("@ViewBag.czfee" == "False") {
+                toastr.error("请维护该费目下的定价方式！");
+                return false;
+            }
+            if (id == undefined) {
+                id = '';
+            }
+            var djfs = $("input[name='DJFS']:checked").val();
+            var gdzkey = $("input[name='GDZKEY']:checked").val();
+            if (gdzkey == undefined) {
+                gdzkey = '';
+            }
+            var gdzrid = $(".gdzdiv").find(".active").find(".gdzrid").val();
+            if (gdzrid == undefined) {
+                gdzrid = '';
+            }
+            if (request("sign") == "q") {
+                document.location.href = '/SQM_PUR/PurEdit?id=' + id + '&djrid=' + "@Model.RID" + '&djfsrid=' + "@ViewBag.djfsrid" + '&djfs=' + djfs + '&gdzkey=' + gdzkey + '&gdzrid=' + gdzrid + '&sign=q&orgcode=' + request("orgcode");
+            } else {
+                document.location.href = '/SQM_PUR/PurEdit?id=' + id + '&djrid=' + "@Model.RID" + '&djfsrid=' + "@ViewBag.djfsrid" + '&djfs=' + djfs + '&gdzkey=' + gdzkey + '&gdzrid=' + gdzrid;
+            }
+        }
+        // modal 对话框
+        function popDialog(title, msg, callbackyes, callbackno) {
+            if (!title) {
+                title = '对话框';
+            }
+            var dialogHTML = '<div id="selfDialog" class="modal fade">';
+            dialogHTML += '<div class="modal-dialog">';
+            dialogHTML += '<div class="modal-content">';
+            dialogHTML += '<div class="modal-header">';
+            dialogHTML += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            dialogHTML += '<span aria-hidden="true">&times;</span>';
+            dialogHTML += '</button>';
+            dialogHTML += '<h4 class="modal-title">' + title + '</h4>';
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-body">';
+            dialogHTML += msg;
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-footer">';
+            dialogHTML += '<button type="button" class="btn btn-default" data-dismiss="modal" id="buttonno">否</button>';
+            dialogHTML += '<button type="button" class="btn btn-primary" data-dismiss="modal" id="buttonyes">是</button>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+
+            $("#selfDialog").remove();
+            $("body").append(dialogHTML);
+            $("#selfDialog").modal("show");
+            // 绑定"是"方法
+            $("#buttonyes").click(function () {
+                if (typeof callbackyes == "function") {
+                    callbackyes();
+                }
+            });
+            // 绑定"否"方法
+            $("#buttonno").click(function () {
+                if (typeof callbackno == "function") {
+                    callbackno();
+                }
+            });
+        }
+        /*对询价进行发布*/
+        function btnxjdf() {
+            debugger
+            // 按钮置灰
+            $("#responseQ").attr("disabled", true);
+            //var checks = $("input[name='checkBox']:checked");
+            ////滚动datatable,实际上是两个table,全选中时数量会有问题，选择左边的固定的表进行筛选
+            var checks = $('.DTFC_LeftBodyWrapper input[name="checkBox"]:checked');
+            //if (checks.length > 1) {
+            //    $("#responseQ").attr("disabled", false);
+            //    alert("Error!", "只能对一条定价明细进行询价答复！");
+            //    return false;
+            //}
+            if (checks.length == 0) {
+                $("#responseQ").attr("disabled", false);
+                alert("Error!", "请选择至少一条定价明细进行询价答复！");
+                return false;
+            } else {
+                var data = "";
+                for (var i = 0; i < checks.length; i++) {
+                    data += checks[i].value + ",";
+                }
+                data = data.substr(0,data.length - 1);
+                //var data = checks[0].value;//当前选中的值
+                var sehrid = sessionStorage.getItem("sehrid");
+                $.ajax({
+                    url: "@Url.Action("ResponseQuery", "SQM_ENQUIRY_HKY")",
+                    type: "post",
+                    data: {
+                        "DJZBRIDS": data,
+                        "RID": sehrid
+                    },
+                    success: function (data) {
+                        if (data == '1') {
+                            sessionStorage.removeItem("sehrid");
+                            toastr.success(data.Message);
+                            //window.location.href = "/SQM_ENQUIRY_HKY/QuiryPURIndex";
+                            setTimeout(function () { location.href = "/SQM_ENQUIRY_HKY/QuiryPURIndex" }, 1000);
+                            //$("#responseQ").attr("disabled", false);
+                        } else {
+                            alert("警告", "数据提交失败！");
+                            $("#responseQ").attr("disabled", false);
+                        }
+                    }, error: function (data) {
+                        alert("警告！", "数据提交失败");
+                        $("#responseQ").attr("disabled", false);
+                    }
+                })
+            }
+            return false;
+        }
+        // 重置查询条件
+        function ResetQueryValue() {
+            // 清空查询控件
+            $("#form1").find("input,select").each(function () {
+                $(this).val("");
+            });
+            // 失效->有效
+            $("#STATUS").select2("val", 1);
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        }
+    </script>
+}

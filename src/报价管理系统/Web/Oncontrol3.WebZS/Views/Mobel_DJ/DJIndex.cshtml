@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.title = "产品查询";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    /*基本样式*/
+    #box {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: #fff !important;
+    }
+
+    header {
+        width: 100%;
+        height: 5%;
+        position: fixed;
+        overflow: scroll;
+        z-index: 1;
+    }
+
+        header .row input {
+            border: none;
+        }
+
+    .innerBox {
+        width: 100%;
+        height: 88%;
+        position: fixed;
+        overflow: scroll;
+        z-index: 1;
+        top: 5%;
+        padding: 5px;
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+    }
+
+    footer {
+        width: 100%;
+        height: 7%;
+        position: fixed;
+        z-index: 1;
+        top: 93%;
+    }
+
+    /*选择事业部*/
+    .chooseOrg {
+        color: #006fc2 !important;
+    }
+
+    /*产品样式*/
+    .pro button {
+        background: linear-gradient(#D6DBEC,#6F85A2);
+        margin: 4px;
+    }
+</style>
+
+<div id="box">
+    <!--顶部搜索框-->
+    <header>
+        <div class="row">
+            <div class="col-xs-10">
+                <input id="key" class="form-control" placeholder="产品名称">
+            </div>
+            <div class="col-xs-2 searchBtn" style="padding-top:5px;">
+                <i class="fa fa-search fa-lg" aria-hidden="true"></i>
+            </div>
+        </div>
+    </header>
+    <!--中间内容-->
+    <div class="innerBox">
+        <div id="prodList"></div>
+    </div>
+    <!--底部导航栏-->
+    <footer>
+        <div class='col-xs-3 btn btn-lg org' id="ky">
+            <i class="fa fa-plane"></i><span>空运</span>
+        </div>
+        <div class='col-xs-3 btn btn-lg org' id="hy">
+            <i class="fa fa-anchor"></i><span>海运</span>
+        </div>
+        <div class='col-xs-3 btn btn-lg org' id="gyl">
+            <i class="fa fa-chain-broken"></i><span>供应链</span>
+        </div>
+        <div class='col-xs-3 btn btn-lg org' id="ys">
+            <i class="fa fa-truck"></i><span>运输</span>
+        </div>
+    </footer>
+</div>
+<script type="text/javascript" src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
+<script src="/Content/QO/toastr/toastr.min.js"></script>
+<link rel="stylesheet" href="/Content/QO/toastr/toastr.min.css">
+<script type="text/javascript">
+
+        var username;
+        //从服务页点击切换事业部
+        var currentOrg = "@ViewBag.org";
+        //权限工号
+        var hygh = '10002959,10003579,10000513,20000067,10000698,10001759,10003511';
+        var kygh = '';
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+            }
+            $(".org").each(function () {
+                var org = $(this).children("span").eq(0).text();
+                if (org == currentOrg) {
+                    $(this).addClass("chooseOrg");
+                }
+            })
+            showProdList();
+        });
+
+        //截取产品名称
+        String.prototype.trim = function () {
+            if (this.length > 7) {
+                return this.substring(0, 6) + "...";
+            } else {
+                return this;
+            }
+        }
+        //底部按钮切换
+        $(".org").each(function () {
+            $(this).click(function () {
+                $(".org").removeClass("chooseOrg");
+                $(this).addClass("chooseOrg");
+                showProdList();
+            });
+        })
+        //产品数组
+        var prodList = [];
+        //第一页
+        var pageIndex = 1;
+        function showProdList(prdname) {
+            var org = $('.org[class*=chooseOrg] span').text();
+            if (!org) {
+                org = "";
+            }
+            $.ajax({
+                url: "/Mobel_DJ/ProdList",
+                data: {
+                    user: username,
+                    mandt: org,
+                    prdname: prdname,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (!!data) {
+                        prodList = data;
+                        var prods = "";
+                        //显示30条
+                        for (var i = 0; i < data.length && i < 30; i++) {
+                            prods += "<div class='btn-group btn-group-lg col-xs-6 col-sm-3 pro'><button type='submit' class='btn btn-block' org='" + data[i].BUSINESSORG + "' prdcode='" + data[i].PRODUCTKEY + "' name = '" + data[i].SQPRODUCTNAME + "'>" + data[i].SQPRODUCTNAME.trim() + "</button></div>";
+                        }
+                        $("#prodList").html(prods);
+                    }
+                    localStorage.setItem("PRDmsg", data);
+                }
+            });
+        }
+        //滑动加载更多
+        $(".innerBox").scroll(function () {
+            var scrollTop = $(this).scrollTop();    //滚动条距离顶部的高度
+            var scrollHeight = $(document).height();   //当前页面的总高度
+            var clientHeight = $(this).height();    //当前可视的页面高度
+            // console.log("top:"+scrollTop+",doc:"+scrollHeight+",client:"+clientHeight);
+            if ((scrollTop + clientHeight >= scrollHeight) && (pageIndex * 30 < prodList.length)) {   //距离顶部+当前高度 >=文档总高度 即代表滑动到底部
+                if (prodList.length > 30) {
+                    var prds = "";
+                    toastr.info("加载ing...");
+                    for (var i = pageIndex * 30; i < prodList.length && i < (pageIndex + 1) * 30; i++) {
+                        prds += "<div class='btn-group btn-group-lg col-xs-6 col-sm-3 pro'><button type='submit' class='btn btn-block' org='" + prodList[i].BUSINESSORG + "' prdcode='" + prodList[i].PRODUCTKEY + "' name = '" + prodList[i].SQPRODUCTNAME + "'>" + prodList[i].SQPRODUCTNAME.trim() + "</button></div>";
+                    }
+                    $("#prodList").append(prds);
+                    toastr.clear();
+                    toastr.remove();
+                    pageIndex++;
+                    if (pageIndex * 30 >= prodList.length) {
+                        toastr.success("已经全部加载完毕");
+                        return;
+                    } else {
+                        toastr.success("加载完成")
+                    }
+                }
+            }
+        });
+
+        //点击进入到产品的费目页
+        $("#prodList").on("click", ".pro", function () {
+            var prdcode = $(this).children("button").eq(0).attr("prdcode");
+            sessionStorage.setItem("currentOrg", $(".org[class*=chooseOrg]").attr("id"));
+            window.location.href = "/Mobel_DJ/SrvIndex?prdcode=" + prdcode;
+        })
+
+        $(".searchBtn").on('click', function () {
+            showProdList($("#key").val());
+        })
+</script>

@@ -1,0 +1,558 @@
+﻿@{
+    ViewBag.Title = "费目详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    _::-webkit-full-page-media, _:future, :root .row {
+        padding-right: 15px; /*jnp add for ipad*/
+    }
+
+    .nmpd-wrapper {
+        display: none;
+    }
+
+    .nmpd-target {
+        cursor: pointer;
+    }
+
+    .nmpd-grid {
+        position: absolute;
+        left: 50px;
+        top: 50px;
+        z-index: 5000;
+        -khtml-user-select: none;
+        padding: 10px;
+        width: initial;
+    }
+
+    .nmpd-overlay {
+        z-index: 4999;
+    }
+
+    input.nmpd-display {
+        text-align: right;
+    }
+    .font {
+        font-size: 20px;
+        color: black;
+        padding-top: 10px;
+    }
+
+    .bjok {
+        color: green;
+    }
+
+    .bjover {
+        color: #f0ad4e;
+    }
+
+    .card-box {
+        width: 100%;
+        height: 100px;
+        float: left;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        border-radius: 1px;
+        margin-top: 5px;
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .card-box-content {
+        padding: 6px 10px;
+        font-size: 14px;
+        color: #4d5d70;
+    }
+
+        .card-box-content div {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 6px;
+        }
+
+            .card-box-content div .address {
+                font-size: 12px;
+                color: #999999;
+            }
+
+            .card-box-content div span {
+                float: left;
+            }
+
+            .card-box-content div .amount {
+                text-align: right;
+                width: 50px;
+                color: #d0031c;
+            }
+
+            .card-box-content div .dis {
+                margin-left: 30px;
+            }
+
+        .card-box-content .inf {
+            font-weight: bold;
+        }
+
+        .card-box-content div .tel-num {
+            width: 80px;
+        }
+
+        .card-box-content div .pickup_btn {
+            float: right;
+            margin-left: 56px;
+            font-size: 9px;
+            line-height: 18px;
+            width: 70px;
+            heigth: 18px;
+            background-color: #319adf;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+    .btns {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .title {
+        color: red;
+        font: 12px;
+    }
+
+    .bigtittle {
+        color: red;
+        font-size: 20px;
+        align-content: center;
+        text-align: center;
+        font-weight: bold;
+    }
+    .tabelinpt{
+        width:80px;
+    }
+    .head {
+        color: #999;
+        margin-top:7px;
+        margin-bottom:7px;
+    }
+    .dis{
+        margin-right:50px;
+    }
+</style>
+<div class="row head">
+    <div style="float:left">
+        <span>&nbsp;&nbsp;&nbsp; 欢迎您：张三丰</span>
+    </div>
+    <div style="float:right">
+        <span class="dis">询价</span>
+        <span class="dis">报价模板</span>
+        <span class="dis" id="tobjsy">报价首页</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box" style="height:100%;">
+            <div class="card-box-content">
+                <div class="inf"><span class="tel-num">报关费</span><span class="dis address">海运运输报关-报关</span><span class="dis address" style="margin-left:100px;">客户：上海经贸国际实业有限公司</span><span class="dis address">商机：2018年空运物流招标</span></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="col-md-4" style="margin-top:10px;">
+                            <h4><label class="label label label-default">费目别名</label></h4>
+                        </div>
+                        <div class="col-md-8" style="margin-top:6px;">
+                            <input type="text" class="form-control col-md-8" placeholder="请输入费目别名" value="报关费">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="col-md-5" style="margin-top:10px;">
+                            <h4><label class="label label label-default">折扣</label></h4>
+                        </div>
+                        <div class="col-md-7" style="margin-top:6px;">
+                            <input type="text" class="form-control col-md-7" placeholder="请输入折扣" value="100"/><label style="margin-top:5px;">%</label>
+                        </div>
+                    </div>
+                    <label class="col-md-2" style="margin-top:6px;">
+                        <div class="col-md-3">
+                            <input type="checkbox" />
+                        </div>
+                        <div class="col-md-8" style="margin-top:10px;">
+                            <h4><label class="label label label-default">包干费</label></h4>
+                        </div>
+                    </label>
+                        
+                        <div class="col-md-3" style="display:none;">
+                            <div class="col-md-4" style="margin-top:10px;">
+                                <h4><label class="label label label-default">状态</label></h4>
+                            </div>
+                            <div class="col-md-4" style="margin-top:12px;">
+                                <p>未确认</p>
+                            </div>
+                        </div>
+                </div>
+                <div  class="col-md-12 ">
+                    <table class="table table-striped" id="numpad4column">
+                        <thead>
+                            <tr>
+                                <th>申报关区</th>
+                                <th>通关方式</th>
+                                <th>最低价</th>
+                                <th>最高价</th>
+                                <th>指导价</th>
+                                <th>报价</th>
+                                
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/> </td>
+                            </tr>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/> </td>
+
+                            </tr>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/></td>
+                            </tr>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/></td>
+
+                            </tr>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/></td>
+
+                            </tr>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/></td>
+
+                            </tr>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/></td>
+
+                            </tr>
+                            <tr>
+                                <td>上海</td>
+                                <td>转关</td>
+                                <td>120</td>
+                                <td>180</td>
+                                <td>150</td>
+                                <td><input type="text" class="tabelinpt qtyInput" readonly="readonly" value="150"/></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2" style="margin-top:10px;">
+                        <h4><label class="label label label-default">前提条件</label></h4>
+                    </div>
+                    <label class="col-md-2">
+                        <div class="col-md-3" >
+                        <input type="radio"  name="qttj"/>
+                            </div>
+                        <label class="col-md-8" style="margin-top:12px;">ZPRECON_Z01</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="qttj" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">ZPRECON_Z01</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="qttj" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">ZPRECON_Z01</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="qttj" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">ZPRECON_Z01</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="qttj" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">ZPRECON_Z01</label>
+                    </label>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2" style="margin-top:12px;">
+                    </div>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="qttj" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">ZPRECON_Z01</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="qttj" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">ZPRECON_Z01</label>
+                    </label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-default">清除</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2" style="margin-top:10px;">
+                        <h4><label class="label label label-default">费率表确定规则</label></h4>
+                    </div>
+                    <div class="col-md-3" style="margin-top:10px;">
+                        <input type="text" class="form-control col-md-8" placeholder="请输入费率表确定规则">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2" style="margin-top:10px;">
+                        <h4><label class="label label label-default">解析基础</label></h4>
+                    </div>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="jsjc" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">PACKAGE</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="jsjc" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">SERVICE</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="jsjc" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">PASSIVE</label>
+                    </label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-default">清除</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="col-md-2" style="margin-top:10px;">
+                        <h4><label class="label label label-default">阶段类别</label></h4>
+                    </div>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="jdlb" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">p-首程运输段</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="jdlb" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">m-主运输段</label>
+                    </label>
+                    <label class="col-md-2">
+                        <div class="col-md-3">
+                            <input type="radio" name="jdlb" />
+                        </div>
+                        <label class="col-md-8" style="margin-top:12px;">o-续运输段</label>
+                    </label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-default">清除</button>
+                        </div>
+                    </div>
+                </div>
+                <label class="col-md-12">
+                    <div class="col-md-1" >
+                        <input type="checkbox" />
+                    </div>
+                    <label class="col-md-8" style="margin-top:12px;">复制到当前报价相同的费目（在不同产品、服务下的同一费目，报价相同）</label>
+                </label>
+                <div class="col-md-12">
+                    <div class="col-md-4" style="margin-top:10px;">
+                        <h4><label class="label label label-warning">注：黄底数字表示报价超限</label></h4>
+                    </div>
+                    <div class="col-md-4" style="margin-top:10px;">
+                        <h4><label class="label label label-danger" style="background-color:orange;">橙底数字表示此报价无定价</label></h4>
+                    </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-default">保存</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-default">确认</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-default">导出</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-default">导入</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-default">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/scripts/jQueryNumPad/jquery.numpad.css">
+   <script src="~/Content/QO/scripts/jQueryNumPad/jquery.numpad.js"></script>
+<link href="~/Content/QO/scripts/icheck/skins/square/blue.css" rel="stylesheet">
+<script src="~/Content/QO/scripts/icheck/icheck.min.js"></script>
+ 
+    <script type="text/javascript">
+        $.fn.numpad.defaults.gridTpl = '<table class="table modal-content"></table>';
+        $.fn.numpad.defaults.backgroundTpl = '<div class="modal-backdrop in"></div>';
+        $.fn.numpad.defaults.displayTpl = '<input readonly="readonly" type="text" class="form-control" />';
+        $.fn.numpad.defaults.buttonNumberTpl = '<button type="button" class="btn btn-default"></button>';
+        $.fn.numpad.defaults.buttonFunctionTpl = '<button type="button" class="btn" style="width: 100%;"></button>';
+        $.fn.numpad.defaults.onKeypadCreate = function () { $(this).find('.done').addClass('btn-primary'); };
+        //监听横竖屏切换
+        var evt = "onorientationchange" in window ? "orientationchange" : "resize";
+        window.addEventListener(evt, function () {
+            $("#amenufld").trigger("click");
+            return false;
+        }, false);
+       
+
+        function iCheckStyled() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        }
+
+            $(function () {
+                iCheckStyled();
+                //resize(true);
+                $("#amenufld").trigger("click");
+                function initTableCheckbox() {
+                    iCheckStyled();
+                    var $thr = $('table thead tr');
+                    var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /></th>');
+                    /*将全选/反选复选框添加到表头最前，即增加一列*/
+                    $thr.prepend($checkAllTh);
+                    /*“全选/反选”复选框*/
+                    var $checkAll = $thr.find('input');
+                    $checkAll.click(function (event) {
+                        /*将所有行的选中状态设成全选框的选中状态*/
+                        $tbr.find('input').prop('checked', $(this).prop('checked'));
+                        /*并调整所有选中行的CSS样式*/
+                        if ($(this).prop('checked')) {
+                            $tbr.find('input').parent().parent().addClass('warning');
+                        } else {
+                            $tbr.find('input').parent().parent().removeClass('warning');
+                        }
+                        /*阻止向上冒泡，以防再次触发点击操作*/
+                        event.stopPropagation();
+                    });
+                    /*点击全选框所在单元格时也触发全选框的点击操作*/
+                    $checkAllTh.click(function () {
+                        $(this).find('input').click();
+                    });
+                    var $tbr = $('table tbody tr');
+                    var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');
+                    /*每一行都在最前面插入一个选中复选框的单元格*/
+                    $tbr.prepend($checkItemTd);
+                    /*点击每一行的选中复选框时*/
+                    $tbr.find('input').click(function (event) {
+                        /*调整选中行的CSS样式*/
+                        $(this).parent().parent().toggleClass('warning');
+                        /*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/
+                        $checkAll.prop('checked', $tbr.find('input:checked').length == $tbr.length ? true : false);
+                        /*阻止向上冒泡，以防再次触发点击操作*/
+                        event.stopPropagation();
+                    });
+                    /*点击每一行时也触发该行的选中操作*/
+                    //$tbr.click(function () {
+                    //    $(this).find('input').click();
+                    //});
+                    
+                }
+                initTableCheckbox();
+                $('#numpad4div').numpad();
+                $('#numpad4column .qtyInput').numpad();
+                //$('#numpad4column .glyphicon-usd').numpad();
+                //    target: $(this).parent().children("input")
+                //});
+                //$('#numpad4column tr').on('click', function (e) {
+                //    $(this).find('.qtyInput').numpad('open');
+                //});
+            
+            });
+        
+            $("#tobjsy").click(function () {
+                location.href = "/QM_Price/QM_PriceIndex";
+            });
+       
+   
+    </script>
+}

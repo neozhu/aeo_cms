@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "账号维护";
+}
+@model Aim.Portal.Model.SysRole
+<div class="container">
+    @using (Html.BeginForm(Html.ViewContext.RouteData.Values["id"]!=null ? "RoleEdit" : "RoleCreate", "System", FormMethod.Post, new { id = "ff" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="order_title">
+            <span>基础信息</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">角色名</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Name, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true" })</span>
+            <span class="fld_label">角色编号</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Code, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true,validType:'length[4,32]'" })</span>
+            <div class="clear"></div>
+        </div>
+        <div class="order_title">
+            <span>扩展信息</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">备注</span>
+            <span>@Html.TextAreaFor(m => m.Description, new { style = "width:100%;height:60px", data_options = "required:false" })</span>
+        </div>
+    }
+    <div style="text-align:center;padding:5px 0">
+        @Html.ValidationSummary()
+        <div style="color:red">@ViewBag.StatusMessage</div>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>&nbsp;&nbsp;
+        <a href="@Url.Action("RoleList")" class="easyui-linkbutton" style="width:80px">返回</a>
+    </div>
+</div>
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+
+        @*$("#CreateId").popcombobox({
+            method: 'get',
+            nameField:'CreateName',//用于保存对应数据库Name的字段,对应createid,默认为查询条件
+            //url: '@Url.Action("GetDatas","Common")?q='+$("#CreateId").val(),//自动完成的数据源,绑定已有id,第一次需要传入参数,未指定则调用datasql
+            valueField: 'UserID',
+            mode:'remote',
+            textField: 'Name',
+            limitToList:true,
+            dialogWidth:400,
+            dialogHeight:500,
+            datasql:"select * from SYSUSER where STATUS='1'",//列表数据源
+            displaynames:{LoginName:'登录名',Name:'姓名'},//列表显示字段
+            sort:'NAME',//排序字段
+            order:'desc'//排序方式
+        });*@
+        function submitForm() {
+            if ($("#ff").form('validate')) {
+                $("#ff").submit();//同步提交
+            }
+        }
+    </script>
+}

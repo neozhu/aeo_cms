@@ -1,0 +1,90 @@
+﻿@using Aim.Portal
+@using Aim.Portal.Model
+
+<div id="header">
+    <div class="fld_logo"><a href="@Url.Action("index", "Home")"><img src="/images/fld_logo.png"></a></div>
+    @if (PortalService.CurrentUserInfo != null)
+    {
+        <div class="toper_r">
+            <div class="tr_01">
+                你好，@Html.ActionLink(PortalService.CurrentUserInfo.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "个人中心" })!
+
+            </div>
+            <div class="tr_02">
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
+                }
+            </div>
+            <div class="tr_02"><a href="">帮助中心</a></div>
+        </div>
+    }
+    else
+    {
+        <div class="toper_r">
+            <div class="tr_01">
+                @*<a href="">@Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</a>/*@
+                <a href="">@Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</a>
+            </div>
+            <div class="tr_02"><a href="">帮助中心</a></div>
+        </div>
+    }
+    <div class="naver">
+        @if (PortalService.CurrentUserInfo != null)
+        {
+            <div id="logomenu" class="logo1"><img src="/images/logo1.jpg" style="cursor:default"></div>
+        }
+        else
+        {
+            <div class="logo"><img src="/images/logo.jpg"></div>
+        }
+        <a class="clk" href="@Url.Action("index", "Home")">首页</a>|
+        <a href="@Url.Action("manage","account")">个人中心</a> |
+        <a href="">关于我们</a> |
+    </div>
+    @if (PortalService.CurrentUserInfo != null)
+    {
+        var i = 0;
+        <div class="clear10"></div>
+        <div class="scs_main" id='scs_main' style="display:none">
+            @foreach (var x in PortalService.CurrentUserContext.AccessibleApplications.@*Where(app => app.Status == 1).*@OrderBy(ten => ten.SortIndex).ToList() as List<Aim.Portal.Model.SysApplication>)
+            {
+                i += 1;
+                <div class="sm_line sm_0@(i>7?i%7:i)">@x.Name</div>
+                if (PortalService.CurrentUserContext.AccessibleModules.Where(tent => tent.ApplicationID == x.ApplicationID).Count() > 0)
+                {
+                    <div class="sm_cont">
+                        @foreach (var c in PortalService.CurrentUserContext.AccessibleModules.Where(tent => tent.ApplicationID == x.ApplicationID && (tent.ParentID == null || tent.ParentID == String.Empty)).OrderBy(ts => ts.SortIndex))
+                        {
+                            var thirdLevel = PortalService.CurrentUserContext.AccessibleModules.Where(s => s.ParentID == c.ModuleID && s.Status == 1);
+                            if (thirdLevel.Count() > 0)
+                            {
+                                <div class="smc_line smc_clk">@c.Name</div>
+                                <div class="smcl_cont">
+                                    @foreach (var child in thirdLevel.OrderBy(ts => ts.SortIndex))
+                                    {
+                                        var target = child.Url!=null&&child.Url.Split('?').Length > 1 && child.Url.Split('?')[0].EndsWith("aspx") ? "target='_blank'" : "";
+                                        <p><a href="@child.Url" @target>@child.Name</a></p>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                i += 1;
+                                if (c.Url != "")
+                                {
+                                    var target = c.Url != null && c.Url.Split('?').Length > 1 && c.Url.Split('?')[0].EndsWith("aspx") ? "target='_blank'" : "";
+                                    <div class="smc_line smc_clk"><a style="color: #9C9AA8" href="@c.Url" @target>@c.Name</a></div>
+                                }
+                                else
+                                {
+                                    <div class="smc_line smc_clk">@c.Name</div>
+                                }
+                            }
+                        }
+                    </div>
+                }
+            }
+        </div>
+    }
+</div>

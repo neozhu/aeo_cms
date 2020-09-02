@@ -1,0 +1,1286 @@
+﻿@{
+    ViewBag.Title = "定价维护";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.SQM_MODEDJ_VAL
+@{
+    bool gyl = @ViewBag.gyl;
+    bool khy = @ViewBag.khy;
+    bool min = @ViewBag.min;
+    System.Data.DataTable FCREFdt = (System.Data.DataTable)ViewBag.FCREFData;
+    System.Data.DataTable GDZdt = (System.Data.DataTable)ViewBag.GDZdt;
+    System.Data.DataTable GDZDATAdt = (System.Data.DataTable)ViewBag.GDZDATAdt;
+    System.Data.DataTable JSJCdt = (System.Data.DataTable)ViewBag.JSJCdt;
+    System.Data.DataTable DJFSdt = (System.Data.DataTable)ViewBag.DJFSData;
+    System.Data.DataTable BZdt = (System.Data.DataTable)ViewBag.BZdtData;
+}
+<style type="text/css">
+    .smart-form * {
+        box-sizing: inherit;
+    }
+
+    .smart-form .row {
+        margin: 0;
+        width: 25%;
+        float: left;
+        height: 85px;
+    }
+
+    .smart-form .col-3 {
+        width: 100%;
+    }
+
+    .select2 {
+        width: 314%;
+    }
+
+    .service_lb .checkbox {
+        width: 8%;
+    }
+
+    .label {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .cols {
+        margin-bottom: 20px;
+    }
+
+    .service_lb .checkbox {
+        width: 8%;
+    }
+
+    .margin_left {
+        margin-left: 5px;
+    }
+
+    .form-backgroud {
+        background: #9393FF;
+    }
+
+    .form-control {
+        padding-left: 2px;
+    }
+
+    .smart-form header {
+        clear: both;
+        background: #FBFBFF;
+    }
+
+    /*表格begin*/
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid thead td {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+            text-overflow: ellipsis;
+            font-weight: normal;
+            word-break: keep-all;
+            overflow: hidden;
+            background-color: #F7F7F7;
+        }
+
+            .grid thead td .table-header {
+                padding: 6px 2px;
+                background-color: #F2F2F2;
+                background: -webkit-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+                background: -moz-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+                background: -o-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+                background: linear-gradient(to bottom,#ffffff 0,#F2F2F2 100%);
+                background-repeat: repeat-x;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#F2F2F2,GradientType=0);
+            }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid .txt {
+            border: 0px solid #fff;
+            padding: 0px;
+            height: 22px;
+            line-height: 22px;
+            width: 100%;
+            font-family: Consolas,微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+            font-size: 9pt;
+            color: #000000;
+        }
+
+        .grid .disabled {
+            background-color: #F7F7F7;
+        }
+
+        .grid .txtselect {
+            border: 0px solid #fff;
+            height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            width: 100%;
+            font-family: Consolas,微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+            font-size: 9pt;
+            color: #000000;
+        }
+
+        .grid .td-div {
+            background-color: #F7F7F7;
+            color: #222;
+            cursor: pointer;
+        }
+
+        .grid td img {
+            vertical-align: middle;
+            border: 0px solid #fff;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .grid tbody .tdhover {
+            background-color: #eee;
+            cursor: pointer;
+        }
+
+        .grid .tdwarning {
+            border-bottom: 1px solid #E74D3C;
+        }
+
+    .groupgrid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .groupgrid thead td {
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+            padding: 6px 2px;
+            color: #666;
+            font-weight: bold;
+            background-color: #F7F7F7;
+        }
+
+        .groupgrid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            padding: 5px 2px;
+            word-break: break-all;
+        }
+
+            .groupgrid tbody td img {
+                vertical-align: middle;
+                border: 0px solid #fff;
+            }
+
+            .groupgrid tbody td .grouptitle {
+                float: left;
+                font-weight: bold;
+            }
+
+        .groupgrid tbody .active {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .groupgrid tbody .tdhover {
+            background-color: #eee;
+            cursor: pointer;
+        }
+    /*表格end*/
+    .input-button {
+        font-weight: bolder;
+        border: none;
+        right: -2px;
+        top: 50%;
+        width: 14px;
+        height: 16px;
+        margin-top: -10px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        z-index: 100;
+    }
+
+    .input-link {
+        font-weight: bolder;
+        border: none;
+        top: 50%;
+        width: 16px;
+        height: 16px;
+        margin-top: -10px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        z-index: 100;
+    }
+
+    .bpdescription {
+        width: 60px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .icheckbox_square-blue {
+        zoom: 76%;
+    }
+
+    .cols {
+        margin-bottom: 10px;
+    }
+
+    .smart-form fieldset {
+        padding: 8px 14px 26px;
+        background: #fafafa;
+    }
+
+    .smart-form footer {
+        background: #fafafa;
+    }
+
+    .cdinvalid {
+        display: block;
+        margin-top: 6px;
+        padding: 0 1px;
+        font-style: normal;
+        font-size: 11px;
+        line-height: 15px;
+        color: #d56161;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <input id="khy" value="@ViewBag.khy" khytype="@ViewBag.tbtitle" type="hidden" />
+                        <input id="gyl" value="@ViewBag.gyl" type="hidden" />
+                        <input id="min" value="@ViewBag.min" type="hidden" />
+                        <input id="kyyf" value="@ViewBag.kyyf" khytype="@ViewBag.tbtitle" type="hidden" />
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>@ViewBag.tbtitle/<span style="color:#ffd600!important">定价维护</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-primary" id="btnSave" onclick="dosave(); return false;">
+                                保存
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnback" onclick="back()">
+                                返回
+                            </button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form form-backgroud">
+                                <fieldset>
+                                    <input type="hidden" value="@Model.RID" id="RID" />
+                                    <input type="hidden" value="" id="COSTRID" />
+                                    @for (int i = 0; i < FCREFdt.Rows.Count; i++)
+                                    {
+                                        if ((String)FCREFdt.Rows[i]["CALCCODE"] == "ZKHR" || (String)FCREFdt.Rows[i]["CALCCODE"] == "ZKHRQ")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2">
+                                                            <option value="MON">MON</option>
+                                                            <option value="TUE">TUE</option>
+                                                            <option value="WED">WED</option>
+                                                            <option value="THU">THU</option>
+                                                            <option value="FRI">FRI</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="SUN">SUN</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        @*else if ((String)FCREFdt.Rows[i]["CALCCODE"] == "YZL")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2">
+                                                            <option value="0-45KG">0-45KG</option>
+                                                            <option value="+45KG">+45KG</option>
+                                                            <option value="+100KG">+100KG</option>
+                                                            <option value="+500KG">+500KG</option>
+                                                            <option value="+1000KG">+1000KG</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }*@
+                                        else if ((String)FCREFdt.Rows[i]["CALCCODE"] == "ZHWLB")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2">
+                                                            <option value="普货">普货</option>
+                                                            <option value="危险品">危险品</option>
+                                                            <option value="冻品">冻品</option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                            <option value="E">E</option>
+                                                            <option value="H">H</option>
+                                                            <option value="G">G</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if (!(FCREFdt.Rows[i]["CALCTYPE"] is System.DBNull) && (String)FCREFdt.Rows[i]["CALCTYPE"] == "X")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]" />
+                                                    <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]C" />
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]ZS" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2" mdmkey>
+                                                            <option value="">空</option>
+                                                            <option value="X">X</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if (!(FCREFdt.Rows[i]["CALCTYPE"] is System.DBNull) && (String)FCREFdt.Rows[i]["CALCTYPE"] == "Y")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]" />
+                                                    <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]C" />
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]ZS" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2" mdmkey>
+                                                            <option value="Y">Y</option>
+                                                            <option value="N">N</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if ((String)FCREFdt.Rows[i]["CALCCODE"] == "ZSKB")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <input type="text" class="form-control" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" placeholder="格式：15:30" required>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]" />
+                                                        <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]C" />
+                                                        <input type="text" class="form-control" id="@FCREFdt.Rows[i]["VALCOL"]ZS" name="@FCREFdt.Rows[i]["CALCCODE"]" mdmtype="@FCREFdt.Rows[i]["MDMTYPE"]" mdmkey="@FCREFdt.Rows[i]["MDMKEY"]" mdmfieldname="@FCREFdt.Rows[i]["MDMFIELDNAME"]" mdmloctype="@FCREFdt.Rows[i]["MDMLOCTYPE"]" datalen="datalen" required>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                    }
+                                    @if (DJFSdt != null && DJFSdt.Rows.Count > 0 && !String.IsNullOrEmpty(DJFSdt.Rows[0]["DJFSRID"].ToString()))
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">定价方式</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="DJFSRID" name="DJFSRID" class="select2">
+                                                        <option></option>
+                                                        @for (int i = 0; i < DJFSdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@DJFSdt.Rows[i]["DJFSRID"]">@DJFSdt.Rows[i]["DJFSNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    @if (GDZdt != null && GDZdt.Rows.Count > 0 && !String.IsNullOrEmpty(GDZdt.Rows[0]["GDZKEY"].ToString()))
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">高低值比较</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="GDZKEY" name="GDZKEY" class="select2">
+                                                        @for (int i = 0; i < GDZdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@GDZdt.Rows[i]["GDZKEY"]">@GDZdt.Rows[i]["GDZKEYNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    @if (GDZDATAdt != null && GDZDATAdt.Rows.Count > 0 && !String.IsNullOrEmpty(GDZDATAdt.Rows[0]["GDZRID"].ToString()))
+                                    {
+                                        <div class="row gdzdiv">
+                                            <section class="col col-3">
+                                                <label class="label">高低值</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="GDZRID" name="GDZRID" class="select2">
+                                                        @for (int i = 0; i < GDZDATAdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@GDZDATAdt.Rows[i]["GDZRID"]">@GDZDATAdt.Rows[i]["GDZNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">计算方式</label>
+                                            <label class="input">
+                                                <select style="width:100%" id="CALCTYPE" name="CALCTYPE" class="select2">
+                                                    <option value="B">相对值</option>
+                                                    <option value="A">绝对值</option>
+                                                </select>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">计费单位</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="CALCUNIT" name="CALCUNIT" disabled="disabled">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    @if (gyl)
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">计算基础</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="CALCCODE" name="CALCCODE" class="select2">
+                                                        @for (int i = 0; i < JSJCdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@JSJCdt.Rows[i]["CALCCODE"]">@JSJCdt.Rows[i]["CALCNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">币种</label>
+                                                <label class="input">
+                                                    @*<input type="text" class="form-control" id="CURRENCY" name="CURRENCY" mdmtype="MDM" mdmkey="WAERS" mdmfieldname="WAERS,KTEXT" mdmcode="BZCODE">*@
+                                                    <select style="width:100%" id="CURRENCY" name="CURRENCY" class="select2">
+                                                        @for (int i = 0; i < BZdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@BZdt.Rows[i]["WAERS"]">@BZdt.Rows[i]["KTEXT"]--@BZdt.Rows[i]["WAERS"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    @if (min)
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">MIN<i style="color:red">*</i></label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="MIN" name="MIN" distype="price" value="@ViewBag.mindata">
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">采购价<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                @if (false)
+                                                {
+                                                    <input type="text" class="form-control" id="PURPRICE" name="PURPRICE" value="@Model.PURPRICE" disabled="disabled" placeholder="成本管理维护">
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="form-control" id="PURPRICE" name="PURPRICE" distype="price">
+                                                }
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">成本价<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                @if (false)
+                                                {
+                                                    <input type="text" class="form-control" id="COSTPRICE" name="COSTPRICE" disabled="disabled" placeholder="成本管理维护">
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="form-control" id="COSTPRICE" name="COSTPRICE" distype="price">
+                                                }
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">最高价<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="MAXPRICE" name="MAXPRICE" distype="price">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">最低价<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="MINPRICE" name="MINPRICE" distype="price">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">指导价<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="GUIDEPRICE" name="GUIDEPRICE" distype="price">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">起始日期<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="STARTDATE" name="STARTDATE" readonly="readonly">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                @*<div class="input-group date form-date">
+                                                        <input class="form-control" type="text">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>*@
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">截止日期</label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="ENDDATE" name="ENDDATE" readonly="readonly" placeholder="默认为:9999/12/31">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                        @*<section class="col col-3" style="margin-top: 32px;">
+                                                <label class="col-md-3 label">状态</label>
+                                                <label class="radio-inline" style="padding:10px;"><input type="radio" checked class="radiobox" name="STATUS" value="1"><span>有效</span></label>
+                                                <label class="radio-inline"><input type="radio" class="radiobox" name="STATUS" value="0"><span>无效</span></label>
+                                            </section>*@
+                                    </div>
+                                    <div class="row" style="width: 98%;margin:0px 15px;">
+                                        <section>
+                                            <label class="label">备注</label>
+                                            <label class="textarea">
+                                                <i class="icon-append fa fa-comment"></i>
+                                                <textarea rows="4" name="MEMO" id="MEMO" distype="price"></textarea>
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button id="bottomSave" class="btn btn-primary" onclick="dosave(); return false;">
+                                        保存
+                                    </button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        var keyValue = "";
+        var IsEdit = false;
+        var username;
+        // 询价
+        function back2() {
+            if (request("sign") == "pur") {
+                location.href = "/SQM_ENQUIRY_HKY/QuiryPURIndex";
+            } else if (request("sign") == "hy") {
+                location.href = "/SQM_ENQUIRY_HKY/QuiryHyIndex";
+            }
+        }
+        $(function () {
+            // 询价 2018/8/23 chenbo
+            if (request("sign") == "pur" || request("sign") == "hy") {
+                $("#bottomSave").hide();
+                $("#btnSave").hide();
+                // 将所有控件置为disabled
+                $("#formmain").find("input,select,textarea").each(function () {
+                    $(this).css("background", "rgb(255, 255, 204)");
+                    $(this).attr("disabled", "disabled");
+                });
+                $("#btnback").attr("onclick", "back2()");
+            } else if (request("sign") == "q") {// 询价将起运港/目的港/船期/设备类型信息带入表单
+                var qyg = localStorage.getItem("QYG").replace(")", "").split("(")[1];
+                var qygcode = localStorage.getItem("QYG").replace(")", "").split("(")[0];
+                var mdg = localStorage.getItem("MDG").replace(")", "").split("(")[1];
+                var mdgcode = localStorage.getItem("MDG").replace(")", "").split("(")[0];
+                var khr = localStorage.getItem("CQ");
+                var khrcol = localStorage.getItem("CQCOL");
+                var sblx = localStorage.getItem("SBLX").split(";")[0].replace("(", "");// 取第一条
+                var sblxms = sblx.split(")")[1];
+                var sblxdm = sblx.split(")")[0];
+                $(".label").each(function () {
+                    if ($(this).text().indexOf("起运港") >= 0) {
+                        $($(this).next().find("input:eq(0)")).val(qyg);// 隐藏描述
+                        $($(this).next().find("input:eq(1)")).val(qygcode);// 隐藏代码
+                        $($(this).next().find("input:eq(2)")).val(localStorage.getItem("QYG")).css("disabled", "disabled");// 展示文本
+                        $($(this).next().find("input:eq(2)")).attr("disabled", "disabled");// 失效
+                    } else if ($(this).text().indexOf("目的港") >= 0) {
+                        $($(this).next().find("input:eq(0)")).val(mdg);// 隐藏描述
+                        $($(this).next().find("input:eq(1)")).val(mdgcode);// 隐藏代码
+                        $($(this).next().find("input:eq(2)")).val(localStorage.getItem("MDG")).css("disabled", "disabled");// 展示文本
+                        $($(this).next().find("input:eq(2)")).attr("disabled", "disabled");// 失效
+                    } else if ($(this).text().indexOf("开航日") >= 0) {
+                        if (khr.indexOf(",") >= 0) {
+                            //khr = khr.replace(/'/g, "");// replace 只能匹配第一个匹配到的，需要用正则，全局替换 或者写成khr.replace(new RegExp("'","g"),"")，使用于被替换内容为变量;
+                            khr = khr.split(",")[0];// 取第一个
+                            $("#" + khrcol).select2("val", khr);
+                        } else {
+                            $("#" + khrcol).select2("val", khr);
+                            $("#" + khrcol).attr("disabled", "disabled");
+                        }
+                    } else if ($(this).text().indexOf("设备类型") >= 0 || $(this).text().indexOf("设备") >= 0) {
+                        $($(this).next().find("input:eq(0)")).val(sblxms);// 隐藏描述
+                        $($(this).next().find("input:eq(1)")).val(sblxdm);// 隐藏代码
+                        $($(this).next().find("input:eq(2)")).val(sblxdm).css("disabled", "disabled");// 展示文本
+                        //$($(this).next().find("input:eq(2)")).attr("disabled", "disabled");// 失效
+                    }
+                });
+            }
+
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            if ($("#khy").val()) {
+                BindInputChange();
+            }
+            BindAutocompleteMDM();
+            var errorClass = 'invalid';
+            var errorElement = 'em';
+            // 表单验证
+            $('#formmain').validate({
+                errorClass: errorClass,
+                errorElement: errorElement,
+                highlight: function (element) {
+                    $(element).parent().removeClass('state-success').addClass("state-error");
+                    $(element).removeClass('valid');
+                },
+                unhighlight: function (element) {
+                    $(element).parent().removeClass("state-error").addClass('state-success');
+                    $(element).addClass('valid');
+                },
+
+                // Rules for form validation
+                rules: {
+                    PURPRICE: {
+                        number: true,
+                        required: true
+                    },
+                    COSTPRICE: {
+                        number: true,
+                        required: true
+                    },
+                    MAXPRICE: {
+                        number: true,
+                        required: true
+                    },
+                    MINPRICE: {
+                        number: true,
+                        required: true
+                    },
+                    GUIDEPRICE: {
+                        number: true,
+                        required: true
+                    },
+                    MIN: {
+                        number: true,
+                        required: true
+                    },
+                    STARTDATE: {
+                        required: true
+                    },
+                    ZSKB: {
+                        time: true
+                    },
+                    ZHC: {
+                        number: true
+                    },
+                    ZS: {
+                        number: true
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    PURPRICE: {
+                        number: '不合法的数字'
+                    },
+                    COSTPRICE: {
+                        number: '不合法的数字'
+                    },
+                    MAXPRICE: {
+                        number: '不合法的数字'
+                    },
+                    MINPRICE: {
+                        number: '不合法的数字'
+                    },
+                    GUIDEPRICE: {
+                        number: '不合法的数字'
+                    },
+                    STARTDATE: {
+                        required: '必填'
+                    },
+                    ZHC: {
+                        number: '不合法的数字'
+                    },
+                    ZS: {
+                        number: '不合法的数字'
+                    },
+                    MIN: {
+                        number: '不合法的数字'
+                    }
+                    //MEMO: {
+                    //    required: ' 必填',
+                    //    rangelength: $.validator.format("请输入长度介于 {0} 和 {1} 之间的字符串")
+                    //}
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+            // 重写validate
+            jQuery.validator.addMethod("time", function (value, element) {
+                var length = value.length;
+                var regName = /^(?:(?:[0-2]{0,1}[0-3])|(?:[0-1]{0,1}[0-9])):[0-5]{0,1}[0-9]$|^$/;
+                var regName2 = /^(?:(?:[0-2]{0,1}[0-3])|(?:[0-1]{0,1}[0-9]))：[0-5]{0,1}[0-9]$|^$/;
+                return regName.test(value) || regName2.test(value);
+            }, "格式不符合要求，参照 15:30");
+            // 清楚所有控件缓存
+            $("#formmain").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+            $('input[name="ZGJDQ"]').attr("required", false);
+            $('input[name="ZZZGHC_FB"]').attr("required", false);
+            $('input[name="ZZZGHC"]').attr("required", false);
+            $('input[name="ZMT"]').attr("required", false);
+            $('input[name="ZCGS"]').attr("required", false);
+            $('input[name="ZHC"]').attr("required", false);
+            keyValue = $("#RID").val();
+            if (!keyValue) {
+                // 币种默认为CNY
+                $("#CURRENCY").select2('val', "CNY");
+            }
+            if (!!keyValue) {
+                // 将所有控件置为disabled
+                $("#formmain").find("input,select,textarea").each(function () {
+                    if ($(this).attr("id") == "STARTDATE" || $(this).attr("id") == "ENDDATE" || $(this).attr("id") == "CALCTYPE") {
+
+                    } else if ($(this).attr("disType") == "price") {
+
+                    } else {
+                        $(this).css("background", "rgb(255, 255, 204)");
+                        $(this).attr("disabled", "disabled");
+                    }
+                });
+                $.ajax({
+                    url: "/SQM_PUR/GetFormJson",
+                    data: { keyValue: keyValue },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        $("#formmain").SetWebControls(data);
+                    }
+                });
+            }
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+            //基础数据长度判断
+            $('input[datalen="datalen"]').change(function () {
+                var calccode = $(this).attr("name");
+                var dataval = $(this).val();
+                //维护*的不用校验数据了
+                if (dataval != "*") {
+                    var valall = BindCalcVal(calccode, dataval);
+                    var valok = valall.substring(0, 1);
+                    var len = valall.substring(1, valall.length);
+                    if (valok == "1") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>整数位最长" + len + "位，请确认！</em>");
+                    } else if (valok == "2") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>小数位最长" + len + "位，请确认！</em>");
+                    } else if (valok == "3") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>数据最长" + len + "位，请确认！</em>");
+                    } else if (valok == "4") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>请维护数字型数据！</em>");
+                    } else {
+                        $(this).css("border-color", "#7dc27d");
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                    }
+                } else {
+                    $(this).css("border-color", "#7dc27d");
+                    $(this).parent().parent().find(".cdinvalid").remove();
+                }
+            });
+        });
+        $(document).ready(function () {
+            //无基础的定价方式默认为绝对值，不可变
+            if ("@ViewBag.wjc" == "True") {
+                $("#CALCTYPE").select2('val', "A");
+                $("#CALCTYPE").attr("disabled", "disabled");
+            }
+            if ($("#CALCTYPE").val() == "B") {
+                $("#CALCUNIT").val("@ViewBag.calcunit");
+            } else {
+                $("#CALCUNIT").val("票");
+            }
+            if ("@ViewBag.djfsrid" != "") {
+                $("#DJFSRID").select2('val', "@ViewBag.djfsrid");
+            }
+            if ("@ViewBag.gdzkey" != "") {
+                $("#GDZKEY").select2('val', "@ViewBag.gdzkey");
+            }
+            if ("@ViewBag.gdzkey" != "0") {
+                $(".gdzdiv").show();
+            } else {
+                $(".gdzdiv").hide();
+            }
+            if ("@ViewBag.gdzrid" != "") {
+                $("#GDZRID").select2('val', "@ViewBag.gdzrid");
+            }
+            $("input").change(function () {
+                IsEdit = true;
+            });
+            // 检测设备
+            detectmob();
+            // 以下代码不知道功能
+            $("#spinner").spinner();
+            $("#spinner-decimal").spinner({
+                step: 0.01,
+                numberFormat: "n"
+            });
+        });
+        //定价方式change事件
+        $("#DJFSRID").change(function () {
+            getCalcname(1, null);
+        });
+        //高低值比较change事件
+        //$("#GDZKEY").change(function () {
+        //    var gdzrid = '';
+        //    var gdzkey = $(this).val();
+        //    if (gdzkey == '0') {
+        //        $(".gdzdiv").hide();
+        //    } else {
+        //        $(".gdzdiv").show();
+        //        gdzrid = showGdzData(gdzkey);
+        //    }
+        //    getCalcname(2, gdzrid);
+        //});
+        //高低值change事件
+        $("#GDZRID").change(function () {
+            var gdzrid = $(this).val();
+            getCalcname(2, gdzrid);
+        });
+        //计算方式change事件
+        $("#CALCTYPE").change(function () {
+            var calctype = $(this).val();
+            if (calctype == "A") {
+                $("#CALCUNIT").val("票");
+            } else {
+                $("#CALCUNIT").val("@ViewBag.calcunit");
+            }
+        });
+        // 返回
+        function back() {
+            var gdzkey = $("#GDZKEY").val();
+            if (gdzkey == undefined) {
+                gdzkey = '';
+            }
+            var gdzrid = $("#GDZRID").val();
+            if (gdzrid == undefined) {
+                gdzrid = '';
+            }
+            var djfsrid = $("#DJFSRID").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            if (IsEdit) {
+                Ewin.confirm({ message: "页面有修改，是否放弃保存？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    if (request("sign") == "q") {
+                        location.href = "/SQM_PUR/PurIndex?djrid=" + "@ViewBag.djrid" + "&gdzkey=" + gdzkey + "&gdzrid=" + gdzrid + "&djfsrid=" + djfsrid + "&djfs=" + "@ViewBag.djfs" + "&sign=q";
+                    } else {
+                        location.href = "/SQM_PUR/PurIndex?djrid=" + "@ViewBag.djrid" + "&gdzkey=" + gdzkey + "&gdzrid=" + gdzrid + "&djfsrid=" + djfsrid + "&djfs=" + "@ViewBag.djfs";
+                    }
+
+                });
+            } else {
+                if (request("sign") == "q") {
+                    location.href = "/SQM_PUR/PurIndex?djrid=" + "@ViewBag.djrid" + "&gdzkey=" + gdzkey + "&gdzrid=" + gdzrid + "&djfsrid=" + djfsrid + "&djfs=" + "@ViewBag.djfs" + "&sign=q";
+                } else {
+                    location.href = "/SQM_PUR/PurIndex?djrid=" + "@ViewBag.djrid" + "&gdzkey=" + gdzkey + "&gdzrid=" + gdzrid + "&djfsrid=" + djfsrid + "&djfs=" + "@ViewBag.djfs";
+                }
+            }
+        }
+        // 保存
+        function dosave() {
+            toastr.clear();
+            toastr.remove();
+            $(".row").height(105);
+            if (!$("#formmain").valid()) {
+                return;
+            }
+            if ($("#formmain").find(".cdinvalid").length > 0) {
+                toastr.error("数据维护错误，请确认！");
+                return;
+            }
+            //if ($("#gyl").val() && $("#CALCCODE").val() == null) {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请选择计算基础！");
+            //    return;
+            //}
+            if ($("#CURRENCY").val() == "RMB") {
+                toastr.error("币种不能为\"RMB\"！");
+                return;
+            }
+            //if ($("#khy").val() && ($("#PURPRICE").val().length == 0 || $("#COSTPRICE").val().length == 0)) {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请在成本管理里面维护采购价及成本价！");
+            //    return;
+            //}
+            //if ($("#PURPRICE").val() != $("#COSTPRICE").val()) {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请维护相同的采购价和成本价！");
+            //    return;
+            //}
+            var nowtime = new Date(new Date() - 1000 * 60 * 60 * 24);
+            var starttime = new Date(Date.parse($("#STARTDATE").val()));
+            //if (starttime < nowtime) {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("起始日期不能小于当前日期！");
+            //    return;
+            //}
+            if ($("#ENDDATE").val() == "") {
+                $("#ENDDATE").val("9999/12/31");
+            }
+            if ($("#STARTDATE").val() >= $("#ENDDATE").val()) {
+                toastr.error("截止日期不能小于或等于起始日期！");
+                return;
+            }
+            if ($("#ENDDATE").val().length == 0) {
+                $("#ENDDATE").val('9999/12/31');
+            }
+            toastr.info("数据保存中，请稍候...");
+            var postdata = GetWebControlsForRadio("#formmain");
+            var gdzkey = $("#GDZKEY").val();
+            if (gdzkey == undefined) {
+                gdzkey = '';
+            }
+            var gdzrid = $("#GDZRID").val();
+            if (gdzrid == undefined) {
+                gdzrid = '';
+            }
+            var djfsrid = $("#DJFSRID").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            try {
+                $("#btnSave").attr("disabled", "disabled");
+                $.ajax({
+                    url: "/SQM_PUR/PurSave",
+                    type: "post",
+                    async: false,
+                    data: {
+                        'postdata': JSON.stringify(postdata),
+                        'djrid': "@ViewBag.djrid",
+                        'rid': $("#RID").val(),
+                        'djfsrid': djfsrid,
+                        'gdzrid': gdzrid
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            if (request("sign") == "q") {
+                                setTimeout(function () { location.href = "/SQM_PUR/PurIndex?djrid=" + "@ViewBag.djrid" + "&gdzkey=" + gdzkey + "&gdzrid=" + gdzrid + "&djfsrid=" + djfsrid + "&djfs=" + "@ViewBag.djfs" + "&sign=q" }, 200);
+                            } else {
+                                setTimeout(function () { location.href = "/SQM_PUR/PurIndex?djrid=" + "@ViewBag.djrid" + "&gdzkey=" + gdzkey + "&gdzrid=" + gdzrid + "&djfsrid=" + djfsrid + "&djfs=" + "@ViewBag.djfs" }, 200);
+                            }
+
+                        } else {
+                            //toastr.options.preventDuplicates = true; 不起作用？
+                            //setTimeout(function () { toastr.error(data.Message); },3500);
+                            toastr.clear();
+                            toastr.remove();
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            } catch (e) {
+                window.alert("保存失败，请重试");
+            }
+            finally { $("#btnSave").removeAttr("disabled"); }
+        };
+        //计算基础字段展示
+        function getCalcname(key, gdzrid) {
+            var gdzkey = '';
+            var djfsrid = $("#DJFSRID").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            if (gdzrid == undefined || gdzrid == null) {
+                gdzrid = '';
+            }
+            if (key == 2) {
+                gdzkey = $("#GDZKEY").val();
+            }
+            location.href = '/SQM_PUR/PurEdit?djrid=' + "@ViewBag.djrid" + '&djfsrid=' + djfsrid + '&gdzkey=' + gdzkey + '&gdzrid=' + gdzrid;
+        }
+        //展示高低值名称列表
+        function showGdzData(gdzkey) {
+            var djfsrid = $("#DJFSRID").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            var gdzrid = '';
+            var gdzmsg = "";
+            var GDZArray = [];
+            $.ajax({
+                url: "@Url.Action("GetGdzData")",
+                data: {
+                    feecode: "@ViewBag.feecode",
+                    djfsrid: djfsrid,
+                    gdzkey: $("#GDZKEY").val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    GDZArray = data[0];
+                }
+            });
+            ////高低值渲染
+            if (GDZArray.length > 0) {
+                gdzrid = GDZArray[0][0];
+            }
+            return gdzrid;
+        }
+        function GetWebControlsForRadio(element) {
+            var postdata = {};
+            $(element).find('input,select,textarea').each(function (r) {
+                var id = $(this).attr('id');
+                var value = $(this).val();
+                var type = $(this).attr('type');
+                if ($(this).attr("mdmkey") == "") {
+                    id = id.substring(0, id.length - 2);
+                    var idc = id + "C";
+                    $("#" + idc).val(value);
+                    postdata[idc] = value;
+                }
+                postdata[id] = value;
+            });
+            postdata["MODIFYUSER"] = username;
+            return postdata;
+        }
+        // 控件绑定数据源
+        function BindAutocompleteMDM() {
+            $("[mdmtype='MDM']").each(function () {
+                if ($("#kyyf").val()) {
+                    AutocompleteMDM($(this).attr("id"), "kygj");
+                } else {
+                    AutocompleteMDM($(this).attr("id"));
+                }
+            });
+            $("[mdmtype='MDMJC']").each(function () {
+                AutocompleteMDMJC($(this).attr("id"));
+            });
+            $("[mdmtype='MDMGK']").each(function () {
+                AutocompleteMDMGK($(this).attr("id"));
+            });
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+        // input change监听 khy
+        function BindInputChange() {
+            $("#formmain").find("input,select").each(function () {
+                if ($(this).attr("id") != "PURPRICE" && $(this).attr("id") != "COSTPRICE") {
+                    $(this).bind("keyup", function (e) {
+                        if (e.which != 13 && e.which != 40 && e.which != 38) {
+                            GetPrice();
+                        }
+                    }).focus(function () {
+                        $(this).select();
+                        GetPrice();
+                    }).change(function () {
+                        GetPrice();
+                    });
+                }
+            });
+            // 返回成本
+            function GetPrice() {
+                if ($("#STARTDATE").val() == "" || $("#ENDDATE").val() == "") {
+                    return false;
+                }
+                $.ajax({
+                    url: '/SQM_PUR/GetPrice',
+                    type: "Post",
+                    dataType: "json",
+                    async: false,
+                    data: {
+                        "postdata": JSON.stringify(GetWebControlsForCost("#formmain")),
+                        "type": $("#khy").attr("khytype")
+                    },
+                    success: function (data) {
+                        if (data.Success) {
+                            $("#COSTPRICE").val(data.Message);
+                            $("#PURPRICE").val(data.Message);
+                            // 成本rid
+                            $("#COSTRID").val(data.Data);
+                            console.log($("#COSTRID").val(data.Data));
+                        }
+                    }
+                });
+            }
+        }
+        //计算基础数值长度校验
+        function BindCalcVal(calccode, dataval) {
+            var checkval = "";
+            $.ajax({
+                url: "@Url.Action("CheckData")",
+                data: {
+                    calccode: calccode,
+                    dataval: dataval,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    checkval = JSON.stringify(data);
+                }
+            });
+            return checkval;
+        }
+        function GetWebControlsForCost(element) {
+            var postdata = {};
+            $(element).find('input,select,textarea').each(function (r) {
+                var volCode = $(this).attr("name");
+                var value = $(this).val();
+                if ($(this).attr("id") == "STARTDATE" || $(this).attr("id") == "ENDDATE") {
+                    volCode = $(this).attr("id");
+                } else if ($(this).attr("id") == "CURRENCY") {
+                    volCode = "BZ";
+                }
+                postdata[volCode] = value;
+            });
+            return postdata;
+        }
+    </script>
+}

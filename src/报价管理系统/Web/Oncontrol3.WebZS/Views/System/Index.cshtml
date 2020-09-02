@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "系统功能管理";
+}
+
+<div class="container">
+    <div class="mes_div" style="margin:5px auto;">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="addapp" style="width:70px">添加应用</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="addmodule" style="width:80px">添加子模块</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkmodify" style="width:70px">修改</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width:70px">删除</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkreset" style="width:120px">刷新模块缓存</a>
+        </div>
+    </div>
+    <table id="treeEntry" style="width:100%;height:auto;min-height:300px;"></table>
+</div>
+<div id="addappwindow" style="width:400px;height:400px;display:none;" title="应用维护">
+    <form id="form1">
+        <div style="background-color:gray">
+            <div class="ord_main">
+                <input id="ModuleID" name="ModuleID" type="hidden" />
+                <input id="level" name="level" value="1" type="hidden" />
+                <input id="ParentID" name="ParentID" type="hidden" />
+                <input id="ApplicationID" name="ApplicationID" type="hidden" />
+                <span class="fld_label">应用编码</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Code" name="Code" style="width:100%" data-options="required:true" /></span>
+                <span class="fld_label">应用名</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Name" name="Name" style="width:100%" data-options="required:true" /></span>
+                <div class="clear15"></div>
+                <span class="fld_label">排序</span>
+                <span class="fld_input"><input class="easyui-numberspinner" id="SortIndex" name="SortIndex" style="width:100%" data-options="required:true" /></span>
+                <span class="fld_label">状态</span>
+                <span class="fld_input"><input style="width:100%;" value="1" class="easyui-combobox" id="Status" name="Status" data-options="required:true,valueField:'Code',textField:'Name',editable:false" /></span>
+                <div class="clear15"></div>
+                <span class="fld_label">URL</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Url" name="Url" style="width:100%" data-options="required:false" /></span>
+                <span class="fld_label">IconClass</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Icon" name="Icon" style="width:100%" data-options="required:false" /></span>
+
+            </div>
+        </div>
+    </form>
+    <div style="text-align:center;padding:5px 0">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick=$("#addappwindow").dialog("close"); style="width:80px">关闭</a>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        var statusEnum = @Html.Raw(ViewBag.Status)
+        $("#Status").combobox({data:@Html.Raw(ViewBag.StatusCombo)});
+        $('#treeEntry').treegrid({
+            url: '@Url.Action("Details")',
+            idField: 'ModuleID',
+            treeField: 'Name',
+            columns: [[
+                { title: '模块', field: 'Name', width: 220 },
+                { title: '编号', field: 'Code', width: 200, align: 'right' },
+                { title: '序号', field: 'SortIndex', width: 50 },
+                { title: 'URL', field: 'Url', width: 380 },
+                { title: '状态', field: 'Status', width: 60, formatter: function (value, row) { return statusEnum[value]; } },
+                { title: '创建日期', field: 'CreateDate', width: 77 }
+            ]],
+            onBeforeLoad: function (row, param) {
+                if (row)
+                    $(this).treegrid('options').url = '@Url.Action("Details")/' + row.ModuleID + "?Type=1&level=" + $('#treeEntry').treegrid("getLevel",row.ModuleID);
+            },
+            onLoadSuccess: function (row, data) {
+            }
+        });
+        $("#addapp").click(function () {
+            $('#form1').form('clear');
+            $("#Code").textbox("enable");
+            $("#level").val("1");
+            $("#addappwindow").window();
+        })
+        $("#addmodule").click(function () {
+            $('#form1').form('clear');
+            $("#Code").textbox("enable");
+            var selrows = $('#treeEntry').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                $("#ModuleID").val("");
+                $("#level").val($('#treeEntry').treegrid("getLevel",selrows[0].ModuleID)+1);
+                if($('#treeEntry').treegrid("getLevel",selrows[0].ModuleID)==2)
+                {
+                    $("#ParentID").val(selrows[0].ModuleID);
+                    $("#ApplicationID").val(selrows[0].ApplicationID);
+                }
+                else
+                {
+                    $("#ParentID").val("");
+                    $("#ApplicationID").val(selrows[0].ModuleID);
+                }
+                $("#addappwindow").window();
+            }
+            else
+            {
+                $.messager.alert('操作提示', '请选择要增加子模块的应用获取模块。', 'error');
+            }
+        })
+
+        $("#lkDelete").click(function(){
+            var selrows = $('#treeEntry').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                $.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("Delete")/"+selrows[0].ModuleID+"?level="+$('#treeEntry').treegrid("getLevel",selrows[0].ModuleID),
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                if(data.indexOf("成功!")>0)
+                                    $('#treeEntry').treegrid("remove",selrows[0].ModuleID)
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                $.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+
+        $("#lkmodify").click(function(){
+            var selrows = $('#treeEntry').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                $.ajax({
+                    url: "@Url.Action("Modify")/"+selrows[0].ModuleID+"?level="+$('#treeEntry').treegrid("getLevel",selrows[0].ModuleID),
+                    type: "GET",
+                    success: function (data) {
+                        data = eval("("+data+")");
+                        data.ModuleID = data.ModuleID?data.ModuleID:data.ApplicationID;
+                        data.level = $('#treeEntry').treegrid("getLevel",selrows[0].ModuleID);
+
+                        $("#form1").form("load",data);
+                        $("#Code").textbox("disable");
+                        $("#addappwindow").dialog();
+                        $("#addappwindow").dialog("open");
+                    }
+                });
+            }
+            else
+            {
+                $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+
+        $("#lkreset").click(function(){
+            $.ajax({
+                url: "@Url.Action("Refresh")",
+                type: "GET",
+                success: function (data) {
+                    $.messager.alert('操作提示', data);
+                }
+            });
+        });
+
+        function submitForm() {
+            if ($("#form1").form('validate')) {
+                var level = $("#level").val();
+                $.ajax({
+                    url: "@Url.Action("SaveApp")",
+                    data: form2Json("form1"),
+                    type: "POST",
+                    success: function (data) {
+                        if(data.indexOf("成功!")>0)
+                        {
+                            data = eval("("+data+")");
+                            data = data.data;
+                            data.ModuleID = data.ModuleID?data.ModuleID:data.ApplicationID;
+                            if($("#ModuleID").val()!="")
+                            {
+                                $('#treeEntry').treegrid('update', {
+                                    id: data.ModuleID,
+                                    row: data
+                                });
+                            }
+                            else
+                            {
+                                if(level.toString()=="1")
+                                {
+                                    $('#treeEntry').treegrid('append', {
+                                        parent: null,
+                                        data: [data]
+                                    });
+                                }
+                                else{
+                                    $('#treeEntry').treegrid('append', {
+                                        parent: $('#treeEntry').datagrid("getSelections")[0].ModuleID,
+                                        data: [data]
+                                    });
+                                }
+                            }
+                            $.messager.alert('操作提示', "保存成功");
+                            $("#addappwindow").dialog("close");
+                        }
+                        else
+                            $.messager.alert('操作提示', data);
+                    }
+                });
+
+            }
+        }
+
+    </script>
+}

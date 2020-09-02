@@ -691,6 +691,10 @@
     <Compile Include="Migrations\202008271203229_md_changequotation_spec.designer.cs">
       <DependentUpon>202008271203229_md_changequotation_spec.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008280241475_md_changeqpreq.cs" />
+    <Compile Include="Migrations\202008280241475_md_changeqpreq.designer.cs">
+      <DependentUpon>202008280241475_md_changeqpreq.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionLog.cs" />
     <Compile Include="Models\AeoAuthTest.cs" />
     <Compile Include="Models\ApproveHistory.cs" />
@@ -711,6 +715,7 @@
     <Compile Include="Models\Dto\CreateAeoQuestionTestDto.cs" />
     <Compile Include="Models\Dto\CreateProductViewModel.cs" />
     <Compile Include="Models\GPort.cs" />
+    <Compile Include="Models\GWAEO_TEST1.cs" />
     <Compile Include="Models\HSCode.cs" />
     <Compile Include="Models\Inquiry.cs" />
     <Compile Include="Models\InquiryFile.cs" />
@@ -4383,6 +4388,7 @@
     <Content Include="Views\QuotationCharges\Edit.cshtml" />
     <Content Include="Views\QuotationCharges\EditForm.cshtml" />
     <Content Include="Views\Quotations\_SelectProductWindow.cshtml" />
+    <Content Include="Views\Quotations\_PluploadModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Helpers\Extensions.Logging\" />
@@ -4614,6 +4620,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008271203229_md_changequotation_spec.resx">
       <DependentUpon>202008271203229_md_changequotation_spec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008280241475_md_changeqpreq.resx">
+      <DependentUpon>202008280241475_md_changeqpreq.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\resource\ActionLog.en-US.resx" />
     <EmbeddedResource Include="Models\resource\ActionLog.resx" />

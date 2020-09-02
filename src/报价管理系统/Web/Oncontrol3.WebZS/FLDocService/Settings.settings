@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OA_WS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="OA_WS_OADocService_DocService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://172.20.70.240:8088/services/DocService</Value>
+    </Setting>
+    <Setting Name="OA_WS_OAWorkflowService_WorkflowService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://172.20.70.240:8088//services/WorkflowService</Value>
+    </Setting>
+    <Setting Name="OA_WS_OAWorkflowServiceXml_WorkflowServiceXml" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://172.20.70.240:8088//services/WorkflowServiceXml</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

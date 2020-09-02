@@ -1,0 +1,83 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Aim.Portal.Web.Masters.Ext.Site" %>
+
+<html>
+<head runat="server">
+    <title id="pageTitle" runat="server">Aim</title>
+    <meta http-equiv="pragma" content="no-cache" />
+    <link href="/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/App_Themes/Ext/css/ext-all.css" rel="stylesheet" type="text/css" />
+    <link href="/App_Themes/Ext/IE9Fix.css" rel="stylesheet" type="text/css" />
+    <link href="/App_Themes/Ext/ax-all.css" rel="stylesheet" type="text/css" />
+    <link href="/App_Themes/Ext/portal.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        input
+        {
+            background-image: url("/images/mainNavFrame/input_text_left.gif");
+        }
+        input
+        {
+            border:1px solid #BABDC0;
+        }
+        input
+        {
+            star: expression( 
+            load=function(){this.style.borderColor="#BABDC0"},
+ onmouseover=function(){this.style.borderColor="#060"}, 
+ onmouseout=function(){this.style.borderColor="#BABDC0"});
+        }
+    </style>
+    <!-- ext¼°jQuery¿â -->
+
+    <script src="/js/lib/jquery-1.4.2.min.js" type="text/javascript"></script>
+
+    <!--<script src="/js/ext/adapter/jquery/ext-jquery-adapter-debug.js" type="text/javascript"></script>-->
+    <!--<script src="/js/ext/ext-all-debug.js" type="text/javascript"></script>-->
+
+    <script src="/js/ext/adapter/jquery/ext-jquery-adapter.js" type="text/javascript"></script>
+
+    <script src="/js/ext/ext-all.js" type="text/javascript"></script>
+
+    <script src="/js/ext/locale/ext-lang-zh_CN.js" type="text/javascript"></script>
+
+    <script src="/js/ext/ux/CheckColumn.js" type="text/javascript"></script>
+
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+
+    <script src="/js/lib/jquery.form.js" type="text/javascript"></script>
+
+    <script src="/js/common.js" type="text/javascript"></script>
+
+    <script src="/js/pgform.js" type="text/javascript"></script>
+
+    <script src="/js/pgfunc.js" type="text/javascript"></script>
+
+    <script src="/js/pgfunc-ext.js" type="text/javascript"></script>
+
+    <script src="/js/ext/ax-all.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        if ((typeof Range !== "undefined") && !Range.prototype.createContextualFragment) {
+            Range.prototype.createContextualFragment = function(html) {
+                var frag = document.createDocumentFragment(),
+                div = document.createElement("div");
+                frag.appendChild(div);
+                div.outerHTML = html;
+                return frag;
+            };
+        }
+    </script>
+
+    <script src="/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+    <script src="/js/FixWidth.js" type="text/javascript"></script>
+
+    <asp:ContentPlaceHolder ID="HeadHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body id="pageBody" runat="server" style="margin: 0px">
+    <form id="pageForm" runat="server">
+    <asp:ContentPlaceHolder ID="BodyHolder" runat="server">
+    </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

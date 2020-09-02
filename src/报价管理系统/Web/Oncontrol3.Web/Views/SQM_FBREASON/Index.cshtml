@@ -1,0 +1,381 @@
+﻿@{
+    ViewBag.Title = "非标原因配置表";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+<style type="text/css">
+    .select2-results li:first-child {
+        height: 25px;
+    }
+
+    .widget-body {
+        min-height: 50px !important;
+    }
+    /*模态框modal-body 样式*/
+    .modal-div-row {
+        margin: 10px 10px;
+        display: flex;
+        align-items: center;
+    }
+
+        .modal-div-row label {
+            width: 70px;
+        }
+
+        .modal-div-row input {
+            height: 32px;
+            width: 430px;
+            line-height: 32px;
+            padding: 5px 7px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-div-row textarea {
+            width: 430px;
+            padding: 5px 7px;
+            border: 1px solid #ccc;
+        }
+
+    .checkBox {
+        display: inline-block;
+    }
+
+        .checkBox li {
+            list-style: none;
+            float: left;
+            margin-right: 15px;
+        }
+
+            .checkBox li input {
+                width: 18px;
+                height: 18px;
+                vertical-align: middle;
+                margin-top: -2px;
+            }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right; ">
+                            <button type="submit" onclick="addNew()" class="btn btn-success">新建</button>
+                            <button type="submit" id="submit_search" class="btn btn-default">查询</button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">重置</button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <input type="text" class="form-control" id="REASONNAME" name="REASONNAME" placeholder="原因名称">
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <!-- 新建原因弹窗 -->
+    <div class="modal fade" id="addDict" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">编辑原因</h4>
+                </div>
+                <div class="modal-body modal-div">
+                    <form id="dictform">
+                        <div hidden>
+                            <input id="RID_mol" />
+                            <input id="CREATETIME_mol" />
+                            <input id="CREATEUSER_mol" />
+                            <input id="MODIFYTIME_mol" />
+                        </div>
+                        <div class="modal-div-row">
+                            <label>原因代码</label>
+                            <input class="modal-input" id="REASONCODE_mol" />
+                        </div>
+                        <div class="modal-div-row">
+                            <label>原因名称</label>
+                            <input class="modal-input" id="REASONNAME_mol" />
+                        </div>
+                        <div class="modal-div-row" style="clear:both;">
+                            <label>描述</label>
+                            <textarea rows="3" id="MEMO_mol"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="SaveForm();">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script type="text/javascript">
+        var sign;
+        $(document).ready(function () {
+            //列定义
+            var columns = [{
+                "title": "操作", "data": "RID", "width": "50", "orderable": false,
+                render: function (data, type, row, meta) {
+                    var rowstr = escape(JSON.stringify(row));
+                    var disval = '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + rowstr + '\") ><i class="fa fa-pencil"></i></button>';
+                    if (row.STATUS == "1") {
+                        disval += '<button title="停用" class="btn btn-xs btn-default" onclick=deleterow(\"' + data + '\",0) ><i class="fa fa-times"></i></button>';
+                    } else if (row.STATUS == "0") {
+                        disval += '<button title="启用" class="btn btn-xs btn-default" onclick=deleterow(\"' + data + '\",1) ><i class="fa fa-check"></i></button>';
+                    }
+                    return disval;
+                }
+            },
+                { "title": "非标原因", "data": "REASONCODE" },
+                { "title": "原因描述", "data": "REASONNAME" },
+                { "title": "补充说明", "data": "MEMO" },
+                {
+                    "title": "状态", "data": "STATUS",
+                    render: function (data, type, row, meta) {
+                        var disval = "启用";
+                        if (data == "0") {
+                            disval = "停用";
+                        }
+                        return disval;
+                    }
+                },
+                { "title": "更新时间", "data": "MODIFYTIME", "bVisible": false },
+            ];
+            var table = $('#datatable_col_reorder').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "order": [[4, "desc"]],//第一次加载默认第5列日期倒排
+                "language": {
+                    "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'pl>>",//整个griddom布局
+                "lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("Lists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.REASONNAME = $("#REASONNAME").val();
+                    }
+                }, columns: columns
+            });
+        });
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+        });
+        function deleterow(id, flag) {
+            var status = "";
+            if (flag == 0) {
+                status = "0";
+                popDialog("提示", "确认要停用所选记录？", godo, notdo);
+            } else {
+                status = "1";
+                popDialog("提示", "确认要启用所选记录？", godo, notdo);
+            }
+            function godo() {
+                $.ajax({
+                    url: "@Url.Action("Delete")",
+                    data: { id: id, flag: status },
+                    type: "GET",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        toastr.success(data);
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    }
+                });
+            }
+        }
+        function notdo() {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+        }
+        // 模态框显示
+        function showmodal() {
+            $("#addDict").modal({
+                show: true,
+                backdrop: "static",
+                keyboard: false
+            });
+        }
+        // 模态框消失
+        function hidemodal() {
+            $("#addDict").modal("hide");
+        }
+        // 模态框消失清除表单数据
+        $("body").on("hidden.bs.modal", ".modal", function () {
+            $("#addDict").find("input,select,textarea").each(function () {
+                $(this).val("");
+                $(this).text("");
+            });
+        });
+        function addNew() {
+            sign = "create";
+            showmodal();
+        }
+        // 编辑选中原因
+        function doEdit(row) {
+            var data = JSON.parse(unescape(row));
+            showmodal();
+            sign = "edit";
+            $("#dictform").find("input,select,textarea").each(function () {
+                var id = $(this).attr("id").replace("_mol", "");
+                var type = $(this).attr("type");
+                switch (type) {
+                    case "radio":
+                        if (data.SIGN == $(this).val()) {
+                            $(this).prop("checked", true);
+                        }
+                        break;
+                    default:
+                        $(this).val(data[id]);
+                        break;
+                }
+            });
+        }
+        // 保存表单数据
+        function SaveForm() {
+            toastr.clear();
+            toastr.remove();
+            if (!$("#REASONCODE_mol").val()) {
+                toastr.error("请填写原因代码！");
+                return false;
+            }
+            if (!$("#REASONNAME_mol").val()) {
+                toastr.error("请填写原因名称！");
+                return false;
+            }
+            var postdata = GetFormDatas("#dictform");
+            $.ajax({
+                url: "@Url.Action("SaveDict")",
+                type: "POST",
+                data: { "postdata": JSON.stringify(postdata), "sign": sign },
+                dataType: "Json",
+                success: function (msg) {
+                    if (msg.Success) {
+                        hidemodal();
+                        toastr.success("保存成功");
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error("保存失败：" + msg.Message);
+                    }
+                }
+            });
+        }
+        // 重置查询条件
+        function ResetQueryValue() {
+            // 清空查询控件
+            $("#form1").find("input").each(function () {
+                $(this).val("");
+            });
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        }
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        // modal 对话框
+        function popDialog(title, msg, callbackyes, callbackno) {
+            if (!title) {
+                title = '对话框';
+            }
+            var dialogHTML = '<div id="selfDialog" class="modal fade">';
+            dialogHTML += '<div class="modal-dialog">';
+            dialogHTML += '<div class="modal-content">';
+            dialogHTML += '<div class="modal-header">';
+            dialogHTML += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            dialogHTML += '<span aria-hidden="true">&times;</span>';
+            dialogHTML += '</button>';
+            dialogHTML += '<h4 class="modal-title">' + title + '</h4>';
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-body">';
+            dialogHTML += msg;
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-footer">';
+            dialogHTML += '<button type="button" class="btn btn-default" data-dismiss="modal" id="buttonno">否</button>';
+            dialogHTML += '<button type="button" class="btn btn-primary" data-dismiss="modal" id="buttonyes">是</button>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+
+            $("#selfDialog").remove();
+            $("body").append(dialogHTML);
+            $("#selfDialog").modal("show");
+            // 绑定"是"方法
+            $("#buttonyes").click(function () {
+                if (typeof callbackyes == "function") {
+                    callbackyes();
+                }
+            });
+            // 绑定"否"方法
+            $("#buttonno").click(function () {
+                if (typeof callbackno == "function") {
+                    callbackno();
+                }
+            });
+        }
+        // 存储表单数据
+        function GetFormDatas(element) {
+            var postdata = {};
+            $(element).find("input,select,textarea").each(function (r) {
+                var id = $(this).attr("id").replace("_mol", "");
+                var type = $(this).attr("type");
+                switch (type) {
+                    case "radio":
+                        if ($(this).is(":checked")) {
+                            postdata[$(this).attr("name")] = $(this).val();
+                        }
+                        break;
+                    default:
+                        postdata[id] = $(this).val();
+                        break;
+                }
+            });
+            return postdata;
+        }
+    </script>
+}

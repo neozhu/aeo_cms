@@ -1,0 +1,234 @@
+﻿@{
+    ViewBag.Title = "系统权限管理";
+}
+
+<div class="container easyui-layout" style="height:450px;margin:auto !important;">
+    <div data-options="region:'west',split:true" style="height:100%;width:300px;">
+        <div class="easyui-tabs" id="tabs" data-options="fit:true">
+            <div title="人员">
+                <div class="easyui-layout" data-options="fit:true">
+                    <div data-options="region:'north'" style="height:40px;padding:2px;">
+                        <form id="form1">
+                            <div>
+                                用户名:<input class="easyui-textbox" id="Name" name="Name" style="width:70px">
+                                登录名:<input class="easyui-textbox" id="LoginName" name="LoginName" style="width:70px">
+                                <button class="easyui-linkbutton" id="submit_search" style="float:right">查询</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div data-options="region:'center'">
+                        <table id="dg" class="easyui-datagrid" style="width:90%;min-height:250px"
+                               data-options="singleSelect:true,collapsible:true,url:'/SysUser/lists',method:'get',pagination:true,pagesize:20,fit:true">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'LoginName',sortable:true">登录名</th>
+                                    <th data-options="field:'Name',sortable:true">用户名</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div title="角色" data-options="closable:false" data-options="fit:true">
+                <div class="easyui-layout" data-options="fit:true">
+                    <div data-options="region:'north'" style="height:40px;padding:2px;">
+                        <form id="form2">
+                            <div>
+                                角色名:<input class="easyui-textbox" id="RoleName" name="RoleName" style="width:70px">
+                                编号:<input class="easyui-textbox" id="Code" name="Code" style="width:70px">
+                                <button class="easyui-linkbutton" id="role_search" style="float:right">查询</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div data-options="region:'center'">
+                        <table id="dgrole" class="easyui-datagrid" style="width:90%;min-height:250px"
+                               data-options="singleSelect:true,collapsible:true,url:'/SysUser/rolelists',method:'get',pagination:true,pagesize:20,fit:true">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'Code',sortable:true">编号</th>
+                                    <th data-options="field:'Name',sortable:true">角色名</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div title="组织" data-options="closable:false" data-options="fit:true">
+                <div class="easyui-layout" data-options="fit:true">
+                    <div data-options="region:'center'">
+                        <div id="treeOrg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'center',title:'可授权的模块'">
+        <div class="easyui-layout" data-options="fit:true" style="background:#eee;">
+            <div data-options="region:'north'" style="height:35px;padding-left:5px;">
+                <a class="easyui-linkbutton" id="saveAuth">保存</a>
+            </div>
+            <div data-options="region:'center'">
+                <div id="treeEntry"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        var tempid = "";
+        var type = "user";
+        var atList = [];
+        $("#tabs").tabs({
+            onSelect: function (title, index) {
+                switch (index) {
+                    case 0:
+                        type = "user";
+                        try {
+                            $('#dg').datagrid("clearSelections");
+                            $('#dg').datagrid("clearChecked");
+                            tempid = "";
+                        }
+                        catch (e) { }
+                        break;
+                    case 1:
+                        type = "role";
+                        try {
+                            $('#dgrole').datagrid("clearSelections");
+                            $('#dgrole').datagrid("clearChecked");
+                            tempid = "";
+                        }
+                        catch (e) { }
+                        break;
+                    case 2:
+                        type = "group";
+                        try {
+                            $('#treeOrg').find('.tree-node-selected').removeClass('tree-node-selected');
+                            tempid = "";
+                        }
+                        catch (e) { }
+                        break;
+                }
+            }
+        });
+        $('#treeEntry').tree({
+            url: '@Url.Action("AuthData")',
+            checkbox: true,
+            fit: true,
+            onLoadSuccess: function (node, data) {
+            }
+        });
+
+        $('#treeOrg').tree({
+            url: '@Url.Action("OrgData")',
+            checkbox: false,
+            cascadeCheck:false,
+            fit: true,
+            onLoadSuccess: function (node, data) {
+            }
+        });
+
+        $("#saveAuth").click(function () {
+            var allNodes = getAllNodes($('#treeEntry').tree('getRoots') || []);
+            var authAdded = []; // 所有新赋的权限
+            var authRemoved = [];  // 所有移除的权限
+
+            $.each(allNodes, function () {
+                var node = this;
+                var cAuthID = node.AuthID;
+
+                if (cAuthID && cAuthID != "") {
+                    if (node.checked || node.checkState == "indeterminate") {
+                        if ($.inArray(cAuthID, atList) < 0) {
+                            authAdded.push(cAuthID);
+                        }
+                    } else {
+                        if ($.inArray(cAuthID, atList) >= 0) {
+                            authRemoved.push(cAuthID);
+                        }
+                    }
+                }
+            });
+            if (tempid == "" || (authAdded.length == 0 && authRemoved.length == 0)) {
+                $.messager.alert('操作提示', "没有需要保存的数据!");
+                return;
+            }
+            $.ajax({
+                url: "@Url.Action("SaveAuth")",
+                type: "POST",
+                data: { type: type, id: tempid, added: authAdded, removed: authRemoved },
+                success: function (data) {
+                    $.messager.alert('操作提示', data);
+                }
+            });
+        });
+        function getAllNodes(nodes, cnodes) {
+            cnodes = cnodes || [];
+            $.merge(cnodes, nodes);
+
+            for (var i = 0; i < nodes.length; i++) {
+                var node = nodes[i];
+
+                if (node.children.length > 0) {
+                    getAllNodes(node.children, cnodes);
+                }
+            }
+
+            return cnodes;
+        }
+        
+        $('#treeOrg').tree({
+            onSelect: function (node) {
+                type = "group";
+                tempid = node.GroupID;
+                ReLoadAuths(type, tempid);
+            }
+        });
+        $('#dg').datagrid({
+            onSelect: function (index, row) {
+                type = "user";
+                tempid = row.UserID;
+                ReLoadAuths(type, tempid);
+            }
+        });
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $('#dgrole').datagrid({
+            onSelect: function (index, row) {
+                type = "role";
+                tempid = row.RoleID;
+                ReLoadAuths(type, tempid);
+            }
+        });
+        $("#role_search").click(function () {
+            $('#dgrole').datagrid({ queryParams: form2Json("form2") });   //点击搜索载入搜索条件
+            return false;
+        });
+        function ReLoadAuths(type,tempid) {
+            var nodes = $('#treeEntry').tree('getChecked', ['checked', 'indeterminate']);
+            for (var i = 0; i < nodes.length; i++) {
+                $('#treeEntry').tree('uncheck', nodes[i].target);
+            }
+            $.ajax({
+                url: "@Url.Action("GetUserAuths")?type=" + type + "&id=" + tempid,
+                type: "GET",
+                success: function (data) {
+                    atList = [];
+                    var ids = data;
+                    if (ids && ids.split(",").length > 0) {
+                        var idsarr = ids.split(",");
+                        atList = idsarr;
+                        for (var i = 0; i < idsarr.length; i++) {
+                            var node = $('#treeEntry').tree('find', idsarr[i]);
+                            if (node && node.leaf) {
+                                $('#treeEntry').tree('check', node.target);
+                                //$('#treeEntry').tree('select', node.target);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}

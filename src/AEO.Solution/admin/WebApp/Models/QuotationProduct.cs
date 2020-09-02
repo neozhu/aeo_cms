@@ -113,7 +113,7 @@ namespace WebApp.Models
 
     [Display(Name = "报价单号", Description = "报价单号")]
     [MaxLength(20)]
-    [Required]
+    //[Required]
     public string QpNo { get; set; }
 
 

@@ -1,0 +1,607 @@
+﻿@{
+    ViewBag.Title = "成本管理";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+    System.Data.DataTable BZdt = (System.Data.DataTable)ViewBag.BZdtData;
+    System.Data.DataTable HXdt = (System.Data.DataTable)ViewBag.HXdtData;
+    //System.Data.DataTable GJDQdt = (System.Data.DataTable)ViewBag.GJDQdtData;
+}
+<style type="text/css">
+    label#valid.radio {
+        display: inline-table;
+        margin-right: 60px;
+    }
+
+    label#invalid.radio {
+        display: inline-table;
+    }
+
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>空运国内成本管理/<span style="color:#ffd600!important">空运国内成本维护</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-primary savebtn" id="btnSave" onclick="dosave(); return false;">
+                                保存
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnback" onclick="back()">
+                                返回
+                            </button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form form-backgroud">
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">起运港<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="RID" style="display:none;">
+                                                <input type="text" class="form-control" id="QYG" name="pqyg" mdmtype="MDMGK" mdmkey="QYGCODE" mdmloctype="KY">
+                                                <input type="text" id="QYGCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">地区</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="AREA" name="parea" mdmtype="MDM" mdmkey="T005T" mdmfieldname="LAND1,LANDX" mdmcode="AREACODE">
+                                                @*<input  type="text" class="form-control" id="ZHXKY" name="@GJDQdt.Rows[0]["CALCCODE"]" mdmtype="@GJDQdt.Rows[0]["MDMTYPE"]" mdmkey="@GJDQdt.Rows[0]["MDMKEY"]" mdmfieldname="@GJDQdt.Rows[0]["MDMFIELDNAME"]" mdmloctype="KY">*@
+                                                <input type="text" id="AREACODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">航线<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                @*<input type="text" class="form-control" id="HX" name="phx" mdmtype="MDMGK" mdmkey="HXCODE" mdmloctype="KY">*@
+                                                <input type="text" class="form-control" id="HX" name="@HXdt.Rows[0]["CALCCODE"]" mdmtype="@HXdt.Rows[0]["MDMTYPE"]" mdmkey="@HXdt.Rows[0]["MDMKEY"]" mdmfieldname="@HXdt.Rows[0]["MDMFIELDNAME"]" mdmloctype="KY">
+                                                <input type="text" id="HXCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">货物类别</label>
+                                            <label class="input">
+                                                <select style="width:100%" id="HWLB" name="phwlb" class="select2"></select>
+                                                @*<input type="text" class="form-control" id="BZ" name="pbz">*@
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">MIN</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="MINPRICE" name="pminprice">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">S</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="DEFGPRICE" name="pdefgprice">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">重量/0-45KG</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="WEIGHTXY45" name="pweightxy45" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">重量/+45KG</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="WEIGHTDY45" name="pweightdy45" disType="price">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">重量/+100KG</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="WEIGHTDY100" name="pweightdy100" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">重量/+500KG</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="WEIGHTDY500" name="pweightdy500" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">重量/+1000KG</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="WEIGHTDY1000" name="pweightdy1000" disType="price">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">航空公司</label>
+                                            <label class="input">
+                                                @*<select style="width:100%" id="HKGS" name="phkgs" class="select2"></select>*@
+                                                <input type="text" class="form-control" id="HKGS" name="phkgs" mdmtype="MDMBP" mdmkey="HKGSCODE">
+                                                <input type="text" id="HKGSCODE" style="display:none;">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">航班号</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="HBH" name="phbh">
+                                                @*<select style="width:100%" id="HBH" name="phbh" class="select2"></select>*@
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">时刻表</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="SKB" name="pskb" placeholder="格式：15:30">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">起始日期<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="STARTDATE" name="pstartdate" readonly="readonly">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">截止日期</label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="ENDDATE" name="penddate" readonly="readonly" placeholder="默认为:9999/12/31">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">币种</label>
+                                            <label class="input">
+                                                <select style="width:100%" id="BZ" name="BZ" class="select2">
+                                                    @for (int i = 0; i < BZdt.Rows.Count; i++)
+                                                    {
+                                                        <option value="@BZdt.Rows[i]["WAERS"]">@BZdt.Rows[i]["KTEXT"]--@BZdt.Rows[i]["WAERS"]</option>
+                                                    }
+                                                </select>
+                                                @*<select style="width:100%" id="BZ" name="pbz" class="select2"></select>*@
+                                                @*<input type="text" class="form-control" id="BZ" name="pbz" mdmtype="MDM" mdmkey="WAERS" mdmfieldname="WAERS,KTEXT" mdmcode="BZCODE">*@
+                                                <input type="text" id="BZCODE" value="CNY" style="display:none;">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">状态</label>
+                                            <label class="radio" id="valid"><input type="radio" name="rdSTATUS" id="rdTRUE"><i></i>有效</label>
+                                            <label class="radio" id="invalid"><input type="radio" name="rdSTATUS" id="rdFALSE"><i></i>失效</label>
+                                        </section>
+                                    </div>
+                                    <section>
+                                        <label class="label">备注</label>
+                                        <label class="textarea">
+                                            <i class="icon-append fa fa-comment"></i>
+                                            <textarea rows="4" name="pmemo" id="MEMO"></textarea>
+                                        </label>
+                                    </section>
+                                    <div id="oprecord" style="display:none;">
+                                        <div class="row" style="margin-bottom:20px;">
+                                            <button type="button" class="btn btn-success" data-toggle="collapse"
+                                                    data-target="#record" style="margin-left:20px;margin-top:20px; ">
+                                                操作记录
+                                            </button>
+                                        </div>
+                                        <div class="row collapse in" id="record">
+                                            <section class="col col-3">
+                                                <label class="label">创建时间</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-datetime2" id="CREATETIME" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label class="label">创建人</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="CREATEUSER" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label class="label">修改时间</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-datetime2" id="MODIFYTIME" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label class="label">修改人</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="MODIFYUSER" style="background-color:#eee;" disabled="disabled">
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button class="btn btn-primary savabtn" onclick="dosave(); return false;">
+                                        保存
+                                    </button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+
+        //全局数据--开航日
+        var dataList = [{ Code: 'A', Name: 'A' }, { Code: 'B', Name: 'B' }, { Code: 'C', Name: 'C' }, { Code: 'D', Name: 'D' },
+            { Code: 'E', Name: 'E' }, { Code: 'F', Name: 'F' }, { Code: 'G', Name: 'G' }, { Code: 'H', Name: 'H' }];
+        var keyValue = "";
+        var IsEdit = false;
+        var username;
+        $(function () {
+            ///////////////////
+            $("#amenufld").hide();
+            $("#logout").hide();
+            $("#amenufld").click();
+            ///////////////////
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            $("#formmain").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+            BindAutocompleteMDM();
+            var errorClass = 'invalid';
+            var errorElement = 'em';
+            // 表单验证
+            $('#formmain').validate({
+                errorClass: errorClass,
+                errorElement: errorElement,
+                highlight: function (element) {
+                    $(element).parent().removeClass('state-success').addClass("state-error");
+                    $(element).removeClass('valid');
+                },
+                unhighlight: function (element) {
+                    $(element).parent().removeClass("state-error").addClass('state-success');
+                    $(element).addClass('valid');
+                },
+
+                // Rules for form validation
+                rules: {
+                    //parea: {
+                    //    required: true
+                    //},
+                    pqyg: {
+                        required: true
+                    },
+                    phx: {
+                        required: true
+                    },
+                    pstartdate: {
+                        required: true
+                    },
+                    pminprice: {
+                        number: true
+                    },
+                    pdefgprice:{
+                        number: true
+                    },
+                    pweightxy45: {
+                        number: true
+                    },
+                    pweightdy45: {
+                        number: true
+                    },
+                    pweightdy100: {
+                        number: true
+                    },
+                    pweightdy500: {
+                        number: true
+                    },
+                    pweightdy1000: {
+                        number: true
+                    },
+                    pskb: {
+                        time: true
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    //parea: {
+                    //    required: '必填'
+                    //},
+                    pqyg: {
+                        required: '必填'
+                    },
+                    phx: {
+                        required: '必填'
+                    },
+                    pstartdate: {
+                        required: '必填'
+                    },
+                    pminprice: {
+                        number: '不合法的数字'
+                    },
+                    pdefgprice: {
+                        number: '不合法的数字'
+                    },
+                    pweightxy45: {
+                        number: '不合法的数字'
+                    },
+                    pweightdy45: {
+                        number: '不合法的数字'
+                    },
+                    pweightdy100: {
+                        number: '不合法的数字'
+                    },
+                    pweightdy500: {
+                        number: '不合法的数字'
+                    },
+                    pweightdy1000: {
+                        number: '不合法的数字'
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+            // 重写validate 时刻表
+            jQuery.validator.addMethod("time", function (value, element) {
+                var length = value.length;
+                var regName = /^(?:(?:[0-2]{0,1}[0-3])|(?:[0-1]{0,1}[0-9])):[0-5]{0,1}[0-9]$|^$/;
+                var regName2 = /^(?:(?:[0-2]{0,1}[0-3])|(?:[0-1]{0,1}[0-9]))：[0-5]{0,1}[0-9]$|^$/;
+                return regName.test(value) || regName2.test(value);
+            }, "格式不符合要求，参照 15:30");
+
+            $(dataList).each(function (k, o) {
+                $("#HWLB").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+
+            keyValue = request('keyValue');
+            $("#RID").val(keyValue);
+            if (!keyValue) {
+                // 给状态赋默认值：1
+                $("#rdTRUE").attr("checked", "checked");
+                // 币种默认为人民币
+                $("#BZ").select2('val', "CNY");
+            }
+            if (!!keyValue) {
+                // 将所有计费基础控件置为disabled
+                $("#formmain").find("input,select,textarea").each(function () {
+                    if (!($(this).attr("id") == "STARTDATE" || $(this).attr("id") == "ENDDATE" || $(this).attr("id") == "rdTRUE" || $(this).attr("id") == "rdFALSE" || $(this).attr("id") == "MINPRICE" || $(this).attr("id") == "ZZG" || $(this).attr("id") == "MEMO" || $(this).attr("id") == "AREA" || $(this).attr("id") == "DEFGPRICE" || $(this).attr("id") == "HKGS" || $(this).attr("id") == "HBH" || $(this).attr("id") == "SKB" || $(this).attr("id") == "BZ")) {
+                        $(this).css("background", "rgb(255, 255, 204)");
+                        $(this).attr("disabled", "disabled");
+                    }
+                });
+                $.ajax({
+                    url: "/SQM_COST_KYGN/GetFormJson",
+                    data: { keyValue: keyValue },
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        $("#formmain").SetWebControls(result.data);
+                        var status = result.data.STATUS;
+                        if (status == 0) {
+                            $("#rdFALSE").attr("checked", "checked");
+                        } else if (status == 1) {
+                            $("#rdTRUE").attr("checked", "checked");
+                        }
+                        var cuser = result.data.CREATEUSER;
+                        var muser = result.data.MODIFYUSER;
+                        if (!!result.data2) {
+                            for (var i = 0; i < result.data2.length; i++) {
+                                if (result.data2[i]["WORKNO"] == cuser) {
+                                    $("#CREATEUSER").val(result.data2[i]["NAME"]);
+                                }
+                                if (result.data2[i]["WORKNO"] == muser) {
+                                    $("#MODIFYUSER").val(result.data2[i]["NAME"]);
+                                }
+                            }
+                        }
+                    }
+                });
+                // 显示操作记录
+                $("#oprecord").css("display", "");
+            }
+            // 失效进入编辑页
+            if (request("status2") == "0") {
+                // 将控件置为disabled
+                $("#formmain").find("input,select,textarea").each(function () {
+                    $(this).css("background", "rgb(255, 255, 204)");
+                    $(this).attr("disabled", "disabled");
+                });
+                // 将保存按钮隐藏
+                $(".savebtn").hide();
+            }
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+
+        });
+
+        var IsEdit = false;
+        $(document).ready(function () {
+            $("input").change(function () {
+                IsEdit = true;
+            });
+            // 检测设备
+            detectmob();
+            // 以下代码不知道功能
+            $("#spinner").spinner();
+            $("#spinner-decimal").spinner({
+                step: 0.01,
+                numberFormat: "n"
+            });
+        });
+        // 返回
+        function back() {
+            if (IsEdit) {
+                Ewin.confirm({ message: "页面有修改，是否放弃保存？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    window.location.href = "@Url.Action("Index")";
+                });
+            }
+            else { window.location.href = "@Url.Action("Index")"; }
+        }
+        // 保存
+        function dosave()
+        {
+            if (!$("#formmain").valid()) {
+                return;
+            }
+            toastr.info("数据保存中，请稍候...");
+            var postdata = GetWebControlsForRadio("#formmain");
+            try {
+                $("#btnSave").attr("disabled", "disabled");
+
+                $.ajax({
+                    url: "/SQM_COST_KYGN/SubmitForm",
+                    type: "post",
+                    data: {
+                        'postdata': JSON.stringify(postdata),
+                        'keyValue': keyValue
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Message.indexOf("修改失败") >= 0) {
+                            toastr.error(data.Message);
+                        } else if (data.Message.indexOf("新增失败") >= 0) {
+                            toastr.error(data.Message);
+                        } else {
+                            if (data.Success) {
+                                toastr.success(data.Message);
+                                //$("#ID").val(data.Data.RID);
+                                //setTimeout(function () { location.href = "/SQM_COST_KYGN/Edit?keyValue=" + $("#ID").val(); }, 200);
+                                setTimeout(function () { location.href = "/SQM_COST_KYGN/Index" }, 200);
+                            } else {
+                                toastr.error(data.Message);
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            } catch (e)
+            {
+                window.alert("保存失败，请重试");
+            }
+            finally { $("#btnSave").removeAttr("disabled"); }
+        };
+        function GetWebControlsForRadio(element) {
+            var postdata = {};
+            $(element).find('input,select,textarea').each(function (r) {
+                var id = $(this).attr('id');
+                if (id != "MODIFYTIME" && id != "MODIFYUSER") {
+                    var value = $(this).val();
+                    var type = $(this).attr('type');
+                    switch (type) {
+                        case "radio":
+                            if ($(this).is(':checked')) {
+                                if (id == "rdFALSE") {
+                                    postdata["STATUS"] = 0;
+                                } else if (id == "rdTRUE") {
+                                    postdata["STATUS"] = 1;
+                                }
+                            }
+                            break;
+                        default:
+                            postdata[id] = value;
+                            break;
+                    }
+                }
+            });
+            postdata["MODIFYUSER"] = username;
+            return postdata;
+        }
+        // 控件绑定数据源
+        function BindAutocompleteMDM() {
+            $("[mdmtype='MDM']").each(function () {
+                AutocompleteMDM($(this).attr("id"),"kygn");
+            });
+            $("[mdmtype='MDMJC']").each(function () {
+                AutocompleteMDMJC($(this).attr("id"), "kygn");
+            });
+            $("[mdmtype='MDMGK']").each(function () {
+                AutocompleteMDMGK($(this).attr("id"));
+            });
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+    </script>
+}

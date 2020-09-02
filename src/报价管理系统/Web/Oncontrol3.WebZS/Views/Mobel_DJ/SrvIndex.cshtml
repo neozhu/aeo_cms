@@ -1,0 +1,301 @@
+﻿@{
+    ViewBag.title = "产品服务";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    /*基本样式*/
+    #box {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: #fff !important;
+    }
+
+    header {
+        width: 100%;
+        height: 5%;
+        position: fixed;
+        overflow: scroll;
+        z-index: 1;
+    }
+
+        header .row input {
+            border: none;
+        }
+
+        header .row button {
+            background: #fff;
+            border: none;
+        }
+
+    .innerBox {
+        width: 100%;
+        height: 88%;
+        position: fixed;
+        overflow: scroll;
+        z-index: 1;
+        top: 5%;
+        padding: 5px;
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+    }
+
+    footer {
+        width: 100%;
+        height: 7%;
+        position: fixed;
+        z-index: 1;
+        top: 93%;
+    }
+
+    /*选择事业部*/
+    .chooseOrg {
+        color: #006fc2 !important;
+    }
+
+    /*srv*/
+    .srv {
+        padding: 0px;
+        display: inline-block;
+    }
+
+        .srv button {
+            text-align: left;
+        }
+
+    .fee {
+        padding: 2px;
+    }
+
+    #srvList, #feeList {
+        height: 98%;
+        padding: 5px;
+        overflow: scroll;
+    }
+</style>
+
+<div id="box">
+    <!--顶部搜索框-->
+    <header>
+        <div class="row">
+            <div class="col-xs-10">
+                <input id="key" class="form-control" placeholder="费目名称">
+            </div>
+            <button class="col-xs-2 btn btn-default searchBtn" style="padding-top:5px;">
+                <i class="fa fa-search fa-lg" aria-hidden="true"></i>
+            </button>
+        </div>
+    </header>
+    <!--中间内容-->
+    <div class="innerBox">
+        <div class="col-xs-4 " id="srvList"></div>
+        <div class="col-xs-8 " id="feeList"></div>
+    </div>
+    <!--底部导航栏-->
+    <footer>
+        <div class='col-xs-3 btn btn-lg org' id="ky">
+            <i class="fa fa-plane"></i><span>空运</span>
+        </div>
+        <div class='col-xs-3 btn btn-lg org' id="hy">
+            <i class="fa fa-anchor"></i><span>海运</span>
+        </div>
+        <div class='col-xs-3 btn btn-lg org' id="gyl">
+            <i class="fa fa-chain-broken"></i><span>供应链</span>
+        </div>
+        <div class='col-xs-3 btn btn-lg org' id="ys">
+            <i class="fa fa-truck"></i><span>运输</span>
+        </div>
+        <div id="orgidSelecter"></div>
+    </footer>
+</div>
+<link rel="stylesheet" href="~/Content/css/mobileSelect.css">
+<link rel="stylesheet" href="/Content/QO/toastr/toastr.min.css">
+<script type="text/javascript" src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="~/js/mobileSelect.min.js"></script>
+<script src="/Content/QO/toastr/toastr.min.js"></script>
+<script type="text/javascript">
+
+        var prdcode = "@ViewBag.prdcode";
+        var username;
+        //从服务页点击切换事业部
+        var currentOrg = "";
+        //权限工号
+        var hygh = '10002959,10003579,10000513,20000067,10000698,10001759,10003511';
+        var kygh = '';
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+            }
+            var org = sessionStorage.getItem("currentOrg");
+            $(".org").each(function () {
+                if ($(this).attr("id") == org) {
+                    $(this).addClass("chooseOrg");
+                }
+            });
+            InitPage();
+        });
+
+        String.prototype.trim = function () {
+            if (this.length > 7) {
+                return this.substring(0, 6) + "...";
+            } else {
+                return this;
+            }
+        }
+        //底部按钮切换
+        $(".org").each(function () {
+            $(this).click(function () {
+                $(".org").removeClass("chooseOrg");
+                $(this).addClass("chooseOrg");
+                var org = $(this).children('span').eq(0).text();
+                window.location.href = "/Mobel_DJ/DJIndex?org=" + org;
+            });
+        })
+        //服务数组
+        var srvArray = [];
+        //费目数据
+        var feeArray = [];
+        //初始化
+        function InitPage(feecode) {
+            $.ajax({
+                url: "/Mobel_DJ/SrvList",
+                data: {
+                    user: username,
+                    prdcode: prdcode,
+                    feecode: feecode,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (!!data) {
+                        toastr.remove();
+                        toastr.clear();
+                        toastr.info("查询失败");
+                    }
+                    srvArray = data[0];
+                    feeArray = data[1];
+                    var srvStr = "";
+                    var feeStr = "";
+                    if (srvArray.length > 0) {
+                        for (var i = 0; i < srvArray.length; i++) {
+                            srvStr += "<div class='btn-group btn-group-md col-xs-12 srv'><button type='submit' class='btn btn-block' srvcode='" + srvArray[i][1] + "' name = '" + srvArray[i][2] + "'>" + srvArray[i][2].trim() + "</button></div>";
+                        }
+                        $("#srvList").append(srvStr);
+                        for (var i = 0; i < feeArray.length; i++) {
+                            feeStr += "<div class='btn-group btn-group-md col-xs-6 fee'><button type='submit' class='btn btn-block btn-default' prdcode='" + feeArray[i][0] + "' srvcode='" + feeArray[i][2] + "'  feecode='" + feeArray[i][4] + "' name = '" + feeArray[i][5] + "' djrids='"+feeArray[i][7]+"' orgrids='"+feeArray[i][6]+"'>" + feeArray[i][5].trim() + "</button></div>";
+                        }
+                        $("#feeList").append(feeStr);
+                        $(".srv button").eq(0).trigger("click");
+                    } else {
+                        toastr.remove();
+                        toastr.clear();
+                        toastr.info("该产品下未绑定相关服务！");
+                    }
+                }
+            });
+        }
+
+        //当前服务下的费目
+        function showFee(srvcode) {
+            var num = 0;
+            $(".fee button").each(function () {
+                if ($(this).attr("srvcode") == srvcode) {
+                    $(this).parent().show();
+                    num++;
+                } else {
+                    $(this).parent().hide();
+                }
+            })
+            if (num == 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.info("当前服务下没有费目！");
+            } else {
+                toastr.clear();
+                toastr.remove();
+            }
+        }
+
+        //点击服务切换费目
+        $("#srvList").on('click', '.srv button', function () {
+            $(".srv button").removeClass('btn-primary');
+            $(this).addClass("btn-primary");
+            showFee($(this).attr("srvcode"));
+        })
+
+        //定价方式页面
+        $("#feeList").on('click', '.fee button', function () {
+            var feecode = $(this).attr("feecode");
+            var srvcode = $(this).attr("srvcode");
+            var prdcode = $(this).attr("prdcode");
+            var orgrids = $(this).attr("orgrids").split("|"); //选择项  1130,1500|1170|2200 
+            var djrids = $(this).attr('djrids').split('|'); //dj_psf表的id  id1|id2|id3 
+            var data = [];
+            for (var i = 0; i < djrids.length; i++) {
+                var currentorgids=orgrids[i].split(",");  //划分组织id
+                //var obj={};
+                for (var j = 0; j < currentorgids.length; j++) {
+                    var obj = {};
+                    obj['id'] = djrids[i];
+                    obj['value']=currentorgids[j];
+                    data.push(obj);
+                }
+                //var obj = {};
+                //obj['id'] = djrids[i];
+                //for()
+            }
+            //tmp = new Set(tmp);
+            //var orgrids = [];
+            //tmp.forEach(function (e, e, set) {
+            //    orgrids.push(e);
+            //})
+            if (djrids.length == '1') {
+                window.location.href = "/Mobel_DJ/FeeIndex?feecode=" + feecode + "&srvcode=" + srvcode + "&prdcode=" + prdcode + "&djrid=" + djrids[0];
+            } else {
+                var mobileSelect1 = new MobileSelect({
+                    trigger: '#orgidSelecter',
+                    title: '请选择组织',
+                    wheels: [{ data: data }],
+                    position: [0], //Initialize positioning
+                    callback: function (indexArr, data) {
+                        //console.log(data[0]['id']);
+                        window.location.href = "/Mobel_DJ/FeeIndex?feecode=" + feecode + "&srvcode=" + srvcode + "&prdcode=" + prdcode + "&djrid=" + data[0]['id'];
+                    }
+                });
+                mobileSelect1.show();
+            }
+            //return false;
+           
+        })
+
+        $("#serchBtn").on('click', function () {
+            $(".fee").hide();
+            $(".srv button").removeClass("btn-primary");
+            var key = $("#key").val();
+            $(".fee").each(function () {
+                if ($(this).children().eq(0).attr("name").match(key)) {
+                    $(this).show();
+                }
+            })
+        })
+
+        $("header").on('click', '.searchBtn', function () {
+            $(".fee").hide();
+            $(".srv button").removeClass("btn-primary");
+            var key = $("#key").val();
+            $(".fee").each(function () {
+                if ($(this).children().eq(0).attr("name").match(key)) {
+                    $(this).show();
+                }
+            })
+        })
+</script>

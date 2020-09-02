@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <style type="text/css">
+        * { margin: 0; padding: 0; list-style-type: none; }
+    </style>
+    <script src="/Scripts/libs/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript">
+        //字符串进行解密   
+        function uncompileStr(code) {
+            code = unescape(code);
+            var c = String.fromCharCode(code.charCodeAt(0) - code.length);
+            for (var i = 1; i < code.length; i++) {
+                c += String.fromCharCode(code.charCodeAt(i) - c.charCodeAt(i - 1));
+            }
+            return c;
+        }
+        function getIFRAMESRC()
+        {
+            var search = location.search.slice(1);
+            var arr = search.split("&");
+            for (var i = 0; i < arr.length; i++) {
+                var ar = arr[i].split("=");
+                if (uncompileStr(ar[0]) == 'IFRAMESRC') {
+                    if (unescape(ar[1]) == 'undefined') {
+                        return "";
+                    } else {
+                        return uncompileStr(unescape(ar[1]));
+                    }
+                }
+            }
+            return "";
+        }
+    $(document).ready(function () {
+
+        var iframeHeight = function () {
+            var _height = $(window).height() -1;
+            $('#content').height(_height);
+        }
+        window.onresize = iframeHeight;
+        $(function () {
+            iframeHeight();
+        });
+
+        
+        $('#content').attr('src', getIFRAMESRC());
+    });
+
+    </script>
+
+    
+</head>
+<body>
+    <div id="container" style="overflow:hidden;">
+        <iframe border="0" id="content" src="" frameborder="0" height="100%" width="100%"></iframe>
+    </div>
+</body>
+</html>

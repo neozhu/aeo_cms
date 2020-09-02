@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "库存查询";
+}
+<div class="container">
+    <div class="scs_search" id="searchBar">
+        <form id="form1">
+            <div class="sd_cont" style="height:60px;">
+                <span class="fld_label">货主</span>
+                <span class="fld_input"><input class="easyui-textbox" id="BUser" name="BUser"></span>
+                <span class="fld_label">料号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="ItemNo" name="ItemNo"></span>
+                <span class="fld_label">第三方料号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="OtherNo" name="OtherNo"></span>
+                <span class="fld_label">第三方</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Other" name="Other"></span>
+                <span class="fld_label">收货人料号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="RNo" name="RNo"></span>
+                <span class="fld_label">收货人</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Receive" name="Receive"></span>
+                <span class="fld_label">发票号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="InvoiceNo" name="InvoiceNo"></span>
+                <div class="sc_more">
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkexport" style="width:50px">导出</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:true,collapsible:true,method:'get',pagination:false">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'ApplicationName',width:100">货主代码</th>
+                <th data-options="field:'ApplicationName',width:100">货主简称</th>
+                <th data-options="field:'ApplicationName',width:100">料号</th>
+                <th data-options="field:'ApplicationName',width:100">品名</th>
+                <th data-options="field:'ApplicationName',width:100">HSCODE</th>
+                <th data-options="field:'ApplicationName',width:100">HS Item</th>
+                <th data-options="field:'ApplicationName',width:100">总数</th>
+                <th data-options="field:'ApplicationName',width:100">发票号</th>
+                <th data-options="field:'ApplicationName',width:100">第三方料号</th>
+                <th data-options="field:'ApplicationName',width:100">第三方</th>
+                <th data-options="field:'ApplicationName',width:100">收货人料号</th>
+                <th data-options="field:'ApplicationName',width:100">收货人</th>
+                <th data-options="field:'ApplicationName',width:60">良品数量</th>
+                <th data-options="field:'ApplicationName',width:70">不良品数量</th>
+                <th data-options="field:'ApplicationName',width:60">重工数量</th>
+                <th data-options="field:'ApplicationName',width:70">待重工数量</th>
+                <th data-options="field:'ApplicationName',width:60">冻结数量</th>
+                <th data-options="field:'ApplicationName',width:70">待处理数量</th>
+                <th data-options="field:'ApplicationName',width:60">在库天数</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        function EditUsers(value, row, index) {
+            return "<a href='javascript:void(0);' onclick=EditRow(this)>" + value + "</a>";
+        }
+        function EditRow(e) {
+            $("#windowDiv").html(e.innerHTML);
+            $("#windowDiv").window({
+                width: 500, height: 500, modal: true
+            });
+        }
+        
+        $("#lkexport").click(function () {
+            if ($("#form1").form('validate')) {
+                MaskUtil.mask("导出中,请稍候...");
+                var newWin = window.open("");
+                $.ajax({
+                    url: "@Url.Action("Export")",
+                    data: form2Json("form1"),
+                type: "GET",
+                success: function (data) {
+                    MaskUtil.unmask("");
+                    newWin.location.href = data;
+                }
+            });
+        }
+        });
+
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ url: "@Url.Action("StockDetail")", queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkModify").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                window.location.href = "@Url.Action("RoleEdit")/" + selrows[0].RoleID;
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+    </script>
+}

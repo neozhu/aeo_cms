@@ -1,0 +1,1106 @@
+﻿@{
+    ViewBag.Title = "费目详情";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.Model.SQM_ENQUIRY_HKY
+<style>
+    body {
+        background-color: rgb(248,248,248);
+    }
+
+    .active {
+        background-color: rgb(19,100,181) !important;
+    }
+
+    .head {
+        margin-top: 6px;
+        height: 50px;
+        background-color: rgb(19,100,181);
+    }
+
+        .head span {
+            line-height: 98px;
+            font-size: 14px;
+            padding: 0px 10px 15px 10px;
+            color: #ffffff;
+            margin-right: 35px;
+            cursor: pointer;
+        }
+
+    /*.head .active {
+            border-bottom: 2px solid #F8F8F8;
+        }*/
+
+    .label {
+        color: #4d5d70 !important;
+    }
+
+    .inf {
+        line-height: 40px;
+    }
+
+    .tel-num {
+        color: #000;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .dis {
+        color: #999;
+    }
+
+    #modelname {
+        margin-left: 10px;
+        font-size: 18px;
+    }
+
+    .controls {
+        position: relative;
+    }
+
+        .controls input[type=radio] {
+            opacity: 0;
+        }
+
+        .controls label {
+            position: absolute;
+            top: 5px;
+            left: 12px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgb(223,223,223);
+            background-color: rgb(241,241,241);
+        }
+
+        .controls input[type=radio]:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            bottom: 3px;
+            width: 4px;
+            height: 4px;
+            border: 2px solid rgb(40,129,197);
+            background-color: rgb(40,129,197);
+            border-radius: 50%;
+        }
+
+    .clear {
+        background-color: rgb(195,195,195);
+        color: #ffffff;
+        width: 70px;
+    }
+
+    .nmpd-target {
+        border: 1px solid rgb(153, 153, 153);
+        border-image: none;
+        width: 50px;
+        height: 30px;
+    }
+
+    .label-default {
+        background-color: #fff;
+        color: #666;
+        font-weight: 100;
+    }
+    /********************************************/
+    .font {
+        font-size: 20px;
+        color: black;
+        padding-top: 10px;
+    }
+
+    .bjok {
+        color: green;
+    }
+
+    .bjover {
+        color: #f0ad4e;
+    }
+
+    .card-box {
+        width: 100%;
+        height: 100px;
+        float: left;
+        /*border: 1px solid #ccc;*/
+        background-color: #fff;
+        border-radius: 1px;
+        margin-top: 5px;
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .card-box-content {
+        padding: 6px 6px;
+        font-size: 14px;
+        color: #4d5d70;
+    }
+
+        .card-box-content div {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 4px;
+        }
+
+            /*.card-box-content .inf {
+            font-weight: bold;
+        }*/
+
+            .card-box-content div .tel-num {
+                width: 80px;
+            }
+
+            .card-box-content div .pickup_btn {
+                float: right;
+                margin-left: 56px;
+                font-size: 9px;
+                line-height: 18px;
+                width: 70px;
+                height: 18px;
+                background-color: #319adf;
+                color: white;
+                text-align: center;
+                border-radius: 8px;
+            }
+
+    .btns {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .ColVis {
+        display: none;
+    }
+
+    .htmlstr {
+        position: absolute;
+        width: 1400px;
+    }
+
+    #numpad4column tbody td {
+        height: 60px;
+    }
+
+    .dt-toolbar {
+        padding: 0px 0px;
+        border-bottom: 0px solid #ccc;
+        background: #fff
+    }
+
+    .dataTables_info {
+        display: none;
+    }
+
+    .dataTables_length {
+        display: none;
+    }
+
+    #numpad4column_paginate {
+        display: none;
+    }
+
+    .dban .col-md-1 {
+        width: 12%;
+    }
+
+    .tuoche {
+        display: none;
+        padding-left: 45px;
+        padding-right: 20px;
+        padding-bottom: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        margin-left: 16px !important;
+        margin-right: 194px !important;
+        /*border: 1px solid #ff6a00;*/
+    }
+
+    #showtuoche {
+        font-style: italic;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    /**  控件绑定样式  **/
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+    .clearbtn {
+        margin-top: 10px;
+        margin-left: -12px;
+    }
+    /*出现滚动条后页面晃动*/
+    html {
+        overflow-y: scroll;
+        overflow-x: scroll;
+    }
+</style>
+<div class="row head">
+    <div style="float:left;margin-top: -25px;">
+        <span>&nbsp;&nbsp;&nbsp; 欢迎您：<span id="user">@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()</span></span>
+    </div>
+    <div style="float:right; margin-right: 10px; margin-top: -25px;">
+        <span class="dis" id="toxj">询价</span>
+        <span class="dis" id="tobjmb">报价模板</span>
+        <span class="dis" id="tocpzs">产品展示</span>
+        <span class="dis" id="tobjsy">报价首页</span>
+    </div>
+</div>
+<div class="row" style="background-color: #fff;">
+    <div class="col-md-12">
+        <div class="card-box" style="height:100%;">
+            <div class="card-box-content" style="margin-left: 20px;">
+                <div class="inf"><span class="tel-num" id="feename">海运费询价编辑</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box" style="height:100%;">
+            <div class="card-box-content">
+                <form id="formdata">
+                    <div style="display:none;">
+                        <input id="TYPE" value="0" />
+                        <input id="STATUS" value="1" />
+                        <input id="FEECODE" value="@ViewBag.feecode" />
+                        <input id="SRVCODE" value="@ViewBag.srvcode" />
+                        <input id="PRDCODE" value="@ViewBag.prdcode" />
+                        <input id="ORGCODE" value="@ViewBag.orgcode" />
+                    </div>
+                    <div class="row">
+                        @*<div class="col-md-6">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">需求类型<i style="color:red">*</i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left;">
+                                        <input type="radio" name="XQLX" value="0" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">整箱进口</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="XQLX" value="1" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">整箱出口</label>
+                                </label>
+                            </div>
+                        </div>*@
+                        <div class="col-md-6" style="padding-right:0px;">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">运输方式<i style="color:red">*</i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left;">
+                                        <input type="radio" name="YSFS" value="DOOR-CY" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">DOOR-CY</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;margin-left:6px;">
+                                    <div style="float:left;">
+                                        <input type="radio" name="YSFS" value="CY-CY" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">CY-CY</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;margin-left:-13px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="YSFS" value="DOOR-DOOR" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">DOOR-DOOR</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="YSFS" value="CY-DOOR" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">CY-DOOR</label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">业务内容<i style="color:red">*</i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left;">
+                                        <input type="radio" name="YWLX" value="0" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">海运</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="YWLX" value="1" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">海外服务</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="YWLX" value="2" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">公路运输</label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-right:0px;">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">询价类型<i style="color:red">*</i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left;">
+                                        <input type="radio" name="XJLX" value="0" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">单询</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="XJLX" value="1" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">月度</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="XJLX" value="2" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">标案</label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="padding-right:0px;">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">运费方式<i style="color:red">*</i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left;">
+                                        <input type="radio" name="YFFS" value="PP" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">PP</label>
+                                </label>
+                                <label class="col-md-3" style="width:100px;">
+                                    <div style="float:left">
+                                        <input type="radio" name="YFFS" value="CC" />
+                                    </div>
+                                    <label style="margin-top:10px;margin-left:10px;">CC</label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                        
+                    </div>*@
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">起运港<i style="color:red">*</i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="QYG" type="text" class="form-control col-md-8" value="" mdmtype="MDMGK" mdmkey="QYGCODE" mdmloctype="HY" />
+                                <input type="text" id="QYGCODE" style="display:none;">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="col-md-4 lable" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">目的港<i style="color:red">*</i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="MDG" type="text" class="form-control col-md-8" value="" mdmtype="MDMGK" mdmkey="MDGCODE" mdmloctype="HY" />
+                                <input type="text" id="MDGCODE" style="display:none;">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-4" style="margin-top:10px;width:120px;">
+                                <h4><label class="label label label-default">设备类型<i style="color:red">*</i></label></h4>
+                            </div>
+                            @*<label class="col-md-8">
+                                <input type="text" id="SBLX" style="display:none;"/>
+                                <input type="text" id="SBLXC" style="display:none;"/>
+                                <input type="text" class="form-control col-md-8" style="margin-top:5px;" id="SBLXZS" name="EQUIP_TYPE" mdmtype="MDMJC" mdmkey="EQUIP_TYPE" mdmfieldname="EQUI_CODE,DESCR">
+                            </label>*@
+                            <label class="col-md-8">
+                                <input type="text" id="SBLX" style="display:none;" />
+                                <input style="width:100%;" id="SBLXCODE" class=""/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">品名<i style="color:red"></i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                @*<select style="width:100%" id="PRODUCT" name="PRODUCT" class="select2">
+                                    <option></option>
+                                    @for (int i = 0; i < ViewBag.PM.Rows.Count; i++)
+                                    {
+                                        <option value='@ViewBag.PM.Rows[i]["CODE"]'>@ViewBag.PM.Rows[i]["NAME"]</option>
+                                    }
+                                </select>*@
+                                <input id="PRODUCT" type="text" class="form-control col-md-6" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                <h4><label class="label label label-default">货量<i style="color:red"></i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="HL" type="text" class="form-control col-md-6" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-4" style="margin-top:10px;width:120px;">
+                                <h4><label class="label label label-default">船期或时间段<i style="color:red"></i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <select multiple style="width:100%;" id="CQDATE" name="CQDATE" class="select2"><option></option></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-top:10px;width:150px;">
+                                <h4><label class="label label label-default">发货人<i style="color:red"></i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="SHIPPER" type="text" class="form-control col-md-8" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-top:10px;width:150px;">
+                                <h4><label class="label label label-default">收货人<i style="color:red"></i></label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="CONSIGNEE" type="text" class="form-control col-md-8" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-top:10px;width:150px;">
+                                <h4><label class="label label label-default">货别/货重/尺寸等信息</label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="SPECIFICATION" type="text" class="form-control col-md-8" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-top:10px;width:150px;">
+                                <h4><label class="label label label-default">其它要求</label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="MEMO" type="text" class="form-control col-md-8" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input id="iftuoche" style="display:none" value="0" />
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-top:10px;width:150px;">
+                                <h4><label class="label label label-default">拖车需求</label></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <span>拖车费请参考标准定价表，如有不在常规定价表内，请提供<span id="showtuoche">拖车询盘表 <i class="fa fa-caret-down"></i></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row tuoche">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                    <h4><label class="label label label-default">运输类型</label></h4>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="col-md-3" style="width:100px;">
+                                        <div style="float:left;">
+                                            <input type="radio" name="TUOCHE_YSLX" value="0" />
+                                        </div>
+                                        <label style="margin-top:10px;margin-left:10px;">FCL</label>
+                                    </label>
+                                    <label class="col-md-3" style="width:100px;">
+                                        <div style="float:left">
+                                            <input type="radio" name="TUOCHE_YSLX" value="1" />
+                                        </div>
+                                        <label style="margin-top:10px;margin-left:10px;">LCL</label>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="width:100px;">
+                                <button class="btn btn-default clearbtn" onclick="selectNone('TUOCHE_YSLX');return false;">清除</button>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                    <h4><label class="label label label-default">起始地</label></h4>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="TUOCHE_QSD" type="text" class="form-control col-md-8" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                    <h4><label class="label label label-default">通关方式</label></h4>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="col-md-3" style="width:100px;">
+                                        <div style="float:left;">
+                                            <input type="radio" name="TUOCHE_TGFS" value="0" />
+                                        </div>
+                                        <label style="margin-top:10px;margin-left:10px;">转关</label>
+                                    </label>
+                                    <label class="col-md-3" style="width:100px;">
+                                        <div style="float:left">
+                                            <input type="radio" name="TUOCHE_TGFS" value="1" />
+                                        </div>
+                                        <label style="margin-top:10px;margin-left:10px;">清关</label>
+                                    </label>
+                                    <label class="col-md-3" style="width:100px;">
+                                        <div style="float:left">
+                                            <input type="radio" name="TUOCHE_TGFS" value="1" />
+                                        </div>
+                                        <label style="margin-top:10px;margin-left:10px;">一体化</label>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="width:100px;">
+                                <button class="btn btn-default clearbtn" onclick="selectNone('TUOCHE_TGFS'); return false;">清除</button>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                    <h4><label class="label label label-default">目的地</label></h4>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="TUOCHE_MDD" type="text" class="form-control col-md-8" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-4" style="margin-top:10px;width:100px;">
+                                    <h4><label class="label label label-default">货量</label></h4>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="TUOCHE_HL" type="text" class="form-control col-md-6" value="" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4" style="margin-top:10px;width:110px;">
+                                    <h4><label class="label label label-default">箱型箱量/货量</label></h4>
+                                </div>
+                                <div class="col-md-5">
+                                    <input id="TUOCHE_XXXL" type="text" class="form-control col-md-8" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-top:10px;width:150px;">
+                                <h4><label class="label label label-default">海外服务</label></h4>
+                            </div>
+                            <div class="col-md-8" style="margin-top:10px;">
+                                <textarea rows="4" cols="80" id="HWYQ"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-top:10px;width:150px;">
+                                <h4><label class="label label label-default">备注</label></h4>
+                            </div>
+                            <div class="col-md-8" style="margin-top:10px;">
+                                <textarea rows="3" cols="80" id="MEMO"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn btn-default" id="btnsubmit" onclick="Commit();">提交</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn btn-default" onclick="Back();">返回</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/scripts/jQueryNumPad/jquery.numpad.css">
+    <link href="~/Content/QO/scripts/icheck/skins/square/blue.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/icheck/icheck.min.js"></script>
+
+    <script type="text/javascript">
+        // 全局数据
+        // 船期
+        var cqList = [{ Code: '1', Name: '星期一' }, { Code: '2', Name: '星期二' }, { Code: '3', Name: '星期三' }, { Code: '4', Name: '星期四' },
+            { Code: '5', Name: '星期五' }, { Code: '6', Name: '星期六' }, { Code: '0', Name: '星期日' }];
+        // 设备类型
+        var sblxList = @Html.Raw(ViewBag.SBLX);
+        var IsEdit = false;
+        // 导航
+        $("#toxj").click(function () {
+            location.href = "/SQM_ENQUIRY_HKY/QuiryHyIndex";
+        });
+        $("#tobjsy").click(function () {
+            location.href = "/QM_Price/QM_PriceIndex";
+        });
+        $("#tobjmb").click(function () {
+            location.href = "/SQM_BJMB/SQM_BJMBIndex";
+        });
+        $("#tocpzs").click(function () {
+            location.href = "/SQM_CPZS/Index";
+        });
+        $("#tobjsy").click(function () {
+            location.href = "/QM_Price/QM_PriceIndex";
+        });
+        //监听横竖屏切换
+        var evt = "onorientationchange" in window ? "orientationchange" : "resize";
+        window.addEventListener(evt, function () {
+            $("#amenufld").trigger("click");
+            return false;
+        }, false);
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        function iCheckStyled() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        }
+        var IsEdit = false;
+        $(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            // 检测是否修改input
+            $("input").change(function () {
+                IsEdit = true;
+            });
+            // 检测是否修改input
+            $("input").change(function () {
+                IsEdit = true;
+            });
+            iCheckStyled();
+            BindAutocompleteMDM();
+            // 查看明细
+            if (request("keyValue") != null && request("keyValue") != "") {
+                // disable所有表单控件
+                $("#formdata").find("input,select,textarea").each(function () {
+                    $(this).css("background", "rgb(255,255,204)");
+                    $(this).attr("disabled", true);
+                });
+                // 隐藏 提交 按钮
+                $("#btnsubmit").css("display", "none");
+                // 请求数据
+                $.ajax({
+                    url: "/SQM_ENQUIRY_HKY/GetFormJson",
+                    data: "rid=" + request("keyValue"),
+                    type: "Post",
+                    async: false,
+                    dataType:"Json",
+                    success: function (data) {
+                        $("#formdata").SetWebControlsForRadio(data);
+                    }
+                });
+            }
+            // 清除浏览器自动补全
+            $("#formdata").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+        });
+        
+        // 船期
+        $(cqList).each(function (k, o) {
+            $("#CQDATE").append($("<option></option>").attr("value", o.Code).html(o.Name));
+        });
+        // 设备类型
+        //$(sblxList).each(function (k, o) {
+        //    $("#EQUIP_TYPE").append($("<option></option>").attr("value", o.CODE).html(o.CODE + "---" + o.NAME));
+        //});
+        $("#SBLXCODE").select2({
+            data: sblxList,
+            multiple: true,
+            placeholder: "请选择",
+            allowclear: true,
+            formatSelection: function (data) {
+                return data.id;
+            }
+        });
+        // 提交
+        function Commit() {
+            //验证表单数据
+            if (!checkData()) {
+                return false;
+            }
+            toastr.info("数据提交中，请稍候...");
+            var postdata = GetWebControlsForRadio("#formdata");
+            $.ajax({
+                url: "/SQM_ENQUIRY_HKY/SubmitForm",
+                async: false,
+                data: {
+                    "postdata": JSON.stringify(postdata),
+                },
+                dataType: "json",
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        toastr.success(data.Message);
+                        setTimeout(function () { location.href = "/SQM_ENQUIRY_HKY/QuiryHyIndex" }, 500);
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                }
+            });
+        }
+        // 返回
+        function Back() {
+            if (IsEdit) {
+                Ewin.confirm({ message: "页面有修改，是否放弃保存？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    window.location.href = "/SQM_ENQUIRY_HKY/QuiryHyIndex";
+                });
+            }
+            else {
+                if (request("sign") == "dj") {
+                    window.location.href = "/SQM_ENQUIRY_HKY/QuiryPURIndex";
+                } else {
+                    window.location.href = "/SQM_ENQUIRY_HKY/QuiryHyIndex";
+                }
+            }
+        }
+        // 展示拖车信息
+        $("#showtuoche").click(function () {
+            $(".tuoche").toggle();
+            if ($(".tuoche").eq(0).is(":visible")) {// 元素可见
+                $("#iftuoche").val("1");
+                $("#showtuoche").find("i").removeClass().addClass("fa fa-caret-up");
+            } else {
+                $("#iftuoche").val("0");
+                $("#showtuoche").find("i").removeClass().addClass("fa fa-caret-down");
+            }
+        });
+        // 清空radio
+        function selectNone(name) {
+            $('input[name="' + name + '"]').iCheck('uncheck');
+        }
+        // 获取表单数据
+        function GetWebControlsForRadio(element) {
+            var postdata = {};
+            $(element).find("input,select,textarea").each(function (r) {
+                // 单选钮
+                if ($(this).attr("type") == "radio") {
+                    if ($(this).is(":checked")) {
+                        postdata[$(this).attr("name")] = $(this).val();
+                    }
+                } else if ($(this).attr("id") == "CQDATE") {
+                    var value = $(this).val();
+                    if (value != "" && value != null) {
+                        postdata["CQDATE"] = value.join(",");
+                    }
+                } else if ($(this).attr("id") == "SBLX") {
+                    var value = $("#SBLXCODE").select2("data");
+                    var ms = [];
+                    value.forEach(item => { ms.push(item.text); })
+                    if (ms.length > 0) {
+                        postdata["SBLX"] = ms.join(";");
+                    }
+                } else {
+                    var id = $(this).attr("id");
+                    var value = $(this).val();
+                    postdata[id] = value;
+                }
+            });
+            return postdata;
+        }
+        // 控件绑定数据源
+        function BindAutocompleteMDM() {
+            $("[mdmtype='MDM']").each(function () {
+                AutocompleteMDM($(this).attr("id"));
+            });
+            $("[mdmtype='MDMGK']").each(function () {
+                AutocompleteMDMGK($(this).attr("id"));
+            });
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            $("[mdmtype='MDMJC']").each(function () {
+                AutocompleteMDMJC($(this).attr("id"));
+            });
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+        //验证表单必填数据
+        function checkData() {
+            // radio
+            var xqlx = 0;
+            var ywlx = 0;
+            var xjlx = 0;
+            var yffs = 0;
+            var ysfs = 0;
+            $("input[name='XQLX']:radio").each(function () {
+                if ($(this).is(":checked")) {
+                    xqlx++;
+                }
+            });
+            $("input[name='YWLX']:radio").each(function () {
+                if ($(this).is(":checked")) {
+                    ywlx++;
+                }
+            });
+            $("input[name='XJLX']:radio").each(function () {
+                if ($(this).is(":checked")) {
+                    xjlx++;
+                }
+            });
+            $("input[name='YFFS']:radio").each(function () {
+                if ($(this).is(":checked")) {
+                    yffs++;
+                }
+            });
+            $("input[name='YSFS']:radio").each(function () {
+                if ($(this).is(":checked")) {
+                    ysfs++;
+                }
+            });
+            //if (xqlx == 0) {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请选择需求类型");
+            //    return false;
+            //}
+            if (ysfs == 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请选择运输方式");
+                return false;
+            }
+            if (ywlx == 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请选择业务内容");
+                return false;
+            }
+            if (xjlx == 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请选择询价类型");
+                return false;
+            }
+            if (yffs == 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请选择运费方式");
+                return false;
+            }
+            // input
+            if ($.trim($("#QYG").val()) == "") {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请填写起运港");
+                return false;
+            }
+            if ($.trim($("#MDG").val()) == "") {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请填写目的港");
+                return false;
+            }
+            //if ($.trim($("#CQDATE").val()) == "") {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请选择船期");
+            //    return false;
+            //}
+            //if ($.trim($("#PRODUCT").val()) == "") {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请填写品名");
+            //    return false;
+            //}
+            //if ($.trim($("#HL").val()) == "") {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请填写货量");
+            //    return false;
+            //}
+            // 校验数据格式
+            // 起运港、目的港不能为*号
+            if ($("#QYG").val().indexOf("*(*)") >= 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("起运港不能为*");
+                return false;
+            }
+            if ($("#MDG").val().indexOf("*(*)") >= 0) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("目的港不能为*");
+                return false;
+            }
+            var reg = /\D/gi;
+            var hl = $("#HL").val().trim();
+            if (reg.test(hl)) {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("货量填写数据是非数字格式");
+                return false;
+            }
+            if ($.trim($("#SBLXCODE").val()) == "") {
+                toastr.clear();
+                toastr.remove();
+                toastr.error("请填写设备类型");
+                return false;
+            }
+            //if ($.trim($("#SHIPPER").val()) == "") {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请填写发货人");
+            //    return false;
+            //}
+            //if ($.trim($("#CONSIGNEE").val()) == "") {
+            //    toastr.clear();
+            //    toastr.remove();
+            //    toastr.error("请填写收货人");
+            //    return false;
+            //}
+            if ($("#TUOCHE_HL").val() + "" != "") {
+                if (reg.test($("#TUOCHE_HL").val())) {
+                    toastr.clear();
+                    toastr.remove();
+                    toastr.error("拖车—货量，填写数据是非数字格式");
+                    return false;
+                }
+            }
+            return true;
+        }
+        // 表单填充
+        $.fn.SetWebControlsForRadio = function (data) {
+            var $id = $(this);
+            for (var key in data) {
+                // 给单选钮赋值  YSFS、YWLX、XJLX、YFFS
+                if (key == "YSFS" || key == "YWLX" || key == "XJLX" || key == "YFFS") {
+                    $("input[value='" + data[key] + "']").iCheck("check");
+                } else {
+                    var id = $id.find("#" + key);
+                    if (id.attr("id")) {
+                        var type = id.attr('type');
+                        if (id.hasClass("select2")) {
+                            type = "select2";
+                        }
+                        else if (id.hasClass("datepicker") || id.hasClass("form-date")) {
+                            type = "datepicker";
+                        }
+                        else if (id.hasClass("form-datetime")) {
+                            type = "datetimepicker";
+                        }
+                        else if (id.hasClass("form-datetime2")) {
+                            type = "datetimepicker2";
+                        }
+                        var value = data[key];
+                        switch (type) {
+                            case "checkbox":
+                                if (value == 1) {
+                                    id.attr("checked", 'checked');
+                                } else {
+                                    id.removeAttr("checked");
+                                }
+                                break;
+                            case "select2":
+                                id.select2("val", value);
+                                break;
+                            case "datepicker":
+                                id.val(formatDate2(value, "yyyy/MM/dd"));
+                                break;
+                            case "datetimepicker":
+                                id.val(formatDate2(value, "yyyy/MM/dd hh:mm:ss"));
+                                break;
+                            case "datetimepicker2":
+                                id.val(formatDate2(value, "yyyy/MM/dd hh:mm"));
+                                break;
+                            default:
+                                id.val(value);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+}

@@ -1,0 +1,252 @@
+﻿@{
+    ViewBag.title="报价详情";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        /*基本样式*/
+        #box {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background: #fff !important;
+        }
+
+        header {
+            width: 100%;
+            height: 5%;
+            position: fixed;
+            overflow: scroll;
+            z-index: 1;
+            border-bottom: 3px solid;
+        }
+
+            header .row input {
+                border: none;
+            }
+
+        .innerBox {
+            width: 100%;
+            height: 88%;
+            position: fixed;
+            overflow: scroll;
+            z-index: 1;
+            top: 5%;
+            padding: 5px;
+        }
+
+        footer {
+            width: 100%;
+            height: 7%;
+            position: fixed;
+            z-index: 1;
+            top: 93%;
+            border-top: 3px solid;
+        }
+
+            footer div button {
+                background: #fff;
+            }
+
+        .sj {
+            padding: 10px;
+        }
+
+            .sj button {
+                background: linear-gradient(#D6DBEC,#6F85A2);
+            }
+
+        table tr td {
+            border-collapse: collapse;
+            border-bottom: 1px solid #d4caca;
+            padding-top: 20px;
+            padding-left: 5px;
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        .bjname {
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+
+    <div id="box">
+        <!--顶部搜索框-->
+        <header>
+            <div class="row">
+                <div class="col-xs-10">
+                    <input id="key" class="form-control" placeholder="报价名称">
+                </div>
+                <div class="col-xs-2 searchBtn" style="padding-top:5px;">
+                    <i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                </div>
+            </div>
+        </header>
+        <!--中间内容-->
+        <div class="innerBox">
+            <div id="bjList">
+                <table></table>
+            </div>
+        </div>
+        <!--底部导航栏-->
+        <footer>
+            <div class='btn-group btn-group-lg col-xs-2 '>
+                <button id="backBtn" class='btn btn-block foot' onclick="window.history.go(-1);"><span>&lt;</span></button>
+            </div>
+            <div class='btn-group col-xs-pull-1 btn-group-lg col-xs-10 '>
+                <button class='btn btn-block foot'><span id="sjname"></span></button>
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
+    <script src="/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="/Content/QO/toastr/toastr.min.css">
+    <script type="text/javascript">
+
+        var username;
+        //权限工号
+        var hygh = '10002959,10003579,10000513,20000067,10000698,10001759,10003511';
+        var kygh = '';
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+            }
+            InitPage();
+        });
+
+        //截取产品名称
+        String.prototype.trim = function () {
+            if (this.length > 6) {
+                return this.substring(0, 5) + "...";
+            } else {
+                return this;
+            }
+        }
+
+        function FormatTime(time) {
+            //2018-07-07T18:26:31
+            if (!!time && time != "null") {
+                if (time.length > 10) {
+                    return time.substr(0, 4) + time.substr(5, 2) + time.substr(8, 2) + time.substr(11, 2) + time.substr(14, 2);
+                }
+            }
+            return "";
+        }
+
+        //报价
+        var bjArray = [];
+        function InitPage() {
+            //加载组织数据
+            $.ajax({
+                url: "/Mobel_BJ/BJList",
+                data: {
+                    sjcode: "@ViewBag.sjcode",
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    bjArray = data;
+                    if (bjArray.length == 0) {
+                        toastr.remove();
+                        toastr.clear();
+                        toastr.info("还没有对此商机进行报价！");
+                        return;
+                    }
+                    var bjStr = "";
+                    for (var i = 0; i < bjArray.length; i++) {
+                        bjStr += "<tr class='bj'><td class='bjname' mrid='" + bjArray[i][5] + "' name='" + bjArray[i][1] + "' verid='" + bjArray[i][2] + "'>" + bjArray[i][1] + "</td><td>" + bjArray[i][3] + "</td><td>" + FormatTime(bjArray[i][4]) + "</td><td class='text-center' style='min-width:70px'>" + getStatus(bjArray[i][6]) + "</td></tr>";
+                    }
+                    $("#bjList table").append(bjStr);
+                    if (bjArray.length > 0) {
+                        $("#sjname").text(bjArray[0][0]);
+                    }
+                }
+            });
+        }
+
+        function getStatus(status) {
+            var result = "已保存";
+            switch (status) {
+                case 0:
+                    result = "已保存";
+                    break;
+                case 1:
+                    result = "审批中";
+                    break;
+                case 2:
+                    result = "审批通过";
+                    break;
+                case 3:
+                    result = "审批退回";
+                    break;
+                case 4:
+                    result = "已发送客户";
+                    break;
+                case 5:
+                    result = "已提交TM";
+                    break;
+                default:
+                    result = "已保存";
+            }
+            return result;
+        }
+        //报价预览
+        $("table").on('click', '.bjname', function () {
+            var verid = $(this).attr("verid");
+            var mrid = $(this).attr("mrid");
+
+            //特别慢！！！！
+            $.ajax({
+                url: "/SQM_BJ_IMP_EXP/PreviewExc",
+                type: "Post",
+                data: {
+                    "main_id": mrid,
+                    "ver_id": verid,
+                },
+                beforeSend: function () {
+                    toastr.clear();
+                    toastr.remove();
+                    toastr.info("正在请求数据！");
+                },
+                dataType: "json",
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        if (data.Code == "1") {
+                            var url = data.Message + "";
+                            if (url != "") {
+                                window.open(url, "_blank");
+                                //window.location.href = url;
+                            }
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                }
+            });
+        })
+
+        $("header").on('click', '.searchBtn', function () {
+            $('.bjname').each(function () {
+                $(".bjname").parent().show();
+                if (!$(this).attr("name").match($("#key").val())) {
+                    $(".bjname").parent().hide();
+                }
+            })
+        })
+    </script>

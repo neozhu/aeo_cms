@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{80DF9B2E-9B34-46D0-945B-7D26E4AE169F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Com.Feiliks.QDM</RootNamespace>
+    <AssemblyName>Com.Feiliks.QDM</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aim.Component">
+      <HintPath>..\..\Framework\Aim.Component\bin\Debug\Aim.Component.dll</HintPath>
+    </Reference>
+    <Reference Include="Aim.Core">
+      <HintPath>..\..\lib\Aim.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Aim.Portal">
+      <HintPath>..\..\lib\Aim.Portal.dll</HintPath>
+    </Reference>
+    <Reference Include="Aim.Portal.ServicesProvider">
+      <HintPath>..\..\lib\Aim.Portal.ServicesProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>..\..\Framework\Aim.Resources\libs\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Framework\Aim.Resources\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\lib\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp">
+      <HintPath>..\..\lib\PostSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Customed\BJ_SSO_LOGIN.cs" />
+    <Compile Include="Customed\QDM_FEE_SRV_REF.cs" />
+    <Compile Include="Customed\QDM_PRD_SRV_REF.cs" />
+    <Compile Include="Customed\QDM_PRODUCT.cs" />
+    <Compile Include="Customed\SQM_BJMB.cs" />
+    <Compile Include="Customed\SQM_BJ_BIZ.cs" />
+    <Compile Include="Customed\SQM_BJ_BP.cs" />
+    <Compile Include="Customed\SQM_BJ_CZTJ.cs" />
+    <Compile Include="Customed\SQM_BJ_CZXG.cs" />
+    <Compile Include="Customed\SQM_BJ_MAIN_BASIC.cs" />
+    <Compile Include="Customed\SQM_BJ_ORG.cs" />
+    <Compile Include="Customed\SQM_BJ_PSF.cs" />
+    <Compile Include="Customed\SQM_BJ_VER.cs" />
+    <Compile Include="Customed\SQM_CALC_BASE_EXT.cs" />
+    <Compile Include="Customed\SQM_COST_HY.cs" />
+    <Compile Include="Customed\SQM_COST_KYGJ.cs" />
+    <Compile Include="Customed\SQM_COST_KYGN.cs" />
+    <Compile Include="Customed\SQM_COST_REF.cs" />
+    <Compile Include="Customed\SQM_DJ_PSF.cs" />
+    <Compile Include="Customed\SQM_ENQUIRY_HKY.cs" />
+    <Compile Include="Customed\SQM_FBREASON.cs" />
+    <Compile Include="Customed\SQM_FEE_CALC.cs" />
+    <Compile Include="Customed\SQM_FEE_CALC_REF.cs" />
+    <Compile Include="Customed\SQM_FEE_PUR_REF.cs" />
+    <Compile Include="Customed\SQM_FREIGHT_HYYJ.cs" />
+    <Compile Include="Customed\SQM_FWA_REF.cs" />
+    <Compile Include="Customed\SQM_HKYDIC.cs" />
+    <Compile Include="Customed\SQM_ITEMTYPE_REF.cs" />
+    <Compile Include="Customed\SQM_MODEBJ_VAL.cs" />
+    <Compile Include="Customed\SQM_MODEDJ_VAL.cs" />
+    <Compile Include="Customed\SQM_PRD_EXT.cs" />
+    <Compile Include="Customed\SQM_PRD_EXT_PERIOD.cs" />
+    <Compile Include="Customed\SQM_SRV_ATCOSTCONFIG.cs" />
+    <Compile Include="Customed\SQM_SRV_EXT.cs" />
+    <Compile Include="Customed\SQM_SRV_FEE_CONFIG.cs" />
+    <Compile Include="Customed\SQM_SRV_FEE_NEED.cs" />
+    <Compile Include="Customed\SQM_TRACKER.cs" />
+    <Compile Include="Customed\SQM_WEBCONFIG.cs" />
+    <Compile Include="Generated\BJ_SSO_LOGIN_g.cs" />
+    <Compile Include="Generated\QDM_FEE_g .cs" />
+    <Compile Include="Generated\QDM_FEE_SRV_REF_g .cs" />
+    <Compile Include="Generated\QDM_PRD_SRV_REF_g.cs" />
+    <Compile Include="Generated\QDM_PRODUCT_g.cs" />
+    <Compile Include="Generated\SQM_BJMB_g.cs" />
+    <Compile Include="Generated\SQM_BJ_BIZ_g.cs" />
+    <Compile Include="Generated\SQM_BJ_BP_g.cs" />
+    <Compile Include="Generated\SQM_BJ_CZTJ_g.cs" />
+    <Compile Include="Generated\SQM_BJ_CZXG_g.cs" />
+    <Compile Include="Generated\SQM_BJ_MAIN_BASIC_g.cs" />
+    <Compile Include="Generated\SQM_BJ_ORG_g.cs" />
+    <Compile Include="Generated\SQM_BJ_PSF_g.cs" />
+    <Compile Include="Generated\SQM_BJ_VER_g.cs" />
+    <Compile Include="Generated\SQM_CALC_BASE_EXT_g.cs" />
+    <Compile Include="Generated\SQM_COST_HY_g.cs" />
+    <Compile Include="Generated\SQM_COST_KYGJ_g.cs" />
+    <Compile Include="Generated\SQM_COST_KYGN_g.cs" />
+    <Compile Include="Generated\SQM_COST_REF_g.cs" />
+    <Compile Include="Generated\SQM_DJ_PSF_g.cs" />
+    <Compile Include="Generated\SQM_ENQUIRY_HKY_g.cs" />
+    <Compile Include="Generated\SQM_FBREASON_g.cs" />
+    <Compile Include="Generated\SQM_FEE_CALC_g.cs" />
+    <Compile Include="Generated\SQM_FEE_CALC_REF_g.cs" />
+    <Compile Include="Generated\SQM_FEE_PUR_REF_g.cs" />
+    <Compile Include="Generated\SQM_FREIGHT_HYYJ_g.cs" />
+    <Compile Include="Generated\SQM_FWA_REF_g.cs" />
+    <Compile Include="Generated\SQM_HKYDIC_g.cs" />
+    <Compile Include="Generated\SQM_ITEMTYPE_REF_g.cs" />
+    <Compile Include="Generated\SQM_MODEBJ_VAL_g.cs" />
+    <Compile Include="Generated\SQM_MODEDJ_VAL_g.cs" />
+    <Compile Include="Generated\SQM_PRD_EXT_g.cs" />
+    <Compile Include="Generated\SQM_PRD_EXT_PERIOD_g.cs" />
+    <Compile Include="Generated\SQM_SRV_ATCOSTCONFIG_g.cs" />
+    <Compile Include="Generated\SQM_SRV_EXT_g.cs" />
+    <Compile Include="Generated\SQM_SRV_FEE_CONFIG_g.cs" />
+    <Compile Include="Generated\SQM_SRV_FEE_NEED_g.cs" />
+    <Compile Include="Generated\SQM_TRACKER_g.cs" />
+    <Compile Include="Generated\SQM_WEBCONFIG_g.cs" />
+    <Compile Include="QdmModelBase.cs" />
+    <Compile Include="ModelBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

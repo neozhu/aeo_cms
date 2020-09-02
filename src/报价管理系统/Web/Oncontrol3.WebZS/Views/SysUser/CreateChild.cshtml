@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "账号维护";
+}
+@model Aim.Portal.Model.SysUser
+<div class="container">
+    @using (Html.BeginForm(Html.ViewContext.RouteData.Values["id"] != null ? "EditChild" : "CreateChild", "SysUser", FormMethod.Post, new { id = "ff" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="order_title">
+            <span>基础信息</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">用户名</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Name, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true" })</span>
+            <span class="fld_label">系统账号</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.LoginName, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true,validType:'length[3,32]'" })</span>
+            @if (Html.ViewContext.RouteData.Values["id"] == null)
+            {
+                <span class="fld_label">初始密码</span>
+                <span class="fld_input">@Html.TextBoxFor(m => m.Password, new { type = "password", style = "width:100%", @class = "easyui-textbox", data_options = "required:true,validType:'length[4,32]'" })</span>
+            }
+            <span class="fld_label">状态</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Status, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:true,valueField:'Code',textField:'Name',editable:false" })</span>
+            <div class="clear15"></div>
+            <span class="fld_label">邮箱</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Email, new { style = "width:480px", @class = "easyui-textbox", data_options = "required:true,validType:'email'" })</span>
+            <span class="fld_label">验证逻辑</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Ext1, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:false,valueField:'Name',textField:'Name',editable:false" })</span>
+            <span class="fld_label">订单查询</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Pk_zw, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:false,valueField:'Name',textField:'Name',editable:false,multiple:true" })</span>
+            <div class="clear15"></div>
+            <span class="fld_label">PLANT</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Ext2, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:false,valueField:'Name',textField:'Name',editable:false,multiple:true" })</span>
+            <span class="fld_label">BUSINESS</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Server_IAGUID, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:false,valueField:'Name',textField:'Name',editable:false" })</span>
+            <span class="fld_label">LOCATION</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.Server_Seed, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:false,valueField:'Name',textField:'Name',editable:false" })</span>
+            <span class="fld_label">ORDERTYPE</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.ThreeDESKEY, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:false,valueField:'Name',textField:'Name',editable:false" })</span>
+            <div class="clear"></div>
+        </div>
+        <div class="order_title">
+            <span>扩展信息</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">备注</span>
+            <span>@Html.TextAreaFor(m => m.Remark, new { style = "width:100%;height:60px", data_options = "required:false" })</span>
+        </div>
+    }
+    <div style="text-align:center;padding:5px 0">
+        @Html.ValidationSummary()
+        <div style="color:red">@ViewBag.StatusMessage</div>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>&nbsp;&nbsp;
+        <a href="@Url.Action("IndexChild")" class="easyui-linkbutton" style="width:80px">返回</a>
+    </div>
+</div>
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        $("#Status").combobox({data:@Html.Raw(ViewBag.Status)});
+        $("#ThreeDESKEY").combobox({data:@Html.Raw(ViewBag.ORDERTYPE)});
+        $("#Server_Seed").combobox({data:@Html.Raw(ViewBag.LOCATION)});
+        $("#Server_IAGUID").combobox({data:@Html.Raw(ViewBag.BUSINESS)});
+        $("#Ext2").combobox({data:@Html.Raw(ViewBag.PLANT)});
+        $("#Ext1").combobox({data:@Html.Raw(ViewBag.CHECKRULE)});
+        $("#Pk_zw").combobox({data:[{Name:"出货订单"},{Name:"收货订单"}]});
+        //$("#Ext2").combobox({data:[{Name:"纬创"},{Name:"世硕"},{Name:"WOK"}]});
+
+        $("#CreateId").popcombobox({
+            method: 'get',
+            nameField:'CreateName',//用于保存对应数据库Name的字段,对应createid,默认为查询条件
+            //url: '@Url.Action("GetDatas","Common")?q='+$("#CreateId").val(),//自动完成的数据源,绑定已有id,第一次需要传入参数,未指定则调用datasql
+            valueField: 'UserID',
+            mode:'remote',
+            textField: 'Name',
+            limitToList:true,
+            dialogWidth:400,
+            dialogHeight:500,
+            datasql:"select USERID \"UserID\",NAME \"Name\",LOGINNAME \"LoginName\" from SYSUSER where STATUS='1'",//列表数据源
+            displaynames:{LoginName:'登录名',Name:'姓名'},//列表显示字段
+            sort:'NAME',//排序字段
+            order:'desc'//排序方式
+        });
+        function submitForm() {
+            if ($("#ff").form('validate')) {
+                $("#ff").submit();//同步提交
+            }
+        }
+    </script>
+}

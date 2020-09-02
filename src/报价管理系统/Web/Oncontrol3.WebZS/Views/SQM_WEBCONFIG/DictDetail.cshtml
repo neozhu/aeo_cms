@@ -1,0 +1,735 @@
+﻿@{
+    ViewBag.Title = "字典明细管理";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+    System.Data.DataTable dt = (System.Data.DataTable)ViewBag.Data;
+}
+@using Aim.Data;
+@using Aim;
+<!-- MAIN CONTENT -->
+<style>
+    tr .selected {
+        background-color: lightgray;
+    }
+
+    .DTFC_LeftWrapper {
+        top: -6px !important;
+    }
+
+    .DTFC_RightWrapper {
+        top: -7px !important;
+    }
+
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+    /*模态框modal-body 样式*/
+    .modal-div-row {
+        margin: 10px 10px;
+        display: flex;
+        align-items: center;
+    }
+
+        .modal-div-row label {
+            width: 70px;
+        }
+
+        .modal-div-row input {
+            height: 32px;
+            width: 180px;
+            line-height: 32px;
+            padding: 5px 7px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-div-row textarea {
+            width: 430px;
+            padding: 5px 7px;
+            border: 1px solid #ccc;
+        }
+
+    .checkBox {
+        display: inline-block;
+    }
+
+        .checkBox li {
+            list-style: none;
+            float: left;
+            margin-right: 15px;
+        }
+
+            .checkBox li input {
+                width: 18px;
+                height: 18px;
+                vertical-align: middle;
+                margin-top: -2px;
+            }
+</style>
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>字典管理/<span style="color:#ffd600!important">字典列表</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-success" id="btnadd">
+                                新建
+                            </button>
+                            <button type="submit" class="btn btn-warning" onclick="Back();">
+                                返回
+                            </button>
+                            <button type="submit" class="btn btn-default" id="submit_search">
+                                查询
+                            </button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">
+                                查询重置
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <span style="font-size:16px;">字典名称：</span><span id="dicname" style="font-size:16px;font-weight:600;"></span>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">名称</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control" id="NAME" name="NAME" placeholder="名称">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">代码</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control" id="CODE" name="CODE" placeholder="代码">
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:auto;"></table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <!-- end widget grid -->
+    <!-- 新建字典弹窗 -->
+    <div class="modal fade" id="addDict" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">新增明细</h4>
+                </div>
+                <div class="modal-body modal-div">
+                    <form id="dictform">
+                        <div hidden>
+                            <input id="RID_mol" />
+                            <input id="MRID_mol" />
+                            <input id="CREATETIME_mol" />
+                        </div>
+                        <div class="modal-div-row common">
+                            <label>名称</label>
+                            <input class="modal-input" id="NAME_mol" />
+                            <label>代码</label>
+                            <input class="modal-input" id="CODE_mol" />
+                        </div>
+                        <div class="modal-div-row ys" style="display:none;">
+                            <label>选择费目</label>
+                            <div style="float: right;margin-top:-8px;width:300px;">
+                                <input style="width:100%;" id="FEECODE" />
+                            </div>
+                        </div>
+                        <div class="modal-div-row enquiry" style="display:none;">
+                            <label>类型</label>
+                            <div class="checkBox">
+                                <ul>
+                                    <li>
+                                        <input type="radio" id="ky" name="TYPE" value="1" checked /><span>空运</span>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="hy" name="TYPE" value="0" /><span>海运</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-div-row ys" style="display:none;">
+                            <label>费用说明</label>
+                            <div style="float: right;margin-top:-8px;width:300px;">
+                                <input style="width:100%;" id="EXT1_code" />
+                            </div>
+                        </div>
+                        <div class="modal-div-row ys" style="display:none;">
+                            <label>单价属性</label>
+                            <div style="float: right;margin-top:-8px;width:300px;">
+                                <input style="width:100%;" id="EXT3_code" />
+                            </div>
+                        </div>
+
+                        <div class="modal-div-row" style="clear:both;">
+                            <label>备注</label>
+                            <textarea rows="3" id="MEMO_mol"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="SaveForm();">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        // 全局变量
+        var username;
+        var sign;
+        var mrid;
+        var dicname;
+
+        // 状态
+        var dataSel = [{ Code: '1', Name: '有效' }, { Code: '0', Name: '失效' }];
+
+        // toast
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        function placeholderSupport() {
+            return 'placeholder' in document.createElement('input');
+        }
+
+        // 模态框显示
+        function showmodal() {
+            $("#addDict").modal({
+                show: true,
+                backdrop: "static",
+                keyboard: false
+            });
+            if (dicname.indexOf("enquiry") >= 0) {
+                $(".enquiry").css("display", "inline-block");
+            }
+            if (dicname.indexOf("ys") >= 0) {// 报价文件，费目配置
+                $(".ys").css("display", "inline-block");
+                $(".common").hide();
+                FeecodeData();
+            }
+        }
+        // 模态框消失
+        function hidemodal() {
+            $("#addDict").modal("hide");
+        }
+        // 模态框消失清除表单数据
+        $("body").on("hidden.bs.modal", ".modal", function () {
+            $("#addDict").find("input,select,textarea").each(function () {
+                $(this).val("");
+                $(this).text("");
+            });
+        });
+        // 费目选择框数据获取
+        function FeecodeData() {
+            var feeList;
+            @{
+                 var feecode = JsonHelper.GetJsonString(DataHelper.QueryDataTable("select TCET084 as \"id\",TEXTDESC || '--' || TCET084 as \"text\" from V_MDM_FEE"));
+                 <text>
+                    feeList = @Html.Raw(feecode);
+                 </text>
+            }
+            $("#FEECODE").select2({
+                data: feeList,
+                placeholder: "请选择",
+                allowclear: true,
+                formatSelection: function (data) {
+                    // 费用说明+单价属性选择框数据获取
+                    BaseCodeData(data.id);
+                    // name、code赋值
+                    $("#NAME_mol").val(data.text.split("--")[0]);
+                    $("#CODE_mol").val(data.id);
+                    return data.text;
+                }
+            });
+            //$("#EXT1_mol").select2({data:[]});
+            //$("#EXT3_mol").select2({data:[]});
+        }
+        // 费用说明+单价属性选择框数据获取
+        function BaseCodeData(feecode) {
+            var basedata = [];
+            $.ajax({
+                url: "@Url.Action("GetBaseData")?feecode=" + feecode,
+                type: "Get",
+                async: false,
+                dataType:"json",
+                success: function (data) {
+                    debugger
+                    if (data.Success) {
+                        basedata = data.Data;
+                    } else {
+                        basedata.push({"error":"该费目未设置基础"})
+                    }
+                }
+            })
+            $("#EXT1_code").select2({
+                data: basedata,
+                multiple: true,
+                placeholder: "请选择",
+                allowclear: true,
+                formatSelection: function (data) {
+                    $("#EXT1_mol").val(data.text);
+                    $("#EXT2_mol").val(data.id);
+                    return data.text;
+                }
+            });
+            var newbasedata = basedata.slice(0);
+            //newbasedata.splice(0, 0, { "id": " ", "text": " " });
+            $("#EXT3_code").select2({
+                data: newbasedata,
+                multiple: true,
+                placeholder: "请选择",
+                allowClear: true,
+                formatSelection: function (data) {
+                    $("#EXT3_mol").val(data.text);
+                    $("#EXT4_mol").val(data.id);
+                    return data.text;
+                }
+            });
+        }
+        // 数据新增
+        function addNew()
+        {
+            sign = "create";
+            showmodal();
+            // 给mrid赋值
+            $("#MRID_mol").val(mrid);
+        }
+        // 保存表单数据
+        function SaveForm() {
+            if (!$("#NAME_mol").val()) {
+                toastr.error("请填写名称！");
+                return false;
+            }
+            if (!$("#CODE_mol").val()) {
+                toastr.error("请填写代码！");
+                return false;
+            }
+            var postdata = GetFormDatas("#dictform");
+            $.ajax({
+                url: "@Url.Action("SaveDictDetail")",
+                type: "POST",
+                data: { "postdata": JSON.stringify(postdata), "sign": sign },
+                dataType:"Json",
+                success: function (msg) {
+                    if (msg.Success) {
+                        hidemodal();
+                        toastr.success("保存成功");
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error("保存失败：" + msg.Message);
+                    }
+                }
+            });
+        }
+        // 编辑选中字典明细
+        function doEdit(row) {
+            var data = JSON.parse(unescape(row));
+            showmodal();
+            sign = "edit";
+            $("#dictform").find("input,select,textarea").each(function () {
+                var id = $(this).attr("id").replace("_mol","");
+                var type = $(this).attr("type");
+                switch (type){
+                    case "radio":
+                        if (data.SIGN == $(this).val()) {
+                            $(this).prop("checked", true);
+                        }
+                        break;
+                    default:
+                        $(this).val(data[id]);
+                        break;
+                }
+                if (id == "FEECODE") {
+                    $("#FEECODE").select2("val", data["CODE"]);
+                    BaseCodeData(data["CODE"]);// 初始化select2控件
+                } else if (id == "EXT1_code") {
+                    var arr = [];
+                    if (!!data["EXT2"]) {
+                        arr = data["EXT2"].split(",");
+                    }
+                    $("#EXT1_code").select2("val", arr);
+                } else if (id == "EXT3_code") {
+                    //$("#EXT3_code").select2("val", data["EXT4"]);
+                    var arr = [];
+                    if (!!data["EXT4"]) {
+                        arr = data["EXT4"].split(",");
+                    }
+                    $("#EXT3_code").select2("val", arr);
+                }
+            });
+        }
+        // 删除选中字典
+        function doDelete(prdid)
+        {
+            popDialog("删除", "确定要删除本条记录吗？", deleteRow);
+            // 对话框回调函数
+            function deleteRow() {
+                $.ajax({
+                    url: "/SQM_WEBCONFIG/DeleteDetail",
+                    type: "Post",
+                    async: false,
+                    data: {
+                        "rowId": prdid
+                    },
+                    success: function (msg) {
+                        toastr.clear();
+                        toastr.remove();
+                        console.log(msg);
+                        if (msg.indexOf("成功!") >= 0) {
+                            toastr.success("删除成功!");
+                            $('#datatable_col_reorder').DataTable().search("").draw();
+                        } else {
+                            toastr.error(msg);
+                        }
+                    }
+                });
+            }
+        }
+        // 批量删除
+        function deleteAllRows() {
+            var rowIds = [];
+            var checkBoxs = $("input[name='checkBox']:checked");
+            checkBoxs.each(function () {
+                rowIds.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteBatch")",
+                data: {
+                    "rowIds": rowIds.join(",")
+                },
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.indexOf("成功!") >= 0) {
+                        toastr.success("删除成功!");
+                        $('#datatable_col_reorder').DataTable().search("").draw();
+                    } else {
+                        toastr.error(data);
+                    }
+                }
+            });
+        }
+        // 新建按钮
+        $("#btnadd").click(function () {
+            addNew();
+            return false;
+        });
+        // 返回按钮
+        function Back() {
+            window.location.href = "/SQM_WEBCONFIG/index";
+        }
+        $("#submit_search").click(function () {
+            $("#datatable_col_reorder").DataTable().search("").draw();
+            return false;
+        });
+
+        $(document).ready(function () {
+            ///////////////////
+            $("#amenufld").hide();
+            $("#logout").hide();
+            $("#amenufld").click();
+            ///////////////////
+            // input清除缓存
+            $("#form1").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+            // 主表id
+            mrid = request("mrid");
+            // 字典名称
+            dicname = unescape(request("dicname"));
+            $("#dicname").text(dicname);
+            // 初始化状态
+            $(dataSel).each(function (k, o) {
+                $("#SIGN").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            $("#SIGN").select2({
+                placeholder: "状态",
+                allowClear: true
+            });
+            $("#SIGN").select2("val", 1);
+
+            if (placeholderSupport()) {
+                $("label[class='label']").hide();
+            }
+            // 列表初始化
+            DrawTable();
+            $("div[class='ColVis']").hide();
+            // 设备检测
+            detectmob();
+        });
+
+        function DrawTable() {
+            // 列定义
+            var columns_common = [
+                { "title": "创建时间", "data": "CREATETIME", "bVisible": false },
+                { "title": "序号", "data": null, "width": "25", "sortable": false},
+                {
+                    "title": "操作", "data": "RID", "width": "52", "sortable": false,
+                    render: function (data, type, row, meta) {
+                        var rowstr = escape(JSON.stringify(row));
+                        return '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + rowstr + '\") ><i class="fa fa-pencil"></i></button>'
+                            + '<button title="删除" class="btn btn-xs btn-default" onclick=doDelete(\"' + data + '\") ><i class="fa fa-times"></i></button>';
+                    }
+                },
+                { "title": "名称", "data": "NAME", "width": "160" },
+                { "title": "代码", "data": "CODE", "width": "160" },
+                {
+                    "title": "类型", "data": "TYPE", "width": "60",
+                    render: function (data, type, row, meta) {
+                        if (data == "0") {
+                            return "海运";
+                        } else if (data == "1") {
+                            return "空运";
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+                { "title": "备注", "data": "MEMO", "width": "500" }
+            ];
+            var columns_bjwj = [
+                { "title": "创建时间", "data": "CREATETIME", "bVisible": false },
+                { "title": "序号", "data": null, "width": "25", "sortable": false },
+                {
+                    "title": "操作", "data": "RID", "width": "52", "sortable": false,
+                    render: function (data, type, row, meta) {
+                        var rowstr = escape(JSON.stringify(row));
+                        return '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + rowstr + '\") ><i class="fa fa-pencil"></i></button>'
+                            + '<button title="删除" class="btn btn-xs btn-default" onclick=doDelete(\"' + data + '\") ><i class="fa fa-times"></i></button>';
+                    }
+                },
+                { "title": "名称", "data": "NAME", "width": "160" },
+                { "title": "代码", "data": "CODE", "width": "160" },
+                {
+                    "title": "类型", "data": "TYPE", "width": "60",
+                    render: function (data, type, row, meta) {
+                        if (data == "0") {
+                            return "海运";
+                        } else if (data == "1") {
+                            return "空运";
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+                { "title": "费用说明", "data": "EXT1", "width": "200" },
+                { "title": "单价属性", "data": "EXT3", "width": "160" },
+                { "title": "备注", "data": "MEMO", "width": "500" }
+            ];
+            var columns;
+            if (dicname.indexOf("ys") >= 0) {// 报价文件，费目配置
+                columns = columns_bjwj;
+            } else {
+                columns = columns_common;
+            }
+            var table = $('#datatable_col_reorder').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "colReorder": true,
+                "scrollX": true,
+                "fixedColumns": {
+                    leftColumns: 0
+                },
+                "bStateSave": true,
+                "order": [[0, "desc"]],
+                "fnDrawCallback": function () {
+                    var api = this.api();
+                    var startIndex = api.context[0]._iDisplayStart; //获取到本页开始的条数 　
+                    api.column(1).nodes().each(function (cell, i) {
+                        cell.innerHTML = startIndex + i + 1;
+                    });
+                    // 取消标题的checkbox选中
+                    //$("input[name='checkRowIds']").prop("checked", false);
+                    //// “失效”标题checkbox disabled
+                    //if ($("#SIGN").val() == "0"){
+                    //    $("input[name = 'checkRowIds']").attr("onclick", "return false;");
+                    //} else {
+                    //    $("input[name = 'checkRowIds']").attr("onclick", "checkAll();");
+                    //}
+                },
+                "language": { "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+                "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+                "displayLength": 50,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("DetailLists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.MRID = mrid;
+                        d.NAME = $("#NAME").val();
+                        d.CODE = $("#CODE").val();
+                    }
+                },
+                columns: columns
+            });
+        }
+
+        // modal 对话框
+        function popDialog(title, msg, callback) {
+            if (!title) {
+                title = '对话框';
+            }
+            var dialogHTML = '<div id="selfDialog" class="modal fade">';
+            dialogHTML += '<div class="modal-dialog">';
+            dialogHTML += '<div class="modal-content">';
+            dialogHTML += '<div class="modal-header">';
+            dialogHTML += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            dialogHTML += '<span aria-hidden="true">&times;</span>';
+            dialogHTML += '</button>';
+            dialogHTML += '<h4 class="modal-title">' + title + '</h4>';
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-body">';
+            dialogHTML += msg;
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-footer">';
+            dialogHTML += '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>';
+            dialogHTML += '<button type="button" class="btn btn-primary" data-dismiss="modal" id="certainDelete">确定</button>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+
+            $("#selfDialog").remove();
+            $("body").append(dialogHTML);
+            $("#selfDialog").modal("show");
+            // 绑定"确定"方法
+            $("#certainDelete").click(function(){
+                if (typeof callback == "function") {
+                    callback();
+                }
+            });
+        }
+        // 重置查询条件
+        function ResetQueryValue() {
+            // 清空查询控件
+            $("#form1").find("input,select").each(function () {
+                $(this).val("");
+            });
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        }
+        // 存储表单数据
+        function GetFormDatas(element) {
+            var postdata = {};
+            $(element).find("input,select,textarea").each(function (r) {
+                var id = $(this).attr("id").replace("_mol","");
+                var type = $(this).attr("type");
+                switch (type) {
+                    case "radio":
+                        if ($(this).is(":checked")) {
+                            postdata[$(this).attr("name")] = $(this).val();
+                        }
+                        break;
+                    default:
+                        postdata[id] = $(this).val();
+                        break;
+                }
+                if (id == "EXT1_code") {
+                    var value = $("#EXT1_code").select2("data");
+                    if (!!value) {
+                        var ext1_mol = [];
+                        var ext2_mol = [];
+                        value.forEach(item => { ext1_mol.push(item.text); ext2_mol.push(item.id) })
+                        if (ext1_mol.length > 0) {
+                            postdata["EXT1"] = ext1_mol.join(",");
+                            postdata["EXT2"] = ext2_mol.join(",");
+                        }
+                    }
+                } else if (id == "EXT3_code") {
+                    var value2 = $("#EXT3_code").select2("data");
+                    if (!!value2) {
+                        var ext3_mol = [];
+                        var ext4_mol = [];
+                        value2.forEach(item => { ext3_mol.push(item.text); ext4_mol.push(item.id) })
+                        if (ext3_mol.length > 0) {
+                            postdata["EXT3"] = ext3_mol.join(",");
+                            postdata["EXT4"] = ext4_mol.join(",");
+                        }
+                    }
+                }
+            });
+            if (dicname.indexOf("enquiry") < 0) {
+                postdata["TYPE"] = dicname.split("/")[1];
+            }
+            return postdata;
+        }
+    </script>
+}

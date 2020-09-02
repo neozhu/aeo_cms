@@ -1,0 +1,291 @@
+﻿@{
+    ViewBag.Title = "商机报价列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <style type="text/css">
+        tr .selected {
+            background-color: lightgray;
+        }
+
+        .DTFC_LeftWrapper {
+            top: -6px !important;
+        }
+
+        .DTFC_RightWrapper {
+            top: -7px !important;
+        }
+    </style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>报价管理/<span style="color:#ffd600!important">商机报价列表</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-success" id="btnadd">
+                                新增
+                            </button>
+                            <button type="submit" class="btn btn-default" id="submit_search">
+                                查询
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">报价名称</label>
+                                        <label class="input">
+                                            <input class="form-control" id="PRODUCTKEY" name="PRODUCTKEY" placeholder="报价名称">
+                                        </label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="label">客户名称</label>
+                                        <label class="input">
+                                            <input class="form-control" id="PRODUCTNAME" name="PRODUCTNAME" placeholder="客户名称">
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover"></table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+
+</div>
+
+
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    @*<script src="~/Content/plugins/toastr.min.js"></script>
+        <script src="~/Content/plugins/jquery.ajaxupload.js"></script>
+        <script src="~/Content/plugins/jquery.bootpag.min.js"></script>
+        <script src="~/Content/plugins/jquery.guid.js"></script>
+        <script src="~/Content/plugins/base.js"></script>*@
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+            function placeholderSupport() {
+            return 'placeholder' in document.createElement('input');
+        }
+        $(document).ready(function () {
+            //console.log( @Html.Raw(ViewBag.StatusSel));
+            //if(placeholderSupport())
+            //{
+            //    $("label[class='label']").hide();
+            //}
+            @*$("#CreateDateS").val('@DateTime.Now.AddDays(-6).ToString("yyyy/MM/dd")');
+        $("#CreateDateE").val('@DateTime.Now.ToString("yyyy/MM/dd")');*@
+
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+
+            @*var user = '@(Oncontrol3.Web.Helpers.SessionHelper.GetSessionUser<Oncontrol3.Web.Controllers.FLD_QO_USER>().staffkey)';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+                $('#btnadd').attr('disabled', 'disabled');
+            }*@
+
+        });
+    function addNew()
+    {
+        document.location.href = '/QM_SJBJ/QM_SJBJEdit';
+        return false;
+    }
+    function doEdit(PRODUCTKEY) {
+        document.location.href = '/QM_Product/QM_ProductEdit?keyValue=' + PRODUCTKEY;
+    }
+    function doDelete(PRODUCTKEY)
+    {
+        Ewin.alert(PRODUCTKEY);
+    }
+    $("#btnadd").click(function () {
+        addNew();
+        return false;
+    });
+    $("#submit_search").click(function () {
+        $('#datatable_col_reorder').DataTable().search("").draw();
+        return false;
+    });
+    $("#sc_more").click(function () {
+        $("#more_sc").toggle();
+        var cls = $(this).attr("class");
+        if (cls == 'clk') {
+            $(this).removeClass('clk');
+        } else {
+            $(this).addClass('clk');
+        }
+    });
+    $(document).ready(function () {
+        $("#fixedleftnum").val($.cookie("bjfixedcol") || 4);
+        DrawTable();
+        $("div[class='ColVis']").hide();
+
+        detectmob();
+    });
+    function DrawTable() {
+        //列定义
+        var columns = [{
+            "title": "序号", "data": null, "width": "30"
+        },
+                         {
+                             "title": "操作", "data": "ID", "width": "40",
+                             render: function (data, type, row, meta) {
+                                 return '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + data + '\") ><i class="fa fa-pencil"></i></button>'
+                                     + '<button title="删除" class="btn btn-xs btn-default" onclick=doDelete(\"' + data + '\") ><i class="fa fa-times"></i></button>';
+                             }
+                         },
+                         { "title": "报价名称", "data": "PRODUCTKEY", "width": "120" },
+                         { "title": "客户名称", "data": "PRODUCTNAME", "width": "280" },
+                         { "title": "商机", "data": null, "width": "200" },
+                         { "title": "最新版本", "data": null, "width": "100" },
+                         { "title": "版本状态", "data": null, "width": "100" },
+                        {
+                            "title": "最后更新时间", "data": null, "width": "120",
+                            "render": function (data, type, full, meta) {
+                                if (full.DTFROM == null || full.DTFROM == undefined)
+                                    return "";
+                                else {
+                                    var gmtDate = new Date(formatDate(full.DTFROM));
+                                    gmtDate.setHours(gmtDate.getHours() + 8);
+                                    return gmtDate.Format("yyyy/MM/dd");
+                                }
+                            }
+                        },
+                       
+        ];
+        var table = $('#datatable_col_reorder').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "colReorder": true,
+            //"fixedHeader": true,scrollY:"80px",
+            @*"aoColumnDefs":[{"aTargets":[1],"mRender":function(data,type,full){
+                    return "<a href="@Url.Action("ZbgztIndex", "AirInReport")" data-toggle=\"modal\" onclick=\"preUpdate(‘"+data+"‘)\"> <i class=\"fa fa-lg-2 fa-pencil\"> </i> </a> "}
+                }],*@
+            "scrollX": true,
+            "fixedColumns": {
+                leftColumns: $.cookie("bjfixedcol") || $("#fixedleftnum").val()
+            },
+            "bStateSave": true,
+            "order": [[4, "desc"]],
+            "fnDrawCallback": function () {
+                var api = this.api();
+                var startIndex = api.context[0]._iDisplayStart;        //获取到本页开始的条数 　
+                api.column(0).nodes().each(function (cell, i) {
+                    cell.innerHTML = startIndex + i + 1;
+                });
+            },
+            //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            //    $("td:first", nRow).html(iDisplayIndex + 1);//设置序号位于第一列，并顺次加一
+            //    return nRow;
+            //},
+            "language": { "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                'emptyTable': '没有检索到数据',
+                'zeroRecords': '没有检索到数据',
+                'loadingRecords': '加载中...',
+                'processing': '查询中...',
+                "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" } },//语言
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+            "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+            "displayLength": 10,//默认每页显示条目数
+            "ajax": {
+                "url": RootPath() + "/QM_Product/Lists",   //数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+
+                        d.PRODUCTKEY = $("#PRODUCTKEY").val();
+                        d.PRODUCTNAME = $("#PRODUCTNAME").val();
+                        d.STATUS = $("#Status").val();
+
+                        d.CreateDateS = $("#CreateDateS").val();
+                        d.CreateDateE = $("#CreateDateE").val();
+                    }
+                }, columns: columns,
+                "stateSaveParams": function (settings, data) {
+                    localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+                    // 把这些数据保存在服务器上，上面的代码标识使用本地储存来存储这些数据
+                    /**$.ajax( {
+                            "url": "/state_save",
+                            "data": data,
+                            "dataType": "json",
+                            "type": "POST",
+                            "success": function () {}
+                        } );
+                     **/
+
+                },
+                "stateLoadCallback": function (settings) {
+                    //console.log("stateLoadCallback");
+                    var config = JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+                    return config;
+                    //从服务器取数，采用同步的方式获取到保存在服务器里的数据
+                    /**var o;
+                     $.ajax( {
+                        "url": "/state_load",
+                        "async": false,
+                        "dataType": "json",
+                        "success": function (json) {
+                            o = json;
+                        }
+                    } );
+                     return o;**/
+                }
+
+            });
+            $('#datatable_col_reorder tbody').on('dblclick', 'tr', function () {
+                var PRODUCTKEY = $('#datatable_col_reorder').DataTable().row(this).data()['PRODUCTKEY'];
+                location.href = '/QM_Product/QM_ProductEdit?keyValue=' + PRODUCTKEY;
+            });
+
+            var dataSel = @Html.Raw(ViewBag.StatusSel);
+            $("#Status").select2();
+            $(dataSel).each(function(k, o) {
+                $("#Status").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            $("#Status").select2({
+                placeholder: "状态",
+                allowClear: true
+            });
+        }
+
+    </script>
+    }

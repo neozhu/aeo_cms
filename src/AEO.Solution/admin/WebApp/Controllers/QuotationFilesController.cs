@@ -54,10 +54,35 @@ namespace WebApp.Controllers
         [Route("Index", Name = "报价单附件", Order = 1)]
 		public ActionResult Index() => this.View();
 
-		//Get :QuotationFiles/GetData
-		//For Index View datagrid datasource url
-        
-		[HttpGet]
+
+    //接收上传文件
+    public async Task<ActionResult> Upload()
+    {
+      try
+      {
+        var file = this.Request.Files[0];
+        var user = (string)ViewBag.GivenName;
+        var tags = this.Request.Form["tags"];
+        var name = this.Request.Form["name"];
+        var quotationid = Convert.ToInt32(this.Request.Form["quotationid"]);
+        var ver = Convert.ToInt32(this.Request.Form["ver"]);
+        var qpno = this.Request.Form["qpno"];
+        var folder = this.Server.MapPath("~/UploadFiles/Inquiry/Files/" + qpno);
+        var relpath = "/UploadFiles/Quotation/Files/" + qpno + "/";
+        this.quotationFileService.AddFile(ver, quotationid, qpno, file, folder, relpath, user);
+        await this.unitOfWork.SaveChangesAsync();
+        return Content($"{file.FileName}:上传成功", "text/plain");
+      }
+      catch (Exception e)
+      {
+        throw e;
+      }
+    }
+
+    //Get :QuotationFiles/GetData
+    //For Index View datagrid datasource url
+
+    [HttpGet]
         //[OutputCache(Duration = 10, VaryByParam = "*")]
 		 public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
 		{
@@ -273,7 +298,8 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<JsonResult> DeleteChecked(int[] id) {
            try{
-               await this.quotationFileService.Delete(id);
+        var user = (string)ViewBag.GivenName;
+        await this.quotationFileService.Delete(id, user);
                await this.unitOfWork.SaveChangesAsync();
                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
            }

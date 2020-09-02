@@ -1,0 +1,209 @@
+﻿﻿@model WebApp.Models.QuotationProduct
+  <div class="form-row">
+   @Html.HiddenFor(x=>x.Id)
+         <!--产品编号-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.ProductNo)</label>
+			@Html.EditorFor(x => x.ProductNo, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ProductNo) } })
+      
+         </div>
+
+        <!--中文品名-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.ProductName)</label>
+			@Html.EditorFor(x => x.ProductName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ProductName) } })
+      
+         </div>
+
+        <!--产品类别-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.CategoryName)</label>
+			@Html.EditorFor(x => x.CategoryName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CategoryName) } })
+      
+         </div>
+
+        <!--英文品名-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.ProductEnName)</label>
+			@Html.EditorFor(x => x.ProductEnName, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ProductEnName) } })
+      
+         </div>
+
+        <!--中文描述-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.CnDescription)</label>
+			@Html.EditorFor(x => x.CnDescription, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CnDescription) } })
+      
+         </div>
+
+        <!--英文描述-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.EnDescription)</label>
+			@Html.EditorFor(x => x.EnDescription, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.EnDescription) } })
+      
+         </div>
+
+        <!--海关编码-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.HSCODE)</label>
+			@Html.EditorFor(x => x.HSCODE, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.HSCODE) } })
+      
+         </div>
+
+		<!--增值税率-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.HSADDTAXRATE)</label>
+            @Html.EditorFor(x => x.HSADDTAXRATE, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.HSADDTAXRATE) } })
+
+        </div>
+
+		<!--退税率-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.HSBACKTAXRATE)</label>
+            @Html.EditorFor(x => x.HSBACKTAXRATE, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.HSBACKTAXRATE) } })
+
+        </div>
+
+        <!--报关要素-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.CUSTBASIC)</label>
+			@Html.EditorFor(x => x.CUSTBASIC, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.CUSTBASIC) } })
+      
+         </div>
+
+		<!--销售指导价-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.GUIDEPRICE)</label>
+            @Html.EditorFor(x => x.GUIDEPRICE, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.GUIDEPRICE) } })
+
+        </div>
+
+        <!--备注-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Remark)</label>
+			@Html.EditorFor(x => x.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Remark) } })
+      
+         </div>
+
+        <!--客户货号-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.ThirdProductNo)</label>
+			@Html.EditorFor(x => x.ThirdProductNo, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ThirdProductNo) } })
+      
+         </div>
+
+		<!--数量-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.Qty)</label>
+            @Html.EditorFor(x => x.Qty, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.Qty) } })
+
+        </div>
+
+        <!--单位-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Unit)</label>
+			@Html.EditorFor(x => x.Unit, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Unit) } })
+      
+         </div>
+
+		<!--报价-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Price)</label>
+            @Html.EditorFor(x => x.Price, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.Price) } })
+
+        </div>
+
+        <!--币种-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Cur)</label>
+			@Html.EditorFor(x => x.Cur, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Cur) } })
+      
+         </div>
+
+		<!--金额-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.Amount)</label>
+            @Html.EditorFor(x => x.Amount, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.Amount) } })
+
+        </div>
+
+		<!--美元金额-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.USDAmount)</label>
+            @Html.EditorFor(x => x.USDAmount, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.USDAmount) } })
+
+        </div>
+
+		<!--人民币金额-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.RMBAmount)</label>
+            @Html.EditorFor(x => x.RMBAmount, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.RMBAmount) } })
+
+        </div>
+
+		<!--扣佣率/值-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.BrightcmsRate)</label>
+            @Html.EditorFor(x => x.BrightcmsRate, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.BrightcmsRate) } })
+
+        </div>
+
+		<!--扣佣金额-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.BrightcmsFcy)</label>
+            @Html.EditorFor(x => x.BrightcmsFcy, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.BrightcmsFcy) } })
+
+        </div>
+
+		<!--付佣率/值-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.DarkcmsRate)</label>
+            @Html.EditorFor(x => x.DarkcmsRate, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.DarkcmsRate) } })
+
+        </div>
+
+		<!--付佣金额-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.DarkcmsFcy)</label>
+            @Html.EditorFor(x => x.DarkcmsFcy, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.DarkcmsFcy) } })
+
+        </div>
+
+        <!--执行人-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Executor)</label>
+			@Html.EditorFor(x => x.Executor, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Executor) } })
+      
+         </div>
+
+        <!--产品图片-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label ">@Html.DisplayNameFor(model => model.Logo)</label>
+			@Html.EditorFor(x => x.Logo, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Logo) } })
+      
+         </div>
+
+        <!--报价单号-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.QpNo)</label>
+			@Html.EditorFor(x => x.QpNo, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.QpNo) } })
+      
+         </div>
+
+     
+       <!--报价单-->
+       <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.QuotationId)</label>
+   	        @Html.DropDownListFor(model => model.QuotationId, ViewBag.QuotationId as List<SelectListItem>, htmlAttributes: new { @class = "form-control" }) 
+       </div>
+
+		<!--系统版本号-->
+        <div class="col-xs-12 col-md-6">
+            <label class="form-label text-danger">@Html.DisplayNameFor(model => model.Ver)</label>
+            @Html.EditorFor(x => x.Ver, new { htmlAttributes = new { @class = "form-control",@type="number", placeholder = Html.DisplayNameFor(x => x.Ver) } })
+
+        </div>
+
+	    
+</div>
+

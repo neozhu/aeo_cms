@@ -1,0 +1,103 @@
+﻿@model Oncontrol3.Web.Models.LoginModel
+
+@{
+    ViewBag.Title = "登录";
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+@section topright{
+    <span id="extr-page-header-space"> <span class="hidden-mobile"></span> </span>
+}
+
+
+<div id="content" class="container">
+    <div class="row">
+        @{ Html.RenderPartial("_LoginText"); }
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form action="@Url.Action("Login", "Account")" method="POST" id="login-form" class="smart-form client-form">
+                    <header>
+                        登录
+                    </header>
+                    <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    <fieldset>
+                        <section>
+                            <label class="label">用户名</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                @Html.TextBoxFor(m => m.UserName, new { placeholder = "请输入用户名", @class = "user", id = "uname" })
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> 请输入用户名</b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label">密码</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.TextBoxFor(m => m.Password, new { placeholder = "请输入密码", @class = "pass", type = "password" ,id = "password"})
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> 请输入您的密码</b>
+                            </label>
+                            <div class="note">
+                                <a href="#" id="forgetpwd"><i class="fa fa-frown-o"></i>忘记密码?</a>
+                            </div>
+                        </section>
+                        <section>
+                            <label class="checkbox">
+                                <input type="checkbox" name="rememberMe" value="true" checked="checked">
+                                <input type="hidden" name="rememberMe" value="false" />
+                                <i></i>记住我
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="btn btn-primary">
+                            登录
+                        </button>
+                    </footer>
+                    </form>
+</div>
+            @{ Html.RenderPartial("_SocialMedia"); }
+        </div>
+    </div>
+</div>
+
+@section pagespecific {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        $(function () {
+            // Validation
+            $("#login-form").validate({
+                // Rules for form validation
+                rules: {
+                    uname: {
+                        required: true,
+                        email: false
+                    },
+                    password: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 20
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    email: {
+                        required: 'Please enter your username',
+                        email: 'Please enter a VALID email address'
+                    },
+                    password: {
+                        required: 'Please enter your password'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        });
+
+    </script>
+}

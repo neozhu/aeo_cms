@@ -1,0 +1,112 @@
+﻿@model WebApp.Models.ApproveHistory
+<div id="approvedlg" class="easyui-dialog"
+     title="提交审批" style="width:600px;height:300px; display:none"
+     data-options="
+                iconCls: 'fal fa-window',
+                modal:true,
+                closed:true,
+                cache: false,
+                resizable:true,
+                width:620,
+                height:300,
+                onOpen:function(){
+                   $('#approve_form').form('disableValidation');
+                },
+                buttons: [{
+                    text:' 确认 ',
+                    handler:function(){
+                        confirm_approvedlg();
+                    }
+                },{
+                    text:' 取消 ',
+                    handler:function(){
+                        $('#approvedlg').dialog('close');
+                    }
+                }]
+            ">
+<div class="panel-container show">
+      <div class="panel-content p-2">
+        <form id="approve_form" class="form-horizontal" novalidate>
+          <fieldset class="form-group">
+            <legend class="ui-grouplabel">选择“总经理审批”人员【单审】</legend>
+            <div class="row h-100 align-items-center m-0 pt-1">
+              <!--系统主键-->
+              @Html.HiddenFor(model => model.Id)
+              @Html.HiddenFor(model => model.RefId)
+              @Html.HiddenFor(model => model.RefKey)
+              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ToAuditor)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.ToAuditor) </label>
+              <div class="col-md-10 mb-1">
+                <input id="@Html.IdFor(model => model.ToAuditor)"
+                       name="@Html.NameFor(model => model.ToAuditor)"
+                       value=""
+                       tabindex="2"
+                       class="easyui-combobox"
+                       type="text"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DisplayNameFor(model => model.ToAuditor)',
+                                 panelHeight:'auto',
+								                 required:true,
+                                 " />
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <legend class="ui-grouplabel">审批说明</legend>
+            <div class="row h-100 align-items-center m-0 pt-1">
+              <label class="col-md-2 form-label text-right p-0 " for="@Html.IdFor(model => model.Comment)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Comment) </label>
+              <div class="col-md-10 mb-1">
+                <input id="@Html.IdFor(model => model.Comment)"
+                       name="@Html.NameFor(model => model.Comment)"
+                       value=""
+                       tabindex="2"
+                       class="easyui-textbox"
+                       type="text"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DisplayNameFor(model => model.Comment)',
+                                 multiline:true,
+                                 height:80,
+								                 required:true,
+                                 " />
+              </div>
+            </div>
+          </fieldset>
+        </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+ 
+  var selectedid = [];
+  function open_approvedlg(row, checkedid) {
+
+    $('#approvedlg').dialog('open');
+
+    $('#approve_form').form('reset');
+    $('#approve_form').form('load', {
+      RefId: row.Id,
+      RefKey: row.InquiryNo,
+      ToAuditor: null,
+      Initiator: $.getusername()
+    });
+    selectedid = checkedid;
+  }
+    function confirm_approvedlg() {
+      const $approveform = $('#approve_form');
+      if ($approveform.form('enableValidation').form('validate')) {
+        approveitem = $approveform.serializeJSON();
+        const url = '/Inquiries/SubmitApprove';
+        $.post(url, {
+          id: selectedid,
+          to: approveitem.ToAuditor,
+          comment: approveitem.Comment
+        }).done(res => {
+          toastr.success('提交审批!');
+          $('#approvedlg').dialog('close');
+          reloadData();
+        })
+        
+      }
+    }
+ </script>
+
+ 

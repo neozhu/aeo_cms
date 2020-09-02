@@ -1,0 +1,12 @@
+2018/10/9 10:15:26: 2018/10/9 10:15:25,System.ArgumentNullException: 值不能为 null。
+参数名: uriString
+   在 System.Uri..ctor(String uriString)
+   在 System.Web.Services.Protocols.WebClientProtocol.set_Url(String value)
+   在 OA_WS.OAWorkflowServiceXml.WorkflowServiceXml.set_Url(String value) 位置 d:\FL_BJ\0SourceCode\报价管理系统\Web\Oncontrol3.Web\FLDocService\Reference.cs:行号 110
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 d:\FL_BJ\0SourceCode\报价管理系统\Web\Oncontrol3.Web\Controllers\QM_PriceController.cs:行号 8378
+2018/10/9 10:15:41: 2018/10/9 10:15:41,System.ArgumentNullException: 值不能为 null。
+参数名: uriString
+   在 System.Uri..ctor(String uriString)
+   在 System.Web.Services.Protocols.WebClientProtocol.set_Url(String value)
+   在 OA_WS.OAWorkflowServiceXml.WorkflowServiceXml.set_Url(String value) 位置 d:\FL_BJ\0SourceCode\报价管理系统\Web\Oncontrol3.Web\FLDocService\Reference.cs:行号 110
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 d:\FL_BJ\0SourceCode\报价管理系统\Web\Oncontrol3.Web\Controllers\QM_PriceController.cs:行号 8378

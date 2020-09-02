@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "查单";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+
+
+<!-- MAIN CONTENT -->
+<style>
+    .col-center-block {
+        float: none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<div id="content">
+    <div class="row">
+        <div class="col-xs-1" id="comeback">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </div>
+        <div class="col-xs-11 text-center">
+            <label>运价查询</label>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top:80px;">
+        <div class="row myCenter">
+            <div class="col-xs-12 col-center-block">
+                <form class="form-signin">
+                    <div class="row text-center">
+                        <label class="col-xs-2">起运港</label>
+                        <div class="col-xs-10"><input type="text" id="qyg" class="form-control" placeholder="起运港"></div>
+                    </div>
+
+                    <div class="row text-center" style="margin-top:20px;">
+                        <label class="col-xs-2">目的港</label>
+                        <div class="col-xs-10"><input type="text" id="mdg" class="form-control" placeholder="目的港"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        @*<button class="btn btn-lg btn-primary btn-block" id="search">查询</button>*@
+                    </div>
+                    <input type="button" class="btn btn-lg btn-primary btn-block" id="search" value="查询" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    @*<script src="~/Content/plugins/jquery.ajaxupload.js"></script>
+        <script src="~/Content/plugins/jquery.bootpag.min.js"></script>
+        <script src="~/Content/plugins/jquery.guid.js"></script>
+        <script src="~/Content/plugins/base.js"></script>*@
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script>
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+        });
+        $("#search").click(function () {
+            var qyg = $("#qyg").val();
+            var mdg = $("#mdg").val();
+            if ((qyg.length > 0 && mdg.length <= 0)) {
+                toastr.success("目的港不可为空");
+                return false;
+            }
+            else if (qyg.length <= 0 && mdg.length > 0) {
+                toastr.success("起运港不可为空");
+                return false;
+            }
+           // window.location.href = "/Mobel_FREIGHT_HYYJ/Edit?QYG="+qyg+"&MDG="+mdg+"";+encodeURI(encodeURI(inquireName))
+            $(window).attr('location', "/Mobel_YJ/AirDetails?QYG=" + escape(qyg) + "&MDG=" + escape(mdg) +"");
+        })
+        $("#comeback").click(function () {
+            $(window).attr('location', "/Mobel_DJ/Index");
+        })
+    </script>
+}

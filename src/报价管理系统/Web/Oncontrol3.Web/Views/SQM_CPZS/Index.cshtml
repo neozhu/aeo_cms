@@ -1,0 +1,355 @@
+﻿@{
+    ViewBag.Title = "产品结构展示";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+
+<style>
+    .row {
+        margin-top: 15px;
+    }
+
+    .head {
+        color: #999;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        height: 50px;
+        background-color: rgb(19,100,181);
+    }
+
+        .head span {
+            line-height: 98px;
+            font-size: 14px;
+            padding: 0px 10px 15px 10px;
+            color: #ffffff;
+            margin-right: 35px;
+            cursor: pointer;
+        }
+
+    .card-box {
+        width: 100%;
+        height: 100px;
+        float: left;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        border-radius: 1px;
+        margin-top: 5px;
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .card-box-content {
+        padding: 6px 6px;
+        font-size: 14px;
+        color: #4d5d70;
+    }
+
+        .card-box-content .divys, .card-box-content .divys div {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 4px;
+        }
+
+        /*.card-box-content .inf {
+            font-weight: bold;
+        }*/
+
+        .card-box-content div .tel-num {
+            width: 80px;
+        }
+
+        .card-box-content div .pickup_btn {
+            float: right;
+            margin-left: 56px;
+            font-size: 9px;
+            line-height: 18px;
+            width: 70px;
+            height: 18px;
+            background-color: #319adf;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+    .col-md-8 .syb {
+        padding-bottom: 10px;
+        width: 25%;
+        display: inline-block;
+    }
+
+        .col-md-8 .syb .active {
+            background-color: #2e7bcc;
+            color: white;
+        }
+
+        .col-md-8 .syb .sybname {
+            cursor: pointer;
+        }
+
+    .fstbox {
+        height: 100%;
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+
+    .FEE {
+        margin-bottom: 15px;
+        display: none;
+    }
+
+    .open > .dropdown-menu {
+        position: inherit;
+    }
+
+    .checkme {
+        background-color: yellow;
+    }
+
+    .srvspan {
+        margin-left: 20px;
+    }
+
+    span[name='PRD'], span[name='SRV'], span[name='FEE'] {
+        cursor: pointer;
+    }
+</style>
+
+<div class="row head">
+    <div style="float:left">
+        <div style="margin-top: -25px;">
+            <span>&nbsp;&nbsp;&nbsp; 欢迎您：<span id="user">@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()</span></span>
+        </div>
+    </div>
+    <div style="float:right; margin-right: 40px; margin-top: -25px;">
+        <span class="dis" id="toxj">询价</span>
+        <span class="dis" id="tobjmb">报价模板</span>
+        <span class="dis" id="tocpzs">产品展示</span>
+        <span class="dis" id="tobjsy">报价首页</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box" style="height:100%;">
+            <div class="card-box-content">
+                <div class="row divys">
+                    <div class="col-md-6" style="padding-right:0px;">
+                        <div class="col-md-8 dlc" style="height: 36px;">
+                            <div class="syb">
+                                <input type="hidden" class="sybcode" value="01" />
+                                <input type="text" class="form-control sybname" value="空运" readonly>
+                            </div>
+                            <div class="syb">
+                                <input type="hidden" class="sybcode" value="02" />
+                                <input type="text" class="form-control sybname" value="海运" readonly>
+                            </div>
+                            <div class="syb">
+                                <input type="hidden" class="sybcode" value="03" />
+                                <input type="text" class="form-control sybname" value="供应链" readonly>
+                            </div>
+                            <div class="syb">
+                                <input type="hidden" class="sybcode" value="04" />
+                                <input type="text" class="form-control sybname" value="运输" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-box fstbox" id="cardbox">
+                            <div class="btn-group btn-group-lg col-md-2" id="cb">
+                                <button type="button" id="btnOk" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+                                    <span style="font-size:12px;">产品/服务/费目</span>
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-menu" role="menu" data-stoppropagation="true">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-3">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <strong>产品</strong>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <form id="formmain" class="smart-form form-backgroud">
+                                                            <fieldset style="padding-top:5px">
+                                                                <div id="ALLPRD"></div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <div class="panel panel-default" id="servicePanel">
+                                                    <div class="panel-heading">
+                                                        <strong>服务</strong>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <form id="formmain" class="smart-form form-backgroud">
+                                                            <fieldset style="padding-top:5px">
+                                                                <div id="ALLSRV" style="display:none;"></div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6">
+                                                <div class="panel panel-default" id="feePanel">
+                                                    <div class="panel-heading">
+                                                        <strong>费目</strong>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <form id="formmain" class="smart-form form-backgroud">
+                                                            <fieldset style="padding-top:5px">
+                                                                <div id="ALLFEE" style="display:none;"></div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/scripts/jQueryNumPad/jquery.numpad.css">
+    <script src="~/Content/QO/scripts/jQueryNumPad/jquery.numpad.js"></script>
+    <link href="~/Content/QO/scripts/icheck/skins/square/blue.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/icheck/icheck.min.js"></script>
+    <script type="text/javascript">
+        //全局变量
+        var PRDArray = [];
+        var srvArray = [];
+        var feeArray = [];
+        $(function () {
+            //默认第一个事业部选中
+            $(".syb").eq(0).addClass("active");
+            $(".syb").eq(0).find(".sybname").addClass("active");
+            
+            var sybcode = $(".dlc").find(".active").find(".sybcode").val();
+            showAllData(sybcode);
+
+            //$("#btnOk").click();
+
+        });
+        $("#tocpzs").click(function () {
+            location.href = "/SQM_CPZS/Index";
+        })
+        $("#toxj").click(function () {
+            location.href = "/SQM_ENQUIRY_HKY/QuiryHyIndex";
+        })
+        $("#tobjsy").click(function () {
+            location.href = "/QM_Price/QM_PriceIndex";
+        })
+        $("#tobjmb").click(function () {
+            location.href = "/SQM_BJMB/SQM_BJMBIndex";
+        })
+        //事业部切换
+        $(".syb").click(function () {
+            $("#ALLSRV").css('display', 'none');
+            $(this).addClass("active");
+            $(this).find(".sybname").addClass("active");
+            $(this).siblings().removeClass("active");
+            $(this).siblings().find(".sybname").removeClass("active");
+            var sybcode = $(".dlc").find(".active").find(".sybcode").val();
+            showAllData(sybcode);
+        });
+        //使菜单框点击其他地方不自动消失
+        $("body").on('click', '[data-stopPropagation]', function (e) {
+            e.stopPropagation();
+        });
+        //下拉框产品服务费目展示
+        function showAllData(sybcode) {
+            var prdmsg = "";
+            var srvmsg = "";
+            var feemsg = "";
+            srvArray = [];
+            feeArray = [];
+            var PRDArray = [];
+            //通过主键得到产品信息
+            $.ajax({
+                url: "@Url.Action("GetAllByRid")",
+                data: {
+                    sybcode: sybcode,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    PRDArray = data[0];
+                    srvArray = data[1];
+                    feeArray = data[2];
+                }
+            });
+            //产品渲染,PRDArray 为数组包含数组，索引0为code，索引为1为name
+            for (var i = 0; i < PRDArray.length; i++) {
+                prdmsg += "<div class='row'><section class='col-xs-6 col-sm-12'><span class='prdspan' name='PRD' prdcode=" + PRDArray[i][0] + ">" + PRDArray[i][1] + "</span></section></div>";
+            }
+            $("#ALLPRD").find("*").remove();
+            $("#ALLPRD").append(prdmsg);
+            //返回值为多个数组，数组【0】为产品代码，【1】为服务代码，【2】为服务名称
+            for (var i = 0; i < srvArray.length; i++) {
+                srvmsg += '<section class="col-xs-6 col-sm-12 SRV"><span class= "srvspan" name = "SRV"  prdcode=' + srvArray[i][0] + ' srvcode=' + srvArray[i][1] + '>' + srvArray[i][2] + '</span></section>';
+            }
+            $("#ALLSRV").find("*").remove();
+            $("#ALLSRV").append(srvmsg);
+            //返回值为多个数组，数组【0】为产品代码，【2】为服务代码，【4】为费目名称 【6】 为必选费目标价
+            for (var j = 0; j < feeArray.length; j++) {
+                feemsg += '<section class="col-xs-6 col-sm-3 FEE"><span  name="FEE" prdcode = "' + feeArray[j][0] + '" srvcode = ' + feeArray[j][2] + ' feecode = ' + feeArray[j][4] + '>' + feeArray[j][5] + '</span></section>';
+            }
+            $("#ALLFEE").find("*").remove();
+            $("#ALLFEE").append(feemsg);
+
+            //点击产品字，显示服务的字并给背景色
+            $(".prdspan").click(function () {
+                //先清掉所有的背景色
+                $(this).parent().parent().parent().find('.prdspan').removeClass('checkme')
+                //隐藏所有服务
+                $('span[name=SRV]').parent().css('display', 'none');
+                var prdcode = $(this).attr('prdcode');
+                $(this).addClass('checkme');
+                $("#ALLSRV").css('display', 'block');
+                $('span[name=SRV][prdcode=' + prdcode + ']').parent().css('display', 'block');
+            });
+            // 点击服务字显示，当前服务对应的费目,并且给服务上背景色
+            $('.srvspan').click(function () {
+                //先清掉所有的背景色
+                $(this).parent().parent().parent().find('.srvspan').removeClass('checkme');
+                //隐藏所有的费目、
+                $('span[name=FEE]').parent().css('display', 'none');
+                var srvcode = $(this).attr('srvcode');
+                var prdcode = $(this).attr('prdcode');
+                $(this).addClass('checkme');
+                $("#ALLFEE").css('display', 'block');
+                $('span[name=FEE][srvcode=' + srvcode + '][prdcode = ' + prdcode + ']').parent().css('display', 'block');
+            });
+        }
+    </script>
+}

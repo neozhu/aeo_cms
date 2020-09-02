@@ -1,0 +1,165 @@
+﻿@{
+    ViewBag.Title = "订单信息查询";
+}<div class="container" style="min-height:450px;">
+    <div class="easyui-tabs" id="tabs">
+        @if (ViewBag.OrderType != null && ViewBag.OrderType.ToString().IndexOf("出货订单") >= 0)
+        {
+            <div title="出货订单">
+                <div class="scs_search">
+                    <form id="form1">
+                        <div class="sd_cont">
+                            <span class="fld_label">客户名称</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="CustomerName" name="CustomerName"></span>
+                            <span class="fld_label">订单编号</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="OrderNo" name="OrderNo"></span>
+                            <span class="fld_label">订单状态</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="OrderStatus" name="OrderStatus"></span>
+                            <span class="fld_label">销售商</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="SaleName" name="SaleName"></span>
+                            <span class="fld_label">区域</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="Area" name="Area"></span>
+                            <div class="clear10"></div>
+                            <div style="display:none" id="more_sc">
+                                <span class="fld_label">订单时间</span>
+                                <span class="fld_input"><input class="easyui-datebox" id="CreateDateS" name="CreateDateS" style="width:180px"></span>
+                                <span class="fld_label">~</span>
+                                <span class="fld_input"><input class="easyui-datebox" id="CreateDateE" name="CreateDateE" style="width:180px"></span>
+                                <div class="clear10"></div>
+                            </div>
+                            <div class="sc_more">
+                                <a class="" href="javascript:void(0);" id="sc_more">更多查询条件</a>
+                                <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="clear10"></div>
+                <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px" data-options=singleSelect:true,collapsible:true,method:'get',pagination:true,pagesize:20>
+                    <thead>
+                        <tr>
+                            <th data-options="field:'ck', checkbox: true "></th>
+                            <th data-options="field:'LoginName',width:100,sortable:true">客户名称</th>
+                            <th data-options="field:'Name',width:180,sortable:true">订单编号</th>
+                            <th data-options="field:'Email',width:80,align:'right'">订单状态</th>
+                            <th data-options="field:'Email',width:80,align:'right'">销售商</th>
+                            <th data-options="field:'CreateDate',width:100,align:'center',formatter:formatterDate,sortable:true">订单时间</th>
+                            <th data-options="field:'CreateDate',width:100,align:'center',formatter:formatterDate,sortable:true">请求出货时间</th>
+                            <th data-options="field:'Remark',width:180,align:'center'">区域</th>
+                            <th data-options="field:'OP',width:70,sortable:false">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        }
+        @if (ViewBag.OrderType != null && ViewBag.OrderType.ToString().IndexOf("出货订单") >= 0) { 
+            <div title="收货订单" data-options="closable:false" data-options="fit:true">
+                <div class="scs_search">
+                    <form id="form2">
+                        <div class="sd_cont">
+                            <span class="fld_label">客户名称</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="CustomerName1" name="CustomerName1"></span>
+                            <span class="fld_label">订单编号</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="OrderNo1" name="OrderNo1"></span>
+                            <span class="fld_label">订单状态</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="OrderStatus1" name="OrderStatus1"></span>
+                            <span class="fld_label">货主</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="SaleName1" name="SaleName1"></span>
+                            <span class="fld_label">区域</span>
+                            <span class="fld_input"><input class="easyui-textbox" id="Area1" name="Area1"></span>
+                            <div class="clear10"></div>
+                            <div style="display:none" id="more_sc1">
+                                <span class="fld_label">订单日期</span>
+                                <span class="fld_input"><input class="easyui-datebox" id="CreateDateS1" name="CreateDateS1" style="width:180px"></span>
+                                <span class="fld_label">~</span>
+                                <span class="fld_input"><input class="easyui-datebox" id="CreateDateE1" name="CreateDateE1" style="width:180px"></span>
+                                <div class="clear10"></div>
+                            </div>
+                            <div class="sc_more">
+                                <a class="" href="javascript:void(0);" id="sc_more1">更多查询条件</a>
+                                <button class="scbtn01" id="submit_search1" style="float:right">查询</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="clear10"></div>
+                <table id="dg1" class="easyui-datagrid" style="width:100%;min-height:250px" data-options=singleSelect:true,collapsible:true,method:'get',pagination:true,pagesize:20>
+                    <thead>
+                        <tr>
+                            <th data-options="field:'ck', checkbox: true "></th>
+                            <th data-options="field:'LoginName',width:100,sortable:true">客户名称</th>
+                            <th data-options="field:'Name',width:180,sortable:true">订单编号</th>
+                            <th data-options="field:'Email',width:80,align:'right'">订单状态</th>
+                            <th data-options="field:'Email',width:80,align:'right'">货主</th>
+                            <th data-options="field:'CreateDate',width:100,align:'center',formatter:formatterDate,sortable:true">订单时间</th>
+                            <th data-options="field:'CreateDate',width:100,align:'center',formatter:formatterDate,sortable:true">预期收货时间</th>
+                            <th data-options="field:'Remark',width:180,align:'center'">区域</th>
+                            <th data-options="field:'OP',width:70,sortable:false,formatter:Editors">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        }
+    </div>
+
+
+    @section Scripts {
+        <script>
+            var statusEnumType = { SO: "SO", ASN: "ASN", FO: "FO" };
+            $("#sc_more").click(function () {
+                $("#more_sc").toggle();
+                var cls = $(this).attr("class");
+                if (cls == 'clk') {
+                    $(this).removeClass('clk');
+                } else {
+                    $(this).addClass('clk');
+                }
+            })
+            $("#sc_more1").click(function () {
+                $("#more_sc1").toggle();
+                var cls = $(this).attr("class");
+                if (cls == 'clk') {
+                    $(this).removeClass('clk');
+                } else {
+                    $(this).addClass('clk');
+                }
+            })
+            function Editors(value, row, index) {
+                return "<a href='javascript:void(0);' onclick=EditRow('" + row.RoleID + "')>货况跟踪</a>";
+            }
+            function EditRow(roleID) {
+                $("#windowDiv").window({
+                    width: 500, height: 600, modal: true,
+                    href: "@Url.Action("OrderTrace")" +"?id="+ roleID
+                });
+            }
+            $("#submit_search").click(function () {
+                $('#dg').datagrid({ url: "@Url.Action("SearchOut")", queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+                return false;
+            });
+            $("#submit_search1").click(function () {
+                $('#dg1').datagrid({ url: "@Url.Action("SearchIn")", queryParams: form2Json("form2") });   //点击搜索载入搜索条件
+                return false;
+            });
+            $("#lkresetpwd").click(function () {
+                var selrows = $('#dg').datagrid("getSelections");
+                if (selrows.length > 0) {
+                    $.messager.confirm('操作提示', '确认要重置选中的记录的密码吗?', function (r) {
+                        if (r) {
+                            $.ajax({
+                                url: "@Url.Action("Reset")",
+                                data: { id: selrows[0].UserID },
+                                type: "GET",
+                                success: function (data) {
+                                    $.messager.alert('操作提示', data);
+                                    $("#submit_search").click();
+                                }
+                            });
+                        }
+                    });
+                }
+                else {
+                    $.messager.alert('操作提示', '请选择要重置的行。', 'error');
+                }
+            });
+        </script>
+    }

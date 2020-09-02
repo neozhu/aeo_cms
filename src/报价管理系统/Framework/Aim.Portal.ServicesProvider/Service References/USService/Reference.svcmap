@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="01a5d836-acc2-4c53-9c8c-dce3ad8a4826" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8887/UserSessionService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="UserSessionService3.xsd" MetadataType="Schema" ID="3c6c78e6-fdb5-464e-980a-935966375a8e" SourceId="1" SourceUrl="http://win-vqs8p14otkm:8887/UserSessionService.svc?xsd=xsd0" />
+    <MetadataFile FileName="UserSessionService31.xsd" MetadataType="Schema" ID="88db7d80-855e-451e-b86a-318121995a2d" SourceId="1" SourceUrl="http://win-vqs8p14otkm:8887/UserSessionService.svc?xsd=xsd1" />
+    <MetadataFile FileName="UserSessionService32.xsd" MetadataType="Schema" ID="b2f5542c-e83e-4ce9-9b21-326677ff217f" SourceId="1" SourceUrl="http://win-vqs8p14otkm:8887/UserSessionService.svc?xsd=xsd2" />
+    <MetadataFile FileName="UserSessionService1.disco" MetadataType="Disco" ID="bba30127-940d-4215-9aa5-f551eb84f2a5" SourceId="1" SourceUrl="http://win-vqs8p14otkm:8887/UserSessionService.svc?disco" />
+    <MetadataFile FileName="UserSessionService1.wsdl" MetadataType="Wsdl" ID="4bf043a8-d5b3-4d72-a912-15440be34a18" SourceId="1" SourceUrl="http://win-vqs8p14otkm:8887/UserSessionService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,685 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.SQM_MODEDJ_VAL
+@{
+    bool gyl = @ViewBag.gyl;
+    bool khy = @ViewBag.khy;
+    bool min = @ViewBag.min;
+    System.Data.DataTable FCREFdt = (System.Data.DataTable)ViewBag.FCREFData;
+    System.Data.DataTable GDZdt = (System.Data.DataTable)ViewBag.GDZdt;
+    System.Data.DataTable GDZDATAdt = (System.Data.DataTable)ViewBag.GDZDATAdt;
+    System.Data.DataTable JSJCdt = (System.Data.DataTable)ViewBag.JSJCdt;
+    System.Data.DataTable DJFSdt = (System.Data.DataTable)ViewBag.DJFSData;
+    System.Data.DataTable BZdt = (System.Data.DataTable)ViewBag.BZdtData;
+}
+<style type="text/css">
+    _::-webkit-full-page-media, _:future, :root .row {
+        padding-right: 15px; /*jnp add for ipad*/
+    }
+
+    #header {
+        display: none;
+    }
+
+    .smart-form * {
+        box-sizing: inherit;
+    }
+
+    .smart-form .row {
+        margin: 0;
+        width: 50%;
+        float: left;
+        height: 85px;
+    }
+
+    .smart-form .col-3 {
+        width: 100%;
+    }
+
+    /*表格end*/
+    .smart-form fieldset {
+        padding: 8px 14px 26px;
+        background: #fafafa;
+    }
+
+    .smart-form footer {
+        background: #fafafa;
+    }
+
+    .grid {
+        margin: 0px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+        .grid tbody td {
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            height: 22px;
+            word-break: break-all;
+        }
+
+        .grid tbody .selected {
+            background-color: #6DA47D;
+            color: #fff;
+            cursor: pointer;
+        }
+
+    #div_gridshow {
+        width: 229px !important;
+    }
+
+    .cdinvalid, .invalid {
+        display: block;
+        margin-top: 6px;
+        padding: 0 1px;
+        font-style: normal;
+        font-size: 11px;
+        line-height: 15px;
+        color: #d56161;
+    }
+</style>
+<div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header></header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body no-padding">
+                            <form id="formmainadd" class="smart-form form-backgroud" target="_blank">
+                                <fieldset>
+                                    <input type="hidden" value="@ViewBag.DJRID" id="DJRID">
+                                    <input type="hidden" value="@ViewBag.BJRID" id="BJRID">
+                                    @for (int i = 0; i < FCREFdt.Rows.Count; i++)
+                                    {
+                                        if ((String)FCREFdt.Rows[i]["CALCCODE"] == "ZKHR")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2">
+                                                            <option value="MON">MON</option>
+                                                            <option value="TUE">TUE</option>
+                                                            <option value="WED">WED</option>
+                                                            <option value="THU">THU</option>
+                                                            <option value="FRI">FRI</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="SUN">SUN</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if ((String)FCREFdt.Rows[i]["CALCCODE"] == "YZL")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2">
+                                                            <option value="0-45KG">0-45KG</option>
+                                                            <option value="+45KG">+45KG</option>
+                                                            <option value="+100KG">+100KG</option>
+                                                            <option value="+500KG">+500KG</option>
+                                                            <option value="+1000KG">+1000KG</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if ((String)FCREFdt.Rows[i]["CALCCODE"] == "ZHWLB")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2">
+                                                            <option value="普货">普货</option>
+                                                            <option value="危险品">危险品</option>
+                                                            <option value="冻品">冻品</option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                            <option value="E">E</option>
+                                                            <option value="H">H</option>
+                                                            <option value="G">G</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if (!(FCREFdt.Rows[i]["CALCTYPE"] is System.DBNull) && (String)FCREFdt.Rows[i]["CALCTYPE"] == "X")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]C" />
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]ZS" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2" mdmkey>
+                                                            <option value="">空</option>
+                                                            <option value="X">X</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if (!(FCREFdt.Rows[i]["CALCTYPE"] is System.DBNull) && (String)FCREFdt.Rows[i]["CALCTYPE"] == "Y")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]C" />
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <select style="width:100%" id="@FCREFdt.Rows[i]["VALCOL"]ZS" name="@FCREFdt.Rows[i]["CALCCODE"]" class="select2" mdmkey>
+                                                            <option value="Y">Y</option>
+                                                            <option value="N">N</option>
+                                                        </select>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else if ((String)FCREFdt.Rows[i]["CALCCODE"] == "ZSKB")
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <input type="text" class="form-control" id="@FCREFdt.Rows[i]["VALCOL"]" name="@FCREFdt.Rows[i]["CALCCODE"]" placeholder="格式：15:30" required>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">@FCREFdt.Rows[i]["CALCNAME"]<i style="color:red">*</i></label>
+                                                    <label class="input">
+                                                        <input type="hidden" id="@FCREFdt.Rows[i]["VALCOL"]C" />
+                                                        <input type="text" class="form-control" id="@FCREFdt.Rows[i]["VALCOL"]ZS" name="@FCREFdt.Rows[i]["CALCCODE"]" mdmtype="@FCREFdt.Rows[i]["MDMTYPE"]" mdmkey="@FCREFdt.Rows[i]["MDMKEY"]" mdmfieldname="@FCREFdt.Rows[i]["MDMFIELDNAME"]" mdmloctype="@FCREFdt.Rows[i]["MDMLOCTYPE"]" datalen="datalen" required>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        }
+                                    }
+                                    @if (DJFSdt != null && DJFSdt.Rows.Count > 0 && !String.IsNullOrEmpty(DJFSdt.Rows[0]["DJFSRID"].ToString()))
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">定价方式</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="DJFSRID" name="DJFSRID" class="select2">
+                                                        <option></option>
+                                                        @for (int i = 0; i < DJFSdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@DJFSdt.Rows[i]["DJFSRID"]">@DJFSdt.Rows[i]["DJFSNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    @if (GDZdt != null && GDZdt.Rows.Count > 0 && !String.IsNullOrEmpty(GDZdt.Rows[0]["GDZKEY"].ToString()))
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">高低值比较</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="GDZKEY" name="GDZKEY" class="select2">
+                                                        @for (int i = 0; i < GDZdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@GDZdt.Rows[i]["GDZKEY"]">@GDZdt.Rows[i]["GDZKEYNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    @if (GDZDATAdt != null && GDZDATAdt.Rows.Count > 0 && !String.IsNullOrEmpty(GDZDATAdt.Rows[0]["GDZRID"].ToString()))
+                                    {
+                                        <div class="row gdzdiv">
+                                            <section class="col col-3">
+                                                <label class="label">高低值</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="GDZRID" name="GDZRID" class="select2">
+                                                        @for (int i = 0; i < GDZDATAdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@GDZDATAdt.Rows[i]["GDZRID"]">@GDZDATAdt.Rows[i]["GDZNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">计算方式</label>
+                                            <label class="input">
+                                                <select style="width:100%" id="CALCTYPE" name="CALCTYPE" class="select2">
+                                                    <option value="B">相对值</option>
+                                                    <option value="A">绝对值</option>
+                                                </select>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">计费单位</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="CALCUNIT" name="CALCUNIT" disabled="disabled">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    @if (gyl)
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">计算基础</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="CALCCODE" name="CALCCODE" class="select2">
+                                                        @for (int i = 0; i < JSJCdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@JSJCdt.Rows[i]["CALCCODE"]">@JSJCdt.Rows[i]["CALCNAME"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">币种</label>
+                                                <label class="input">
+                                                    <select style="width:100%" id="CURRENCY" name="CURRENCY" class="select2">
+                                                        @for (int i = 0; i < BZdt.Rows.Count; i++)
+                                                        {
+                                                            <option value="@BZdt.Rows[i]["WAERS"]">@BZdt.Rows[i]["KTEXT"]--@BZdt.Rows[i]["WAERS"]</option>
+                                                        }
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    }
+                                    @*<div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">采购价<i style="color:red">*</i></label>
+                                                <label class="input">
+                                                    @if (khy || @Model.RID != null)
+                                                    {
+                                                        <input type="text" class="form-control" id="PURPRICE" name="PURPRICE" value="@Model.PURPRICE" disabled="disabled" placeholder="成本管理维护">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" class="form-control" id="PURPRICE" name="PURPRICE">
+                                                    }
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">成本价<i style="color:red">*</i></label>
+                                                <label class="input">
+                                                    @if (khy || @Model.RID != null)
+                                                    {
+                                                        <input type="text" class="form-control" id="COSTPRICE" name="COSTPRICE" value="@Model.COSTPRICE" disabled="disabled" placeholder="成本管理维护">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" class="form-control" id="COSTPRICE" name="COSTPRICE">
+                                                    }
+                                                </label>
+                                            </section>
+                                        </div>*@
+                                    @*<div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">最高价<i style="color:red">*</i></label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="MAXPRICE" name="MAXPRICE" value="@Model.MAXPRICE">
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">最低价<i style="color:red">*</i></label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="MINPRICE" name="MINPRICE" value="@Model.MINPRICE">
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label class="label">指导价<i style="color:red">*</i></label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" id="GUIDEPRICE" name="GUIDEPRICE" value="@Model.GUIDEPRICE">
+                                                </label>
+                                            </section>
+                                        </div>*@
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">报价<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="BJPRICE" name="BJPRICE" required>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">起始日期<i style="color:red">*</i></label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="STARTDATE" name="STARTDATE" required>
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">截止日期</label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="ENDDATE" name="ENDDATE" placeholder="默认为:9999/12/31">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    @*<div class="row" style="width: 98%;margin:0px 15px;">
+                                            <section>
+                                                <label class="label">备注</label>
+                                                <label class="textarea">
+                                                    <i class="icon-append fa fa-comment"></i>
+                                                    <textarea rows="4" name="MEMO" id="MEMO">@Model.MEMO</textarea>
+                                                </label>
+                                            </section>
+                                        </div>*@
+                                </fieldset>
+                                <footer>
+                                    <button class="btn btn-primary" onclick="dosave(); return false;">
+                                        保存
+                                    </button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script type="text/javascript">
+        var username;
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            BindAutocompleteMDM();
+            // 币种默认为美元
+            $("#CURRENCY").select2('val', "CNY");
+            //无基础的定价方式默认为绝对值，不可变
+            if ("@ViewBag.wjc" == "True") {
+                $("#CALCTYPE").select2('val', "A");
+                $("#CALCTYPE").attr("disabled", "disabled");
+            }
+            // 清楚所有控件缓存
+            $("#formmainadd").find("input,select,textarea").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+            //基础数据长度判断
+            $('input[datalen="datalen"]').change(function () {
+                var calccode = $(this).attr("name");
+                var dataval = $(this).val();
+                //维护*的不用校验数据了
+                if (dataval != "*") {
+                    var valall = BindCalcVal(calccode, dataval);
+                    var valok = valall.substring(0, 1);
+                    var len = valall.substring(1, valall.length);
+                    if (valok == "1") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>整数位最长" + len + "位，请确认！</em>");
+                    } else if (valok == "2") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>小数位最长" + len + "位，请确认！</em>");
+                    } else if (valok == "3") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>数据最长" + len + "位，请确认！</em>");
+                    } else if (valok == "4") {
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                        $(this).css("border-color", "#a90329");
+                        $(this).parent().removeClass('state-success').addClass("state-error");
+                        $(this).closest("label").after("<em for=" + calccode + " class='cdinvalid'>请维护数字型数据！</em>");
+                    } else {
+                        $(this).css("border-color", "#7dc27d");
+                        $(this).parent().parent().find(".cdinvalid").remove();
+                    }
+                } else {
+                    $(this).css("border-color", "#7dc27d");
+                    $(this).parent().parent().find(".cdinvalid").remove();
+                }
+            });
+            if ($("#CALCTYPE").val() == "B") {
+                $("#CALCUNIT").val("@ViewBag.calcunit");
+            } else {
+                $("#CALCUNIT").val("票");
+            }
+            if ("@ViewBag.djfsrid" != "") {
+                $("#DJFSRID").select2('val', "@ViewBag.djfsrid");
+            }
+            if ("@ViewBag.gdzkey" != "") {
+                $("#GDZKEY").select2('val', "@ViewBag.gdzkey");
+            }
+            if ("@ViewBag.gdzkey" != "0") {
+                $(".gdzdiv").show();
+            } else {
+                $(".gdzdiv").hide();
+            }
+            if ("@ViewBag.gdzrid" != "") {
+                $("#GDZRID").select2('val', "@ViewBag.gdzrid");
+            }
+        });
+        //定价方式change事件
+        $("#DJFSRID").change(function () {
+            getCalcname(1, null);
+        });
+        //高低值change事件
+        $("#GDZRID").change(function () {
+            var gdzrid = $(this).val();
+            getCalcname(2, gdzrid);
+        });
+        //计算方式change事件
+        $("#CALCTYPE").change(function () {
+            var calctype = $(this).val();
+            if (calctype == "A") {
+                $("#CALCUNIT").val("票");
+            } else {
+                $("#CALCUNIT").val("@ViewBag.calcunit");
+            }
+        });
+        //计算基础字段展示
+        function getCalcname(key, gdzrid) {
+            var gdzkey = '';
+            var djfsrid = $("#DJFSRID").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            if (gdzrid == undefined || gdzrid == null) {
+                gdzrid = '';
+            }
+            if (key == 2) {
+                gdzkey = $("#GDZKEY").val();
+            }
+            $("#page1").load("/SQM_FMBJ/DetailAdd?djrid=" + $("#DJRID").val() + "&bjrid=" + $('#BJRID').val() + "&djfsrid=" + djfsrid + "&gdzkey=" + gdzkey + "&gdzrid=" + gdzrid);
+            $("#bjAdd").modal("show");
+        }
+
+        // 保存
+        function dosave() {
+            toastr.clear();
+            toastr.remove();
+            //$(".row").height(105);
+            if (!$("#formmainadd").valid()) {
+                return;
+            }
+            if ($("#formmainadd").find(".cdinvalid").length > 0) {
+                toastr.error("数据维护错误，请确认！");
+                return;
+            }
+            if (isNaN($("#BJPRICE").val())) {
+                toastr.error("请维护有效报价数据！");
+                return;
+            }
+            //var nowtime = new Date(new Date() - 1000 * 60 * 60 * 24);
+            //var starttime = new Date(Date.parse($("#STARTDATE").val()));
+            //if (starttime < nowtime) {
+            //    toastr.error("起始日期不能小于当前日期！");
+            //    return;
+            //}
+            if ($("#ENDDATE").val().length == 0) {
+                $("#ENDDATE").val('9999/12/31');
+            }
+            if ($("#STARTDATE").val() >= $("#ENDDATE").val()) {
+                toastr.error("截止日期不能小于或等于起始日期！");
+                return;
+            }
+            toastr.info("数据保存中，请稍候...");
+            var postdata = GetWebControls("#formmainadd");
+            var djfsrid = $("#DJFSRID").val();
+            if (djfsrid == undefined) {
+                djfsrid = '';
+            }
+            var gdzrid = $("#GDZRID").val();
+            if (gdzrid == undefined) {
+                gdzrid = '';
+            }
+            try {
+                $("#btnSave").attr("disabled", "disabled");
+                $.ajax({
+                    url: "/SQM_FMBJ/PurSave",
+                    type: "post",
+                    data: {
+                        'postdata': JSON.stringify(postdata),
+                        'djrid': $("#DJRID").val(),
+                        'bjrid': $("#BJRID").val(),
+                        'djfsrid': djfsrid,
+                        'gdzrid': gdzrid,
+                        'jxjc': "@ViewBag.jxjc",
+                        'ifmb': request("ifmb"),
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            $("#bjAdd").modal("hide");
+                            window.location.href = window.location.href;
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            } catch (e) {
+                window.alert("保存失败，请重试");
+            } finally {
+                $("#btnSave").removeAttr("disabled");
+            }
+        };
+        function GetWebControls(element) {
+            var postdata = {};
+            $(element).find('input,select,textarea').each(function (r) {
+                var id = $(this).attr('id');
+                var value = $(this).val();
+                var type = $(this).attr('type');
+                if ($(this).attr("mdmkey") == "") {
+                    id = id.substring(0, id.length - 2);
+                    var idc = id + "C";
+                    $("#" + idc).val(value);
+                    postdata[idc] = value;
+                } else if ($(this).attr("mdmkey") != undefined) {
+                    id = id.substring(0, id.length - 2);
+                    $("#" + id).val(value);
+                }
+                postdata[id] = value;
+            });
+            postdata["MODIFYUSER"] = username;
+            return postdata;
+        }
+        // 控件绑定数据源
+        function BindAutocompleteMDM() {
+            $("[mdmtype='MDM']").each(function () {
+                if ($("#kyyf").val()) {
+                    AutocompleteMDM($(this).attr("id"), "kygj");
+                } else {
+                    AutocompleteMDM($(this).attr("id"));
+                }
+            });
+            $("[mdmtype='MDMJC']").each(function () {
+                AutocompleteMDMJC($(this).attr("id"));
+            });
+            $("[mdmtype='MDMGK']").each(function () {
+                AutocompleteMDMGK($(this).attr("id"));
+            });
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            $("input").change(function () {
+                $(this).css("background-color", "#FFFFCC");
+            });
+        }
+        //计算基础数值长度校验
+        function BindCalcVal(calccode, dataval) {
+            var checkval = "";
+            $.ajax({
+                url: "@Url.Action("CheckData")",
+                data: {
+                    calccode: calccode,
+                    dataval: dataval,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    checkval = JSON.stringify(data);
+                }
+            });
+            return checkval;
+        }
+    </script>
+}

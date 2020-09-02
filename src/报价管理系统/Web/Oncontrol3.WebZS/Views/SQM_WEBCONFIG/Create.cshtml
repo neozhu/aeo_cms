@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "";
+}
+@model OnControl.Model.SQM_WEBCONFIG
+<div class="container">
+    @using (Html.BeginForm(Html.ViewContext.RouteData.Values["id"] != null ? "Edit" : "Create", "SQM_WEBCONFIG", FormMethod.Post, new { id = "ff" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="order_title">
+            <span>基础信息</span>
+        </div>
+        <div class="ord_main">
+                        		<span class="fld_label">RID</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.RID, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+						        		<span class="fld_label">CREATETIME</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.CREATETIME, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+						        		<span class="fld_label">CREATEUSER</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.CREATEUSER, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+						        		<span class="fld_label">MODIFYTIME</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.MODIFYTIME, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+			<div class="clear15"></div>
+						        		<span class="fld_label">MODIFYUSER</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.MODIFYUSER, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+						        		<span class="fld_label">DESCRIPTION</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.DESCRIPTION, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+						        		<span class="fld_label">DICNAME</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.DICNAME, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+						        		<span class="fld_label">DICCODE</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.DICCODE, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+			<div class="clear15"></div>
+						        		<span class="fld_label">SIGN</span>
+			<span class="fld_input">@Html.TextBoxFor(m => m.SIGN, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:false" })</span>
+						        </div>
+        @*<div class="order_title">
+            <span>扩展信息</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">状态</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.STATE, new { style = "width:100%", @class = "easyui-combobox", data_options = "required:true,valueField:'Code',textField:'Name',editable:false" })</span>
+            <div class="clear15"></div>
+            <span class="fld_label">创建人</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.CREATEID, new { style = "width:100%", @class = "easyui-popcombobox" })</span>
+            <div class="clear"></div>
+            <span class="fld_label">备注</span>
+            <span>@Html.TextAreaFor(m => m.Remark, new { style = "width:100%;height:60px", data_options = "required:false" })</span>
+            <span class="fld_label">文件</span>
+            <span>@Html.TextBoxFor(m => m.Ext1, new { type = "hidden", style = "width:100%;height:160px", @class = "easyui-file" })</span>
+        </div>*@
+    }
+    <div style="text-align:center;padding:5px 0">
+        @Html.ValidationSummary()
+        <div style="color:red">@ViewBag.StatusMessage</div>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>&nbsp;&nbsp;
+        <a href="@Url.Action("Index")" class="easyui-linkbutton" style="width:80px">返回</a>
+    </div>
+</div>
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        $("#Status").combobox({data:@Html.Raw(ViewBag.Status)});
+
+        $("#CreateId").popcombobox({
+            method: 'get',
+            nameField:'CreateName',//用于保存对应数据库Name的字段,对应createid,默认为查询条件
+            //url: '@Url.Action("GetDatas","Common")?q='+$("#CreateId").val(),//自动完成的数据源,绑定已有id,第一次需要传入参数,未指定则调用datasql
+            valueField: 'UserID',
+            mode:'remote',
+            textField: 'Name',
+            limitToList:true,
+            dialogWidth:400,
+            dialogHeight:500,
+            datasql:"select USERID \"UserID\",NAME \"Name\",LOGINNAME \"LoginName\" from SYSUSER where STATUS='1'",//列表数据源
+            displaynames:{LoginName:'登录名',Name:'姓名'},//列表显示字段
+            sort:'NAME',//排序字段
+            order:'desc'//排序方式
+        });
+        function submitForm() {
+            if ($("#ff").form('validate')) {
+                $("#ff").submit();//同步提交
+            }
+        }
+    </script>
+}

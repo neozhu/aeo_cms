@@ -1,0 +1,1453 @@
+﻿@{
+    ViewBag.Title = "编辑产品";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+<style type="text/css">
+    tr .selected {
+        background-color: lightgray;
+    }
+
+    .DTFC_LeftWrapper {
+        top: -6px !important;
+    }
+
+    .DTFC_RightWrapper {
+        top: -7px !important;
+    }
+
+    .tbbtn {
+        margin-left: 50px;
+    }
+
+    .fwfmss {
+        min-height:0px !important;
+    }
+
+        .fwfmss .row {
+            float: left;
+            width: 40%;
+        }
+
+            .fwfmss .row .col-3 {
+                width: 48%;
+            }
+
+        .fwfmss button {
+            width: 45px;
+            line-height: 30px;
+        }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                        <h2>报价管理/<span style="color:#ffd600!important">产品维护</span></h2>
+                        <div style="float:right;">
+                            <button type="submit" class="btn btn-primary" id="btnSave" onclick="dosave(); return false;">
+                                保存
+                            </button>
+                            <button type="submit" class="btn btn-default" id="btnback" onclick="back()">
+                                返回
+                            </button>
+                            @*<button type="submit" class="btn btn-default" id="btnback" onclick="Add(); return false;">
+                                    新增有效区间
+                                </button>*@
+                        </div>
+                    </header>
+                    <div role="content">
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form form-backgroud">
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-3">
+                                            <label class="label">产品代码<span style="color:red">*</span></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="ID" style="display:none;">
+                                                <input type="text" class="form-control" id="PRODUCTKEY" name="pcode">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">产品名称<span style="color:red">*</span></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="SQPRODUCTNAME" name="pname">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">事业部<span style="color:red">*</span></label>
+                                            <label class="input">
+                                                <select style="width:100%" id="BUSINESSORG" name="porg" class="select2"></select>
+                                                @*<input type="text" class="form-control" id="BUSINESSORG" name="porg">*@
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">产品经理<span style="color:red">*</span></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="PRODUCTMANAGERNAME" name="pmng">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row" style="display:none;">
+                                        <section class="col col-3">
+                                            <label class="label">业务类型</label>
+                                            <label class="input">
+                                                <select style="width:100%" id="BUSINESSTYPE" name="pywlx" class="select2"></select>
+                                            </label>
+                                        </section>
+                                        @*<section class="col col-3">
+                                                <label class="label">启用日期开始</label>
+                                                <label class="input">
+                                                    <div class="input-group date">
+                                                        <input class="form-control form-date" type="text" id="DTFROM" readonly="readonly">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label class="label">启用日期结束</label>
+                                                <label class="input">
+                                                    <div class="input-group date">
+                                                        <input class="form-control form-date" type="text" id="DTTO" readonly="readonly">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </label>
+                                            </section>*@
+                                        <section class="col col-3">
+                                            <label class="label">延期免税毛利率<span style="color:red">*</span></label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="DEAGIRATE" name="prate">
+                                            </label>
+                                        </section>
+
+                                        @*<section class="col col-3" id="section_dtfrom">
+                                                <label class="label">有效起始日<span style="color:red">*</span></label>
+                                                <label class="input">
+                                                    <div class="input-group date">
+                                                        <input class="form-control form-date" type="text" id="DTFROM_HEAD" name="dtfrom" readonly="readonly" >
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </label>
+                                            </section>
+                                            <section class="col col-3"  id="section_dtto">
+                                                <label class="label">有效截止日<span style="color:red">*</span></label>
+                                                <label class="input">
+                                                    <div class="input-group date">
+                                                        <input class="form-control form-date" type="text" id="DTTO_HEAD" name="dtto" readonly="readonly">
+                                                        <input class="form-control form-date" type="text" id="DTTO_OLD" name="dtto" readonly="readonly" style="display:none;">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </label>
+                                            </section>*@
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3" style="display:none;">
+                                            <label class="label">SAP产品代码</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3" style="display:none;">
+                                            <label class="label">&nbsp;</label>
+                                            <label class="checkbox"><input type="checkbox" name="STATUS" id="STATUS"><i></i>启用状态</label>
+                                        </section>
+                                        <section class="col col-3" style="display:none;">
+                                            <label class="label">SORD</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="SORD">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    @*<div class="row">
+                                            <section class="col col-3">
+                                                <label class="radio"><input type="radio" name="rdSTATUS" id="rdSTATUS"><i></i>单选框</label>
+                                            </section>
+                                        </div>*@
+                                    <section>
+                                        <label class="label">备注</label>
+                                        <label class="textarea">
+                                            <i class="icon-append fa fa-comment"></i>
+                                            <textarea rows="4" name="pmemo" id="MEMO"></textarea>
+                                        </label>
+                                    </section>
+                                    <div class="row" style="margin-bottom:20px;">
+                                        <button type="button" class="btn btn-success" data-toggle="collapse"
+                                                data-target="#table" style="margin-left:20px;">
+                                            服务、费目以及计算方式信息
+                                        </button>
+                                        <button type="submit" class="btn btn-info tbbtn" onclick="ZSyncPSF(); return false;">
+                                            同步
+                                        </button>
+                                    </div>
+                                    <div class="widget-body fwfmss">
+                                        <form id="form1" class="smart-form form-backgroud">
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="input">
+                                                        <input class="form-control" id="SERVICENAME" name="SERVICENAME" placeholder="服务名称或类型">
+                                                    </label>
+                                                </section>
+                                                <section class="col col-3">
+                                                    <label class="input">
+                                                        <input class="form-control" id="TEXTDESC" name="TEXTDESC" placeholder="费目名称或代码">
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </form>
+                                        <button type="submit" class="btn btn-default" id="submit_search">
+                                            查询
+                                        </button>
+                                    </div>
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding collapse in" id="table">
+                                        <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover"></table>
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px;">
+                                        <button type="button" class="btn btn-success" data-toggle="collapse"
+                                                data-target="#dateTable" style="margin-left:20px; margin-top:10px">
+                                            有效时间区间列表
+                                        </button>
+                                    </div>
+                                    <div class="widget-body no-padding collapse in" id="dateTable">
+                                        <table id="datatable_col_reorder_date" class="table table-striped table-bordered table-hover"></table>
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px; ">
+                                        <button type="button" class="btn btn-success" data-toggle="collapse"
+                                                data-target="#record" style="margin-left:20px;margin-top:20px; ">
+                                            操作记录
+                                        </button>
+                                    </div>
+                                    <div class="row collapse in" id="record">
+                                        <section class="col col-3">
+                                            <label class="label">创建时间</label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="CREATETIME" style="background-color:#eee;" disabled="disabled">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">创建人</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="CREATEUSER" style="background-color:#eee;" disabled="disabled">
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">修改时间</label>
+                                            <label class="input">
+                                                <div class="input-group date">
+                                                    <input class="form-control form-date" type="text" id="MODIFYTIME" style="background-color:#eee;" disabled="disabled">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                        <section class="col col-3">
+                                            <label class="label">修改人</label>
+                                            <label class="input">
+                                                <input type="text" class="form-control" id="MODIFYUSER" style="background-color:#eee;" disabled="disabled">
+                                            </label>
+                                        </section>
+
+                                    </div>
+                                    <!-- end widget content -->
+                                </fieldset>
+                                <footer>
+                                    <button class="btn btn-primary" onclick="dosave(); return false;">
+                                        保存
+                                    </button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <link href="~/Content/QO/scripts/icheck/skins/square/blue.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/icheck/icheck.min.js"></script>
+    <script src="~/Content/QO/layer/layer.js"></script>
+    <script type="text/javascript">
+
+
+        //全局数据
+        var dataList = [{ Code: ' ', Name: ' ' }, { Code: 'OI01', Name: '海运出口' }, { Code: 'OI02', Name: '海运进口' }, { Code: 'GXYS', Name: '干线运输' }, { Code: 'GNYS', Name: '国内运输' }, { Code: 'LI01', Name: '陆运出口' }, { Code: 'LI02', Name: '陆运进口' }, { Code: 'GNJZ', Name: '国内结转' }, { Code: 'SFWL', Name: '三方物流' }, { Code: 'OI02', Name: '仅报关' }, { Code: 'DJBS', Name: '叠加保税' }, { Code: 'MY', Name: '贸易' }, { Code: 'GNHY', Name: '国内海运' }, { Code: 'KJQC', Name: '空进全程' }, { Code: 'KCQC', Name: '空出全程' }];
+        var busorg = [{ Code: '', Name: '' }, { Code: '海运', Name: '海运' }, { Code: '空运', Name: '空运' }, { Code: '供应链', Name: '供应链' }, { Code: '运输', Name: '运输' }, ]
+        var keyValue = "";
+        var IsEdit = false;
+        var res;
+        var dataSel = [{ Code: '', Name: '' }, { Code: '1', Name: '启用' }, { Code: '0', Name: '停用' }];
+        var postdata_ext_period;
+        var postdata_srvsord;
+        var postdata_feesord;
+        //初始化icheck
+        function iCheckStyled() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        }
+
+        //表单校验
+        var errorClass = 'invalid';
+        var errorElement = 'em';
+
+        $('#formmain').validate({
+            errorClass: errorClass,
+            errorElement: errorElement,
+            highlight: function (element) {
+                $(element).parent().removeClass('state-success').addClass("state-error");
+                $(element).removeClass('valid');
+            },
+            unhighlight: function (element) {
+                $(element).parent().removeClass("state-error").addClass('state-success');
+                $(element).addClass('valid');
+            },
+
+            // Rules for form validation
+            rules: {
+                pcode: {
+                    required: true
+                },
+                pname: {
+                    required: true
+                },
+                porg: {
+                    required: true
+                },
+                pmng: {
+                    required: true
+                },
+                prate: {
+                    required: true,
+                    range: [0, 100]
+                },
+                //pywlx: {
+                //    required: true
+                //},
+                dtfrom: {
+                    required: true,
+                },
+                dtto: {
+                    required: true,
+                }
+                //pmemo: {
+                //    required: true,
+                //    rangelength: [10, 100]
+                //}
+            },
+
+            // Messages for form validation
+            messages: {
+                pcode: {
+                    required: ' 必填'
+                },
+                pname: {
+                    required: ' 必填'
+                },
+                porg: {
+                    required: ' 必填'
+                },
+                pmng: {
+                    required: '必填'
+                },
+                prate: {
+                    required: '必填',
+                    range: '请输入0到100的数字'
+                },
+                //pywlx: {
+                //    required: ' 必选'
+                //},
+                dtfrom: {
+                    required: ' 必填'
+                },
+                dtto: {
+                    required: ' 必填'
+                }
+                //pmemo: {
+                //    required: ' 必填',
+                //    rangelength: $.validator.format("请输入长度介于 {0} 和 {1} 之间的字符串")
+                //}
+            },
+
+            // Do not change code below
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+        $(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            $("#user").text(user);
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            //else {
+            //    layer.alert('当前登录账户：' + user, { icon: 1 });
+            //}
+            iCheckStyled();
+            $("#amenufld").trigger("click");
+            $("#amenufld").css("display", "none");
+            $("#logout").css("display", "none");
+            $(dataList).each(function (k, o) {
+                $("#BUSINESSTYPE").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            $(busorg).each(function (k, o) {
+                $("#BUSINESSORG").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+
+            keyValue = request('keyValue');
+
+
+            if (!!keyValue) {
+                $("#PRODUCTKEY").attr("disabled", "disabled");
+                //$("#section_dtfrom").attr("style", "display:none");
+                //$("#section_dtto").attr("style", "display:none");
+                //基本数据获取
+                $.ajax({
+                    url: "/QM_Product/GetFormJson",
+                    data: { keyValue: keyValue },
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        //console.log(data);
+                        res = result.data[0];
+                        $("#formmain").SetWebControls(res);
+                        var cuser = res["CREATEUSER"];
+                        var muser = res["MODIFYUSER"];
+                        if (!!result.data2) {
+                            for (var i = 0; i < result.data2.length; i++) {
+                                if (result.data2[i]["WORKNO"] == cuser) {
+                                    $("#CREATEUSER").val(result.data2[i]["NAME"]);
+                                }
+                                if (result.data2[i]["WORKNO"] == muser) {
+                                    $("#MODIFYUSER").val(result.data2[i]["NAME"]);
+                                }
+                            }
+                        }
+                    }
+                });
+                //有效期数据获取
+                //$.ajax({
+                //    url: "/QM_Product/GetDateJson",
+                //    data: { keyValue: keyValue },
+                //    dataType: "json",
+                //    async: false,
+                //    success: function (data) {
+                //        console.log(data);
+                //        res = data[0];
+                //        $("#DTTO").val(formatDate2(res.DTTO, "yyyy/MM/dd"));
+                //        $("#DTTO_OLD").val(formatDate2(res.DTTO, "yyyy/MM/dd"));
+                //        $("#DTFROM").val(formatDate2(res.DTFROM, "yyyy/MM/dd"));
+                //    }
+                //});
+            }
+
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+
+        });
+
+
+        $(document).ready(function () {
+            $("input").change(function () {
+                IsEdit = true;
+            });
+
+            detectmob();
+
+            $("#spinner").spinner();
+            $("#spinner-decimal").spinner({
+                step: 0.01,
+                numberFormat: "n"
+            });
+
+            $("#fixedleftnum").val($.cookie("bjfixedcol") || 4);
+            DrawTable();
+            DrawDateTable();
+            $("div[class='ColVis']").hide();
+
+        });
+
+        function DrawTable() {
+            //列定义
+            var columns = [{
+                "title": "序号", "data": null, "width": "60", "orderable": false
+            },
+            { "title": "产品类型", "data": "PRODUCTCODE", "width": "120", "orderable": false ,"visible": false},
+                { "title": "涉及的服务类型", "data": "SERVICETYPECODE", "width": "120", "orderable": false },
+                { "title": "涉及的服务名称", "data": "SERVICENAME", "width": "120", "orderable": false },
+                {
+                    "title": "排序维护", "data": "SERVICETYPECODE", "width": "60", "orderable": false,
+                    render: function (data, type, row, meta) {
+                        return '<button title="服务排序" class="btn btn-xs btn-default" onclick=" doSrvSort(\'' + data + '\',\'' + row.PRODUCTCODE + '\');return false;"><i class="fa fa-sort"></i></button>'
+                    }
+                },
+                {
+                    "title": "服务排序", "data": "SRVSORD", "width": "60", "orderable": false
+
+                },
+                { "title": "费目代码", "data": "TCET084", "width": "120", "orderable": false },
+                { "title": "费目", "data": "TEXTDESC", "width": "120", "orderable": false },
+                             {
+                                 "title": "排序维护", "data": "RID", "width": "60", "orderable": false,
+                                 render: function (data, type, full, meta) {
+                                     if (data != null) {
+                                         return '<button title="服务排序" class="btn btn-xs btn-default" onclick=" doFeeSort(\'' + data + '\',\'' + full.FEESORD + '\',\'' + full.TCET084 + '\',\'' + full.SERVICETYPECODE + '\',\'' + full.PRODUCTCODE + '\');return false;"><i class="fa fa-sort"></i></button>'
+                                     } else {
+                                         return "";
+                                     }
+                                 }
+                             },
+                             {
+                                 "title": "费目排序", "data": "FEESORD", "width": "60", "orderable": false
+
+                             },
+                             {
+                                 "title": "必选费目维护", "data": "BXBJ", "width": "80", "orderable": false,
+                                 render: function (data, type, full, meta) {
+                                     if (full.TCET084 != null) {
+                                         return '<button title="必选费目维护" class="btn btn-xs btn-default" onclick=" doFeeBXBJ(\'' + data + '\',\'' + full.RID + '\',\'' + full.SERVICETYPECODE + '\',\'' + full.TCET084 + '\',\'' + full.PRODUCTCODE + '\');return false;"><i class="fa fa-pencil"></i></button>'
+                                     } else {
+                                         return "";
+                                     }
+                                 }
+                             },
+                             {
+                                 "title": "必选费目标记", "data": "BXBJ", "width": "80", "orderable": false
+
+                             },
+                             { "title": "备注", "data": "MEMO", "width": "340", "orderable": false },
+            ];
+            var table = $('#datatable_col_reorder').dataTable({
+                //"processing": true,
+                "serverSide": true,
+                "colReorder": true,
+                "scrollX": true,
+                "fixedColumns": {
+                    leftColumns: $.cookie("bjfixedcol") || $("#fixedleftnum").val()
+                },
+                "bStateSave": true,
+                "order": [[1, "desc"]],
+                "fnDrawCallback": function () {
+                    var api = this.api();
+                    var startIndex = api.context[0]._iDisplayStart;        //获取到本页开始的条数 　
+                    api.column(0).nodes().each(function (cell, i) {
+                        cell.innerHTML = startIndex + i + 1;
+                    });
+                },
+                "language": {
+                    "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+                "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("PRDTOSRV")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+
+                        d.ProductCode = $("#PRODUCTKEY").val();
+                        d.SERVICENAME = $("#SERVICENAME").val();
+                        d.TEXTDESC = $("#TEXTDESC").val();
+
+                    }
+                }, columns: columns,
+
+                "stateSaveParams": function (settings, data) {
+                    localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+                },
+                "stateLoadCallback": function (settings) {
+                    var config = JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+                    return config;
+
+                },
+
+
+            });
+            iCheckStyled();
+        }
+        //有效期区间列表
+        function DrawDateTable() {
+            //列定义
+            var columns = [{
+                "title": "序号", "data": null, "width": "60"
+            },
+                {
+                    "title": "操作", "data": "RID", "width": "60",
+                    render: function (data, type, full, meta) {
+                        if (full.RID != "") {
+                            return '<button title="新增" class="btn btn-xs btn-default" onclick="Add();return false;"><i class="fa fa-plus"></i></button>' +
+                                '<button title="修改" class="btn btn-xs btn-default" onclick="Edit(\'' + data + '\');return false;"><i class="fa fa-edit"></i></button>';
+                        } else {
+                            return '<button title="新增" class="btn btn-xs btn-default" onclick="Add();return false;"><i class="fa fa-plus"></i></button>';
+                        }
+                    }
+                },
+                {
+                    "title": "有效期起始日", "data": "DTFROM", "width": "240",
+                    "render": function (data, type, full, name) {
+                        if (full.DTFROM == null || full.DTFROM == undefined || full.RID == "") {
+                            return "";
+                        } else {
+                            var gmtDate = new Date(formatDate(full.DTFROM));
+                            return gmtDate.Format("yyyy/MM/dd");
+                        }
+                    }
+                },
+                {
+                    "title": "有效期截止日", "data": "DTTO", "width": "240",
+                    "render": function (data, type, full, name) {
+                        if (full.DTTO == null || full.DTTO == undefined || full.RID == "") {
+                            return "";
+                        } else {
+                            var gmtDate = new Date(formatDate(full.DTTO));
+                            return gmtDate.Format("yyyy/MM/dd");
+                        }
+                    }
+                },
+                {
+                    "title": "状态", "data": "STATUS", "width": "160",
+                    "render": function (data, type, full, name) {
+                        if (full.RID != "") {
+                            if (full.STATUS == 1) {
+                                return "启用";
+                            } else if (full.STATUS == 0) {
+                                return "停用";
+                            }
+                        } else {
+                            return "";
+                        }
+
+                    }
+                },
+                           { "title": "备注", "data": "MEMO", "width": "540" },
+            ];
+            var table = $('#datatable_col_reorder_date').dataTable({
+                //"processing": true,
+                "serverSide": true,
+                "colReorder": true,
+                "scrollX": true,
+                "fixedColumns": {
+                    leftColumns: $.cookie("bjfixedcol") || $("#fixedleftnum").val()
+                },
+                "bStateSave": true,
+                "order": [[1, "desc"]],
+                "fnDrawCallback": function () {
+                    var api = this.api();
+                    var startIndex = api.context[0]._iDisplayStart;        //获取到本页开始的条数 　
+                    api.column(0).nodes().each(function (cell, i) {
+                        cell.innerHTML = startIndex + i + 1;
+                    });
+                },
+                "language": {
+                    "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+                "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("GetDateJson")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+
+                        d.ProductCode = $("#PRODUCTKEY").val();
+
+                    }
+                }, columns: columns,
+
+                //"stateSaveParams": function (settings, data) {
+                //    localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+                //},
+                //"stateLoadCallback": function (settings) {
+                //    var config = JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+                //    return config;
+                //}
+
+            });
+
+        }
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        });
+        //编辑有效区间
+        function Edit(data) {
+            if (keyValue == "") {
+                toastr.error("请先保存产品基本信息！");
+                return;
+            }
+            var msg = "<form id='formmain_date'>";
+            msg += "<fieldset>";
+            msg += "<div class='row'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<label class='col-md-3 control-label' style='margin-top:10px;'>有效起始日</label>";
+            msg += "<div class='col-md-5'>";
+            msg += "<label class='input'>";
+            msg += "<div class='input-group date'>";
+            msg += "<input class='form-control form-date' type='text' id='DTFROM' name='dtfrom' readonly='readonly' disabled = 'disabled'>";
+            msg += "<span class='input-group-addon'><i class='fa fa-calendar'></i></span>";
+            msg += "</div>";
+            msg += "</label>";
+            msg += "</div>"
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<div class='row' style='margin-top:20px;'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<label class='col-md-3 control-label' style='margin-top:10px;'>有效截止日</label>";
+            msg += "<div class='col-md-5'>"
+            msg += "<label class='input'>";
+            msg += "<div class='input-group date'>";
+            msg += "<input class='form-control form-date' type='text' id='DTTO' name='dtto'>";
+            msg += "<span class='input-group-addon'><i class='fa fa-calendar'></i></span>";
+            msg += "</div>";
+            msg += "</label>";
+            msg += "</div>";
+            //msg += "<div class='col-md-4'>";
+            //msg += "<button class='btn btn-success' style='margin-left:30px;' id = 'btnSave_date' onclick='saveDate(\"" + data + "\");return false;'>保存</button>";
+            //msg += "</div>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<div class='row' style='margin-top:20px;'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<label class=' col-md-3 control-label' style='margin-top:10px;'>启用状态</label>";
+            // msg += "<div class='col-md-5'>";
+            msg += "<section class='col-md-8'>"
+            //msg += "<div class='input-group'>";
+            msg += "<label class='input'><select style='width:210px;' id='DATE_STATUS' name='STATUS' class='select2'></select></label>";
+            msg += "</section>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<section style='margin-top:20px;'>";
+            msg += "<label class='col-md-3 control-label' style='margin-top:10px;'>备注</label>";
+            msg += "<label class='textarea col-md-8'><textarea class='textarea col-md-8' rows='4'id='DATE_MEMO'></textarea></label>";
+            msg += "</section>";
+            msg += "<section style='margin-top:40px;'>";
+            msg += "<button class='btn btn-success' style='margin-left: 250px' id = 'btnSave_date' onclick='saveDate(\"" + data + "\");return false;'>保存</button > ";
+            msg += "</section>";
+            msg += "</fieldset>";
+            msg += "</form>"
+            alert("编辑有效区间", msg);
+
+            //隐藏弹出框确定按钮
+            $(".modal-footer").children('button').hide();
+            //状态下拉框
+            //$("#STATUS").select2();
+            $(dataSel).each(function (k, o) {
+                $("#DATE_STATUS").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            $("#DATE_STATUS").select2({
+                placeholder: "启用状态",
+                allowClear: true
+            });
+
+            //通过RID获得数据
+            $.ajax({
+                url: "@Url.Action("GetDateByRID")",//数据源controller
+                data: {
+                    'rid': data,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    //console.log(data);
+                    postdata_ext_period = data.Data;
+                    //$("#DTFROM").val(formatDate2(postdata_ext_period.DTFROM,"yyyy/MM/dd"));
+                    //$("#DTTO").val(formatDate2(postdata_ext_period.DTTO, "yyyy/MM/dd"));
+                    $("#DATE_STATUS").select2('val', postdata_ext_period.STATUS);
+                    $("#DATE_MEMO").val(postdata_ext_period.MEMO);
+                    $("#formmain_date").SetWebControls(postdata_ext_period);
+                }
+            });
+            //重新初始化时间控件
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+
+        }
+        //新增有效区间
+        function Add() {
+            if (keyValue == "") {
+                toastr.error("请先保存产品基本信息！");
+                return;
+            }
+            var msg = "<form id='formmain_date'>";
+            msg += "<fieldset>";
+            msg += "<div class='row'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<label class=' col-md-3 control-label' style='margin-top:10px;'>有效起始日</label>";
+            msg += "<div class='col-md-5'>"
+            msg += "<label class='input'>";
+            msg += "<div class='input-group date'>";
+            msg += "<input class='form-control form-date' type='text' id='DTFROM' name='dtfrom' >";
+            msg += "<span class='input-group-addon'><i class='fa fa-calendar'></i></span>";
+            msg += "</div>";
+            msg += "</label>";
+            msg += "</div>"
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<div class='row' style='margin-top:20px;'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<label class=' col-md-3 control-label' style='margin-top:10px;'>有效截止日</label>";
+            msg += "<div class='col-md-5'>";
+            msg += "<label class='input'>";
+            msg += "<div class='input-group date'>";
+            msg += "<input class='form-control form-date' type='text' id='DTTO' name='dtto'>";
+            msg += "<span class='input-group-addon'><i class='fa fa-calendar'></i></span>";
+            msg += "</div>";
+            msg += "</label>";
+            msg += "</div>";
+            //msg += "<div class='col-md-4'>";
+            //msg += "<button class='btn btn-success' style='margin-left:30px;' id = 'btnSave_date' onclick = 'saveDate(); return false;'>保存</button>";
+            //msg += "</div>";
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<div class='row' style='margin-top:20px;'>";
+            msg += "<div class='col-xs-12 cols'>";
+            msg += "<label class=' col-md-3 control-label' style='margin-top:10px;'>启用状态</label>";
+            // msg += "<div class='col-md-5'>";
+            msg += "<section class='col-md-8'>"
+            //msg += "<div class='input-group'>";
+            msg += "<label class='input'><select style='width:210px;' id='DATE_STATUS' name= 'Status' class='select2'></select></label>";
+            //msg += "</div>";
+            msg += "</section>";
+            //msg += "</div>"
+            msg += "</div>";
+            msg += "</div>";
+            msg += "<section style='margin-top:20px;'>";
+            msg += "<label class='col-md-3 control-label' style='margin-top:10px;'>备注</label>";
+            msg += "<label class='textarea col-md-8'><textarea class='textarea col-md-8' rows='4'id='DATE_MEMO'></textarea></label>";
+            msg += "</section>"
+            msg += "<section>";
+            msg += "<button class='btn btn-success' style='margin-left:250px;' id = 'btnSave_date' onclick = 'saveDate(); return false;'>保存</button>";
+            msg += "</section>";
+            msg += "</fieldset>";
+            msg += "</form>"
+            alert("新增有效区间", msg);
+            //隐藏弹出框确定按钮
+            $(".modal-footer").children('button').hide();
+            //重新初始化时间控件
+            $(".form-date").datetimepicker({
+                format: "yyyy/mm/dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                clearBtn: true,
+                language: "zh-CN"
+            });
+            //状态下拉框
+            //$("#Status").select2();
+            $(dataSel).each(function (k, o) {
+                $("#DATE_STATUS").append($("<option></option>").attr("value", o.Code).html(o.Name));
+            });
+            $("#DATE_STATUS").select2({
+                placeholder: "启用状态",
+                allowClear: true
+            });
+
+            return false;
+        }
+        //时间控件扩展
+        function showCalendar() {
+
+        }
+        //保存时间区间
+        function saveDate(rid) {
+
+            //表单校验
+            if ($("#DTFROM").val() == null || $("#DTFROM").val() == undefined || $("#DTFROM").val() == "") {
+                toastr.error("起始日期不能为空！");
+                return;
+            }
+            if ($("#DTTO").val() == null || $("#DTTO").val() == undefined || $("#DTTO").val() == "") {
+                toastr.error("截止日期不能为空！");
+                return;
+            }
+            if ($("#DATE_STATUS").val() == null || $("#DATE_STATUS").val() == undefined || $("#DATE_STATUS").val() == "") {
+                toastr.error("启用状态不能为空！");
+                return;
+            }
+            if ($("#DTFROM").val() > $("#DTTO").val()) {
+                toastr.error("起始日期不能大于截止日期！");
+                return;
+            }
+            //先保存头部信息
+            //dosave();
+            postdata_ext_period = {};
+            postdata_ext_period["PRODUCTKEY"] = $("#PRODUCTKEY").val();
+            postdata_ext_period["DTFROM"] = $("#DTFROM").val();
+            postdata_ext_period["DTTO"] = $("#DTTO").val();
+            postdata_ext_period["STATUS"] = $("#DATE_STATUS").val();
+            postdata_ext_period["MEMO"] = $("#DATE_MEMO").val();
+
+            toastr.info("数据保存中，请稍候...");
+
+            //$("#btnSave_date").attr("disabled", "disabled");
+            $.ajax({
+                url: "@Url.Action("SubmitDate")",
+                type: "post",
+                data: {
+                    'postdata_ext_period': JSON.stringify(postdata_ext_period),
+                    'rid': rid,
+                    'keyValue': keyValue
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        $('#selfAlert').modal('hide');
+                        $("#datatable_col_reorder_date").DataTable().search("").draw();
+
+                    } else {
+                        toastr.error(data.Message);
+                    }
+
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            })
+
+
+        };
+        //返回
+        function back() {
+            if (IsEdit) {
+                Ewin.confirm({ message: "页面有修改，是否放弃保存？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    window.location.href = "@Url.Action("QM_ProductIndex")";
+                });
+            }
+            else { window.location.href = "@Url.Action("QM_ProductIndex")"; }
+        }
+
+        //服务排序字段维护
+        function doSrvSort(data, PRODUCTCODE) {
+
+            //请求后台拿扩展表的完整数据
+            $.ajax({
+                url: "@Url.Action("GETSRVSORD")",//数据源controller
+                data: {
+                    'srvcode': data,
+                    'productcode': PRODUCTCODE,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    postdata_srvsord = data.Data;
+                    //console.log(postdata_srvsord);
+                }
+            });
+            var msg = "<form id='srvformmain'>";
+            msg += "<div class='row'>";
+            msg += "<section class='col col-3'>";
+            msg += " <label style='margin-right:30px;'>服务排序号</label>";
+            msg += "<label class='input'><input class='form-control' id= 'SRVSORD' name='srvsord' placeholder= '服务排序号' ></label >";
+            msg += "<label class='input' style='display:none;';;><input class='form-control' id= 'SRVCODE' name='srvsord' placeholder= '服务排序号' ></label >";
+            msg += "<label class='input' style='display:none;';;><input class='form-control' id= 'PRODUCTCODE' name='PRODUCTCODE' placeholder= '产品CODE' ></label >";
+            msg += "<button class='btn btn-success' style='margin-left:30px;' onclick = 'saveSrvSorid();return false;'>保存</button>"
+            msg += "</section>";
+            msg += "</div>";
+            msg += "</form>"
+            alert("服务排序维护", msg);
+            //隐藏弹出框确定按钮
+            $(".modal-footer").children('button').hide();
+            $("#SRVCODE").val(data);
+            if (postdata_srvsord != null) {
+                $("#SRVSORD").val(postdata_srvsord);
+            }
+            $("#PRODUCTCODE").val(PRODUCTCODE);
+            var errorClass = 'invalid';
+            var errorElement = 'em';
+            //表单校验初始化
+            $('#srvformmain').validate({
+                errorClass: errorClass,
+                errorElement: errorElement,
+                highlight: function (element) {
+                    $(element).parent().removeClass('state-success').addClass("state-error");
+                    $(element).removeClass('valid');
+                },
+                unhighlight: function (element) {
+                    $(element).parent().removeClass("state-error").addClass('state-success');
+                    $(element).addClass('valid');
+                },
+                // Rules for form validation
+                rules: {
+                    srvsord: {
+                        required: true,
+                        digits: true,
+                        range: [1, 1000],
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+
+                    srvsord: {
+                        required: '必填',
+                        digits: '请输入1和1000之间的整数',
+                        range: $.validator.format("请输入{0}和{1}之间的整数")
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        }
+
+        //服务排序字段保存
+        function saveSrvSorid() {
+            if (!$("#srvformmain").valid()) {
+                return;
+            }
+            toastr.info("数据保存中，请稍候...");
+            var srvcode = $("#SRVCODE").val();
+            var srvsord = $("#SRVSORD").val();
+            var productcode = $("#PRODUCTCODE").val();
+            $.ajax({
+                url: "@Url.Action("SAVESRVSORT")",//数据源controller
+                data: {
+                    'srvcode': srvcode,
+                    'srvsord': srvsord,
+                    'productcode': productcode,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        toastr.success(data.Message);
+                        setTimeout(function () { window.location.reload(); }, 200);
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            })
+        };
+
+        //费目字段维护
+        function doFeeSort(data, FEESORD, TCET084, SERVICETYPECODE, PRODUCTCODE) {
+
+            var msg = "<form id='feeformmain'>";
+            msg += "<div class='row'>";
+            msg += "<section class='col col-3'>";
+            msg += " <label style='margin-right:30px;'>费目排序号</label>";
+            msg += "<label class='input'><input class='form-control' id= 'FEESORD' name='feesord' placeholder= '费目排序号' ></label >";
+            msg += "<label class='input' style='display:none;';;><input class='form-control' id= 'RID' name='RID' placeholder= '主键' ></label >";
+            msg += "<label class='input' style='display:none;';;><input class='form-control' id= 'TCET084' name='TCET084' placeholder= 'Code' ></label >";
+            msg += "<label class='input' style='display:none;';;><input class='form-control' id= 'SERVICETYPECODE' name='SERVICETYPECODE' placeholder= 'Code' ></label >";
+            msg += "<label class='input' style='display:none;';;><input class='form-control' id= 'PRODUCTCODE' name='PRODUCTCODE' placeholder= '产品Code' ></label >";
+            msg += "<button class='btn btn-success' style='margin-left:30px;' onclick = 'saveFeeSorid();return false;'>保存</button>"
+            msg += "</section>";
+            msg += "</div>";
+            msg += "</form>"
+            alert("费目排序维护", msg);
+            //隐藏弹出框确定按钮
+            $(".modal-footer").children('button').hide();
+            $("#RID").val(data);
+            if (FEESORD != "null") {
+                $("#FEESORD").val(FEESORD);
+            }
+            if (TCET084 != "null") {
+                $("#TCET084").val(TCET084);
+            }
+            if (SERVICETYPECODE != "null") {
+                $("#SERVICETYPECODE").val(SERVICETYPECODE);
+            }
+            if (PRODUCTCODE != "null") {
+                $("#PRODUCTCODE").val(PRODUCTCODE);
+            }
+            var errorClass = 'invalid';
+            var errorElement = 'em';
+            //表单校验初始化
+            $('#feeformmain').validate({
+                errorClass: errorClass,
+                errorElement: errorElement,
+                highlight: function (element) {
+                    $(element).parent().removeClass('state-success').addClass("state-error");
+                    $(element).removeClass('valid');
+                },
+                unhighlight: function (element) {
+                    $(element).parent().removeClass("state-error").addClass('state-success');
+                    $(element).addClass('valid');
+                },
+                // Rules for form validation
+                rules: {
+                    feesord: {
+                        required: true,
+                        digits: true,
+                        range: [1, 1000],
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+
+                    feesord: {
+                        required: '必填',
+                        digits: '请输入1和1000之间的整数',
+                        range: $.validator.format("请输入{0}和{1}之间的整数")
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        }
+
+        function saveFeeSorid() {
+            if (!$("#feeformmain").valid()) {
+                return;
+            }
+            toastr.info("数据保存中，请稍候...");
+            var rid = $("#RID").val();
+            var feesord = $("#FEESORD").val();
+            var tcet084 = $("#TCET084").val();
+            var productcode = $("#PRODUCTCODE").val();
+            var servicetypecode = $("#SERVICETYPECODE").val();
+            $.ajax({
+                url: "@Url.Action("SAVEFEESORT")",//数据源controller
+                data: {
+                    'rid': rid,
+                    'feesord': feesord,
+                    'tcet084': tcet084,
+                    'servicetypecode': servicetypecode,
+                    'productcode': productcode,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        toastr.success(data.Message);
+                        setTimeout(function () { window.location.reload(); }, 200);
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            })
+        }
+
+        function ZSyncPSF() {
+            var index = layer.load(2, { time: 300 * 1000 });
+            try {
+                $.ajax({
+                    url: RootPath() + "/QM_Product/SyncPSF",
+                    type: "post",
+                    data: { 'pcode': $("#PRODUCTKEY").val() },
+                    dataType: "json",
+                    async: true,
+                    success: function (data) {
+                        layer.close(index);
+                        if (data.Success) {
+                            console.log(data.Data);
+                            if (!!data.Data) {
+                                layer.alert(data.Message, {
+                                    skin: 'layui-layer-molv',
+                                    icon: 1
+                                , closeBtn: 0
+                                }, function () {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                layer.alert(data.Message, {
+                                    title: '提示',
+                                    icon: 0,
+                                    skin: 'layui-layer-blue'
+                            , closeBtn: 0
+                                });
+                            }
+                        } else {
+                            layer.alert(data.Message, {
+                                title: '错误',
+                                skin: 'layui-layer-red'
+                            , closeBtn: 0
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        layer.close(index);
+                        if (!!data.responseText) {
+                            layer.msg(data.responseText, { time: 5000 });
+                        } else {
+                            layer.msg("请求失败！");
+                        }
+                    }
+                });
+
+            } catch (e)
+            { layer.msg("同步失败，请重试"); layer.close(index); }
+
+            return false;
+        }
+
+        function dosave() {
+            if (!$("#formmain").valid()) {
+                return;
+            }
+
+            toastr.info("数据保存中，请稍候...");
+            var postdata = {};
+            var postdata_ext = {};
+            var postdata_ext_period = {};
+            var flag;
+            //产品基本数据
+            postdata["PRODUCTKEY"] = $("#PRODUCTKEY").val().toUpperCase();//产品代码为大写
+            postdata["CREATETIME"] = $("#CREATETIME").val();
+            postdata["MEMO"] = $("#MEMO").val();
+            postdata["MODIFYTIME"] = getNowDate();
+            //产品扩展数据
+            postdata_ext["PRODUCTKEY"] = $("#PRODUCTKEY").val().toUpperCase();
+            postdata_ext["SQPRODUCTNAME"] = $("#SQPRODUCTNAME").val();
+            postdata_ext["BUSINESSORG"] = $("#BUSINESSORG").val();
+            postdata_ext["BUSINESSTYPE"] = $("#BUSINESSTYPE").val();
+            postdata_ext["PRODUCTMANAGERNAME"] = $("#PRODUCTMANAGERNAME").val();
+            postdata_ext["DEAGIRATE"] = $("#DEAGIRATE").val();
+            postdata_ext["SORD"] = $("#SORD").val();
+            //产品扩展数据日期新增
+            postdata_ext_period["PRODUCTKEY"] = $("#PRODUCTKEY").val().toUpperCase();
+            postdata_ext_period["DTFROM"] = null;
+            postdata_ext_period["DTTO"] = null;
+            try {
+                $("#btnSave").attr("disabled", "disabled");
+
+                $.ajax({
+                    url: "/QM_Product/SubmitForm",
+                    type: "post",
+                    data: {
+                        'postdata': JSON.stringify(postdata),
+                        'postdata_ext': JSON.stringify(postdata_ext),
+                        'postdata_ext_period': JSON.stringify(postdata_ext_period),
+                        'keyValue': keyValue
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        if (data.Success) {
+                            toastr.success(data.Message);
+                            $("#PRODUCTKEY").val(data.Data.PRODUCTKEY);
+                            location.reload();
+                            //setTimeout(function () { location.href = "/QM_Product/QM_ProductIndex" }, 200);
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            } catch (e) {
+                window.alert("保存失败，请重试");
+            } finally {
+                $("#btnSave").removeAttr("disabled");
+            }
+        };
+        //维护必选费目标记
+        function doFeeBXBJ(bxbj, rid, servicetypecode, TCET084, PRODUCTCODE) {
+            var msg = "<form id='srvformmain'>";
+            msg += "<div class='row'>";
+            msg += "<section class='col col-3'>";
+            msg += "<label class='label'>&nbsp;</label>";
+            msg += " <label><input type='checkbox' name='BXBJ' id='BXBJ' ><i style='margin-left:10px;'></i>是否为必选费目</label>";
+            msg += "<label class='input' style='display:none;';><input class='form-control' id= 'SRVCODE' name='srvsord' placeholder= '服务code' ></label >";
+            msg += "<label class='input' style='display:none;';><input class='form-control' id= 'RID' name='srvsord' placeholder= '费目code' ></label >";
+            msg += "<label class='input' style='display:none;';><input class='form-control' id= 'TCET084' name='TCET084' placeholder= '费目code' ></label >";
+            msg += "<label class='input' style='display:none;';><input class='form-control' id= 'PRODUCTCODE' name='PRODUCTCODE' placeholder= '费目code' ></label >";
+            msg += "<button class='btn btn-success' style='margin-left:30px;' onclick = 'saveBXBJ();return false;'>保存</button>"
+            msg += "</section>";
+            msg += "</div>";
+            msg += "</form>"
+            alert("必选费目维护", msg);
+
+            iCheckStyled();
+            if (bxbj == 'Y') {
+                $("#BXBJ").iCheck('check');
+                //console.log(bxbj);
+            }
+            //隐藏弹出框确定按钮
+            $(".modal-footer").children('button').hide();
+            $("#SRVCODE").val(servicetypecode);
+            $("#TCET084").val(TCET084);
+            $("#RID").val(rid);
+            $("#PRODUCTCODE").val(PRODUCTCODE);
+            return false;
+        }
+        //保存必选费目标记
+        function saveBXBJ() {
+            var rid = $("#RID").val();
+            var servicetypecode = $("#SRVCODE").val();
+            var tcet084 = $("#TCET084").val();
+            var productcode = $("#PRODUCTCODE").val();
+            //var postdata = { 'feecode': feecode, 'servicetypecode': servicetypecode };
+            var bxbj = "";
+            if ($("#BXBJ").is(':checked')) {
+                bxbj = "Y";
+            } else {
+                bxbj = "N";
+            }
+            $.ajax({
+                url: "@Url.Action("DOFEEBXBJ")",//数据源controller
+                data: {
+                    'rid': rid,
+                    'servicetypecode': servicetypecode,
+                    'bxbj': bxbj,
+                    'tcet084': tcet084,
+                    'productcode': productcode
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    if (data.Success) {
+                        toastr.success(data.Message);
+                        setTimeout(function () { window.location.reload(); }, 200);
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (data) {
+                    if (!!data.responseText) {
+                        alert(data.responseText);
+                    } else {
+                        window.alert("请求失败！");
+                    }
+                }
+            })
+        };
+        //获取当前时间
+        function getNowDate() {
+            var date = new Date();
+            var sign1 = "/";
+            var sign2 = ":";
+            var year = date.getFullYear() // 年
+            var month = date.getMonth() + 1; // 月
+            var day = date.getDate(); // 日
+            var hour = date.getHours(); // 时
+            var minutes = date.getMinutes(); // 分
+            var seconds = date.getSeconds() //秒
+            //var weekArr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+            //var week = weekArr[date.getDay()];
+            // 给一位数数据前面加 “0”
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (day >= 0 && day <= 9) {
+                day = "0" + day;
+            }
+            if (hour >= 0 && hour <= 9) {
+                hour = "0" + hour;
+            }
+            if (minutes >= 0 && minutes <= 9) {
+                minutes = "0" + minutes;
+            }
+            if (seconds >= 0 && seconds <= 9) {
+                seconds = "0" + seconds;
+            }
+            var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds;
+            return currentdate;
+        }
+
+    </script>
+}

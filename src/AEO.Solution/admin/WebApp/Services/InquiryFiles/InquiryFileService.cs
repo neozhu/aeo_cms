@@ -176,10 +176,10 @@ namespace WebApp.Services
       }).ToList();
       return await NPOIHelper.ExportExcelAsync("询价单附件", datarows, expcolopts);
     }
-    public async Task Delete(int[] id,string user)
+    public async Task Delete(int[] id, string user)
     {
       var items = await this.Queryable().Where(x => id.Contains(x.Id))
-        .Include(x=>x.Inquiry).ToListAsync();
+        .Include(x => x.Inquiry).ToListAsync();
       foreach (var item in items)
       {
         if (File.Exists(item.FilePath))

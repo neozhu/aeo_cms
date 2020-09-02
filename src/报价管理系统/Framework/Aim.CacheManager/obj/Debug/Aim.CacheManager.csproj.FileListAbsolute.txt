@@ -1,0 +1,5 @@
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.CacheManager\bin\Debug\Aim.CacheManager.dll
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.CacheManager\bin\Debug\Aim.CacheManager.pdb
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.CacheManager\obj\Debug\Aim.CacheManager.csproj.CoreCompileInputs.cache
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.CacheManager\obj\Debug\Aim.CacheManager.dll
+E:\项目\报价管理\0SourceCode\报价管理系统\Framework\Aim.CacheManager\obj\Debug\Aim.CacheManager.pdb

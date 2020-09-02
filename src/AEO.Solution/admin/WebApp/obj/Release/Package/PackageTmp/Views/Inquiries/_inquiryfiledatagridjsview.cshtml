@@ -121,7 +121,7 @@ $(() => {
       {    /*文件名*/
         field: 'FileName',
         title: '<span class="text-danger">*</span>  @Html.DisplayNameFor(model => model.FileName)',
-        width: 160,
+        width: 180,
         sortable: true,
         hidden: false,
         resizable: true
@@ -134,7 +134,7 @@ $(() => {
         hidden: false,
         sortable: true,
         resizable: true,
-        formatter: numberformatter
+        formatter: filesizeformatter
       },
       {    /*上传用户*/
         field: 'Owner',

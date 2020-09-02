@@ -1,0 +1,73 @@
+﻿/******comme 配置******/
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+img {
+    border: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.scs_search {
+    clear: both;
+    background-color: #fff;
+    min-height: 40px;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.searchrow {
+    margin-bottom:8px;
+}
+
+
+.sm_cont {
+    clear: both;
+    margin-top: -15px;
+}
+
+
+.sc_more {
+    text-align: center;
+    line-height: 35px;
+}
+
+.sc_more a {
+    padding-right: 10px;
+    margin: 0 auto;
+    width: 120px;
+    background: url(../images/tip_donw1.png) no-repeat right;
+    color: #666666;
+    font-size: 14px;
+    outline: none;
+    text-decoration: none;
+}
+
+.sc_more a.clk {
+    background: url(../images/tip_up1.png) no-repeat right;
+}
+.select2-hidden-accessible {
+    display:none;
+}
+.smart-style-5 a {
+color:white;
+}
+.smart-style-5 .dt-toolbar, .smart-style-5 table.dataTable thead .sorting_asc, .smart-style-5 table.dataTable thead .sorting_desc {
+    color:white;
+}

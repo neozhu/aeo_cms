@@ -1,0 +1,342 @@
+﻿@{
+    ViewBag.Title = "定价查询";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@{
+    System.Data.DataTable orgdt = (System.Data.DataTable)ViewBag.OrgData;
+    System.Data.DataTable feedt = (System.Data.DataTable)ViewBag.FeeData;
+    System.Data.DataTable prodt = (System.Data.DataTable)ViewBag.ProData;
+    System.Data.DataTable serdt = (System.Data.DataTable)ViewBag.SerData;
+}
+<!-- MAIN CONTENT -->
+<style>
+    /*表格end*/
+    #datatable_col_reorder td {
+        white-space: nowrap;
+    }
+
+    #datatable_col_reorder th {
+        white-space: nowrap;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right; ">
+                            <button type="submit" id="submit_search" class="btn btn-default">
+                                查询
+                            </button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">
+                                重置
+                            </button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" name="BUSINESSORG" id="BUSINESSORG" class="select2">
+                                                <option value=""></option>
+                                                <option value="空运">空运</option>
+                                                <option value="海运">海运</option>
+                                                <option value="供应链">供应链</option>
+                                                <option value="运输">运输</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="PRODUCTKEY" name="PRODUCTKEY" class="select2" placeholder="产品">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < prodt.Rows.Count; i++)
+                                                {
+                                                    <option value="@prodt.Rows[i]["PRODUCTKEY"]">@prodt.Rows[i]["SQPRODUCTNAME"]--@prodt.Rows[i]["PRODUCTKEY"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="SERVICETYPE" name="SERVICETYPE" class="select2" placeholder="服务">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < serdt.Rows.Count; i++)
+                                                {
+                                                    @*<option value="@serdt.Rows[i]["SRVCODE"]">@serdt.Rows[i]["SRVNAME"]--@serdt.Rows[i]["SRVCODE"]</option>*@
+                                                    <option value="@serdt.Rows[i]["SERVICETYPE"]">@serdt.Rows[i]["SERVICENAME"]--@serdt.Rows[i]["SERVICETYPE"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="FEECODE" name="FEECODE" class="select2" placeholder="费目">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < feedt.Rows.Count; i++)
+                                                {
+                                                    @*<option value="@feedt.Rows[i]["FEECODE"]">@feedt.Rows[i]["FEENAME"]--@feedt.Rows[i]["FEECODE"]</option>*@
+                                                    <option value="@feedt.Rows[i]["TCET084"]">@feedt.Rows[i]["TEXTDESC"]--@feedt.Rows[i]["TCET084"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="ORGRID" name="ORGRID" class="select2" placeholder="组织名称">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < orgdt.Rows.Count; i++)
+                                                {
+                                                    <option value="@orgdt.Rows[i]["RID"]">@orgdt.Rows[i]["ORGNAME"]--@orgdt.Rows[i]["RID"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                    @*<section class="col col-3">
+                                            <label class="input">
+                                                <input class="form-control" id="ModifyUser" name="ModifyUser" placeholder="更新人">
+                                            </label>
+                                        </section>*@
+                                    @*<section class="col col-3">
+                                            <label class="input">
+                                                <select style="width:100%" id="STATUS" name="STATUS" class="select2">
+                                                    <option value="">全部</option>
+                                                    <option value="1">已发布</option>
+                                                    <option value="0">未发布</option>
+                                                </select>
+                                            </label>
+                                        </section>*@
+                                </div>
+                            </form>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script type="text/javascript">
+        //直接跳转定价明细页
+        function goPur(djrid) {
+            setStorage();
+            location.href = '/SQM_PUR_SEL/PurIndex?djrid=' + djrid;
+        }
+        $("#submit_search").click(function () {
+            //事业部
+            if (djbusinessorg != $("#BUSINESSORG").val()) {
+                djbusinessorg = $("#BUSINESSORG").val();
+            }
+            //产品
+            if (djproductkey != $("#PRODUCTKEY").val()) {
+                djproductkey = $("#PRODUCTKEY").val();
+            }
+            //服务
+            if (djservicetype != $("#SERVICETYPE").val()) {
+                djservicetype = $("#SERVICETYPE").val();
+            }
+            //费目代码
+            if (djfeecode != $("#FEECODE").val()) {
+                djfeecode = $("#FEECODE").val();
+            }
+            //组织
+            if (djorgrid != $("#ORGRID").val()) {
+                djorgrid = $("#ORGRID").val();
+            }
+            $('#datatable_col_reorder').DataTable().search(djbusinessorg, djproductkey, djservicetype, djfeecode, djorgrid).draw();
+            return false;
+        });
+        var username;
+        var mrbusinessorg = "空运";
+        var storage = window.localStorage;
+        var djbusinessorg = storage.getItem("djbusinessorg");
+        var djproductkey = storage.getItem("djproductkey");
+        var djservicetype = storage.getItem("djservicetype");
+        var djfeecode = storage.getItem("djfeecode");
+        var djorgrid = storage.getItem("djorgrid");
+        $(document).ready(function () {
+            var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            //初始化事业部
+            if (djbusinessorg != null) {
+                $("#BUSINESSORG").select2("val", djbusinessorg);
+            } else {
+                djbusinessorg = mrbusinessorg;
+            }
+            //初始化产品
+            if (djproductkey != null) {
+                $("#PRODUCTKEY").select2("val", djproductkey);
+            }
+            //初始化服务
+            if (djservicetype != null) {
+                $("#SERVICETYPE").select2("val", djservicetype);
+            }
+            //初始化费目
+            if (djfeecode != null) {
+                $("#FEECODE").select2("val", djfeecode);
+            }
+            //初始化组织
+            if (djorgrid != null) {
+                $("#ORGRID").select2("val", djorgrid);
+            }
+            $("[mdmtype='MDMBP']").each(function () {
+                AutocompleteMDMBP($(this).attr("id"));
+            });
+            //列定义
+            var columns = [
+                { "title": "产品", "orderable": false, "data": "PRDNAME", "width": "150" },
+                { "title": "服务", "orderable": false, "data": "SRVNAME", "width": "100" },
+                {
+                    "title": "费目", "orderable": false, "data": "FEENAME", "width": "150",
+                    render: function (data, type, row, meta) {
+                        return '<a onclick=goPur(\"' + row.RID + '\") style="text-decoration: underline;cursor: pointer;" >' + data + '</a>';
+                    }
+                },
+                {
+                    "title": "定价方式", "orderable": false, "data": "DJFS", "width": "100", "render": function (data, type, full, meta) {
+                        var newtype = "";
+                        if (data == "0") {
+                            newtype = "普通定价";
+                        } else if (data == "1") {
+                            newtype = "At cost";
+                        } else if (data == "2") {
+                            newtype = "单票单询";
+                        }
+                        return newtype;
+                    }
+                },
+                {
+                    "title": "组织名称", "orderable": false, "data": "ORGNAME", "width": "500", "render": function (data, type, full, meta) {
+                        var info = data;
+                        if (data != null) {
+                            var dhcount = data.split(",").length - 1;
+                            if (dhcount >= 3) {
+                                var arr = data.split(",");
+                                info = arr[0] + ',' + arr[1] + ',' + arr[2] + '...';
+                            }
+                        }
+                        return info;
+                    }
+                },
+                //{
+                //    "title": "定价状态", "data": "STATUS", "orderable": false, "width": "100", "render": function (data, type, full, meta) {
+                //        var newtype = "";
+                //        if (data == "0") {
+                //            newtype = "未发布";
+                //        } else if (data == "1") {
+                //            newtype = "已发布";
+                //        }
+                //        return newtype;
+                //    }
+                //},
+                {
+                    "title": "更新人", "orderable": false, "data": "MODIFYUSER", "width": "80",
+                    "render": function (data, type, full, meta) {
+                        return data == null ? "" : data.split('T')[0];//格式化只显示日期部分
+                    }
+                },
+                {
+                    "title": "更新日期", "orderable": false, "data": "MODIFYTIME", "width": "100",
+                    "render": function (data, type, full, meta) {
+                        return data == null ? "" : data.split('T')[0];//格式化只显示日期部分
+                    }
+                }
+            ];
+            var table = $('#datatable_col_reorder').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "scrollX": true,
+                "order": [[6, "desc"]],//第一次加载默认第5列日期倒排
+                "language": { "info": "Total : _TOTAL_", "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" } },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'pl>>",//整个griddom布局
+                "lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("Lists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.BUSINESSORG = djbusinessorg;
+                        d.ORGRID = djorgrid;
+                        d.PRODUCTKEY = djproductkey;
+                        d.SERVICETYPE = djservicetype;
+                        //d.ModifyUser = $("#ModifyUser").val();
+                        d.FEECODE = djfeecode;
+                    }
+                }, columns: columns
+            });
+            //明细双击事件
+            //$('#datatable_col_reorder tbody').on('dblclick', 'tr', function () {
+            //    var productkey = $('#datatable_col_reorder').DataTable().row(this).data()['PRODUCTKEY'];
+            //    var prdname = $('#datatable_col_reorder').DataTable().row(this).data()['PRDNAME'];
+            //    var servicetype = $('#datatable_col_reorder').DataTable().row(this).data()['SERVICETYPE'];
+            //    var srvname = $('#datatable_col_reorder').DataTable().row(this).data()['SRVNAME'];
+            //    var feecode = $('#datatable_col_reorder').DataTable().row(this).data()['FEECODE'];
+            //    var feename = $('#datatable_col_reorder').DataTable().row(this).data()['FEENAME'];
+            //    var businessorg = $('#datatable_col_reorder').DataTable().row(this).data()['BUSINESSORG'];
+            //    if (feename != null) {
+            //        doPur(productkey, prdname, servicetype, srvname, feecode, feename, businessorg);
+            //    }
+            //});
+        });
+        // 重置查询条件
+        function ResetQueryValue() {
+            clearStorage();
+            $("#BUSINESSORG").select2("val", djbusinessorg);
+            // 清空查询控件
+            $("#form1").find("select").each(function () {
+                if ($(this).attr("id") != "BUSINESSORG") {
+                    $(this).select2("val", "");
+                }
+            });
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search(djbusinessorg, djproductkey, djservicetype, djfeecode, djorgrid).draw();
+            return false;
+        }
+        //存储定价Storage
+        function setStorage() {
+            storage.setItem("djbusinessorg", $("#BUSINESSORG").val());
+            storage.setItem("djproductkey", $("#PRODUCTKEY").val());
+            storage.setItem("djservicetype", $("#SERVICETYPE").val());
+            storage.setItem("djfeecode", $("#FEECODE").val());
+            storage.setItem("djorgrid", $("#ORGRID").val());
+        }
+        //清除定价Storage
+        function clearStorage() {
+            storage.removeItem("djbusinessorg");
+            storage.removeItem("djproductkey");
+            storage.removeItem("djservicetype");
+            storage.removeItem("djfeecode");
+            storage.removeItem("djorgrid");
+            djbusinessorg = mrbusinessorg;
+            djproductkey = "";
+            djservicetype = "";
+            djfeecode = "";
+            djorgrid = "";
+        }
+    </script>
+}

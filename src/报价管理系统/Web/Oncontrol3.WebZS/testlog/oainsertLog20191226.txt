@@ -1,0 +1,25 @@
+2019/12/26 9:55:26: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/12/26 9:55:26: 2019/12/26 9:55:26,Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: <. Path '', line 2, position 1.
+   在 Newtonsoft.Json.JsonTextReader.ParseValue()
+   在 Newtonsoft.Json.JsonTextReader.Read()
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ReadForType(JsonReader reader, JsonContract contract, Boolean hasConverter)
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   在 Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   在 Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11537
+2019/12/26 9:56:05: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/12/26 9:56:17: 2019/12/26 9:56:17,Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: <. Path '', line 2, position 1.
+   在 Newtonsoft.Json.JsonTextReader.ParseValue()
+   在 Newtonsoft.Json.JsonTextReader.Read()
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ReadForType(JsonReader reader, JsonContract contract, Boolean hasConverter)
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   在 Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   在 Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   在 Oncontrol3.Web.Controllers.QM_PriceController.CGSCWorkFlowXML(String rid, String vrid) 位置 E:\Feiliks\报价项目\最新报价系统\0SourceCode\报价管理系统\Web\Oncontrol3.WebZS\Controllers\QM_PriceController.cs:行号 11537
+2019/12/26 9:58:38: URL: 
+http://172.20.70.240:8088//services/WorkflowServiceXml
+2019/12/26 10:25:24: 2019/12/26 10:25:24----非标报价和包含包干费报价审批
+RequestId1454920
+Idf1e802a5-b5fa-43f6-b2e5-ae44e8a21297

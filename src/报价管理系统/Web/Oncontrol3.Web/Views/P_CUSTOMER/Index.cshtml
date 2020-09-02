@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "客户信息";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont">
+                <span class="fld_label">伙伴名称</span>
+                <span class="fld_input"><input class="easyui-textbox" id="COMPANY" name="COMPANY"></span>
+                <span class="fld_label">编号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="STORERKEY" name="STORERKEY"></span>
+                <div class="sc_more">
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+                <div class="clear10"></div>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" href=@Url.Action("create") style="width:70px;display:none;">添加</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkModify" style="width:70px">查看详情</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width: 70px; display: none;">删除</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkresetpwd" style="width: 70px; display: none;">重置</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:true,collapsible:true,url:'@Url.Action("lists")',method:'get',pagination:true,pageSize:20">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'STORERKEY',width:100,sortable:true">业务伙伴编号</th>
+                <th data-options="field:'COMPANY',width:180,sortable:true">业务伙伴名称</th>
+                <th data-options="field:'ADDRESS1',width:100">街道</th>
+                <th data-options="field:'CITY',width:70">城市</th>
+                <th data-options="field:'PHONE1',width:70">电话</th>
+                <th data-options="field:'FAX1',width:70">传真</th>
+                <th data-options="field:'EMAIL1',width:70">E-Mail</th>
+                <th data-options="field:'SUSR3',width:70">简称</th>
+                <th data-options="field:'ADDRESS2',width:70">厂别</th>
+                <th data-options="field:'ZIP',width:70">邮编</th>
+                <th data-options="field:'STATE',width:100">地区</th>
+                <th data-options="field:'COUNTRY',width:100">国家</th>
+                <th data-options="field:'DESCRIPTION',width:150">说明</th>
+                <th data-options="field:'NOTES1',width:150">注释</th>
+                @*<th data-options="field:'TYPE',width:80,formatter:function(value,row){return statusEnum[value];}">状态</th>*@
+                <th data-options="field:'CREATETIME',width:100,align:'center',formatter:formatterDate,sortable:true">创建日期</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        var statusEnum = { 1: 1, 5: 5, 10: 10 };
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+        })
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkresetpwd").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                JQuery.messager.confirm('操作提示', '确认要重置选中的记录吗?', function (r) {
+                    if (r) {
+                        JQuery.ajax({
+                            url: "@Url.Action("Reset")",
+                            data: { id: selrows[0].ID },
+                            type: "GET",
+                            success: function (data) {
+                                JQuery.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                JQuery.messager.alert('操作提示', '请选择要重置的行。', 'error');
+            }
+        });
+        $("#lkModify").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                window.location.href = "@Url.Action("Edit")/" + selrows[0].ID;
+            }
+            else {
+                JQuery.messager.alert('操作提示', '请选择要查看的行。', 'error');
+            }
+        });
+        $("#lkDelete").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                JQuery.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        JQuery.ajax({
+                            url: "@Url.Action("Delete")",
+                            data: { id: selrows[0].UserID },
+                            type: "GET",
+                            success: function (data) {
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                JQuery.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+
+
+    </script>
+}
+

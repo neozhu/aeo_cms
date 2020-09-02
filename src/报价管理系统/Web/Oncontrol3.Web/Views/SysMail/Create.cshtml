@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "账号维护";
+}
+@model Aim.Portal.Model.SYSMAILTEMPLATE
+<div class="container">
+    @using (Html.BeginForm(Html.ViewContext.RouteData.Values["id"] != null ? "Edit" : "Create", "SysMail", FormMethod.Post, new { id = "ff" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="order_title">
+            <span>邮件模板配置</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">编号</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.CODE, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true" })</span>
+            <span class="fld_label">模板名称</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.NAME, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true,validType:'length[4,32]'" })</span>
+            <span class="fld_label">模板标题</span>
+            <span class="fld_input">@Html.TextBoxFor(m => m.TITLE, new { style = "width:100%", @class = "easyui-textbox", data_options = "required:true,validType:'length[4,32]'" })</span>
+<div class="clear15"></div>
+        </div>
+        <div class="order_title">
+            <span>扩展信息</span>
+        </div>
+        <div class="ord_main">
+            <span class="fld_label">模板正文内容</span>
+            <span>@Html.TextAreaFor(m => m.BODY, new { style = "width:90%;height:160px;display:none;", @class = "easyui-kindeditor", data_options = "required:false" })</span>
+        </div>
+    }
+    <div style="text-align:center;padding:5px 0">
+        @Html.ValidationSummary()
+        <div style="color:red">@ViewBag.StatusMessage</div>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>&nbsp;&nbsp;
+        <a href="@Url.Action("Index")" class="easyui-linkbutton" style="width:80px">返回</a>
+    </div>
+</div>
+@section stylesadd{
+<link href="/Scripts/editor/themes/default/default.css" rel="stylesheet" />
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/kindeditor")
+    <script type="text/javascript">
+        //$("#Status").combobox({data:@Html.Raw(ViewBag.Status)});
+
+        function submitForm() {
+            if ($("#ff").form('validate')) {
+                $("#ff").submit();//同步提交
+            }
+        }
+    </script>
+}

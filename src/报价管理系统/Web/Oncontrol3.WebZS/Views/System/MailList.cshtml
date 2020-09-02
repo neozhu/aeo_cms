@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "邮件发送记录";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont" style="height:30px;">
+                <span class="fld_label">接收人</span>
+                <span class="fld_input"><input class="easyui-textbox" id="ApplicationName" name="ApplicationName"></span>
+                <span class="fld_label">邮件标题</span>
+                <span class="fld_input"><input class="easyui-textbox" id="ModuleName" name="ModuleName"></span>
+                <div class="sc_more">
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:true,collapsible:true,url:'@Url.Action("maillistdata")',method:'get',pagination:true,pageSize:20">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'ApplicationName',width:100,sortable:true">接收人</th>
+                <th data-options="field:'ModuleName',width:180,sortable:true">邮件标题</th>
+                <th data-options="field:'Type',width:90">发送状态</th>
+                <th data-options="field:'DateTime',width:150,align:'center',sortable:true">发送时间</th>
+                <th data-options="field:'Record',width:380,formatter:EditUsers">详情</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div id="windowDiv" title="查看邮件发送内容"></div>
+@section Scripts {
+    <script>
+        function EditUsers(value, row, index) {
+            return "<a href='javascript:void(0);' onclick=EditRow(this)>" + value + "</a>";
+        }
+        function EditRow(e) {
+            $("#windowDiv").html(e.innerHTML);
+            $("#windowDiv").window({
+                width: 500, height: 500, modal: true
+            });
+        }
+
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkModify").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                window.location.href = "@Url.Action("RoleEdit")/" + selrows[0].RoleID;
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+</script>
+}

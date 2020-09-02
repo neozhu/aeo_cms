@@ -1,0 +1,668 @@
+﻿@{
+    ViewBag.Title = "查单";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+<!--在您实际的项目中,请留意mescroll-option.css的图片路径是否引用正确,可写成绝对路径或网络地址-->
+<!--可把mescroll-option.css代码拷贝到mescroll.min.css中,合为一个css文件,方便引用-->
+<link rel="stylesheet" href="~/Content/plugins/mescroll/mescroll.min.css">
+@*<link rel="stylesheet" href="~/Content/plugins/mescroll/mescroll-option.css">*@
+<style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        background-color: white
+    }
+
+    ul {
+        list-style-type: none
+    }
+
+    img {
+        width: 100%;
+        vertical-align: bottom;
+    }
+
+    /*模拟的标题,底部*/
+    .header {
+        z-index: 9990;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-bottom: 1px solid #eee;
+        background-image: url(img/header.jpg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: white;
+    }
+
+    .footer {
+        z-index: 9990;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        border-top: 1px solid #eee;
+        background-image: url(img/footer.jpg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #F8F8F8;
+    }
+
+    /*列表*/
+    .mescroll {
+        position: fixed;
+        top: 44px;
+        bottom: 51px;
+        height: auto;
+    }
+    /*回到顶部按钮*/
+    .mescroll-totop {
+        bottom: 70px;
+    }
+
+    /*下拉刷新回调的提示*/
+    .download-tip {
+        z-index: 9900;
+        position: fixed;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        font-size: 12px;
+        text-align: center;
+        background-color: rgba(255,130,1,.7);
+        color: white;
+        -webkit-transition: top 300ms;
+        transition: top 300ms;
+    }
+
+    /*展示上拉加载的数据列表*/
+    .news-list li {
+        padding: 16px;
+        border-top: 1px solid #eee;
+        border-bottom: 12px solid #eee;
+    }
+
+    .news-list .new-content {
+        font-size: 14px;
+        margin-top: 6px;
+        margin-left: 8px;
+        color: #666;
+    }
+</style>
+
+<!--标题-->
+<div class="header">
+    <div class="row" style="margin-top:8px;">
+        <div class="col-xs-2" id="comeback">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </div>
+        <div class="col-xs-8 text-center">
+            <label id="qsgk"></label><label style="margin-left:5px;">——</label><label style="margin-left:5px;" id="mdgk"></label><label style="margin-left:5px;">|</label><label style="margin-left:5px;" id="mdgj"></label>
+        </div>
+        <div class="col-xs-2">
+            <label style="float:left" id="count"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2">
+            <p>筛选：</p>
+        </div>
+        <div class="col-xs-2" id="delfmdiv" style="display:none">
+            <button id="delfm" type="button" class="btn btn-primary" data-toggle="button"></button>
+        </div>
+        <div class="col-xs-2" style="margin-left:3px;display:none" id="deldirectdiv">
+            <button id="deldirect" type="button" class="btn btn-primary" data-toggle="button">
+                直达
+            </button>
+        </div>
+
+        <div class="col-xs-2" id="delkhrdiv" style="display:none">
+            <button id="delkhr" type="button" class="btn btn-primary" data-toggle="button"></button>
+        </div>
+        <div class="col-xs-2" id="delcgsdiv" style="display:none">
+            <button id="delcgs" type="button" class="btn btn-primary" data-toggle="button"></button>
+        </div>
+    </div>
+</div>
+<!--下拉刷新回调的提示-->
+<p id="downloadTip" class="download-tip">刷新</p>
+
+<!--滑动区域-->
+<div id="mescroll" class="mescroll">
+    <!--展示上拉加载的数据列表-->
+    <ul id="newsList" class="news-list">
+        <!--模拟的内容-->
+        <!--<li>
+            <p>【微博1】标题标题标题标题</p>
+            <p class="new-content">内容内容内容内容内容内容内容内容内容</p>
+        </li>-->
+    </ul>
+</div>
+
+<!--底部-->
+<div class="footer">
+
+    <div class="col-xs-2">
+        <button id="Fastest" type="button" class="btn btn-primary" data-toggle="button">
+            最快
+        </button>
+    </div>
+    <div class="col-xs-2">
+        <button id="Mostprovincial" type="button" class="btn btn-primary" data-toggle="button">
+            最省
+        </button>
+    </div>
+    <div class="col-xs-2">
+        <button id="Direct" type="button" class="btn btn-primary" data-toggle="button">
+            直达
+        </button>
+    </div>
+    <div class="col-xs-2">
+        <button id="CGS" type="button" class="btn btn-primary" data-toggle="button">
+            航空公司
+        </button>
+    </div>
+    <div class="col-xs-2" style="margin-left:10px;">
+        <button id="KHR" type="button" class="btn btn-primary" data-toggle="button">
+            开航日
+        </button>
+    </div>
+</div>
+<div style="display:none">
+    @*<input id="qsgg">
+        <input id="mdgg">*@
+    <input id="fp">
+    <input id="dir">
+    <input id="cgss">
+    <input id="khrr">
+</div>
+@section pagespecific {
+    <script src="~/Content/plugins/picker.min.js"></script>
+    <!--在您实际的项目中,请留意mescroll-option.js的图片路径是否引用正确,可写成绝对路径或网络地址-->
+    <!--可把mescroll-option.js代码拷贝到mescroll.min.js中,合为一个js文件,方便引用-->
+    <script src="~/Content/plugins/mescroll/mescroll-option.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Content/plugins/mescroll/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+    <!--mescroll本身不依赖jq,这里为了模拟发送ajax请求-->
+    <script src="~/Content/QO/scripts/framework.js"></script>
+    <script src="~/Content/QO/scripts/Ewin.js"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script src="~/Content/QO/layer/layer.js"></script>
+    @*<script src="~/Content/plugins/jquery.ajaxupload.js"></script>
+        <script src="~/Content/plugins/jquery.bootpag.min.js"></script>
+        <script src="~/Content/plugins/jquery.guid.js"></script>
+        <script src="~/Content/plugins/base.js"></script>*@
+    <script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+    <link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+    <link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function () {
+            //创建MeScroll对象
+            var oldpage = 0;
+            var newpage = 1;
+            var resettime = 0;
+            var mescroll = initMeScroll("mescroll", {
+                down: {
+                    auto: true,//是否在初始化完毕之后自动执行下拉回调callback; 默认true
+                    callback: downCallback, //下拉刷新的回调
+                },
+                up: {
+                    auto: false,//初始化完毕,是否自动触发上拉加载的回调
+                    isBoth: true, //上拉加载时,如果滑动到列表顶部是否可以同时触发下拉刷新;默认false,两者不可同时触发; 这里为了演示改为true,不必等列表加载完毕才可下拉;
+                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                    callback: upCallback, //上拉加载的回调
+                    page: {
+                        num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+                        size: 20 //每页数据条数,默认20
+                    },
+                    toTop: { //配置回到顶部按钮
+                        src: "/Content/img/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                        offset: 1000
+                    }
+                }
+            });
+            //$("#Fastest").click(function () {
+            //    $("#newsList").empty();
+            //    oldpage = 0;
+            //    newpage = 1;
+            //    mescroll.resetUpScroll();
+            //});
+            /*下拉刷新的回调 */
+            function downCallback() {
+                //加载轮播数据..
+                //...
+                //加载列表数据
+                getListDataFromNet(0, 1, function (data) {
+                    //联网成功的回调,隐藏下拉刷新的状态
+                    mescroll.endSuccess();
+                    //设置列表数据
+                    setListData(data, false);
+                    //显示提示
+                    $("#downloadTip").css("top", "44px");
+                    setTimeout(function () {
+                        $("#downloadTip").css("top", "10px");
+                    }, 2000);
+                }, function () {
+                    //联网失败的回调,隐藏下拉刷新的状态
+                    mescroll.endErr();
+                });
+            }
+
+            /*上拉加载的回调 page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+            function upCallback(page) {
+                //联网加载数据
+                getListDataFromNet(page.num, page.size, function (curPageData) {
+                    //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                    //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+                    console.log("page.num=" + page.num + ", page.size=" + page.size + ", curPageData.length=" + curPageData.length);
+
+                    //方法一(推荐): 后台接口有返回列表的总页数 totalPage
+                    //mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+
+                    //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                    //mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+
+                    //方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+                    //mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+
+                    //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+                    mescroll.endSuccess(curPageData.length);
+
+                    //提示:curPageData.length必传的原因:
+                    // 1.判断是否有下一页的首要依据: 当传的值小于page.size时,则一定会认为无更多数据.
+                    // 2.比传入的totalPage, totalSize, hasNext具有更高的判断优先级
+                    // 3.使配置的noMoreSize生效
+
+                    //设置列表数据
+                    setListData(curPageData, true);
+                }, function () {
+                    //联网失败的回调,隐藏上拉加载的状态
+                    mescroll.endErr();
+                });
+            }
+
+            /*设置列表数据*/
+            function setListData(curPageData, isAppend) {
+                var listDom = document.getElementById("newsList");
+                for (var i = 0; i < curPageData.length; i++) {
+                    var newObj = curPageData[i];
+
+                    var str = '<p>' + newObj.title + '</p>';
+                    str += '<p class="new-content">' + newObj.content + '</p>';
+                    var liDom = document.createElement("li");
+                    liDom.innerHTML = str;
+
+                    if (isAppend) {
+                        listDom.appendChild(liDom);//加在列表的后面,上拉加载
+                    } else {
+                        listDom.insertBefore(liDom, listDom.firstChild);//加在列表的前面,下拉刷新
+                    }
+                }
+            }
+
+			/*联网加载列表数据
+			 在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+			 请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+			 实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+			 * */
+            var downIndex = 0;
+
+            var pagesizes = 0;
+            function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+
+                // toastr.success(pageNum);
+                //延时一秒,模拟联网
+                setTimeout(function () {
+                    try {
+                        var newArr = [];
+                        var qiyungang = request('QYG');
+                        var mudigang = request('MDG');
+                        if (pageNum == 0) {
+                            //      toastr.success("hello");
+                            oldpage = 0;
+                            newpage = 1;
+                            $("#newsList").empty();
+                            //toastr.success("qq");
+                            mescroll.lockUpScroll(false);
+                            resettime++;
+                            //获取页数
+                            $.ajax({
+                                url: "/Mobel_YJ/AirPage",
+                                type: "post",
+                                data: {
+                                    'oldpage': oldpage, 'newpage': newpage, 'qsg': qiyungang, 'mdg': mudigang,
+                                    'fp': $("#fp").val(), 'dir': $("#dir").val(), 'HKGS': $("#cgss").val(), 'khrr': $("#khrr").val()
+                                },//$('#danhao').val() },
+                                dataType: "json",
+                                success: function (result) {
+                                    pagesizes = result.pagesizes;
+                                    $("#count").html("");
+                                    $("#count").html(result.counts);
+                                }
+                            });
+                            //此处模拟下拉刷新返回的数据
+                            $.ajax({
+                                url: "/Mobel_YJ/AirLists",
+                                type: "post",
+                                data: {
+                                    'oldpage': oldpage, 'newpage': newpage, 'qsg': request("QYG"), 'mdg': request("MDG"),
+                                    'fp': $("#fp").val(), 'dir': $("#dir").val(), 'HKGS': $("#cgss").val(), 'khrr': $("#khrr").val()
+                                },//$('#danhao').val() },
+                                dataType: "json",
+                                success: function (result) {
+                                    for (var i = 0; i < result.length; i++) {
+                                        var zzg = '直达';
+                                        if (result[i]["ZZG"] != null && result[i]["ZZG"] != '') {
+                                            zzg = result[i]["ZZG"];
+                                        }
+                                        if (resettime <= 1 && mudigang != undefined && mudigang.length > 0) {
+                                            $("#mdgj").html("");
+                                            $("#mdgj").html(result[0]["AREA"]);
+                                        }
+                                        var hc = '';
+                                        if (result[i]["HC"] != null && result[i]["HC"] != undefined) {
+                                            hc = result[i]["HC"];
+                                        }
+                                        var startall = result[i]["STARTDATE"].split('-');
+                                        var startdate = startall[1] + "/" + startall[2].split('T')[0];
+
+                                        var endall = result[i]["ENDDATE"].split('-');
+                                        var enddate = endall[1] + "/" + endall[2].split('T')[0];
+                                        var htm = '<div class="container" style="background-color:#ffffff;margin-top:10px;">  <div class="card">    <div class="card-body">      <div style="margin-top:10px;">        <p class="card-text" style="float:left">' + result[i]["HKGS"] + '</p>        <p class="card-text" style="float:right">' + datechange(result[i]["HBZQ"]) + '</p>        <p class="card-text" style="float:right;margin-right:30px;">' + startdate + '-' + enddate + '</p>      </div>      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#987cb9 SIZE=1>      <div>        <div style="float:left;width:25%"><p style="font-size:15px">' + result[i]["QYG"] + '</p></div>        <div class="text-center" style="float:left;width:50%">          <p>' + zzg + '</p>          <img src="/Content/img/Down-Arrow.png" style="width:100%" />          <p>' + hc + '天</p>        </div>        <div style="float:right;width:20%;margin-left:10px;"><p style="font-size:15px">' + result[i]["MDG"] + '</p></div>      </div>      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#987cb9 SIZE=1>      <div style="width:100%">+45:￥' + result[i]["WEIGHTXY45"] + ' +100:￥' + result[i]["WEIGHTDY45"] + ' +300:￥' + result[i]["WEIGHTDY100"] + '</div>      <div>备注：' + result[i]["MEMO"] + '</div>    </div>  </div></div>';
+                                        var newObj = { title: '', content: htm };
+                                        newArr.push(newObj);
+                                    }
+                                    if (result.length > 0) {
+                                        var qiyungang = result[0]["QYG"];
+                                        var mudigang = result[0]["MDG"];
+                                        $("#qsgk").html("");
+                                        $("#qsgk").html(qiyungang);
+
+                                        $("#mdgk").html("");
+                                        $("#mdgk").html(mudigang);
+                                    }
+                                    oldpage = newpage;
+                                    newpage = newpage + 1;
+                                    //   toastr.success(oldpage+" "+newpage);
+                                    if (pagesizes == oldpage || pagesizes == 0) {
+                                        mescroll.lockUpScroll(true);
+                                        toastr.success("所有数据加载完毕");
+                                    }
+                                    successCallback && successCallback(newArr);
+                                    //toastr.success("所有数据加载完毕");
+                                }
+                            });
+                        } else {
+                            //此处模拟上拉加载返回的数据
+
+                            $.ajax({
+                                url: "/Mobel_YJ/AirLists",
+                                type: "post",
+                                data: {
+                                    'oldpage': oldpage, 'newpage': newpage, 'qsg': request("QYG"), 'mdg': request("MDG"),
+                                    'fp': $("#fp").val(), 'dir': $("#dir").val(), 'HKGS': $("#cgss").val(), 'khrr': $("#khrr").val()
+                                },//$('#danhao').val() },
+                                dataType: "json",
+                                success: function (result) {
+                                    for (var i = 0; i < result.length; i++) {
+                                        var zzg = '直达';
+                                        if (result[i]["ZZG"] != null) {
+                                            zzg = result[i]["ZZG"];
+                                        }
+                                        var hc = '';
+                                        if (result[i]["HC"] != null && result[i]["HC"] != undefined) {
+                                            hc = result[i]["HC"];
+                                        }
+                                        var htm = '<div class="container" style="background-color:#ffffff;margin-top:10px;">  <div class="card">    <div class="card-body">      <div style="margin-top:10px;">        <p class="card-text" style="float:left">' + result[i]["HKGS"] + '</p>        <p class="card-text" style="float:right">' + datechange(result[i]["HBZQ"]) + '</p>        <p class="card-text" style="float:right;margin-right:30px;">' + result[i]["STARTDATE"] + '-' + result[i]["ENDDATE"] + '</p>      </div>      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#987cb9 SIZE=1>      <div>        <div style="float:left;width:25%"><p style="font-size:15px">' + result[i]["QYG"] + '</p><p style="font-size:8px;color:gray">' + result[i]["QYGMT"] + '</p></div>        <div class="text-center" style="float:left;width:50%">          <p>' + zzg + '</p>          <img src="/Content/img/Down-Arrow.png" style="width:100%" />          <p>' + hc + '天</p>        </div>        <div style="float:right;width:20%;margin-left:10px;"><p style="font-size:15px">' + result[i]["MDG"] + '</p><p style="font-size:8px;color:gray">' + result[i]["MDGMT"] + '</p></div>      </div>      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#987cb9 SIZE=1>      <div style="width:100%">+45:￥' + result[i]["WEIGHTXY45"] + ' +100:￥' + result[i]["WEIGHTDY45"] + ' +300:￥' + result[i]["WEIGHTDY100"] + '</div>      <div>备注：' + result[i]["MEMO"] + '</div>    </div>  </div></div>';
+                                        var newObj = { title: '', content: htm };
+                                        newArr.push(newObj);
+                                    }
+                                    oldpage = newpage;
+                                    newpage = newpage + 1;
+                                    //toastr.success(oldpage + " " + newpage);
+                                    if (pagesizes == oldpage || pagesizes == 0) {
+                                        mescroll.lockUpScroll(true);
+                                        toastr.success("所有数据加载完毕");
+                                    }
+                                    successCallback && successCallback(newArr);
+
+                                }
+                            });
+                        }
+                        //联网成功的回调
+                        successCallback && successCallback(newArr);
+                    } catch (e) {
+                        //联网失败的回调
+                        errorCallback && errorCallback();
+                    }
+                }, 2000)
+            }
+
+            $("#Fastest").click(function () {
+                $("#newsList").empty();
+                oldpage = 0;
+                newpage = 1;
+                $("#fp").val("0");
+                $("#delfm").text("");
+                $("#delfm").text("最快");
+                $("#delfmdiv").css("display", "block");
+                downCallback();
+            });
+            $("#Mostprovincial").click(function () {
+                $("#newsList").empty();
+                oldpage = 0;
+                newpage = 1;
+                $("#fp").val("1");
+                $("#delfm").text("");
+                $("#delfm").text("最省");
+                $("#delfmdiv").css("display", "block");
+                downCallback();
+            });
+            $("#delfm").click(function () {
+                $("#newsList").empty();
+                oldpage = 0;
+                newpage = 1;
+                $("#fp").val("");
+                $("#delfm").text("");
+                $("#delfmdiv").css("display", "none");
+                downCallback();
+            });
+
+            $("#Direct").click(function () {
+                $("#newsList").empty();
+                oldpage = 0;
+                newpage = 1;
+                $("#dir").val("直达");
+                $("#deldirectdiv").css("display", "block");
+                downCallback();
+                //mescroll.resetUpScroll();
+            });
+            $("#deldirect").click(function () {
+                $("#newsList").empty();
+                oldpage = 0;
+                newpage = 1;
+                $("#dir").val("");
+                $("#deldirectdiv").css("display", "none");
+                downCallback();
+            });
+            //$("#CGS").click(function () {
+            //    $("#newsList").empty();
+            //    oldpage = 0;
+            //    newpage = 1;
+
+            //    downCallback();
+            //});
+            $("#delcgs").click(function () {
+                $("#newsList").empty();
+                oldpage = 0;
+                newpage = 1;
+                $("#cgss").val("");
+                $("#delcgsdiv").css("display", "none");
+                downCallback();
+            });
+            //$("#KHR").click(function () {
+            //    $("#newsList").empty();
+            //    oldpage = 0;
+            //    newpage = 1;
+            //    downCallback();
+            //});
+            $("#delkhr").click(function () {
+                $("#newsList").empty();
+                oldpage = 0;
+                newpage = 1;
+                $("#khrr").val("");
+                $("#delkhrdiv").css("display", "none");
+                downCallback();
+            });
+            $(document).ready(function () {
+                $.ajax({
+                    url: "/Mobel_YJ/AirHkgslist",
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        var data1 = result;
+                        var picker1El = document.getElementById('CGS');
+                        var picker1 = new Picker({
+                            data: [data1]
+                        });
+
+                        picker1.on('picker.select', function (selectedVal, selectedIndex) {
+                            // 当用户点击确定的时候，会派发picker.select事件，同时会传递每列选择的值数组selectVal和每列选择的序号数组selectIndex。
+                            //picker1El.innerText = data1[selectedIndex[0]].text;
+                            $("#cgss").val(data1[selectedIndex[0]].text);
+                            $("#delcgs").text("");
+                            $("#delcgs").text(data1[selectedIndex[0]].text);
+                            $("#delcgsdiv").css("display", "block");
+                            downCallback();
+                        });
+
+                        picker1.on('picker.change', function (index, selectedIndex) {
+                            //当一列滚动停止的时候，会派发picker.change事件，同时会传递列序号index及滚动停止的位置selectIndex。
+                            console.log(index);
+                        });
+
+                        picker1.on('picker.valuechange', function (selectedVal, selectedIndex) {
+                            //当用户点击确定的时候，如果本次选择的数据和上一次不一致，会派发picker.valuechange事件，同时会传递每列选择的值数组selectVal和每列选择的序号数组selectIndex。
+                            console.log(selectedVal);
+                        });
+                        picker1El.addEventListener('click', function () {
+                            picker1.show();
+                        });
+                        var data2 = [{ text: '每日', value: 'DAILY' },{ text: '星期一', value: 'MON' }, { text: '星期二', value: 'TUE' }, { text: '星期三', value: 'WED' }, { text: '星期四', value: 'THU' }, { text: '星期五', value: 'FRI' }, { text: '星期六', value: 'SAT' }, { text: '星期日', value: 'SUN' }];
+                        var picker2El = document.getElementById('KHR');
+                        var picker2 = new Picker({
+                            data: [data2]
+                        });
+
+                        picker2.on('picker.select', function (selectedVal, selectedIndex) {
+                            // 当用户点击确定的时候，会派发picker.select事件，同时会传递每列选择的值数组selectVal和每列选择的序号数组selectIndex。
+                            //picker1El.innerText = data1[selectedIndex[0]].text;
+                            $("#khrr").val(data2[selectedIndex[0]].text);
+                            $("#delkhr").text("");
+                            $("#delkhr").text(data2[selectedIndex[0]].text);
+                            $("#delkhrdiv").css("display", "block");
+                            downCallback();
+                        });
+
+                        picker2.on('picker.change', function (index, selectedIndex) {
+                            //当一列滚动停止的时候，会派发picker.change事件，同时会传递列序号index及滚动停止的位置selectIndex。
+                            console.log(index);
+                        });
+
+                        picker2.on('picker.valuechange', function (selectedVal, selectedIndex) {
+                            //当用户点击确定的时候，如果本次选择的数据和上一次不一致，会派发picker.valuechange事件，同时会传递每列选择的值数组selectVal和每列选择的序号数组selectIndex。
+                            console.log(selectedVal);
+                        });
+                        picker2El.addEventListener('click', function () {
+                            picker2.show();
+                        });
+                    }
+                });
+            })
+        });
+    </script>
+    <script>
+        var request = function (keyValue) {
+            var search = location.search.slice(1);
+            var arr = search.split("&");
+            for (var i = 0; i < arr.length; i++) {
+                var ar = arr[i].split("=");
+                if (ar[0] == keyValue) {
+                    if (unescape(ar[1]) == 'undefined') {
+                        return "";
+                    } else {
+                        return unescape(ar[1]);
+                    }
+                }
+            }
+            return "";
+        }
+        $(document).ready(function () {
+             var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+            if (user.length < 1) {
+                layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+            }
+            else {
+                username = user;
+                //layer.alert('当前登录账户：' + user, { icon: 1 });
+            }
+            //var qiyungang = request('QYG');
+            //var mudigang = request('MDG');
+            //$("#qsgk").html("");
+            //$("#qsgk").html(qiyungang);
+
+            //$("#mdgk").html("");
+            //$("#mdgk").html(mudigang);
+        })
+        $("#comeback").click(function () {
+            $(window).attr('location', "/Mobel_YJ/index");
+        })
+        var datechange = function (da) {
+            if (da == "DAILY") {
+                return "每日";
+            }
+            if (da == "MON") {
+                return "星期一";
+            }
+            if (da == "TUE") {
+                return "星期二";
+            }
+            if (da == "WED") {
+                return "星期三";
+            }
+            if (da == "THU") {
+                return "星期四";
+            }
+            if (da == "FRI") {
+                return "星期五";
+            }
+            if (da == "SAT") {
+                return "星期六";
+            }
+            if (da == "SUN") {
+                return "星期日";
+            }
+        }
+    </script>
+}

@@ -1,0 +1,292 @@
+﻿@{
+    ViewBag.Title = "产品、服务、费目关系表";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@{
+    System.Data.DataTable prodt = (System.Data.DataTable)ViewBag.ProData;
+    System.Data.DataTable srvdt = (System.Data.DataTable)ViewBag.SrvData;
+    System.Data.DataTable feedt = (System.Data.DataTable)ViewBag.FeeData;
+}
+<style type="text/css">
+    .select2-results li:first-child {
+        height: 25px;
+    }
+
+    .widget-body {
+        min-height: 50px !important;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                        <div style="float:right; ">
+                            <button type="submit" onclick="addNew()" class="btn btn-success">新建</button>
+                            <button type="submit" id="submit_search" class="btn btn-default">查询</button>
+                            <button type="submit" class="btn btn-default" onclick="ResetQueryValue();">重置</button>
+                        </div>
+                    </header>
+                    <div role="content">
+                        <!-- end widget edit box -->
+                        <div class="jarviswidget-editbox"></div>
+                        <div class="widget-body">
+                            <form id="form1" class="smart-form form-backgroud">
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="PRODCODE" name="PRODCODE" class="select2" placeholder="产品">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < prodt.Rows.Count; i++)
+                                                {
+                                                    <option value="@prodt.Rows[i]["PRODUCTKEY"]">@prodt.Rows[i]["PRODUCTNAME"]--@prodt.Rows[i]["PRODUCTKEY"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="SRVCODE" name="SRVCODE" class="select2" placeholder="服务">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < srvdt.Rows.Count; i++)
+                                                {
+                                                    <option value="@srvdt.Rows[i]["SERVICETYPE"]">@srvdt.Rows[i]["SERVICENAME"]--@srvdt.Rows[i]["SERVICETYPE"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <select style="width:100%" id="FEECODE" name="FEECODE" class="select2" placeholder="费目">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < feedt.Rows.Count; i++)
+                                                {
+                                                    <option value="@feedt.Rows[i]["TCET084"]">@feedt.Rows[i]["TEXTDESC"]--@feedt.Rows[i]["TCET084"]</option>
+                                                }
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="widget-body no-padding">
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+@section pagespecific {
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //列定义
+            var columns = [{
+                "title": "操作", "data": "RID", "width": "50", "orderable": false,
+                render: function (data, type, row, meta) {
+                    var disval = '<button title="编辑" class="btn btn-xs btn-default" onclick=doEdit(\"' + data + '\") ><i class="fa fa-pencil"></i></button>';
+                    if (row.STATUS == "1") {
+                        disval += '<button title="停用" class="btn btn-xs btn-default" onclick=deleterow(\"' + data + '\",0) ><i class="fa fa-times"></i></button>';
+                    } else if (row.STATUS == "0") {
+                        disval += '<button title="启用" class="btn btn-xs btn-default" onclick=deleterow(\"' + data + '\",1) ><i class="fa fa-check"></i></button>';
+                    }
+                    return disval;
+                }
+            },
+                { "title": "产品代码", "data": "PRODCODE" },
+                { "title": "产品名称", "data": "PRODNAME" },
+                { "title": "服务代码", "data": "SRVCODE" },
+                { "title": "服务名称", "data": "SRVNAME" },
+                {
+                    "title": "服务显示", "data": "SRVDISP",
+                    render: function (data, type, row, meta) {
+                        var disval = "是";
+                        if (data == "0") {
+                            disval = "否";
+                        }
+                        return disval;
+                    }
+                },
+                { "title": "费目代码", "data": "FEECODE" },
+                { "title": "费目名称", "data": "FEENAME" },
+                {
+                    "title": "费目类别", "data": "FEECATG",
+                    render: function (data, type, row, meta) {
+                        var disval = "常规";
+                        if (data == "1") {
+                            disval = "异常";
+                        } else if (data == "2") {
+                            disval = "At Cost";
+                        }
+                        return disval;
+                    }
+                },
+                { "title": "事业部", "data": "BUSINESSORG" },
+                {
+                    "title": "费目状态", "data": "STATUS",
+                    render: function (data, type, row, meta) {
+                        var disval = "启用";
+                        if (data == "0") {
+                            disval = "停用";
+                        }
+                        return disval;
+                    }
+                },
+                {
+                    "title": "绑定关系", "data": "ISALONE",
+                    render: function (data, type, row, meta) {
+                        var disval = "有";
+                        if (data == "1") {
+                            disval = "无";
+                        }
+                        return disval;
+                    }
+                },
+                { "title": "更新时间", "data": "MODIFYTIME", "bVisible": false },
+            ];
+            var table = $('#datatable_col_reorder').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "order": [[12, "desc"]],//第一次加载默认第12列日期倒排
+                "language": {
+                    "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '没有检索到数据',
+                    'zeroRecords': '没有检索到数据',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'pl>>",//整个griddom布局
+                "lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("Lists")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.sort = d.columns[d.order[0].column].data;//排序列名转换
+                        d.order = d.order[0].dir;//asc or desc
+                        d.PRODCODE = $("#PRODCODE").val();
+                        d.SRVCODE = $("#SRVCODE").val();
+                        d.FEECODE = $("#FEECODE").val();
+                    }
+                }, columns: columns
+            });
+            $('#datatable_col_reorder tbody').on('dblclick', 'tr', function () {
+                var rid = $('#datatable_col_reorder').DataTable().row(this).data()['RID'];
+                location.href = '/SQM_SRV_FEE_CONFIG/Create?id=' + rid;
+            });
+        });
+        $("#submit_search").click(function () {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+        });
+        var rid = "";
+        var status = "";
+        function deleterow(id, flag) {
+            rid = id;
+            if (flag == 0) {
+                status = "0";
+                popDialog("提示", "确认要停用所选记录？", godo, notdo);
+            } else {
+                status = "1";
+                popDialog("提示", "确认要启用所选记录？", godo, notdo);
+            }
+        }
+        function godo() {
+            $.ajax({
+                url: "@Url.Action("Delete")",
+                data: { id: rid, flag: status },
+                type: "GET",
+                success: function (data) {
+                    toastr.clear();
+                    toastr.remove();
+                    toastr.success(data);
+                    $('#datatable_col_reorder').DataTable().search("").draw();
+                }
+            });
+        }
+        function notdo() {
+            $('#datatable_col_reorder').DataTable().search("").draw();
+        }
+        function addNew() {
+            document.location.href = '/SQM_SRV_FEE_CONFIG/Create';
+        }
+        function doEdit(rid) {
+            document.location.href = '/SQM_SRV_FEE_CONFIG/Create?id=' + rid;
+        }
+        // 重置查询条件
+        function ResetQueryValue() {
+            // 清空查询控件
+            $("#form1").find("select").each(function () {
+                $(this).select2("val", "");
+            });
+            // 刷新页面
+            $('#datatable_col_reorder').DataTable().search("").draw();
+            return false;
+        }
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: true,
+            positionClass: "toast-top-center",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+        // modal 对话框
+        function popDialog(title, msg, callbackyes, callbackno) {
+            if (!title) {
+                title = '对话框';
+            }
+            var dialogHTML = '<div id="selfDialog" class="modal fade">';
+            dialogHTML += '<div class="modal-dialog">';
+            dialogHTML += '<div class="modal-content">';
+            dialogHTML += '<div class="modal-header">';
+            dialogHTML += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            dialogHTML += '<span aria-hidden="true">&times;</span>';
+            dialogHTML += '</button>';
+            dialogHTML += '<h4 class="modal-title">' + title + '</h4>';
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-body">';
+            dialogHTML += msg;
+            dialogHTML += '</div>';
+            dialogHTML += '<div class="modal-footer">';
+            dialogHTML += '<button type="button" class="btn btn-default" data-dismiss="modal" id="buttonno">否</button>';
+            dialogHTML += '<button type="button" class="btn btn-primary" data-dismiss="modal" id="buttonyes">是</button>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+            dialogHTML += '</div>';
+
+            $("#selfDialog").remove();
+            $("body").append(dialogHTML);
+            $("#selfDialog").modal("show");
+            // 绑定"是"方法
+            $("#buttonyes").click(function () {
+                if (typeof callbackyes == "function") {
+                    callbackyes();
+                }
+            });
+            // 绑定"否"方法
+            $("#buttonno").click(function () {
+                if (typeof callbackno == "function") {
+                    callbackno();
+                }
+            });
+        }
+    </script>
+}

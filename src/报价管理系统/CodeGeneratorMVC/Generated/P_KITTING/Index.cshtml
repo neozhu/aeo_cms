@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont"  style="height:30px;">
+                <span class="fld_label">名称</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Name" name="Name"></span>
+                <span class="fld_label">状态</span>
+                <span class="fld_input"><input class="easyui-combobox" id="Status" name="Status" data-options=data:@Html.Raw(ViewBag.StatusSel),valueField:'Code',textField:'Name',editable:false></span>
+                <div class="clear10"></div>
+                <div style="display:none" id="more_sc">
+                    <span class="fld_label">创建日期</span>
+                    <span class="fld_input"><input class="easyui-datebox" id="CreateDateS" name="CreateDateS" style="width:180px"></span>
+                    <span class="fld_label">~</span>
+                    <span class="fld_input"><input class="easyui-datebox" id="CreateDateE" name="CreateDateE" style="width:180px"></span>
+                    <div class="clear10"></div>
+                </div>
+                <div class="sc_more">
+                    <a class="" href="javascript:void(0);" id="sc_more">更多查询条件</a>
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" href=@Url.Action("create") style="width:70px">添加</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkModify" style="width:70px">修改</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width:70px">删除</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkresetpwd" style="width:70px">重置</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:true,collapsible:true,url:'@Url.Action("lists")',method:'get',pagination:true,pageSize:20">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'Name',width:180,sortable:true">名称</th>
+                <th data-options="field:'Status',width:80,formatter:function(value,row){return statusEnum[value];}">状态</th>
+                <!--th data-options="field:'CreateTime',width:100,align:'center',formatter:formatterDate,sortable:true">创建日期</th-->
+                	    	    					<th data-options="field:'SEQ',width:100,sortable:false">SEQ</th>
+			    					<th data-options="field:'FACTORYTYPE',width:100,sortable:false">FACTORYTYPE</th>
+			    					<th data-options="field:'PDLINE',width:100,sortable:false">PDLINE</th>
+			    					<th data-options="field:'TRANSTYPE',width:100,sortable:false">TRANSTYPE</th>
+			    					<th data-options="field:'WORKNO',width:100,sortable:false">WORKNO</th>
+			    					<th data-options="field:'STATIONTYPE',width:100,sortable:false">STATIONTYPE</th>
+			    					<th data-options="field:'ITEMLINE',width:100,sortable:false">ITEMLINE</th>
+			    					<th data-options="field:'ITEMCODE',width:100,sortable:false">ITEMCODE</th>
+			    					<th data-options="field:'ITEMNAME',width:100,sortable:false">ITEMNAME</th>
+			    					<th data-options="field:'KEEPERCODE',width:100,sortable:false">KEEPERCODE</th>
+			    					<th data-options="field:'FROMTYPE',width:100,sortable:false">FROMTYPE</th>
+			    					<th data-options="field:'TOTYPE',width:100,sortable:false">TOTYPE</th>
+			    					<th data-options="field:'NEEDQTY',width:100,sortable:false">NEEDQTY</th>
+			    					<th data-options="field:'GIVEBUILDING',width:100,sortable:false">GIVEBUILDING</th>
+			    					<th data-options="field:'SENDPORT',width:100,sortable:false">SENDPORT</th>
+			    					<th data-options="field:'REQSENDTIME',width:100,sortable:false">REQSENDTIME</th>
+			    					<th data-options="field:'REMARK',width:100,sortable:false">REMARK</th>
+			    					<th data-options="field:'LOTNO',width:100,sortable:false">LOTNO</th>
+			    					<th data-options="field:'CREATEID',width:100,sortable:false">CREATEID</th>
+			    					<th data-options="field:'CREATENAME',width:100,sortable:false">CREATENAME</th>
+			    					<th data-options="field:'CREATETIME',width:100,sortable:false">CREATETIME</th>
+			    					<th data-options="field:'COMPANYID',width:100,sortable:false">COMPANYID</th>
+			    					<th data-options="field:'COMPANYNAME',width:100,sortable:false">COMPANYNAME</th>
+			    					<th data-options="field:'SYNCSTATE',width:100,sortable:false">SYNCSTATE</th>
+			    					<th data-options="field:'SYNCLOG',width:100,sortable:false">SYNCLOG</th>
+			    					<th data-options="field:'SYNCTIME',width:100,sortable:false">SYNCTIME</th>
+			            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        var jq = $;//重命名,因为模板生成会报错.
+        var statusEnum = @Html.Raw(ViewBag.Status);//{0:"停用",1:"启用"}
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+        })
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkresetpwd").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                jq.messager.confirm('操作提示', '确认要重置选中的记录吗?', function (r) {
+                    if (r) {
+                        jq.ajax({
+                            url: "@Url.Action("Reset")",
+                            data: { id: selrows[0].ID},
+                            type: "GET",
+                            success: function (data) {
+                                jq.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                jq.messager.alert('操作提示', '请选择要重置的行。', 'error');
+            }
+        });
+        $("#lkModify").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                window.location.href =  "@Url.Action("Edit")/"+selrows[0].ID;
+            }
+            else
+            {
+                jq.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+        $("#lkDelete").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                jq.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        jq.ajax({
+                            url: "@Url.Action("Delete")",
+                            data: { id: selrows[0].ID},
+                            type: "GET",
+                            success: function (data) {
+                                jq.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                jq.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+</script>
+}
+

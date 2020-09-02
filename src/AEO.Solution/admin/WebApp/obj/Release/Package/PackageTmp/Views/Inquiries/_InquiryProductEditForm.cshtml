@@ -36,6 +36,7 @@
               @Html.HiddenFor(model => model.SamplePic)
               @Html.HiddenFor(model => model.InquiryNo)
               @Html.HiddenFor(model => model.InquiryId)
+              @Html.HiddenFor(model => model.ThirdProductNo)
               <!--产品类别-->
               <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.CategoryName)"> @Html.DisplayNameFor(model => model.CategoryName) </label>
               <div class="col-md-4 mb-1">
@@ -119,19 +120,7 @@
      						 required:false " />
               </div>
 
-              <!--客户货号-->
-              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.ThirdProductNo)"> @Html.DisplayNameFor(model => model.ThirdProductNo) </label>
-              <div class="col-md-4 mb-1">
-                <input id="@Html.IdFor(model => model.ThirdProductNo)"
-                       name="@Html.NameFor(model => model.ThirdProductNo)"
-                       value="@Html.ValueFor(model => model.ThirdProductNo)"
-                       tabindex="7"
-                       class="easyui-textbox"
-                       type="text"
-                       style="width:100%"
-                       data-options="prompt:'@Html.DisplayNameFor(model => model.ThirdProductNo)',
-     						 required:false ,validType:'length[0,128]'" />
-              </div>
+
 
               <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.SupplierCode)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.SupplierCode) </label>
               <div class="col-md-4 mb-1">
@@ -164,7 +153,21 @@
                               console.log(item)
 						                  $('#inquiryproduct_form #SupplierName').val(item.CustomerName);
 
+
                        } " />
+              </div>
+              <!--厂商货号-->
+              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.SupplierProductNo)"> @Html.DisplayNameFor(model => model.SupplierProductNo) </label>
+              <div class="col-md-4 mb-1">
+                <input id="@Html.IdFor(model => model.SupplierProductNo)"
+                       name="@Html.NameFor(model => model.SupplierProductNo)"
+                       value="@Html.ValueFor(model => model.SupplierProductNo)"
+                       tabindex="13"
+                       class="easyui-textbox"
+                       type="text"
+                       style="width:100%"
+                       data-options="prompt:'@Html.DisplayNameFor(model => model.SupplierProductNo)',
+     						 required:false ,validType:'length[0,128]'" />
               </div>
               <!--询价数量-->
               <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Qty)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Qty) </label>
@@ -213,19 +216,7 @@
               </div>
 
 
-              <!--厂商货号-->
-              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.SupplierProductNo)"> @Html.DisplayNameFor(model => model.SupplierProductNo) </label>
-              <div class="col-md-4 mb-1">
-                <input id="@Html.IdFor(model => model.SupplierProductNo)"
-                       name="@Html.NameFor(model => model.SupplierProductNo)"
-                       value="@Html.ValueFor(model => model.SupplierProductNo)"
-                       tabindex="13"
-                       class="easyui-textbox"
-                       type="text"
-                       style="width:100%"
-                       data-options="prompt:'@Html.DisplayNameFor(model => model.SupplierProductNo)',
-     						 required:false ,validType:'length[0,128]'" />
-              </div>
+
 
               <!--价格类型-->
               <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.PriceType)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.PriceType) </label>
@@ -234,11 +225,11 @@
                        name="@Html.NameFor(model => model.PriceType)"
                        value="@Html.ValueFor(model => model.PriceType)"
                        tabindex="14"
-                       class="easyui-textbox"
+                       class="easyui-combobox"
                        type="text"
                        style="width:100%"
                        data-options="prompt:'@Html.DisplayNameFor(model => model.PriceType)',
-     						 required:true ,validType:'length[0,30]'" />
+     						 required:true ,validType:'length[0,30]',data:pricetypedatasource,panelHeight:'auto'" />
               </div>
 
               <!--报价金额-->
@@ -260,17 +251,17 @@
               </div>
 
               <!--币种-->
-              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Cur)"> @Html.DisplayNameFor(model => model.Cur) </label>
+              <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Cur)"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Cur) </label>
               <div class="col-md-4 mb-1">
                 <input id="@Html.IdFor(model => model.Cur)"
                        name="@Html.NameFor(model => model.Cur)"
                        value="@Html.ValueFor(model => model.Cur)"
                        tabindex="16"
-                       class="easyui-textbox"
+                       class="easyui-combobox"
                        type="text"
                        style="width:100%"
                        data-options="prompt:'@Html.DisplayNameFor(model => model.Cur)',
-     						 required:false ,validType:'length[0,20]'" />
+     						 required:true ,validType:'length[0,20]',data:curdatasource,panelHeight:'auto'" />
               </div>
 
               <!--最小订单量-->
@@ -319,6 +310,10 @@
                   <label class="custom-control-label" for="@Html.NameFor(model => model.Recommended)"> @Html.DisplayNameFor(model => model.Recommended)</label>
 
                 </div>
+              </div>
+              <label class="col-md-2 form-label text-right p-0" ></label>
+              <div class="col-md-4 mb-1">
+           
               </div>
               <!--反馈说明-->
               <label class="col-md-2 form-label text-right p-0" for="@Html.IdFor(model => model.Feedback)"> @Html.DisplayNameFor(model => model.Feedback) </label>

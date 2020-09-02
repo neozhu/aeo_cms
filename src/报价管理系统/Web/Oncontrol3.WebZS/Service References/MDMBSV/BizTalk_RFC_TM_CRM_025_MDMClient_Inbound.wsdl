@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://BizTalk.RFC.TM_CRM_025.Schemas.INPUT.Z2FM_SQ_RFC_CALC_BASE" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://BizTalk.RFC.TM_CRM_025.Schemas.OUTPUT.Z2FM_SQ_RFC_CALC_BASE_RES" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_CRM_025, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d409fe355a6bbac4" published web service.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://BizTalk.RFC.TM_CRM_025.Schemas.INPUT.Z2FM_SQ_RFC_CALC_BASE" />
+      <s:import namespace="http://BizTalk.RFC.TM_CRM_025.Schemas.OUTPUT.Z2FM_SQ_RFC_CALC_BASE_RES" />
+      <s:element name="Exec">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:Z2FM_SQ_RFC_CALC_BASE" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s2:Z2FM_SQ_RFC_CALC_BASE_RES" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.TM_CRM_025.Schemas.INPUT.Z2FM_SQ_RFC_CALC_BASE">
+      <s:element name="Z2FM_SQ_RFC_CALC_BASE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IV_SELECT_ALL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="unbounded" name="IT_CALC_BASE">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="CALC_BASE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="SAVE_TYPE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="LOCATION" type="s:string" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.TM_CRM_025.Schemas.OUTPUT.Z2FM_SQ_RFC_CALC_BASE_RES">
+      <s:element name="Z2FM_SQ_RFC_CALC_BASE_RES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ES_RETURN">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="MSG_TYPE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MSG_ID" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MSG_NO" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MSG_TEXT" type="s:string" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="ET_CALC_BASE_INFO">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="CALC_BASE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="DESCRIPTION" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="SAVE_TYPE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="T_VAL_DOMAIN">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="VAL" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="DES" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="1" name="S_VAL_TABLE">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="TABLE_STRC">
+                          <s:complexType>
+                            <s:sequence>
+                              <s:element minOccurs="0" maxOccurs="1" name="TABNAME" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="FIELDNAME" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="KEYFLAG" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="POSITION" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="INTTYPE" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="INTLEN" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="DDLANGUAGE" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="DDTEXT" type="s:string" />
+                            </s:sequence>
+                          </s:complexType>
+                        </s:element>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="TABLE_VALUE">
+                          <s:complexType>
+                            <s:sequence>
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN1" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN2" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN3" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN4" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN5" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN6" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN7" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN8" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN9" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN10" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN11" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN12" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN13" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN14" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN15" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN16" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN17" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN18" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN19" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="COLUMN20" type="s:string" />
+                            </s:sequence>
+                          </s:complexType>
+                        </s:element>
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExecSoapIn">
+    <wsdl:part name="parameters" element="tns:Exec" />
+  </wsdl:message>
+  <wsdl:message name="ExecSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap">
+    <wsdl:operation name="Exec">
+      <wsdl:input message="tns:ExecSoapIn" />
+      <wsdl:output message="tns:ExecSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap" type="tns:BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exec">
+      <soap:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_CRM_025_MDMClient_Inbound/Exec" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap12" type="tns:BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exec">
+      <soap12:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_CRM_025_MDMClient_Inbound/Exec" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BizTalk_RFC_TM_CRM_025_MDMClient_Inbound">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_CRM_025, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d409fe355a6bbac4" published web service.</wsdl:documentation>
+    <wsdl:port name="BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap" binding="tns:BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap">
+      <soap:address location="http://172.20.70.55/BizTalk.RFC.TM_CRM_025_Proxy/BizTalk_RFC_TM_CRM_025_MDMClient_Inbound.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap12" binding="tns:BizTalk_RFC_TM_CRM_025_MDMClient_InboundSoap12">
+      <soap12:address location="http://172.20.70.55/BizTalk.RFC.TM_CRM_025_Proxy/BizTalk_RFC_TM_CRM_025_MDMClient_Inbound.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

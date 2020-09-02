@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "报价管理";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>报价管理</title>
+    <script type="text/javascript">
+        function compileStr(code) { //对字符串进行加密         
+            var c = String.fromCharCode(code.charCodeAt(0) + code.length);
+            for (var i = 1; i < code.length; i++) {
+                c += String.fromCharCode(code.charCodeAt(i) + code.charCodeAt(i - 1));
+            }
+            return escape(c);
+        }
+        function redirectToPage(pgurl) {
+            window.open("/index.htm?" + compileStr("IFRAMESRC") + "=" + compileStr(pgurl), "_blank");
+        }
+    </script>
+</head>
+
+<body>
+    <div style="width:100%;float: left;">
+        <div style="padding-left:100px;">
+            <h1>标准报价</h1>
+        </div>
+        <hr />
+
+        <div style="padding-left:140px;">
+           <div style="padding-left:140px;">
+                <p>
+                    <a href="" onclick="redirectToPage('/QM_Price/QM_PriceIndex')">>>报价管理</a>
+                </p><br />
+            </div>
+        </div>
+    </div>
+
+    @section pagespecific {
+        <script src="~/Content/QO/layer/layer.js"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                var user = '@Oncontrol3.Web.Helpers.SQMHelper.getStaffKey()';
+                if (user.length < 1) {
+                    layer.alert('系统登录已超时，请重新登录', { icon: 2 });
+                    $('a').removeAttr('href');//去掉a标签中的href属性
+                }
+            });
+
+        </script>
+    }
+
+
+</body>
+</html>

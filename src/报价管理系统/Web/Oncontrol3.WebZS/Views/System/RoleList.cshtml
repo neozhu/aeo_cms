@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "系统账号管理";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont" style="height:30px;">
+                <span class="fld_label">角色名</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Name" name="Name"></span>
+                <span class="fld_label">编号</span>
+                <span class="fld_input"><input class="easyui-textbox" id="Code" name="Code"></span>
+                <div class="sc_more">
+                    <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" href=@Url.Action("rolecreate") style="width:70px">添加</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkModify" style="width:70px">修改</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width:70px">删除</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:true,collapsible:true,url:'@Url.Action("rolelistdata")',method:'get',pagination:true,pageSize:20">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'Code',width:100,sortable:true">编号</th>
+                <th data-options="field:'Name',width:180,sortable:true">角色名</th>
+                <th data-options="field:'pp',width:90,formatter:EditUsers">相关人员</th>
+                <th data-options="field:'CreateDate',width:100,align:'center',formatter:formatterDate,sortable:true">创建日期</th>
+                <th data-options="field:'Description',width:280">描述</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="windowDiv" title="编辑角色相关人员"></div>
+</div>
+@section Scripts {
+    <script>
+        function EditUsers(value, row, index) {
+            return "<a href='javascript:void(0);' onclick=EditRow('" + row.RoleID + "')>维护角色人员</a>";
+        }
+        function EditRow(roleID) {
+            $("#windowDiv").window({
+                width: 500, height: 600, modal: true,
+                href: "@Url.Action("RoleUser")/" + roleID
+            });
+        }
+
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkModify").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                window.location.href = "@Url.Action("RoleEdit")/" + selrows[0].RoleID;
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+        $("#lkDelete").click(function () {
+            var selrows = $('#dg').datagrid("getSelections");
+            if (selrows.length > 0) {
+                $.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        $.ajax({
+                            url: "@Url.Action("RoleDelete")",
+                            data: { id: selrows[0].RoleID },
+                            type: "GET",
+                            success: function (data) {
+                                $.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                $.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+    </script>
+}

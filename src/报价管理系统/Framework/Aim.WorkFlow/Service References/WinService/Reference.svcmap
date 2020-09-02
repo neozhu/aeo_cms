@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="32867e4e-d21d-45d1-9345-e3192f57e11a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:1111/FlowService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="FlowService8.xsd" MetadataType="Schema" ID="f2479841-5f52-480e-9e52-2fb37e8e6b7f" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd1" />
+    <MetadataFile FileName="FlowService81.xsd" MetadataType="Schema" ID="1d3e73fc-cf31-410c-892e-96a038e0f14d" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd0" />
+    <MetadataFile FileName="FlowService82.xsd" MetadataType="Schema" ID="f3f9dd84-5307-41b3-b7bf-b8b6f866a331" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd3" />
+    <MetadataFile FileName="FlowService83.xsd" MetadataType="Schema" ID="cf88a184-4cd5-406d-a9fc-f5d29a53ebe6" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd6" />
+    <MetadataFile FileName="FlowService1.disco" MetadataType="Disco" ID="8af1b36c-0507-4c2e-8789-4a0ecc0792a4" SourceId="1" SourceUrl="http://localhost:1111/FlowService?disco" />
+    <MetadataFile FileName="FlowService84.xsd" MetadataType="Schema" ID="1cda6c1f-e721-4ec5-8142-e226e611ecdc" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd5" />
+    <MetadataFile FileName="FlowService85.xsd" MetadataType="Schema" ID="94e28c27-dc2f-4e91-843d-8c163e99923c" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd2" />
+    <MetadataFile FileName="FlowService86.xsd" MetadataType="Schema" ID="7dd1026a-e161-4efd-9e44-b09b7e79df2e" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd7" />
+    <MetadataFile FileName="FlowService2.wsdl" MetadataType="Wsdl" ID="884f65cb-1663-458a-91a9-db3adb35e3fc" SourceId="1" SourceUrl="http://localhost:1111/FlowService?wsdl" />
+    <MetadataFile FileName="FlowService87.xsd" MetadataType="Schema" ID="26cc2f53-9015-49ca-b8c9-1894437d71aa" SourceId="1" SourceUrl="http://localhost:1111/FlowService?xsd=xsd4" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

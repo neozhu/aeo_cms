@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3f222301-3e80-443a-b925-86da543da9be" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://172.20.60.185/BizTalk.RFC.TM_CRM_601_Proxy/BizTalk_RFC_TM_CRM_601_Orchestration_Inbound.asmx" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BizTalk_RFC_TM_CRM_601_Orchestration_Inbound.wsdl" MetadataType="Wsdl" ID="6e0b3a26-a687-454f-885a-b176b9f4b29e" SourceId="1" SourceUrl="http://172.20.60.185/BizTalk.RFC.TM_CRM_601_Proxy/BizTalk_RFC_TM_CRM_601_Orchestration_Inbound.asmx?wsdl" />
+    <MetadataFile FileName="BizTalk_RFC_TM_CRM_601_Orchestration_Inbound.disco" MetadataType="Disco" ID="7e4551c4-aadc-4123-bd0d-756316cd265a" SourceId="1" SourceUrl="http://172.20.60.185/BizTalk.RFC.TM_CRM_601_Proxy/BizTalk_RFC_TM_CRM_601_Orchestration_Inbound.asmx?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

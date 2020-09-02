@@ -1,0 +1,405 @@
+﻿@{
+    ViewBag.Title = "报价列表";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+
+<style type="text/css">
+
+    #main {
+        margin-left: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+    #demo-setting {
+        display: none;
+    }
+
+    .emails {
+        width: 100%;
+        padding: 10px 20px;
+    }
+
+        .emails span {
+            display: inline-block;
+            width: 6%;
+            color: #ABABab;
+        }
+
+        .emails input {
+            width: 94%;
+            line-height: 30px !important;
+        }
+
+        .emails textarea {
+            resize: vertical;
+        }
+
+    #btnConfirm, #btnBack {
+        line-height: 25px;
+        width: 50px;
+        border: 1px solid #ABABab;
+    }
+
+    #datatable_col_reorder_wrapper {
+        width: 100%;
+        padding: 0px 20px;
+    }
+
+    .aim-form-blockhead {
+        padding-bottom: 10px;
+        color: #ABABab;
+    }
+
+    .select {
+        width: 65px !important;
+        text-align: center;
+    }
+
+        .select input {
+            width: 100% !important;
+        }
+
+    #datatable_col_reorder tr th, #datatable_col_reorder tr td {
+        text-align: center;
+        border: none;
+    }
+
+    #datatable_col_reorder tr th {
+        background-color: #BEE1F4;
+    }
+
+    #datatable_col_reorder tr td {
+        border-bottom: 1px solid #eee;
+    }
+
+    #datatable_col_reorder tbody tr:nth-child(even) {
+        background-color: rgb(249,249,249);
+    }
+
+    #datatable_col_reorder {
+        border: none;
+    }
+
+    .selectpage, .dataTables_length, .page {
+        display: inline-block;
+        vertical-align: middle;
+        color: #A0A0A0;
+        margin-right: 10px;
+    }
+
+    .page {
+        position: absolute;
+        right: 0px;
+    }
+
+    .hidden-xs {
+        float: right;
+    }
+
+    #datatable_col_reorder_paginate, .pages {
+        float: left;
+    }
+
+    .pages {
+        width: 140px;
+        position: relative;
+        line-height: 40px;
+    }
+
+    #datatable_col_reorder_length {
+        width: 80px;
+        height: 40px;
+        position: absolute;
+    }
+
+    .dt-toolbar-footer {
+        background-color: #E7F0F5;
+    }
+
+</style>
+<div>
+
+    <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" style="width:100%;"></table>
+</div>
+
+
+<div class="emails"> <span>收件人:</span><input id="EmailAddress"></div>
+<div class="emails"><span>抄送:</span><input id="copy"></div>
+<div class="emails"><span>主题:</span><input id="subject"></div>
+<div class="emails"><span>附件:</span><span id="uploadfile" style="width: 80%; cursor: pointer; color: black" onclick="showurl()"></span></div>
+<div class="emails">
+    <table style="width:100%;" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td class="aim-form-blockhead">
+                    邮件消息内容
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="width:100%;" class="" cellpadding="0" cellspacing="0">
+        <tr><td><textarea style="width:100%;height:300px;" id="mailcontent" name="mailcontent"></textarea></td></tr>
+    </table>
+</div>
+<div>
+    <table style="width:100%;">
+        <tbody>
+            <tr>
+                <td colspan="6" style="text-align: center">
+                    <input type="button" id="btnConfirm"  value="发送" />
+                    <input type="button" id="btnBack" onclick="btnBack()" value="返回" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js"></script>
+<script src="~/Content/QO/scripts/Ewin.js"></script>
+<script src="~/Content/QO/toastr/toastr.min.js"></script>
+<link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+<script src="~/Content/QO/layer/layer.js"></script>
+
+<script src="/js/lib/jquery.plug-ins.js" type="text/javascript"></script>
+<script src="/scripts/plugin/datatables/dataTables.colReorder.min.js" type="text/javascript"></script>
+<script src="/scripts/plugin/datatables/dataTables.colVis.min.js" type="text/javascript"></script>
+<script src="/scripts/plugin/datatables/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+<script src="/scripts/plugin/datatables/dataTables.fixedHeader.js" type="text/javascript"></script>
+<link href="~/Content/QO/scripts/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet">
+<script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script src="~/Content/QO/scripts/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+<link href="~/Content/QO/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="~/Content/QO/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="~/Content/QO/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="~/js/EmailCheck.js"></script>
+    <script type="text/javascript">
+        var FBstate = request("FBstate");
+        var BPCode = request("bpCode");
+        var keyvalue = request("keyValue");
+        var vrid = request("vrid");
+        var SalesUser = "";//销售人员姓名
+        var SalesEmail = "";//销售人员邮件地址
+        var SalesPhone = "";//销售人员电话
+        var SalesHomePhone = "";//销售人员 座机电话
+        var EmailAddresss = new Array();
+  
+       // console.log("BPCode=" + BPCode + "keyvalue=" + keyvalue + "vrid=" + vrid);
+       
+        
+        function btnBack() {
+            location.href = "/QM_Price/QM_PriceEdit?keyValue=" + keyvalue + "&state=" + FBstate;
+        }
+        function showurl() {
+
+            location.href = "/Excel/output/" + $("#uploadfile").text();
+
+        }
+
+        
+        $("#btnConfirm").click(function () {
+            var flag = true;
+            var strmailto = $("#EmailAddress").val();
+            var title = $("#subject").val();
+            var body = $("#mailcontent").val();
+            if (strmailto == "") {
+                toastr.error("收件人不能为空！");
+            } else if (title == "") {
+                toastr.error("主题不能为空！");
+            } else if (body == "") {
+                toastr.error("邮件内容不能为空！");
+            } else {
+                var email = $("#EmailAddress").val();
+                if (email != "") {
+                    if (!emailCheck(email)) {
+                        toastr.error('收件人 请输入有效的email！');
+                        flag = false;
+                        return false;
+                    }
+                }
+                var copy = $("#copy").val();
+                if (copy != "") {
+                    if (!emailCheck(copy)) {
+                        toastr.error('抄送 请输入有效的email！');
+                        flag = false;
+                        return false;
+                    }
+                }
+               
+                if ( flag == true) {
+                    $.ajax({
+                        url: "@Url.Action("SendEmail")",
+                        type: "Post",
+                    async: false,
+                    dataType: 'json',
+                    data: {
+                        'strmailto': $("#EmailAddress").val(),
+                        'copy':$("#copy").val(),
+                        'title': $("#subject").val(),
+                        'body': $("#mailcontent").val(),
+                        'RID': keyvalue,
+                        'vrid':vrid
+                    }, success: function (data) {
+                        toastr.clear();
+                        toastr.remove();
+                        console.log(data)
+                        if (data.Message == "发送成功!") {
+                            toastr.success("发送成功!", "", { positionClass: 'toast-top-center' });
+                       
+                        } else {
+                            toastr.error("发送失败:" + data.Message, "", { positionClass: 'toast-top-center' });
+                        }
+                    }
+                });
+                }
+               
+            }
+           
+            
+        });
+        $(function () {
+           
+            GetSalesperson();
+            DrawTable();
+            showfj();
+            var mailcontent = "尊敬的客户:\n您好！\n感谢您选择了飞力达！\n请您查收报价附件单,如有任何疑问,请联系我公司销售员。\n销售人姓名：'" + SalesUser + "' \n联系电话：'" + SalesPhone + "' '" + SalesHomePhone + "' \n邮箱地址：'" + SalesEmail + "' \n温馨提示：此邮件系公共邮件发送，请勿直接回复\n";
+            mailcontent = mailcontent.replace(/\'/g, "");
+            $("#mailcontent").val(mailcontent);
+          
+       });
+       function GetSalesperson() {
+           var person = [];
+           $.ajax({
+               url:"@Url.Action("GetSalesperson")",
+               type: "Post",
+               dataType: 'json',
+               async: false,
+               data: {},
+               success: function (data) {
+                   person = data;
+               }
+           });
+           if (person != undefined && person.length != 0) {
+               SalesUser = person[0].NAME == null ? "" : person[0].NAME;
+               SalesEmail = person[0].EMAIL == null ? "" :person[0].EMAIL;
+               SalesPhone = person[0].PHONE == null ? "" :person[0].PHONE;
+               SalesHomePhone = person[0].HOMEPHONE == null ? "" : person[0].HOMEPHONE;
+
+           }
+       }
+     
+        function showfj() {
+            var file = [];
+            $.ajax({
+                url: "@Url.Action("showFile")",
+                type: "Post",
+                dataType: 'json',
+                async: false,
+                data: {
+              
+                'RID': keyvalue,
+                'vrid':vrid
+            }, success: function (data) {
+                file = data;
+            }
+
+            });
+            if (file[0].UPLOADURL != null) {
+                $("#uploadfile").text(file[0].UPLOADNAME);
+                $("div[class='ColVis']").hide();
+            }
+           
+           
+        }
+       
+       
+        function DrawTable() {
+            //列定义
+            debugger;
+            var columns = [
+                 {
+                     "title": "选择", "sortable": false, "width": "20", "data": "ID",
+
+                     render: function (data, type, row, meta) {
+                         return "<label><input type='checkbox' name='" + row.CONTENT + "'/><span class='lbl'></span></label>";
+                     }
+                 },
+                { "title": "客户名称", "data": "CUSTOMERNAME", "width": "200" },
+                { "title": "客户代码", "data": "CUSTOMERNO", "width": "90" },
+                { "title": "姓名", "data": "NAME", "width": "100" },
+                { "title": "邮箱", "data": "CONTENT", "width": "200" }
+
+            ];
+            var table = $('#datatable_col_reorder').dataTable({
+                responsive: true,
+                "processing": true,
+                "serverSide": true,
+                "colReorder": true,
+                //"fixedHeader": true,scrollY:"80px",
+                @*"aoColumnDefs":[{"aTargets":[1],"mRender":function(data,type,full){
+                    return "<a href="@Url.Action("ZbgztIndex", "AirInReport")" data-toggle=\"modal\" onclick=\"preUpdate(‘"+data+"‘)\"> <i class=\"fa fa-lg-2 fa-pencil\"> </i> </a> "}
+                }],*@
+                "fixedColumns": {
+                    //leftColumns: $.cookie("bjfixedcol") || $("#fixedleftnum").val()
+                    leftColumns: 6
+                },
+                "order": [[4, "desc"]],
+                "language": {
+                    "info": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+                    "infoEmpty": "第 0 到 0 条记录，共 0 条",
+                    'emptyTable': '该客户没有邮箱',
+                    'zeroRecords': '该客户没有邮箱',
+                    'loadingRecords': '加载中...',
+                    'processing': '查询中...',
+                    "paginate": { "first": "<<", "last": ">>", "next": ">", "previous": "<" }
+                },//语言
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-12 hidden-xs'>r>" + "t" +
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'plC>>",//整个griddom布局
+                "lengthMenu": [[4, 10, 20, 50, 100], [4, 10, 20, 50, 100]],//每页显示key text
+                "displayLength": 10,//默认每页显示条目数
+                "ajax": {
+                    "url": "@Url.Action("SelectContact")",//数据源controller
+                    "type": "POST",
+                    "data": function (d) {//查询参数
+                        d.customid = BPCode;
+
+                    }
+
+                }, columns: columns
+            });
+            $('#datatable_col_reorder tbody').on('click', 'tr', function () {
+                var content = $('#datatable_col_reorder').DataTable().row(this).data()['CONTENT'];
+               
+               
+                $("#copy").val(SalesEmail);
+              
+                var newStr = "";
+                var flag = "0";
+                for (var i = 0; i < EmailAddresss.length; i++) {
+                    if (EmailAddresss[i] == content) {
+                        EmailAddresss.splice(i, 1);
+                        flag = "1";
+                        $("input[name='" + content + "']").prop("checked", false);
+                    }
+                }
+                if (flag=="0") {
+                    EmailAddresss.push(content);
+                    $("input[name='" + content + "']").prop("checked", true);
+                }
+                
+                newStr = EmailAddresss.join(",");
+               
+                $("#EmailAddress").val(newStr);
+                     
+            });
+            /******页码显示样式和翻页按钮大小不一样********/
+            $("select[name='datatable_col_reorder_length']").attr("style", "margin-top: 2px;padding-top: 5px;padding-bottom: 5px;height: 30px;");
+        }
+
+    </script>
+
+
+
+    }
+

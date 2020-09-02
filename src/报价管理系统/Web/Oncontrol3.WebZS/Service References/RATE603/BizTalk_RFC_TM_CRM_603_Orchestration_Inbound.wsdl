@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://BizTalk.RFC.TM_CRM_603.Schemas.INPUT.Z2FM_SQ_RATE_GET" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://BizTalk.RFC.TM_CRM_603.Schemas.OUTPUT.Z2FM_SQ_RATE_GET_RES" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_CRM_603, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3bb7f26addc77b82" published web service.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://BizTalk.RFC.TM_CRM_603.Schemas.INPUT.Z2FM_SQ_RATE_GET" />
+      <s:import namespace="http://BizTalk.RFC.TM_CRM_603.Schemas.OUTPUT.Z2FM_SQ_RATE_GET_RES" />
+      <s:element name="Exec">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:Z2FM_SQ_RATE_GET" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s2:Z2FM_SQ_RATE_GET_RES" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.TM_CRM_603.Schemas.INPUT.Z2FM_SQ_RATE_GET">
+      <s:element name="Z2FM_SQ_RATE_GET">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IV_KEY" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IV_RATE_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.TM_CRM_603.Schemas.OUTPUT.Z2FM_SQ_RATE_GET_RES">
+      <s:element name="Z2FM_SQ_RATE_GET_RES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="IT_RATE">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="RATE_ID" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="KEY" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="SEVERITY" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="DESCRIPTION" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="TCUSAGECD085" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="TIMEZONE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="RATE_SPLIT" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MULTI_CHRG_TYPE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="TCET" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="VAL_INDICATOR" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="RATE_TAB_TYPE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="SOL_SPEND_DIMENSION" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="SS_SCALE_ITEM_UOM" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="ZSETTLE_ROLE" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="ZSETTLE_OBJ" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="ORG_DATA">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="ORG_UNIT" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="KEY" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="1" name="RATESCALE">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="DIMENSION_INDX" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="CALC_BASE" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="SCATYP" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="SCALE_UOM" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="SCALE_CURR" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="ROUND_RULE" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="CURRENCY_REL" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="INITVAL_SUPPORT" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="MINVAL_SUPPORTED" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="MAXVAL_SUPPORTED" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="REL_FOR_WGTBRK" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="CALC_TYP" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="VALIDITY">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="ZNUMBER" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="VALID_START_DT" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="VALID_END_DT" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="CURRENCY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="DESCRIPTION" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="CALCRULEREF">
+                          <s:complexType>
+                            <s:sequence>
+                              <s:element minOccurs="0" maxOccurs="1" name="CALC_BASE_CODE" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="KEY" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="QUANTITY">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="QTY_UNIT_C" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="QTY_VALUE" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="ROUND_RULE" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="FOR_REL_SCLITM" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="CALC_RULE_LEVEL" type="s:string" />
+                            </s:sequence>
+                          </s:complexType>
+                        </s:element>
+                        <s:element minOccurs="0" maxOccurs="1" name="RATES_DIM">
+                          <s:complexType>
+                            <s:sequence>
+                              <s:element minOccurs="0" maxOccurs="1" name="KEY" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM1">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM2">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM3">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM4">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM5">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM6">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM7">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM8">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM9">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM10">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM11">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM12">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM13">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM14">
+                                <s:complexType>
+                                  <s:sequence>
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM" type="s:string" />
+                                    <s:element minOccurs="0" maxOccurs="1" name="SCALE_ITEM_RAW" type="s:string" />
+                                  </s:sequence>
+                                </s:complexType>
+                              </s:element>
+                              <s:element minOccurs="0" maxOccurs="1" name="ZERO_RATE" type="s:string" />
+                              <s:element minOccurs="0" maxOccurs="1" name="RATE" type="s:string" />
+                            </s:sequence>
+                          </s:complexType>
+                        </s:element>
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="MSG">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="MSG_TYPE" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="MSG_ID" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="MSG_NO" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="MSG_TEXT" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExecSoapIn">
+    <wsdl:part name="parameters" element="tns:Exec" />
+  </wsdl:message>
+  <wsdl:message name="ExecSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap">
+    <wsdl:operation name="Exec">
+      <wsdl:input message="tns:ExecSoapIn" />
+      <wsdl:output message="tns:ExecSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap" type="tns:BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exec">
+      <soap:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_CRM_603_Orchestration_Inbound/Exec" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap12" type="tns:BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exec">
+      <soap12:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_CRM_603_Orchestration_Inbound/Exec" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BizTalk_RFC_TM_CRM_603_Orchestration_Inbound">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_CRM_603, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3bb7f26addc77b82" published web service.</wsdl:documentation>
+    <wsdl:port name="BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap" binding="tns:BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap">
+      <soap:address location="http://172.20.70.55/BizTalk.RFC.TM_CRM_603_Proxy/BizTalk_RFC_TM_CRM_603_Orchestration_Inbound.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap12" binding="tns:BizTalk_RFC_TM_CRM_603_Orchestration_InboundSoap12">
+      <soap12:address location="http://172.20.70.55/BizTalk.RFC.TM_CRM_603_Proxy/BizTalk_RFC_TM_CRM_603_Orchestration_Inbound.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

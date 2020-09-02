@@ -984,6 +984,135 @@ cuniteditor: {
         }
   }  
 });
+//-------币种---------//
+var curfiltersource = [{ value: '', text: 'All'}];
+var curdatasource = [];
+curfiltersource.push({ value: 'AUD',text:'AUD'  });
+curdatasource.push({ value: 'AUD',text:'AUD'  });
+curfiltersource.push({ value: 'CNY',text:'CNY'  });
+curdatasource.push({ value: 'CNY',text:'CNY'  });
+curfiltersource.push({ value: 'EUR',text:'EUR'  });
+curdatasource.push({ value: 'EUR',text:'EUR'  });
+curfiltersource.push({ value: 'GBP',text:'GBP'  });
+curdatasource.push({ value: 'GBP',text:'GBP'  });
+curfiltersource.push({ value: 'HKD',text:'HKD'  });
+curdatasource.push({ value: 'HKD',text:'HKD'  });
+curfiltersource.push({ value: 'JPY',text:'JPY'  });
+curdatasource.push({ value: 'JPY',text:'JPY'  });
+curfiltersource.push({ value: 'MOP',text:'MOP'  });
+curdatasource.push({ value: 'MOP',text:'MOP'  });
+curfiltersource.push({ value: 'USD',text:'USD'  });
+curdatasource.push({ value: 'USD',text:'USD'  });
+//for datagrid cur field  formatter
+function curformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = curdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = curdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   cur  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+curfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: curfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   cur   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+cureditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: curdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
 //-------文件类型---------//
 var filetypefiltersource = [{ value: '', text: 'All'}];
 var filetypedatasource = [];
@@ -2825,6 +2954,383 @@ notifygroupeditor: {
         }
   }  
 });
+//-------付款条件---------//
+var paymodefiltersource = [{ value: '', text: 'All'}];
+var paymodedatasource = [];
+paymodefiltersource.push({ value: 'POS卡',text:'POS卡'  });
+paymodedatasource.push({ value: 'POS卡',text:'POS卡'  });
+paymodefiltersource.push({ value: '本票',text:'本票'  });
+paymodedatasource.push({ value: '本票',text:'本票'  });
+paymodefiltersource.push({ value: '现金',text:'现金'  });
+paymodedatasource.push({ value: '现金',text:'现金'  });
+paymodefiltersource.push({ value: '现金支票',text:'现金支票'  });
+paymodedatasource.push({ value: '现金支票',text:'现金支票'  });
+paymodefiltersource.push({ value: '电汇',text:'电汇'  });
+paymodedatasource.push({ value: '电汇',text:'电汇'  });
+paymodefiltersource.push({ value: '转账支票',text:'转账支票'  });
+paymodedatasource.push({ value: '转账支票',text:'转账支票'  });
+paymodefiltersource.push({ value: '远期承兑汇票',text:'远期承兑汇票'  });
+paymodedatasource.push({ value: '远期承兑汇票',text:'远期承兑汇票'  });
+paymodefiltersource.push({ value: '银行汇票',text:'银行汇票'  });
+paymodedatasource.push({ value: '银行汇票',text:'银行汇票'  });
+//for datagrid paymode field  formatter
+function paymodeformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = paymodedatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = paymodedatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   paymode  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+paymodefilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: paymodefiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   paymode   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+paymodeeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: paymodedatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------价格条款---------//
+var pricetermfiltersource = [{ value: '', text: 'All'}];
+var pricetermdatasource = [];
+pricetermfiltersource.push({ value: 'CFR',text:'CFR'  });
+pricetermdatasource.push({ value: 'CFR',text:'CFR'  });
+pricetermfiltersource.push({ value: 'CIF',text:'CIF'  });
+pricetermdatasource.push({ value: 'CIF',text:'CIF'  });
+pricetermfiltersource.push({ value: 'CPT',text:'CPT'  });
+pricetermdatasource.push({ value: 'CPT',text:'CPT'  });
+pricetermfiltersource.push({ value: 'DAF',text:'DAF'  });
+pricetermdatasource.push({ value: 'DAF',text:'DAF'  });
+pricetermfiltersource.push({ value: 'FAS',text:'FAS'  });
+pricetermdatasource.push({ value: 'FAS',text:'FAS'  });
+pricetermfiltersource.push({ value: 'FCA',text:'FCA'  });
+pricetermdatasource.push({ value: 'FCA',text:'FCA'  });
+pricetermfiltersource.push({ value: 'FOB',text:'FOB'  });
+pricetermdatasource.push({ value: 'FOB',text:'FOB'  });
+//for datagrid priceterm field  formatter
+function pricetermformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = pricetermdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = pricetermdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   priceterm  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+pricetermfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: pricetermfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   priceterm   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+pricetermeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: pricetermdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------价格类型---------//
+var pricetypefiltersource = [{ value: '', text: 'All'}];
+var pricetypedatasource = [];
+pricetypefiltersource.push({ value: '不开票不含国内运费',text:'不开票不含国内运费'  });
+pricetypedatasource.push({ value: '不开票不含国内运费',text:'不开票不含国内运费'  });
+pricetypefiltersource.push({ value: '不开票含国内运费',text:'不开票含国内运费'  });
+pricetypedatasource.push({ value: '不开票含国内运费',text:'不开票含国内运费'  });
+pricetypefiltersource.push({ value: '开票不含国内运费',text:'开票不含国内运费'  });
+pricetypedatasource.push({ value: '开票不含国内运费',text:'开票不含国内运费'  });
+pricetypefiltersource.push({ value: '开票含国内运费',text:'开票含国内运费'  });
+pricetypedatasource.push({ value: '开票含国内运费',text:'开票含国内运费'  });
+//for datagrid pricetype field  formatter
+function pricetypeformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = pricetypedatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = pricetypedatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   pricetype  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+pricetypefilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: pricetypefiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   pricetype   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+pricetypeeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: pricetypedatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
 //-------优先级---------//
 var priorityfiltersource = [{ value: '', text: 'All'}];
 var prioritydatasource = [];
@@ -3067,6 +3573,121 @@ puniteditor: {
         }
   }  
 });
+//-------报价单格式---------//
+var qformfiltersource = [{ value: '', text: 'All'}];
+var qformdatasource = [];
+qformfiltersource.push({ value: '新报价单格式',text:'新报价单格式'  });
+qformdatasource.push({ value: '新报价单格式',text:'新报价单格式'  });
+//for datagrid qform field  formatter
+function qformformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = qformdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = qformdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   qform  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+qformfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: qformfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   qform   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+qformeditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: qformdatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
 //-------NLogResolved---------//
 var resolvedfiltersource = [{ value: '', text: 'All'}];
 var resolveddatasource = [];
@@ -3142,6 +3763,127 @@ resolvededitor: {
          panelHeight: 'auto',
          editable: false,
          data: resolveddatasource,
+         multiple: false,
+         valueField: 'value',
+         textField: 'text'
+     };
+    $.extend(options, myoptions);
+           input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+           return input;
+       },
+     destroy: function(target) {
+         $(target).combobox('destroy');
+        },
+     getValue: function(target) {
+        let opts = $(target).combobox('options');
+        if (opts.multiple) {
+           return $(target).combobox('getValues').join(opts.separator);
+         } else {
+            return $(target).combobox('getValue');
+         }
+        },
+     setValue: function(target, value) {
+         let opts = $(target).combobox('options');
+         if (opts.multiple) {
+             if (value == '' || value == null) { 
+                 $(target).combobox('clear'); 
+              } else { 
+                  $(target).combobox('setValues', value.split(opts.separator));
+               }
+          }
+          else {
+             $(target).combobox('setValue', value);
+           }
+         },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+        }
+  }  
+});
+//-------询价单状态---------//
+var rfqstatusfiltersource = [{ value: '', text: 'All'}];
+var rfqstatusdatasource = [];
+rfqstatusfiltersource.push({ value: '待审',text:'待审'  });
+rfqstatusdatasource.push({ value: '待审',text:'待审'  });
+rfqstatusfiltersource.push({ value: '生效',text:'生效'  });
+rfqstatusdatasource.push({ value: '生效',text:'生效'  });
+rfqstatusfiltersource.push({ value: '草拟',text:'草拟'  });
+rfqstatusdatasource.push({ value: '草拟',text:'草拟'  });
+rfqstatusfiltersource.push({ value: '驳回',text:'驳回'  });
+rfqstatusdatasource.push({ value: '驳回',text:'驳回'  });
+//for datagrid rfqstatus field  formatter
+function rfqstatusformatter(value, row, index) { 
+     let multiple = false; 
+     if (value === null || value === '' || value === undefined) 
+     { 
+         return "";
+     } 
+     if (multiple) { 
+         let valarray = value.split(','); 
+         let result = rfqstatusdatasource.filter(item => valarray.includes(item.value));
+         let textarray = result.map(x => x.text);
+         if (textarray.length > 0)
+             return textarray.join(",");
+         else 
+             return value;
+      } else { 
+         let result = rfqstatusdatasource.filter(x => x.value == value);
+               if (result.length > 0)
+                    return result[0].text;
+               else
+                    return value;
+       } 
+ } 
+//for datagrid   rfqstatus  field filter 
+$.extend($.fn.datagrid.defaults.filters, {
+rfqstatusfilter: {
+     init: function(container, options) {
+        var input = $('<select class="easyui-combobox" >').appendTo(container);
+        var myoptions = {
+             panelHeight: 'auto',
+             editable: false,
+             data: rfqstatusfiltersource ,
+             onChange: function () {
+                input.trigger('combobox.filter');
+             }
+         };
+         $.extend(options, myoptions);
+         input.combobox(options);
+         input.combobox('textbox').bind('keydown', function (e) {   
+            if (e.keyCode === 13) {
+              $(e.target).emulateTab();
+            }
+          });  
+         return input;
+      },
+     destroy: function(target) {
+                  
+     },
+     getValue: function(target) {
+         return $(target).combobox('getValue');
+     },
+     setValue: function(target, value) {
+         $(target).combobox('setValue', value);
+     },
+     resize: function(target, width) {
+         $(target).combobox('resize', width);
+     }
+   }
+});
+//for datagrid   rfqstatus   field  editor 
+$.extend($.fn.datagrid.defaults.editors, {
+rfqstatuseditor: {
+     init: function(container, options) {
+        var input = $('<input type="text">').appendTo(container);
+        var myoptions = {
+         panelHeight: 'auto',
+         editable: false,
+         data: rfqstatusdatasource,
          multiple: false,
          valueField: 'value',
          textField: 'text'

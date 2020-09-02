@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "事件节点";
+}
+<div class="container">
+    <div class="scs_search">
+        <form id="form1">
+            <div class="sd_cont" style="height:30px;">
+                <span class="fld_label">名称</span>
+                <span class="fld_input"><input class="easyui-textbox" id="NAME" name="NAME"></span>
+                <span class="fld_label">服务类型</span>
+                <span class="fld_input"><input class="easyui-combobox" id="TYPE" name="TYPE" data-options=data:StatusSel,valueField:'Code',textField:'Name',editable:false></span>
+
+                <button class="scbtn01" id="submit_search" style="float:right">查询</button>
+            </div>
+        </form>
+    </div>
+    <div class="mes_div">
+        <div class="md_mod">
+            <a class="easyui-linkbutton" href=@Url.Action("create") style="width:70px">添加</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkModify" style="width:70px">修改</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkDelete" style="width:70px">删除</a>
+        </div>
+        <div class="md_mod">
+            <a class="easyui-linkbutton" id="lkresetpwd" style="width:70px">重置</a>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <table id="dg" class="easyui-datagrid" style="width:100%;min-height:250px"
+           data-options="singleSelect:true,collapsible:true,url:'@Url.Action("lists")',method:'get',pagination:true,pagesize:20">
+        <thead>
+            <tr>
+                <th data-options="field:'ck', checkbox: true "></th>
+                <th data-options="field:'NAME',width:180">EM事件节点名称</th>
+                <th data-options="field:'TYPE',width:80,formatter:function(value,row){return statusEnum[value];},sortable:true">服务类型</th>
+                <th data-options="field:'SORTINDEX',width:40">排序</th>
+                <!--th data-options="field:'CreateTime',width:100,align:'center',formatter:formatterDate,sortable:true">创建日期</th-->
+                <th data-options="field:'REMARK',width:200,sortable:false">说明</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        var jq = $;
+        var statusEnum = { SO: "SO", ASN: "ASN", FO: "FO" };
+        var StatusSel = [{Code:"SO",Name:"SO"},{Code:"ASN",Name:"ASN"},{Code:"FO",Name:"FO"}];
+        $("#sc_more").click(function () {
+            $("#more_sc").toggle();
+            var cls = $(this).attr("class");
+            if (cls == 'clk') {
+                $(this).removeClass('clk');
+            } else {
+                $(this).addClass('clk');
+            }
+        })
+        $("#submit_search").click(function () {
+            $('#dg').datagrid({ queryParams: form2Json("form1") });   //点击搜索载入搜索条件
+            return false;
+        });
+        $("#lkresetpwd").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                jq.messager.confirm('操作提示', '确认要重置选中的记录吗?', function (r) {
+                    if (r) {
+                        jq.ajax({
+                            url: "@Url.Action("Reset")",
+                            data: { id: selrows[0].ID},
+                            type: "GET",
+                            success: function (data) {
+                                jq.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                jq.messager.alert('操作提示', '请选择要重置的行。', 'error');
+            }
+        });
+        $("#lkModify").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                window.location.href =  "@Url.Action("Edit")/"+selrows[0].ID;
+            }
+            else
+            {
+                jq.messager.alert('操作提示', '请选择要修改的行。', 'error');
+            }
+        });
+        $("#lkDelete").click(function(){
+            var selrows = $('#dg').datagrid("getSelections");
+            if(selrows.length>0)
+            {
+                jq.messager.confirm('操作提示', '确认要删除选中的记录吗?', function (r) {
+                    if (r) {
+                        jq.ajax({
+                            url: "@Url.Action("Delete")",
+                            data: { id: selrows[0].ID},
+                            type: "GET",
+                            success: function (data) {
+                                jq.messager.alert('操作提示', data);
+                                $("#submit_search").click();
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                jq.messager.alert('操作提示', '请选择要删除的行。', 'error');
+            }
+        });
+    </script>
+}
+

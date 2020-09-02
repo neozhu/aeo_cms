@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "计算基础维护";
+    Layout = "~/Views/Shared/_LayoutTM.cshtml";
+}
+@model Com.Feiliks.QDM.SQM_CALC_BASE_EXT
+@{
+    System.Data.DataTable dt = (System.Data.DataTable)ViewBag.Data;
+}
+
+<style type="text/css">
+    .smart-form .form-group {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    .smart-form .control-label {
+        width: 10%;
+        padding-top: 6px;
+    }
+
+    .smart-form .form-group .checkbox-inline {
+        margin-right: 15px;
+    }
+</style>
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>@ViewBag.Title</h2>
+                    </header>
+                    <div>
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <div class="widget-body no-padding">
+                            <form id="formmain" class="smart-form" novalidate="novalidate">
+                                <fieldset>
+                                    <input type="hidden" value="@Model.RID" id="RID">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">计算基础<i style="color:red">*</i></label>
+                                        <div class="col-md-10">
+                                            <select style="width:100%" id="CALCCODE" name="CALCCODE" class="select2">
+                                                <option value=""></option>
+                                                @for (int i = 0; i < dt.Rows.Count; i++)
+                                                {
+                                                    <option value="@dt.Rows[i]["CALC_BASE"]">@dt.Rows[i]["DESCRIPTION"]--@dt.Rows[i]["CALC_BASE"]</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">类型</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" name="MDMTYPE" id="MDMTYPE" type="text" value="@Model.MDMTYPE">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">关联主数据</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" name="MDMKEY" id="MDMKEY" type="text" value="@Model.MDMKEY">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">关联主数据字段</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" name="MDMFIELDNAME" id="MDMFIELDNAME" type="text" value="@Model.MDMFIELDNAME">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">空海运类型</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" name="MDMLOCTYPE" id="MDMLOCTYPE" type="text" value="@Model.MDMLOCTYPE">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <input type="button" id="submit" class="btn btn-primary" value="保存" />
+                                    <a href="@Url.Action("Index")"><div class="btn btn-default" id="returnback">返回</div></a>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+@section pagespecific {
+    <script src="~/Content/QO/scripts/framework.js?v=@DateTime.Now.ToString("yyyyMMddhhmmss")"></script>
+    <script src="~/Content/QO/toastr/toastr.min.js"></script>
+    <link rel="stylesheet" href="~/Content/QO/toastr/toastr.min.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#amenufld").hide();
+            //$("#logout").hide();
+            //$("#amenufld").click();
+            keyValue = $("#RID").val();
+            if (!!keyValue) {
+                $("#CALCCODE").attr("disabled", "disabled");
+                $.ajax({
+                    url: "/SQM_CALC/GetFormJson",
+                    data: { keyValue: keyValue },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        $("#formmain").SetWebControls(data);
+                    }
+                });
+            }
+            $("#submit").click(function () {
+                var calccode = $("#CALCCODE").val();
+                if (calccode.length == 0) {
+                    toastr.clear();
+                    toastr.remove();
+                    toastr.error("计算基础不能为空！");
+                    return;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "/SQM_CALC/CreateData",
+                    data: {
+                        CALCNAME: $("#CALCCODE").find("option:selected").text(),
+                        CALCCODE: $("#CALCCODE").val(),
+                        MDMTYPE: $("#MDMTYPE").val(),
+                        MDMKEY: $("#MDMKEY").val(),
+                        MDMFIELDNAME: $("#MDMFIELDNAME").val(),
+                        MDMLOCTYPE: $("#MDMLOCTYPE").val(),
+                        id: $("#RID").val()
+                    },
+                    success: function (data) {
+                        var data = $.parseJSON(data);
+                        if (data.Success) {
+                            toastr.clear();
+                            toastr.remove();
+                            toastr.success(data.Message);
+                            setTimeout(function () { location.href = "/SQM_CALC/Index" }, 200);
+                        } else {
+                            toastr.clear();
+                            toastr.remove();
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (data) {
+                        if (!!data.responseText) {
+                            alert(data.responseText);
+                        } else {
+                            window.alert("请求失败！");
+                        }
+                    }
+                });
+            });
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+        });
+    </script>
+}
